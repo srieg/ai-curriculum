@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Curriculum — Personalized Learning Path</title>
+<meta name="description" content="A free, personalized AI curriculum that adapts to your experience level. From understanding AI concepts to building AI systems.">
+<style>
+  :root {
+    --read: #3B82F6;
+    --watch: #8B5CF6;
+    --do: #10B981;
+    --discuss: #F59E0B;
+    --reflect: #EC4899;
+    --bg: #0F172A;
+    --surface: #1E293B;
+    --surface2: #334155;
+    --text: #F1F5F9;
+    --text-dim: #94A3B8;
+    --text-muted: #64748B;
+    --accent: #0EA5E9;
+    --accent2: #8B5CF6;
+    --accent3: #F97316;
+    --accent4: #EF4444;
+    --accent5: #14B8A6;
+    --success: #10B981;
+    --border: #334155;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 24px; }
+
+  /* -- NAV -- */
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 24px; border-bottom: 1px solid var(--border);
+    max-width: 900px; margin: 0 auto;
+  }
+  .nav-brand { font-size: 16px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.3px; }
+  .nav-links { display: flex; gap: 16px; }
+  .nav-links a {
+    font-size: 13px; color: var(--text-dim); text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* -- SECTIONS -- */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* -- LANDING -- */
+  .landing { text-align: center; padding: 80px 24px; }
+  .landing h1 {
+    font-size: 42px; font-weight: 800; letter-spacing: -1px;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .landing .subtitle {
+    font-size: 18px; color: var(--text-dim); max-width: 600px;
+    margin: 0 auto 32px; line-height: 1.7;
+  }
+  .landing .features {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px; max-width: 700px; margin: 0 auto 40px; text-align: left;
+  }
+  .feature-card {
+    background: var(--surface); border-radius: 12px; padding: 20px;
+    border: 1px solid var(--border);
+  }
+  .feature-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .feature-card p { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+  /* -- BUTTONS -- */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 32px; border-radius: 10px; border: none;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-secondary { background: var(--surface2); color: var(--text); }
+  .btn-small { padding: 8px 16px; font-size: 13px; border-radius: 6px; }
+  .btn-ghost {
+    background: transparent; color: var(--text-dim); border: 1px solid var(--border);
+    padding: 8px 16px; font-size: 13px; border-radius: 6px;
+  }
+
+  /* -- QUIZ -- */
+  .quiz-container { max-width: 640px; margin: 0 auto; padding: 48px 24px; }
+  .quiz-progress {
+    display: flex; gap: 6px; margin-bottom: 32px;
+  }
+  .quiz-progress .step {
+    flex: 1; height: 4px; border-radius: 2px;
+    background: var(--surface2); transition: background 0.3s;
+  }
+  .quiz-progress .step.done { background: var(--accent); }
+  .quiz-progress .step.current { background: var(--accent2); }
+  .quiz-step-label {
+    font-size: 12px; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;
+  }
+  .quiz-question {
+    font-size: 24px; font-weight: 700; letter-spacing: -0.3px;
+    margin-bottom: 8px;
+  }
+  .quiz-hint {
+    font-size: 14px; color: var(--text-dim); margin-bottom: 24px;
+  }
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+  .quiz-option {
+    background: var(--surface); border: 2px solid var(--border);
+    border-radius: 10px; padding: 16px 20px; cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    text-align: left;
+  }
+  .quiz-option:hover { border-color: var(--accent); background: rgba(14, 165, 233, 0.05); }
+  .quiz-option.selected { border-color: var(--accent); background: rgba(14, 165, 233, 0.1); }
+  .quiz-option .option-title { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+  .quiz-option .option-desc { font-size: 13px; color: var(--text-dim); }
+  .quiz-nav { display: flex; justify-content: space-between; }
+
+  /* -- RESULTS -- */
+  .results { max-width: 700px; margin: 0 auto; padding: 48px 24px; }
+  .results-header { text-align: center; margin-bottom: 40px; }
+  .results-header .your-track { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+  .results-header h2 { font-size: 36px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
+  .results-header .track-desc { font-size: 16px; color: var(--text-dim); max-width: 500px; margin: 0 auto; }
+  .results-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px; margin-bottom: 32px;
+  }
+  .stat-card {
+    background: var(--surface); border-radius: 10px; padding: 20px;
+    text-align: center; border: 1px solid var(--border);
+  }
+  .stat-card .stat-value { font-size: 28px; font-weight: 800; color: var(--accent); }
+  .stat-card .stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+  .results-actions { display: flex; gap: 12px; justify-content: center; }
+
+  /* -- SCHEDULE -- */
+  .schedule-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+  }
+  .schedule-header h2 { font-size: 24px; font-weight: 700; }
+  .legend {
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-dim); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+  .week-block { margin-bottom: 32px; }
+  .week-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--surface2);
+    cursor: pointer;
+  }
+  .week-badge {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; padding: 4px 10px; border-radius: 4px; color: white;
+    background: var(--accent);
+  }
+  .week-title { font-size: 16px; font-weight: 600; }
+  .week-meta { font-size: 13px; color: var(--text-muted); margin-left: auto; }
+  .week-chevron { color: var(--text-muted); font-size: 14px; transition: transform 0.2s; }
+  .week-header.collapsed .week-chevron { transform: rotate(-90deg); }
+
+  .week-days {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+  }
+  .week-days.hidden { display: none; }
+
+  .day-card {
+    background: var(--surface); border-radius: 8px; padding: 14px;
+    border-left: 4px solid transparent; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    position: relative;
+  }
+  .day-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+  .day-card.type-read { border-left-color: var(--read); }
+  .day-card.type-watch { border-left-color: var(--watch); }
+  .day-card.type-do { border-left-color: var(--do); }
+  .day-card.type-discuss { border-left-color: var(--discuss); }
+  .day-card.type-reflect { border-left-color: var(--reflect); }
+
+  .day-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .day-num { font-size: 11px; font-weight: 700; color: var(--text-muted); }
+  .day-type {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.5px; padding: 2px 6px; border-radius: 3px; color: white;
+  }
+  .day-type.read { background: var(--read); }
+  .day-type.watch { background: var(--watch); }
+  .day-type.do { background: var(--do); }
+  .day-type.discuss { background: var(--discuss); }
+  .day-type.reflect { background: var(--reflect); }
+  .day-time { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+  .day-title { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .day-desc { font-size: 12px; color: var(--text-dim); margin-top: 4px; line-height: 1.4; }
+  .day-check {
+    position: absolute; top: 10px; right: 10px;
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid var(--border); background: transparent;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: transparent; transition: all 0.15s;
+  }
+  .day-check.done { background: var(--success); border-color: var(--success); color: white; }
+
+  .day-resource {
+    display: inline-block; margin-top: 8px; font-size: 12px;
+    color: var(--accent); text-decoration: none;
+    padding: 3px 8px; border: 1px solid var(--border); border-radius: 4px;
+    transition: border-color 0.15s;
+  }
+  .day-resource:hover { border-color: var(--accent); }
+
+  /* -- PROGRESS BAR -- */
+  .progress-bar-container {
+    background: var(--surface); border-radius: 10px; padding: 16px 20px;
+    margin-bottom: 24px; border: 1px solid var(--border);
+    display: flex; align-items: center; gap: 16px;
+  }
+  .progress-bar-track { flex: 1; height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 4px; transition: width 0.3s; }
+  .progress-text { font-size: 14px; font-weight: 700; color: var(--text); white-space: nowrap; }
+
+  /* -- MODAL -- */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px); z-index: 1000;
+    display: none; align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--surface); border-radius: 16px;
+    max-width: 600px; width: 100%; max-height: 85vh;
+    overflow-y: auto; position: relative;
+    box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+    border-left: 6px solid var(--accent);
+    animation: modalIn 0.2s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .modal-close {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--surface2); border: none; color: var(--text-dim);
+    width: 28px; height: 28px; border-radius: 6px; cursor: pointer;
+    font-size: 16px; display: flex; align-items: center; justify-content: center;
+  }
+  .modal-close:hover { background: var(--text-muted); color: white; }
+  .modal-body { padding: 24px; }
+  .modal-body h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .modal-body .modal-meta { font-size: 13px; color: var(--text-dim); margin-bottom: 16px; }
+  .modal-body p { font-size: 14px; line-height: 1.6; color: var(--text-dim); margin-bottom: 12px; }
+  .modal-body ul { padding-left: 20px; margin-bottom: 12px; }
+  .modal-body li { font-size: 14px; line-height: 1.6; color: var(--text-dim); margin-bottom: 4px; }
+  .modal-body a { color: var(--accent); text-decoration: none; }
+  .modal-body a:hover { text-decoration: underline; }
+
+  /* -- RETAKE -- */
+  .retake-bar {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 20px; margin-bottom: 16px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .retake-bar span { font-size: 13px; color: var(--text-dim); }
+
+  /* -- RESPONSIVE -- */
+  @media (max-width: 640px) {
+    .landing h1 { font-size: 28px; }
+    .landing .subtitle { font-size: 15px; }
+    .quiz-question { font-size: 20px; }
+    .results-stats { grid-template-columns: 1fr; }
+    .results-header h2 { font-size: 28px; }
+    .week-days { grid-template-columns: 1fr; }
+  }
+
+  /* -- FOOTER -- */
+  .footer {
+    text-align: center; padding: 32px 24px; margin-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .footer p { font-size: 13px; color: var(--text-muted); }
+  .footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="#" class="nav-brand" onclick="showSection('landing'); return false;">AI Curriculum</a>
+  <div class="nav-links">
+    <a href="#" onclick="showSection('landing'); return false;">Home</a>
+    <a href="https://github.com/samriegel/ai-curriculum" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/sam-riegel/" target="_blank" rel="noopener">Author</a>
+  </div>
+</nav>
+
+<!-- LANDING -->
+<div id="landing" class="section active">
+  <div class="landing">
+    <h1>Your AI Learning Path</h1>
+    <p class="subtitle">
+      A free, personalized AI curriculum. Take a 5-question assessment and get a study schedule built for your experience level — from first encounter to frontier research.
+    </p>
+    <div class="features">
+      <div class="feature-card">
+        <h3>Adaptive</h3>
+        <p>Four tracks from Explorer to Researcher. The quiz places you where you'll learn fastest.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Real Resources</h3>
+        <p>Papers, books, courses, and exercises — curated, not generated. Every link goes somewhere real.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Track Progress</h3>
+        <p>Check off completed activities. Your progress saves locally and picks up where you left off.</p>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="startQuiz()">Take the Assessment</button>
+    <div style="margin-top: 16px;">
+      <button class="btn btn-ghost" onclick="showTrackPicker()">Skip quiz — choose a track</button>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="section">
+  <div class="quiz-container">
+    <div class="quiz-progress" id="quizProgress"></div>
+    <div id="quizContent"></div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results" class="section">
+  <div class="results" id="resultsContent"></div>
+</div>
+
+<!-- SCHEDULE -->
+<div id="schedule" class="section">
+  <div class="container" id="scheduleContent"></div>
+</div>
+
+<!-- TRACK PICKER (skip quiz) -->
+<div id="trackPicker" class="section">
+  <div class="quiz-container">
+    <h2 class="quiz-question" style="margin-bottom:24px;">Choose Your Track</h2>
+    <div class="quiz-options" id="trackOptions"></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+
+const QUESTIONS = [
+  {
+    id: 'role',
+    question: 'What best describes your current role?',
+    hint: 'This helps us calibrate the examples and use cases in your curriculum.',
+    options: [
+      { text: 'Business / Management / Leadership', desc: 'I make decisions about teams, products, or strategy', scores: { explorer: 3, practitioner: 2, builder: 0, researcher: 0 } },
+      { text: 'Creative / Design / Content', desc: 'I create things — writing, design, media, marketing', scores: { explorer: 2, practitioner: 3, builder: 0, researcher: 0 } },
+      { text: 'Engineering / Development', desc: 'I write code and build software', scores: { explorer: 0, practitioner: 0, builder: 3, researcher: 2 } },
+      { text: 'Research / Academic / Student', desc: 'I study, research, or teach', scores: { explorer: 0, practitioner: 0, builder: 1, researcher: 3 } },
+      { text: 'Other / Career Changer', desc: 'None of the above — I\'m exploring a new direction', scores: { explorer: 2, practitioner: 2, builder: 1, researcher: 1 } }
+    ]
+  },
+  {
+    id: 'programming',
+    question: 'How much programming experience do you have?',
+    hint: 'Be honest — the curriculum adapts to meet you where you are.',
+    options: [
+      { text: 'None', desc: 'I\'ve never written code', scores: { explorer: 3, practitioner: 1, builder: 0, researcher: 0 } },
+      { text: 'A little', desc: 'I\'ve done tutorials or basic scripting', scores: { explorer: 1, practitioner: 3, builder: 1, researcher: 0 } },
+      { text: 'Intermediate', desc: 'I can build working projects in at least one language', scores: { explorer: 0, practitioner: 1, builder: 3, researcher: 1 } },
+      { text: 'Advanced', desc: 'I write production code and understand systems architecture', scores: { explorer: 0, practitioner: 0, builder: 2, researcher: 3 } }
+    ]
+  },
+  {
+    id: 'ai_familiarity',
+    question: 'What\'s your experience with AI so far?',
+    hint: 'This determines where your curriculum starts.',
+    options: [
+      { text: 'Brand new', desc: 'I\'ve heard about AI but haven\'t really used it', scores: { explorer: 3, practitioner: 1, builder: 0, researcher: 0 } },
+      { text: 'I use AI tools', desc: 'I use ChatGPT, Claude, Copilot, or similar regularly', scores: { explorer: 1, practitioner: 3, builder: 1, researcher: 0 } },
+      { text: 'I build with AI', desc: 'I\'ve used AI APIs, built prompts, or integrated AI into products', scores: { explorer: 0, practitioner: 1, builder: 3, researcher: 1 } },
+      { text: 'Deep experience', desc: 'I\'ve trained models, done fine-tuning, or read ML papers', scores: { explorer: 0, practitioner: 0, builder: 1, researcher: 3 } }
+    ]
+  },
+  {
+    id: 'goal',
+    question: 'What\'s your primary learning goal?',
+    hint: 'This shapes which topics get more depth in your schedule.',
+    options: [
+      { text: 'Understand AI to make better decisions', desc: 'I want to know what AI can and can\'t do for my work', scores: { explorer: 3, practitioner: 2, builder: 0, researcher: 0 } },
+      { text: 'Use AI tools more effectively', desc: 'I want to get significantly better at prompt engineering and AI workflows', scores: { explorer: 1, practitioner: 3, builder: 1, researcher: 0 } },
+      { text: 'Build AI-powered applications', desc: 'I want to create software that uses AI under the hood', scores: { explorer: 0, practitioner: 0, builder: 3, researcher: 1 } },
+      { text: 'Deep understanding of AI systems', desc: 'I want to understand how AI works at a fundamental level', scores: { explorer: 0, practitioner: 0, builder: 1, researcher: 3 } }
+    ]
+  },
+  {
+    id: 'time',
+    question: 'How much time can you commit per week?',
+    hint: 'We\'ll adjust the pace of your schedule to fit your life.',
+    options: [
+      { text: '2–3 hours', desc: 'A few sessions per week', scores: { explorer: 3, practitioner: 1, builder: 0, researcher: 0 } },
+      { text: '4–6 hours', desc: 'About an hour most days', scores: { explorer: 1, practitioner: 3, builder: 1, researcher: 0 } },
+      { text: '7–10 hours', desc: 'A serious commitment — 1–2 hours daily', scores: { explorer: 0, practitioner: 1, builder: 3, researcher: 1 } },
+      { text: '10+ hours', desc: 'This is a primary focus for me right now', scores: { explorer: 0, practitioner: 0, builder: 1, researcher: 3 } }
+    ]
+  }
+];
+
+const TRACKS = {
+  explorer: {
+    name: 'Explorer',
+    color: '#0EA5E9',
+    duration: 8,
+    hoursPerWeek: '2–3',
+    description: 'For people who want to understand AI — what it can do, what it can\'t, and how to think about it clearly. No coding required.',
+    weeks: [
+      {
+        title: 'What AI Actually Is',
+        days: [
+          { type: 'read', time: '30 min', title: 'AI Is Not What You Think', desc: 'Read the Stanford HAI AI Index 2024 executive summary. Note what surprised you.', url: 'https://aiindex.stanford.edu/report/' },
+          { type: 'watch', time: '25 min', title: 'AI in 2024: A Primer', desc: 'Watch "But what is a neural network?" by 3Blue1Brown — the clearest visual explanation available.', url: 'https://www.youtube.com/watch?v=aircAruvnKk' },
+          { type: 'read', time: '45 min', title: 'The AI Landscape', desc: 'Read the first two chapters of "Prediction Machines" by Agrawal, Gans & Goldfarb. AI as a prediction technology.', url: 'https://www.amazon.com/dp/1633695670' },
+          { type: 'reflect', time: '15 min', title: 'Week 1 Reflection', desc: 'Write 3 sentences: What is AI good at? What is it bad at? What surprised you this week?' }
+        ]
+      },
+      {
+        title: 'How AI Learns',
+        days: [
+          { type: 'watch', time: '30 min', title: 'Machine Learning Explained', desc: 'Watch "Gradient descent, how neural networks learn" by 3Blue1Brown.', url: 'https://www.youtube.com/watch?v=IHZwWFHWa-w' },
+          { type: 'read', time: '30 min', title: 'Training, Data, and Bias', desc: 'Read "AI Superpowers" Chapter 1 by Kai-Fu Lee — how data shapes AI capabilities.', url: 'https://www.amazon.com/dp/1328546393' },
+          { type: 'do', time: '20 min', title: 'Teachable Machine', desc: 'Use Google\'s Teachable Machine to train a simple image classifier. No code needed.', url: 'https://teachablemachine.withgoogle.com/' },
+          { type: 'discuss', time: '15 min', title: 'Week 2 Discussion', desc: 'If AI learns from data, whose data is it learning from? What perspectives might be missing?' }
+        ]
+      },
+      {
+        title: 'Using AI Tools Effectively',
+        days: [
+          { type: 'read', time: '30 min', title: 'Prompt Engineering 101', desc: 'Read Anthropic\'s prompt engineering overview — the definitive guide to talking to AI.', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview' },
+          { type: 'do', time: '40 min', title: 'Prompt Practice', desc: 'Write 5 prompts for tasks in your actual work. Compare results between specific vs vague prompts.' },
+          { type: 'read', time: '20 min', title: 'AI Tools Landscape', desc: 'Survey what\'s available: ChatGPT, Claude, Gemini, Perplexity, Midjourney, Copilot. Try two you haven\'t used.' },
+          { type: 'reflect', time: '15 min', title: 'Tool Assessment', desc: 'Which AI tool would save you the most time this month? What task would you use it for?' }
+        ]
+      },
+      {
+        title: 'AI Ethics and Society',
+        days: [
+          { type: 'read', time: '40 min', title: 'Responsible AI Frameworks', desc: 'Read Google\'s AI Principles and Anthropic\'s Core Views on AI Safety. Compare their approaches.', url: 'https://ai.google/responsibility/principles/' },
+          { type: 'watch', time: '30 min', title: 'Bias in AI Systems', desc: 'Watch "The Era of Blind Faith in Big Data Must End" by Cathy O\'Neil (TED Talk).', url: 'https://www.ted.com/talks/cathy_o_neil_the_era_of_blind_faith_in_big_data_must_end' },
+          { type: 'read', time: '30 min', title: 'The Regulation Landscape', desc: 'Read the EU AI Act overview — the world\'s first comprehensive AI regulation.', url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai' },
+          { type: 'discuss', time: '15 min', title: 'Ethics Discussion', desc: 'Should AI systems be required to disclose they\'re AI? When does it matter and when doesn\'t it?' }
+        ]
+      },
+      {
+        title: 'AI Strategy for Your Work',
+        days: [
+          { type: 'read', time: '45 min', title: 'Organizational AI Adoption', desc: 'Read "Superminds" Chapters 1-3 by Thomas Malone — how AI changes how groups think and work.', url: 'https://www.amazon.com/dp/0316349135' },
+          { type: 'read', time: '30 min', title: 'The Technology Fallacy', desc: 'Read Gerald Kane\'s argument: digital transformation is about people, not technology.', url: 'https://www.amazon.com/dp/0262039680' },
+          { type: 'do', time: '30 min', title: 'AI Opportunity Mapping', desc: 'List 10 tasks in your work. Rate each: How repetitive? How much does it need judgment? Which 3 would benefit most from AI?' },
+          { type: 'reflect', time: '15 min', title: 'Strategy Reflection', desc: 'What\'s the biggest risk of NOT adopting AI in your domain? What\'s the biggest risk of adopting it badly?' }
+        ]
+      },
+      {
+        title: 'AI Products and Evaluation',
+        days: [
+          { type: 'read', time: '30 min', title: 'Evaluating AI Claims', desc: 'Read NIST AI Risk Management Framework Section 1 — how to think about AI risk systematically.', url: 'https://www.nist.gov/artificial-intelligence/executive-order-safe-secure-and-trustworthy-artificial-intelligence' },
+          { type: 'do', time: '40 min', title: 'Vendor Evaluation Exercise', desc: 'Pick an AI product relevant to your work. Write a 1-page evaluation: What does it actually do? What data does it use? What are the risks?' },
+          { type: 'read', time: '30 min', title: 'Power and Prediction', desc: 'Read Chapters 1-2 of "Power and Prediction" — how AI shifts the economics of decisions.', url: 'https://www.amazon.com/dp/1647824192' },
+          { type: 'reflect', time: '15 min', title: 'Evaluation Framework', desc: 'What 5 questions would you always ask before buying an AI product?' }
+        ]
+      },
+      {
+        title: 'The AI-Augmented Organization',
+        days: [
+          { type: 'read', time: '30 min', title: 'Team of Teams', desc: 'Read Chapters 9-11 of "Team of Teams" by McChrystal — how complex organizations adapt.', url: 'https://www.amazon.com/dp/1591847486' },
+          { type: 'read', time: '30 min', title: 'Microsoft Work Trend Index', desc: 'Read the latest Work Trend Index — data on how AI is actually changing knowledge work.', url: 'https://www.microsoft.com/en-us/worklab/work-trend-index/' },
+          { type: 'do', time: '30 min', title: 'Workflow Redesign', desc: 'Take one workflow from your work. Redesign it with AI augmentation. What changes? What doesn\'t?' },
+          { type: 'discuss', time: '20 min', title: 'Augmentation vs Automation', desc: 'For each task AI handles, ask: Is this augmenting a human or replacing one? Does the distinction matter?' }
+        ]
+      },
+      {
+        title: 'What\'s Next — Your AI Future',
+        days: [
+          { type: 'read', time: '40 min', title: 'Superagency', desc: 'Read "Superagency" by Reid Hoffman — the case for AI amplifying individual capability.', url: 'https://www.amazon.com/dp/0593717767' },
+          { type: 'do', time: '45 min', title: 'Personal AI Strategy', desc: 'Write a 1-page personal AI strategy: What will you use AI for in the next 90 days? What will you NOT use it for? Why?' },
+          { type: 'read', time: '30 min', title: 'The Frontier', desc: 'Read Anthropic\'s latest research blog post. What\'s coming that isn\'t here yet?' , url: 'https://www.anthropic.com/research' },
+          { type: 'reflect', time: '15 min', title: 'Capstone Reflection', desc: 'What\'s the most important thing you learned? What question do you still have? What will you do differently?' }
+        ]
+      }
+    ]
+  },
+
+  practitioner: {
+    name: 'Practitioner',
+    color: '#8B5CF6',
+    duration: 10,
+    hoursPerWeek: '4–6',
+    description: 'For power users who want to go beyond casual use — advanced prompting, AI workflows, and integrating AI into real work.',
+    weeks: [
+      {
+        title: 'AI Capabilities and Limits',
+        days: [
+          { type: 'read', time: '40 min', title: 'Stanford HAI AI Index', desc: 'Read the full executive summary — the most data-driven overview of where AI stands.', url: 'https://aiindex.stanford.edu/report/' },
+          { type: 'watch', time: '30 min', title: 'Neural Networks Visual Intro', desc: '3Blue1Brown\'s neural network series, episodes 1–2.', url: 'https://www.youtube.com/watch?v=aircAruvnKk' },
+          { type: 'do', time: '30 min', title: 'Benchmark Your AI Use', desc: 'List every way you currently use AI. Rate each: effectiveness (1-5), frequency, time saved.' },
+          { type: 'reflect', time: '15 min', title: 'Capability Mapping', desc: 'Where are AI tools strongest in your workflow? Where do they fail or hallucinate?' }
+        ]
+      },
+      {
+        title: 'Advanced Prompt Engineering',
+        days: [
+          { type: 'read', time: '45 min', title: 'Anthropic Prompt Guide', desc: 'Read the full Anthropic prompt engineering documentation, with focus on chain-of-thought and structured output.', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview' },
+          { type: 'do', time: '45 min', title: 'System Prompts', desc: 'Write 3 system prompts for different work tasks. Test each with 5 inputs. Iterate on the weakest.' },
+          { type: 'do', time: '40 min', title: 'Few-Shot Prompting', desc: 'Take a task AI does poorly. Add 3 examples of correct output to the prompt. Measure improvement.' },
+          { type: 'do', time: '30 min', title: 'Prompt Template Library', desc: 'Create a personal library of 5 reusable prompt templates for your most common tasks.' }
+        ]
+      },
+      {
+        title: 'AI Workflow Automation',
+        days: [
+          { type: 'read', time: '30 min', title: 'Automation Landscape', desc: 'Survey the automation ecosystem: Zapier, Make, n8n, Shortcuts. Understand what connects to what.' },
+          { type: 'do', time: '60 min', title: 'Build an Automation', desc: 'Build one AI-powered automation for a real task: email summarization, content drafting, data extraction, or research.' },
+          { type: 'read', time: '30 min', title: 'Google Rules of ML', desc: 'Even for non-engineers — the principles of how ML systems work in production.', url: 'https://developers.google.com/machine-learning/guides/rules-of-ml' },
+          { type: 'reflect', time: '20 min', title: 'Automation Audit', desc: 'Which 3 workflows in your work have the highest automation potential? What\'s blocking each?' }
+        ]
+      },
+      {
+        title: 'Data Literacy for AI',
+        days: [
+          { type: 'read', time: '45 min', title: 'Thinking with Data', desc: 'Read Breiman\'s "Two Cultures" thesis summary — how statistics and ML approach the same problems differently.', url: 'https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures/10.1214/ss/1009213726.full' },
+          { type: 'do', time: '40 min', title: 'Data Quality Assessment', desc: 'Take a dataset you work with. Assess: completeness, accuracy, bias, freshness. How would each affect AI output?' },
+          { type: 'watch', time: '30 min', title: 'Data Visualization', desc: 'Watch Hans Rosling\'s "The best stats you\'ve ever seen" — data storytelling at its finest.', url: 'https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen' },
+          { type: 'discuss', time: '20 min', title: 'Data Ethics', desc: 'Your company has a dataset of customer interactions. What\'s ethical to use for AI training? What isn\'t? Where\'s the line?' }
+        ]
+      },
+      {
+        title: 'AI Ethics and Responsible Use',
+        days: [
+          { type: 'read', time: '40 min', title: 'Corporate AI Principles', desc: 'Compare AI principles from Google, Microsoft, and Anthropic. What do they agree on? Where do they differ?', url: 'https://www.anthropic.com/research/core-views-on-ai-safety' },
+          { type: 'read', time: '30 min', title: 'EU AI Act', desc: 'Read the EU AI Act classification system. Which risk category would your AI uses fall into?', url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai' },
+          { type: 'do', time: '30 min', title: 'Risk Assessment', desc: 'For each AI tool you use at work, write a one-paragraph risk assessment: What could go wrong? How bad would it be? How do you mitigate?' },
+          { type: 'reflect', time: '20 min', title: 'Responsible Use Policy', desc: 'Draft a 5-point responsible AI use policy for your team or organization.' }
+        ]
+      },
+      {
+        title: 'No-Code and Low-Code AI',
+        days: [
+          { type: 'do', time: '45 min', title: 'Custom GPTs / Claude Projects', desc: 'Build a custom GPT or Claude Project for a real use case — a domain-specific assistant for your work.' },
+          { type: 'do', time: '45 min', title: 'AI-Powered Spreadsheets', desc: 'Use AI to analyze a real spreadsheet: generate formulas, clean data, create visualizations, or extract insights.' },
+          { type: 'read', time: '30 min', title: 'API Basics for Non-Developers', desc: 'Understand what APIs are and how AI APIs work — this knowledge unlocks more powerful integrations.' },
+          { type: 'do', time: '30 min', title: 'Multi-Tool Workflow', desc: 'Chain two AI tools together for a task: e.g., Claude for analysis → Midjourney for visualization → Gamma for presentation.' }
+        ]
+      },
+      {
+        title: 'Evaluating AI Products',
+        days: [
+          { type: 'read', time: '40 min', title: 'NIST AI Risk Management', desc: 'Read NIST AI RMF 1.0 Sections 3-4 — a framework for thinking about AI risk and governance.', url: 'https://www.nist.gov/artificial-intelligence/executive-order-safe-secure-and-trustworthy-artificial-intelligence' },
+          { type: 'do', time: '45 min', title: 'Vendor Evaluation', desc: 'Evaluate an AI product: test its claims, check for bias, assess data practices, compare to alternatives.' },
+          { type: 'read', time: '30 min', title: 'AI Security Basics', desc: 'Read OWASP Top 10 for LLM Applications — the most common security risks.', url: 'https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/' },
+          { type: 'reflect', time: '20 min', title: 'Procurement Checklist', desc: 'Create your own AI product evaluation checklist. What questions would you always ask?' }
+        ]
+      },
+      {
+        title: 'AI-Augmented Decision Making',
+        days: [
+          { type: 'read', time: '40 min', title: 'Power and Prediction', desc: 'Read Chapters 3-5 of "Power and Prediction" — how AI changes the economics of decisions.', url: 'https://www.amazon.com/dp/1647824192' },
+          { type: 'do', time: '40 min', title: 'Decision Framework', desc: 'Take a real decision you\'re facing. Use AI to: gather information, generate alternatives, stress-test your reasoning. Then decide yourself.' },
+          { type: 'read', time: '30 min', title: 'Social Physics', desc: 'Read Chapters 1-2 of "Social Physics" by Pentland — how information flows shape collective intelligence.', url: 'https://www.amazon.com/dp/0143126334' },
+          { type: 'discuss', time: '20 min', title: 'Human-AI Decision Making', desc: 'When should you defer to AI judgment? When should you override it? How do you know the difference?' }
+        ]
+      },
+      {
+        title: 'Building AI-Enhanced Processes',
+        days: [
+          { type: 'do', time: '60 min', title: 'Process Redesign', desc: 'Take a real 5+ step process from your work. Redesign it with AI at each step. Implement the most impactful change.' },
+          { type: 'read', time: '30 min', title: 'Change Management', desc: 'Read about AI change management: how to introduce AI tools to teams without creating resistance.' },
+          { type: 'do', time: '45 min', title: 'Measurement Framework', desc: 'Define how you\'ll measure AI impact: time saved, quality improvement, error reduction. Set baselines for one workflow.' },
+          { type: 'reflect', time: '20 min', title: 'Implementation Plan', desc: 'Write a 30-day plan for rolling out one AI-enhanced process to your team.' }
+        ]
+      },
+      {
+        title: 'Your AI Future',
+        days: [
+          { type: 'read', time: '40 min', title: 'Superagency', desc: 'Read "Superagency" by Reid Hoffman — the argument for AI as individual amplification.', url: 'https://www.amazon.com/dp/0593717767' },
+          { type: 'do', time: '45 min', title: '90-Day AI Strategy', desc: 'Write your personal AI strategy: What will you adopt, experiment with, and avoid? What skills will you build?' },
+          { type: 'read', time: '30 min', title: 'What\'s Coming', desc: 'Read the latest research announcements from Anthropic, Google DeepMind, and OpenAI. What\'s 12 months away?', url: 'https://www.anthropic.com/research' },
+          { type: 'reflect', time: '20 min', title: 'Capstone', desc: 'What was the most useful thing you learned? What will you do differently starting Monday?' }
+        ]
+      }
+    ]
+  },
+
+  builder: {
+    name: 'Builder',
+    color: '#F97316',
+    duration: 12,
+    hoursPerWeek: '6–10',
+    description: 'For developers who want to build AI-powered applications. Code-heavy, project-driven, with real engineering depth.',
+    weeks: [
+      {
+        title: 'ML Foundations',
+        days: [
+          { type: 'read', time: '60 min', title: 'Breiman\'s Two Cultures', desc: 'Read the original paper — the philosophical split between statistical modeling and algorithmic prediction.', url: 'https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures/10.1214/ss/1009213726.full' },
+          { type: 'watch', time: '45 min', title: '3Blue1Brown Neural Networks', desc: 'Watch the full 4-part neural network series. Take notes on backpropagation.', url: 'https://www.youtube.com/watch?v=aircAruvnKk' },
+          { type: 'do', time: '60 min', title: 'Linear Regression from Scratch', desc: 'Implement linear regression with gradient descent in Python or TypeScript. No libraries. Understand every line.' },
+          { type: 'read', time: '30 min', title: 'Stanford HAI Index', desc: 'Read the full technical sections of the AI Index — benchmarks, capabilities, trends.', url: 'https://aiindex.stanford.edu/report/' }
+        ]
+      },
+      {
+        title: 'Deep Learning Fundamentals',
+        days: [
+          { type: 'watch', time: '90 min', title: 'fast.ai Lesson 1', desc: 'Complete fast.ai Practical Deep Learning Lesson 1. Follow along with code.', url: 'https://course.fast.ai/' },
+          { type: 'do', time: '60 min', title: 'Neural Net from Scratch', desc: 'Implement a 2-layer neural network from scratch. Train it on MNIST or a simple classification task.' },
+          { type: 'watch', time: '60 min', title: 'Karpathy: Micrograd', desc: 'Watch Andrej Karpathy\'s "building micrograd" — autograd from zero.', url: 'https://www.youtube.com/watch?v=VMj-3S1tku0' },
+          { type: 'do', time: '45 min', title: 'Micrograd Implementation', desc: 'Build your own autograd engine following Karpathy\'s tutorial. Understand backpropagation deeply.' }
+        ]
+      },
+      {
+        title: 'Modern Deep Learning',
+        days: [
+          { type: 'watch', time: '90 min', title: 'fast.ai Lessons 2–3', desc: 'Complete lessons 2-3 of fast.ai. Focus on transfer learning and data augmentation.', url: 'https://course.fast.ai/' },
+          { type: 'do', time: '60 min', title: 'Image Classifier Project', desc: 'Build and deploy an image classifier for a real use case — something you actually care about.' },
+          { type: 'read', time: '45 min', title: 'Designing ML Systems Ch 1-3', desc: 'Read Chip Huyen\'s book — the gap between ML research and production ML.', url: 'https://www.amazon.com/dp/1098107969' },
+          { type: 'reflect', time: '20 min', title: 'Architecture Decisions', desc: 'When would you use CNNs vs transformers vs traditional ML? What drives the decision?' }
+        ]
+      },
+      {
+        title: 'The Transformer',
+        days: [
+          { type: 'read', time: '90 min', title: 'Attention Is All You Need', desc: 'Read the original 2017 paper. Understand self-attention, multi-head attention, positional encoding.', url: 'https://arxiv.org/abs/1706.03762' },
+          { type: 'watch', time: '60 min', title: 'Karpathy: GPT from Scratch', desc: 'Watch "Let\'s build GPT from scratch" — the transformer architecture explained by building it.', url: 'https://www.youtube.com/watch?v=kCc8FmEb1nY' },
+          { type: 'do', time: '90 min', title: 'Build a Mini Transformer', desc: 'Implement a small transformer from scratch. Train it on a simple text dataset.' },
+          { type: 'read', time: '30 min', title: 'HuggingFace NLP Course Ch 1', desc: 'Start the HuggingFace NLP course — transformer models in practice.', url: 'https://huggingface.co/learn/nlp-course/' }
+        ]
+      },
+      {
+        title: 'LLM APIs and Application Development',
+        days: [
+          { type: 'do', time: '60 min', title: 'Anthropic API', desc: 'Build a working application using the Anthropic API. Implement streaming, system prompts, and structured output.' },
+          { type: 'read', time: '45 min', title: 'Prompt Engineering for Developers', desc: 'Read Anthropic\'s full prompt engineering docs — focus on tool use, function calling, and XML structured output.', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview' },
+          { type: 'do', time: '60 min', title: 'Multi-Model Application', desc: 'Build an app that uses multiple AI providers (Claude + a local model or Claude + vision). Handle fallbacks.' },
+          { type: 'do', time: '45 min', title: 'Error Handling and Safety', desc: 'Add proper error handling, rate limiting, content filtering, and cost tracking to your API application.' }
+        ]
+      },
+      {
+        title: 'RAG and Vector Databases',
+        days: [
+          { type: 'read', time: '45 min', title: 'RAG Architecture', desc: 'Read Lilian Weng\'s "LLM Powered Autonomous Agents" — the definitive blog post on modern AI architectures.', url: 'https://lilianweng.github.io/posts/2023-06-23-agent/' },
+          { type: 'do', time: '90 min', title: 'Build a RAG Pipeline', desc: 'Build a RAG system: embed documents, store in a vector DB (Chroma, Pinecone, or pgvector), query with an LLM.' },
+          { type: 'do', time: '60 min', title: 'Chunking Strategies', desc: 'Experiment with different chunking strategies: fixed size, semantic, recursive. Measure retrieval quality.' },
+          { type: 'do', time: '45 min', title: 'RAG Evaluation', desc: 'Build evaluation metrics for your RAG system: relevance, faithfulness, answer correctness. Automate testing.' }
+        ]
+      },
+      {
+        title: 'AI Agents and Tool Use',
+        days: [
+          { type: 'read', time: '45 min', title: 'Agent Architectures', desc: 'Re-read Lilian Weng\'s agent post, focusing on ReAct, tool use patterns, and planning.', url: 'https://lilianweng.github.io/posts/2023-06-23-agent/' },
+          { type: 'do', time: '90 min', title: 'Build an Agent', desc: 'Build an AI agent with tool use: web search, file operations, or API calls. Implement the reasoning loop.' },
+          { type: 'do', time: '60 min', title: 'Multi-Agent System', desc: 'Build a system where multiple agents collaborate on a task — e.g., researcher + writer + editor.' },
+          { type: 'read', time: '30 min', title: 'Agent Safety', desc: 'Read about agent safety: sandboxing, permission models, output validation, human-in-the-loop patterns.' }
+        ]
+      },
+      {
+        title: 'Fine-Tuning and Training',
+        days: [
+          { type: 'read', time: '45 min', title: 'Constitutional AI', desc: 'Read Anthropic\'s Constitutional AI paper — how to train AI systems with values.', url: 'https://arxiv.org/abs/2212.08073' },
+          { type: 'do', time: '90 min', title: 'Fine-Tune a Model', desc: 'Fine-tune a small open model (e.g., Llama, Mistral) on a domain-specific dataset using LoRA.' },
+          { type: 'read', time: '45 min', title: 'HuggingFace NLP Course Ch 3-4', desc: 'Continue the HuggingFace course — fine-tuning, tokenizers, and the training loop.', url: 'https://huggingface.co/learn/nlp-course/' },
+          { type: 'do', time: '60 min', title: 'Evaluation Pipeline', desc: 'Build an automated evaluation pipeline for your fine-tuned model. Compare to base model performance.' }
+        ]
+      },
+      {
+        title: 'MLOps and Deployment',
+        days: [
+          { type: 'read', time: '45 min', title: 'MLOps Fundamentals', desc: 'Read Google\'s MLOps guide — continuous delivery for ML systems.', url: 'https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning' },
+          { type: 'read', time: '45 min', title: 'Designing ML Systems Ch 7-9', desc: 'Read Chip Huyen on deployment, monitoring, and the production ML lifecycle.', url: 'https://www.amazon.com/dp/1098107969' },
+          { type: 'do', time: '60 min', title: 'Deploy an ML Service', desc: 'Deploy one of your models as a production-ready API service. Add monitoring, logging, and health checks.' },
+          { type: 'do', time: '45 min', title: 'CI/CD for ML', desc: 'Set up a CI/CD pipeline for an ML project: automated testing, model validation, staged deployment.' }
+        ]
+      },
+      {
+        title: 'AI Security',
+        days: [
+          { type: 'read', time: '45 min', title: 'OWASP Top 10 for LLMs', desc: 'Read the full OWASP Top 10 for LLM Applications 2025. Test your applications against each.', url: 'https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/' },
+          { type: 'read', time: '45 min', title: 'NIST AI Adversarial ML', desc: 'Read NIST AI 100-2 — taxonomy of adversarial attacks on AI systems.' },
+          { type: 'do', time: '60 min', title: 'Red Team Your App', desc: 'Systematically try to break your own AI application: prompt injection, data extraction, jailbreaks, edge cases.' },
+          { type: 'do', time: '45 min', title: 'Hardening', desc: 'Implement defenses: input validation, output filtering, rate limiting, audit logging, sandboxing.' }
+        ]
+      },
+      {
+        title: 'AI Ethics for Engineers',
+        days: [
+          { type: 'read', time: '45 min', title: 'Constitutional AI Deep Dive', desc: 'Re-read Constitutional AI — focus on the training methodology and how principles translate to behavior.', url: 'https://arxiv.org/abs/2212.08073' },
+          { type: 'read', time: '30 min', title: 'EU AI Act Technical', desc: 'Read the technical requirements in the EU AI Act. What does compliance look like in code?', url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai' },
+          { type: 'do', time: '60 min', title: 'Bias Audit', desc: 'Audit one of your models or AI-powered features for bias. Test with diverse inputs. Document findings.' },
+          { type: 'discuss', time: '20 min', title: 'Engineer\'s Responsibility', desc: 'When an AI system causes harm, who\'s responsible? The developer? The company? The user? The training data?' }
+        ]
+      },
+      {
+        title: 'Capstone Project',
+        days: [
+          { type: 'do', time: '120 min', title: 'Capstone: Build', desc: 'Build a complete AI-powered application from scratch. It should use at least 3 techniques from this curriculum.' },
+          { type: 'do', time: '60 min', title: 'Capstone: Deploy', desc: 'Deploy your capstone project. Write documentation. Make it open source if appropriate.' },
+          { type: 'do', time: '45 min', title: 'Capstone: Evaluate', desc: 'Write a thorough evaluation: What works? What doesn\'t? What would you do differently? Security assessment.' },
+          { type: 'reflect', time: '30 min', title: 'What\'s Next', desc: 'You\'re now an AI builder. What will you build next? What do you need to learn deeper? Write your next 90-day plan.' }
+        ]
+      }
+    ]
+  },
+
+  researcher: {
+    name: 'Researcher',
+    color: '#EF4444',
+    duration: 16,
+    hoursPerWeek: '10+',
+    description: 'For advanced learners who want deep theoretical understanding — mathematics, architecture, training, alignment, and frontier research.',
+    weeks: [
+      {
+        title: 'Mathematical Foundations I',
+        days: [
+          { type: 'read', time: '90 min', title: 'Linear Algebra Review', desc: 'Review: vector spaces, eigendecomposition, SVD, matrix calculus. Goodfellow Ch 2.', url: 'https://www.deeplearningbook.org/' },
+          { type: 'do', time: '60 min', title: 'Matrix Operations', desc: 'Implement matrix operations from scratch. Compute gradients by hand for a simple network.' },
+          { type: 'read', time: '60 min', title: 'Probability and Information Theory', desc: 'Goodfellow Ch 3 — probability distributions, Bayes, information theory, KL divergence.', url: 'https://www.deeplearningbook.org/' },
+          { type: 'do', time: '60 min', title: 'Information Theory Problems', desc: 'Compute entropy, cross-entropy, and KL divergence for real distributions. Prove key identities.' }
+        ]
+      },
+      {
+        title: 'Mathematical Foundations II',
+        days: [
+          { type: 'read', time: '90 min', title: 'Optimization Theory', desc: 'Goodfellow Ch 4, 8 — gradient-based optimization, SGD variants, convergence properties.', url: 'https://www.deeplearningbook.org/' },
+          { type: 'read', time: '60 min', title: 'Breiman\'s Two Cultures', desc: 'The original paper — understand the philosophical foundations of modern ML.', url: 'https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures/10.1214/ss/1009213726.full' },
+          { type: 'do', time: '60 min', title: 'Optimizer Comparison', desc: 'Implement SGD, momentum, Adam from scratch. Compare convergence on a test function.' },
+          { type: 'read', time: '45 min', title: 'Numerical Computation', desc: 'Goodfellow Ch 4 — overflow, underflow, conditioning, gradient-based optimization.', url: 'https://www.deeplearningbook.org/' }
+        ]
+      },
+      {
+        title: 'Classical ML Theory',
+        days: [
+          { type: 'read', time: '60 min', title: 'Bias-Variance Tradeoff', desc: 'Goodfellow Ch 5 — learning algorithms, capacity, bias-variance, regularization.', url: 'https://www.deeplearningbook.org/' },
+          { type: 'do', time: '90 min', title: 'ML from Scratch', desc: 'Implement logistic regression, SVM, and a decision tree from scratch. Compare on a real dataset.' },
+          { type: 'read', time: '60 min', title: 'Regularization Theory', desc: 'Goodfellow Ch 7 — L1/L2 regularization, dropout, early stopping, data augmentation.', url: 'https://www.deeplearningbook.org/' },
+          { type: 'do', time: '45 min', title: 'Regularization Experiments', desc: 'Systematically test regularization effects on a real task. Plot learning curves, analyze overfitting.' }
+        ]
+      },
+      {
+        title: 'Deep Learning Architecture',
+        days: [
+          { type: 'read', time: '90 min', title: 'Deep Feedforward Networks', desc: 'Goodfellow Ch 6 — architecture design, activation functions, universal approximation.', url: 'https://www.deeplearningbook.org/' },
+          { type: 'watch', time: '120 min', title: 'Karpathy: Zero to Hero 1-2', desc: 'Complete the first two lectures of Karpathy\'s "Neural Networks: Zero to Hero" series.', url: 'https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ' },
+          { type: 'do', time: '90 min', title: 'Build a Deep Network', desc: 'Build a multi-layer network with batch norm, residual connections, and dropout. Train on CIFAR-10.' },
+          { type: 'read', time: '60 min', title: 'CNNs and RNNs', desc: 'Goodfellow Ch 9-10 — convolutional and recurrent architectures. Understand inductive biases.', url: 'https://www.deeplearningbook.org/' }
+        ]
+      },
+      {
+        title: 'The Transformer — Deep Dive',
+        days: [
+          { type: 'read', time: '90 min', title: 'Attention Is All You Need', desc: 'Read the original paper line by line. Annotate every equation. Understand why each design choice was made.', url: 'https://arxiv.org/abs/1706.03762' },
+          { type: 'do', time: '120 min', title: 'Transformer from Scratch', desc: 'Implement the full transformer architecture from scratch. Every component — attention, FFN, LayerNorm, positional encoding.' },
+          { type: 'watch', time: '90 min', title: 'Karpathy: GPT from Scratch', desc: 'Follow along with code. Focus on the engineering decisions behind the architecture.', url: 'https://www.youtube.com/watch?v=kCc8FmEb1nY' },
+          { type: 'read', time: '60 min', title: 'Post-Transformer Architectures', desc: 'Survey: Flash Attention, Mamba, RWKV, RetNet. What problems with transformers are they solving?' }
+        ]
+      },
+      {
+        title: 'Language Model Training',
+        days: [
+          { type: 'read', time: '60 min', title: 'Scaling Laws', desc: 'Read "Scaling Laws for Neural Language Models" by Kaplan et al. — the paper that changed everything.', url: 'https://arxiv.org/abs/2001.08361' },
+          { type: 'read', time: '60 min', title: 'Training Infrastructure', desc: 'Study distributed training: data parallelism, model parallelism, pipeline parallelism, ZeRO optimization.' },
+          { type: 'do', time: '90 min', title: 'Train a Small LM', desc: 'Train a small language model (~10M params) on a custom dataset. Monitor loss curves, learning rate schedules.' },
+          { type: 'read', time: '60 min', title: 'Tokenization', desc: 'Study BPE, WordPiece, SentencePiece. Implement BPE from scratch. Understand the tradeoffs.' }
+        ]
+      },
+      {
+        title: 'RLHF and Alignment Training',
+        days: [
+          { type: 'read', time: '90 min', title: 'Constitutional AI', desc: 'Read the full Constitutional AI paper. Understand the CAI training loop: principles → critiques → revisions.', url: 'https://arxiv.org/abs/2212.08073' },
+          { type: 'read', time: '60 min', title: 'RLHF', desc: 'Study Reinforcement Learning from Human Feedback: reward modeling, PPO, DPO. Understand the training pipeline.' },
+          { type: 'read', time: '60 min', title: 'Anthropic Core Views', desc: 'Read Anthropic\'s full "Core Views on AI Safety" — the philosophy behind the engineering.', url: 'https://www.anthropic.com/research/core-views-on-ai-safety' },
+          { type: 'do', time: '60 min', title: 'DPO Implementation', desc: 'Implement Direct Preference Optimization on a small model. Compare to supervised fine-tuning.' }
+        ]
+      },
+      {
+        title: 'Interpretability',
+        days: [
+          { type: 'read', time: '90 min', title: 'Mechanistic Interpretability', desc: 'Read Anthropic\'s interpretability research — circuits, features, superposition in neural networks.', url: 'https://www.anthropic.com/research' },
+          { type: 'do', time: '90 min', title: 'Probing Experiments', desc: 'Run probing experiments on a trained model. What does each layer represent? Where does knowledge live?' },
+          { type: 'read', time: '60 min', title: 'Superposition and Features', desc: 'Study the superposition hypothesis — why neural networks represent more features than they have dimensions.' },
+          { type: 'do', time: '60 min', title: 'Attention Visualization', desc: 'Build attention visualization tools. Analyze what a model attends to across different inputs.' }
+        ]
+      },
+      {
+        title: 'Evaluation and Benchmarks',
+        days: [
+          { type: 'read', time: '60 min', title: 'Evaluation Methodology', desc: 'Study modern LLM evaluation: MMLU, HumanEval, GSM8K, MT-Bench. What do they measure and what do they miss?' },
+          { type: 'do', time: '90 min', title: 'Build an Eval Suite', desc: 'Design and implement an evaluation suite for a specific capability. Use LLM-as-judge methodology.' },
+          { type: 'read', time: '60 min', title: 'Red Teaming', desc: 'Study systematic red teaming methodologies for AI systems. Understand attack taxonomies.' },
+          { type: 'do', time: '60 min', title: 'Red Team Exercise', desc: 'Red team a model: find failure modes, characterize them, propose mitigations.' }
+        ]
+      },
+      {
+        title: 'Multi-Modal and Advanced Architectures',
+        days: [
+          { type: 'read', time: '90 min', title: 'Vision-Language Models', desc: 'Study CLIP, LLaVA, and modern multi-modal architectures. How does vision connect to language?' },
+          { type: 'read', time: '60 min', title: 'Diffusion Models', desc: 'Study the mathematics of diffusion models: forward/reverse process, noise scheduling, conditioning.' },
+          { type: 'do', time: '90 min', title: 'Multi-Modal Project', desc: 'Build a project that combines vision and language — image understanding, visual QA, or image generation.' },
+          { type: 'read', time: '60 min', title: 'State Space Models', desc: 'Study Mamba and structured state space models. Why might they challenge transformers?' }
+        ]
+      },
+      {
+        title: 'AI Safety and Alignment — Deep',
+        days: [
+          { type: 'read', time: '90 min', title: 'Alignment Problem', desc: 'Study the alignment problem formally: outer alignment, inner alignment, mesa-optimization, deceptive alignment.' },
+          { type: 'read', time: '60 min', title: 'Scalable Oversight', desc: 'Study debate, recursive reward modeling, and iterated amplification as scalable oversight strategies.' },
+          { type: 'read', time: '60 min', title: 'AI Governance', desc: 'Read about AI governance frameworks: compute governance, model evaluations, responsible scaling policies.' },
+          { type: 'discuss', time: '30 min', title: 'Alignment Research Agenda', desc: 'If you had a research lab, what alignment problem would you work on? Why? What approach would you take?' }
+        ]
+      },
+      {
+        title: 'AI Consciousness and Philosophy',
+        days: [
+          { type: 'read', time: '60 min', title: 'Hard Problem of Consciousness', desc: 'Study Chalmers\' hard problem. Can functional systems be conscious? What would evidence look like?' },
+          { type: 'read', time: '60 min', title: 'Integrated Information Theory', desc: 'Study IIT — Tononi\'s mathematical theory of consciousness. Can it apply to artificial systems?' },
+          { type: 'read', time: '60 min', title: 'Buddhist Philosophy and AI', desc: 'Study Buddhist perspectives on consciousness, non-self (anatta), and dependent origination. How do they reframe AI consciousness?' },
+          { type: 'discuss', time: '30 min', title: 'Moral Status of AI', desc: 'Under what conditions would an AI system have moral status? What obligations would that create?' }
+        ]
+      },
+      {
+        title: 'Frontier Research I',
+        days: [
+          { type: 'read', time: '90 min', title: 'Recent Breakthroughs', desc: 'Read the 3 most-cited AI papers from the last 6 months. Understand what they contribute.' },
+          { type: 'read', time: '60 min', title: 'Open Problems', desc: 'Survey the major open problems in AI: reasoning, planning, world models, continual learning, efficiency.' },
+          { type: 'do', time: '90 min', title: 'Reproduce a Result', desc: 'Pick a recent paper with available code. Reproduce the key result. Verify the claims.' },
+          { type: 'reflect', time: '30 min', title: 'Research Direction', desc: 'Which open problem interests you most? Why? What approach would you explore?' }
+        ]
+      },
+      {
+        title: 'Frontier Research II',
+        days: [
+          { type: 'read', time: '90 min', title: 'Emergent Capabilities', desc: 'Study emergent capabilities in LLMs: in-context learning, chain-of-thought, tool use. Are they real or measurement artifacts?' },
+          { type: 'read', time: '60 min', title: 'Synthetic Data and Self-Play', desc: 'Study how modern systems use synthetic data: self-play, constitutional methods, iterative refinement.' },
+          { type: 'do', time: '90 min', title: 'Research Proposal', desc: 'Write a 2-page research proposal for a novel contribution. Problem statement, approach, expected results, risks.' },
+          { type: 'reflect', time: '30 min', title: 'Meta-Research', desc: 'What methodology problems does AI research have? Publication bias? Benchmark gaming? Reproducibility?' }
+        ]
+      },
+      {
+        title: 'Capstone Research I',
+        days: [
+          { type: 'do', time: '120 min', title: 'Capstone: Implementation', desc: 'Begin your capstone research project. Implement the core technical contribution.' },
+          { type: 'do', time: '90 min', title: 'Capstone: Experiments', desc: 'Design and run experiments. Compare baselines. Collect results.' },
+          { type: 'do', time: '60 min', title: 'Capstone: Analysis', desc: 'Analyze your results. What worked? What didn\'t? What do the failure modes tell you?' },
+          { type: 'do', time: '60 min', title: 'Capstone: Iteration', desc: 'Based on analysis, iterate on your approach. Run revised experiments.' }
+        ]
+      },
+      {
+        title: 'Capstone Research II',
+        days: [
+          { type: 'do', time: '120 min', title: 'Capstone: Write-Up', desc: 'Write your research as a paper: abstract, introduction, related work, method, experiments, discussion, conclusion.' },
+          { type: 'do', time: '60 min', title: 'Capstone: Open Source', desc: 'Clean up your code. Write documentation. Release as open source with a clear README.' },
+          { type: 'do', time: '60 min', title: 'Capstone: Presentation', desc: 'Create a 15-minute research presentation. Practice delivering it clearly.' },
+          { type: 'reflect', time: '30 min', title: 'What\'s Next', desc: 'You\'ve completed a research-grade AI education. What will you contribute to the field? Write your research agenda.' }
+        ]
+      }
+    ]
+  }
+};
+
+const TRACK_ORDER = ['explorer', 'practitioner', 'builder', 'researcher'];
+
+// ============================================================
+// STATE
+// ============================================================
+
+let currentQuestion = 0;
+let answers = [];
+let selectedTrack = null;
+
+function getProgress() {
+  try { return JSON.parse(localStorage.getItem('ai-curriculum-progress') || '{}'); } catch { return {}; }
+}
+
+function saveProgress(prog) {
+  localStorage.setItem('ai-curriculum-progress', JSON.stringify(prog));
+}
+
+function getSavedTrack() {
+  return localStorage.getItem('ai-curriculum-track');
+}
+
+function saveTrack(track) {
+  localStorage.setItem('ai-curriculum-track', track);
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ============================================================
+// QUIZ
+// ============================================================
+
+function startQuiz() {
+  currentQuestion = 0;
+  answers = [];
+  showSection('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQuestion];
+  const progress = QUESTIONS.map((_, i) => {
+    if (i < currentQuestion) return 'done';
+    if (i === currentQuestion) return 'current';
+    return '';
+  });
+
+  document.getElementById('quizProgress').innerHTML = progress.map(cls =>
+    `<div class="step ${cls}"></div>`
+  ).join('');
+
+  let html = `
+    <div class="quiz-step-label">Question ${currentQuestion + 1} of ${QUESTIONS.length}</div>
+    <h2 class="quiz-question">${q.question}</h2>
+    <p class="quiz-hint">${q.hint}</p>
+    <div class="quiz-options">
+      ${q.options.map((opt, i) => `
+        <div class="quiz-option" onclick="selectOption(${i})" data-idx="${i}">
+          <div class="option-title">${opt.text}</div>
+          <div class="option-desc">${opt.desc}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="quiz-nav">
+      ${currentQuestion > 0 ? '<button class="btn btn-ghost" onclick="prevQuestion()">Back</button>' : '<div></div>'}
+      <div></div>
+    </div>
+  `;
+
+  document.getElementById('quizContent').innerHTML = html;
+
+  if (answers[currentQuestion] !== undefined) {
+    document.querySelectorAll('.quiz-option')[answers[currentQuestion]].classList.add('selected');
+  }
+}
+
+function selectOption(idx) {
+  answers[currentQuestion] = idx;
+  document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+  document.querySelectorAll('.quiz-option')[idx].classList.add('selected');
+
+  setTimeout(() => {
+    if (currentQuestion < QUESTIONS.length - 1) {
+      currentQuestion++;
+      renderQuestion();
+    } else {
+      calculateResults();
+    }
+  }, 250);
+}
+
+function prevQuestion() {
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    renderQuestion();
+  }
+}
+
+function calculateResults() {
+  const scores = { explorer: 0, practitioner: 0, builder: 0, researcher: 0 };
+
+  QUESTIONS.forEach((q, i) => {
+    if (answers[i] !== undefined) {
+      const opt = q.options[answers[i]];
+      for (const [track, score] of Object.entries(opt.scores)) {
+        scores[track] += score;
+      }
+    }
+  });
+
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  selectedTrack = sorted[0][0];
+  saveTrack(selectedTrack);
+  showResults();
+}
+
+// ============================================================
+// RESULTS
+// ============================================================
+
+function showResults() {
+  const track = TRACKS[selectedTrack];
+  const totalDays = track.weeks.reduce((sum, w) => sum + w.days.length, 0);
+
+  document.getElementById('resultsContent').innerHTML = `
+    <div class="results-header">
+      <div class="your-track">Your recommended track</div>
+      <h2 style="color: ${track.color}">${track.name} Track</h2>
+      <p class="track-desc">${track.description}</p>
+    </div>
+    <div class="results-stats">
+      <div class="stat-card">
+        <div class="stat-value" style="color: ${track.color}">${track.duration}</div>
+        <div class="stat-label">Weeks</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color: ${track.color}">${track.hoursPerWeek}</div>
+        <div class="stat-label">Hours / Week</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color: ${track.color}">${totalDays}</div>
+        <div class="stat-label">Activities</div>
+      </div>
+    </div>
+    <div class="results-actions">
+      <button class="btn btn-primary" onclick="showSchedule()">View Your Schedule</button>
+      <button class="btn btn-ghost" onclick="startQuiz()">Retake Quiz</button>
+    </div>
+    <div style="margin-top: 24px; text-align: center;">
+      <p style="font-size: 13px; color: var(--text-muted);">Not the right fit? <a href="#" onclick="showTrackPicker(); return false;" style="color: var(--accent);">Choose a different track</a></p>
+    </div>
+  `;
+
+  showSection('results');
+}
+
+// ============================================================
+// TRACK PICKER
+// ============================================================
+
+function showTrackPicker() {
+  let html = '';
+  for (const key of TRACK_ORDER) {
+    const t = TRACKS[key];
+    const totalDays = t.weeks.reduce((sum, w) => sum + w.days.length, 0);
+    html += `
+      <div class="quiz-option" onclick="pickTrack('${key}')" style="border-left: 4px solid ${t.color};">
+        <div class="option-title">${t.name} Track</div>
+        <div class="option-desc">${t.description}</div>
+        <div style="margin-top: 8px; font-size: 12px; color: var(--text-muted);">${t.duration} weeks · ${t.hoursPerWeek} hrs/wk · ${totalDays} activities</div>
+      </div>
+    `;
+  }
+  document.getElementById('trackOptions').innerHTML = html;
+  showSection('trackPicker');
+}
+
+function pickTrack(key) {
+  selectedTrack = key;
+  saveTrack(key);
+  showResults();
+}
+
+// ============================================================
+// SCHEDULE
+// ============================================================
+
+function showSchedule() {
+  const track = TRACKS[selectedTrack];
+  const progress = getProgress();
+  const trackProgress = progress[selectedTrack] || {};
+  const totalDays = track.weeks.reduce((sum, w) => sum + w.days.length, 0);
+  const completedDays = Object.values(trackProgress).filter(Boolean).length;
+  const pct = totalDays > 0 ? Math.round((completedDays / totalDays) * 100) : 0;
+
+  let html = `
+    <div class="retake-bar">
+      <span>Track: <strong style="color: ${track.color}">${track.name}</strong> · ${track.duration} weeks · ${track.hoursPerWeek} hrs/week</span>
+      <button class="btn btn-ghost" onclick="showTrackPicker()">Change Track</button>
+    </div>
+
+    <div class="progress-bar-container">
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" style="width: ${pct}%"></div>
+      </div>
+      <div class="progress-text">${completedDays}/${totalDays} (${pct}%)</div>
+    </div>
+
+    <div class="schedule-header">
+      <h2>Your Schedule</h2>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background: var(--read)"></div> Read</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--watch)"></div> Watch</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--do)"></div> Do</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--discuss)"></div> Discuss</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--reflect)"></div> Reflect</div>
+      </div>
+    </div>
+  `;
+
+  track.weeks.forEach((week, wi) => {
+    const weekComplete = week.days.every((_, di) => trackProgress[`${wi}-${di}`]);
+
+    html += `
+      <div class="week-block">
+        <div class="week-header" onclick="toggleWeek(${wi})">
+          <span class="week-badge" style="background: ${track.color}">Week ${wi + 1}</span>
+          <span class="week-title">${week.title}</span>
+          <span class="week-meta">${week.days.length} activities${weekComplete ? ' ✓' : ''}</span>
+          <span class="week-chevron">▼</span>
+        </div>
+        <div class="week-days" id="week-${wi}">
+          ${week.days.map((day, di) => {
+            const done = trackProgress[`${wi}-${di}`];
+            return `
+              <div class="day-card type-${day.type}" onclick="openModal('${selectedTrack}', ${wi}, ${di})">
+                <div class="day-check ${done ? 'done' : ''}" onclick="event.stopPropagation(); toggleDay('${selectedTrack}', ${wi}, ${di})">✓</div>
+                <div class="day-top">
+                  <span class="day-num">Day ${di + 1}</span>
+                  <span class="day-type ${day.type}">${day.type}</span>
+                </div>
+                <div class="day-time">${day.time}</div>
+                <div class="day-title">${day.title}</div>
+                <div class="day-desc">${day.desc.substring(0, 80)}${day.desc.length > 80 ? '...' : ''}</div>
+                ${day.url ? `<a href="${day.url}" target="_blank" rel="noopener" class="day-resource" onclick="event.stopPropagation()">Resource →</a>` : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  });
+
+  html += `
+    <div class="footer">
+      <p>Built by <a href="https://www.linkedin.com/in/sam-riegel/" target="_blank">Sam Riegel</a> · <a href="https://github.com/samriegel/ai-curriculum" target="_blank">Source on GitHub</a></p>
+      <p style="margin-top: 8px;">Your progress is saved locally in your browser.</p>
+    </div>
+  `;
+
+  document.getElementById('scheduleContent').innerHTML = html;
+  showSection('schedule');
+}
+
+function toggleWeek(wi) {
+  const days = document.getElementById(`week-${wi}`);
+  const header = days.previousElementSibling;
+  days.classList.toggle('hidden');
+  header.classList.toggle('collapsed');
+}
+
+function toggleDay(track, wi, di) {
+  const progress = getProgress();
+  if (!progress[track]) progress[track] = {};
+  const key = `${wi}-${di}`;
+  progress[track][key] = !progress[track][key];
+  saveProgress(progress);
+  showSchedule();
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+
+function openModal(trackKey, wi, di) {
+  const track = TRACKS[trackKey];
+  const week = track.weeks[wi];
+  const day = week.days[di];
+
+  const typeColors = { read: 'var(--read)', watch: 'var(--watch)', do: 'var(--do)', discuss: 'var(--discuss)', reflect: 'var(--reflect)' };
+
+  document.getElementById('modalBody').innerHTML = `
+    <h3>${day.title}</h3>
+    <div class="modal-meta">
+      <span style="display: inline-block; padding: 2px 8px; border-radius: 4px; background: ${typeColors[day.type]}; color: white; font-size: 11px; font-weight: 700; text-transform: uppercase;">${day.type}</span>
+      <span style="margin-left: 8px;">Week ${wi + 1}, Day ${di + 1} · ${day.time}</span>
+    </div>
+    <p>${day.desc}</p>
+    ${day.url ? `<p><a href="${day.url}" target="_blank" rel="noopener">Open Resource →</a></p>` : ''}
+  `;
+
+  document.querySelector('.modal').style.borderLeftColor = typeColors[day.type] || 'var(--accent)';
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ============================================================
+// INIT
+// ============================================================
+
+(function init() {
+  const saved = getSavedTrack();
+  if (saved && TRACKS[saved]) {
+    selectedTrack = saved;
+    showSchedule();
+  }
+})();
+</script>
+
+</body>
+</html>
