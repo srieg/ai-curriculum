@@ -416,6 +416,373 @@
   }
   .footer p { font-size: 13px; color: var(--text-muted); }
   .footer a { color: var(--accent); text-decoration: none; }
+
+  /* ── PROGRESS DASHBOARD ─────────────────────────────────── */
+  .prog-section { max-width: 900px; margin: 0 auto; padding: 32px 24px; }
+  .prog-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+  .prog-header h2 { font-family: var(--font-heading); font-size: 24px; font-weight: 700; }
+  .prog-header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .prog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .prog-card { background: var(--surface); border-radius: 12px; padding: 20px; border: 1px solid var(--border); }
+  .prog-card-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 12px; }
+
+  /* Streak */
+  .streak-display { display: flex; align-items: center; gap: 16px; }
+  .streak-number { font-size: 48px; font-weight: 800; color: var(--accent3); line-height: 1; }
+  .streak-meta { display: flex; flex-direction: column; gap: 4px; }
+  .streak-label { font-size: 14px; font-weight: 600; }
+  .streak-best { font-size: 12px; color: var(--text-muted); }
+  .streak-flame { font-size: 32px; }
+
+  /* Goal ring */
+  .goal-ring-wrap { display: flex; align-items: center; gap: 20px; }
+  .goal-ring { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+  .goal-ring svg { transform: rotate(-90deg); }
+  .goal-ring-bg { fill: none; stroke: var(--surface2); stroke-width: 8; }
+  .goal-ring-fill { fill: none; stroke: var(--accent); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 0.6s ease; }
+  .goal-ring-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .goal-ring-pct { font-size: 16px; font-weight: 800; color: var(--text); }
+  .goal-ring-sub { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .goal-meta { display: flex; flex-direction: column; gap: 6px; }
+  .goal-meta-row { font-size: 13px; color: var(--text-dim); }
+  .goal-set-btn { font-size: 11px; color: var(--accent); cursor: pointer; background: none; border: none; padding: 0; font-family: var(--font-ui); text-decoration: underline; }
+
+  /* Type bars */
+  .type-bars { display: flex; flex-direction: column; gap: 8px; }
+  .type-bar-row { display: flex; align-items: center; gap: 8px; }
+  .type-bar-label { font-size: 12px; color: var(--text-dim); width: 52px; flex-shrink: 0; }
+  .type-bar-track { flex: 1; height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+  .type-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+  .type-bar-count { font-size: 11px; color: var(--text-muted); width: 24px; text-align: right; flex-shrink: 0; }
+
+  /* Pace */
+  .pace-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 700; }
+  .pace-on { background: rgba(52,211,153,0.15); color: var(--success); }
+  .pace-ahead { background: rgba(96,165,250,0.15); color: var(--accent); }
+  .pace-behind { background: rgba(248,113,113,0.15); color: var(--accent4); }
+  .pace-detail { font-size: 13px; color: var(--text-muted); margin-top: 8px; }
+
+  /* Badges grid */
+  .badges-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-bottom: 24px; }
+  .badge-card { background: var(--surface); border-radius: 10px; padding: 14px 12px; border: 1px solid var(--border); text-align: center; transition: transform 0.15s; }
+  .badge-card.earned { border-color: rgba(96,165,250,0.4); background: rgba(96,165,250,0.05); }
+  .badge-card:hover { transform: translateY(-2px); }
+  .badge-card.locked { opacity: 0.45; }
+  .badge-icon { font-size: 28px; margin-bottom: 6px; }
+  .badge-name { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .badge-desc { font-size: 10px; color: var(--text-muted); line-height: 1.4; }
+  .badge-earned-label { font-size: 10px; color: var(--success); font-weight: 700; margin-top: 4px; }
+
+  /* Heatmap */
+  .heatmap-wrap { overflow-x: auto; padding-bottom: 8px; }
+  .heatmap-grid { display: flex; gap: 3px; }
+  .heatmap-col { display: flex; flex-direction: column; gap: 3px; }
+  .heatmap-cell { width: 11px; height: 11px; border-radius: 2px; background: var(--surface2); }
+  .heatmap-cell.h1 { background: rgba(96,165,250,0.25); }
+  .heatmap-cell.h2 { background: rgba(96,165,250,0.5); }
+  .heatmap-cell.h3 { background: rgba(96,165,250,0.75); }
+  .heatmap-cell.h4 { background: var(--accent); }
+  .heatmap-month-labels { display: flex; gap: 3px; margin-bottom: 4px; }
+  .heatmap-month-label { font-size: 9px; color: var(--text-muted); }
+  .heatmap-legend { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 11px; color: var(--text-muted); }
+  .heatmap-legend .heatmap-cell { flex-shrink: 0; }
+
+  /* Interests card */
+  .interests-card { background: var(--surface); border-radius: 12px; padding: 20px; border: 1px solid var(--border); margin-bottom: 16px; }
+  .interests-radar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .interest-item { display: flex; align-items: center; gap: 8px; }
+  .interest-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .interest-label { font-size: 12px; color: var(--text-dim); flex: 1; }
+  .interest-bar-track { flex: 1; height: 5px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .interest-bar-fill { height: 100%; border-radius: 3px; }
+  .interest-val { font-size: 11px; color: var(--text-muted); width: 20px; text-align: right; }
+
+  /* Review nudge */
+  .review-banner { background: rgba(129,140,248,0.1); border: 1px solid rgba(129,140,248,0.3); border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; }
+  .review-banner-title { font-size: 13px; font-weight: 700; color: var(--accent2); margin-bottom: 8px; }
+  .review-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .review-item:last-child { border-bottom: none; }
+  .review-item-title { font-size: 13px; color: var(--text); }
+  .review-item-due { font-size: 11px; color: var(--accent2); }
+
+  /* Recommended next */
+  .rec-next-card { background: linear-gradient(135deg, rgba(96,165,250,0.08), rgba(129,140,248,0.08)); border: 1px solid rgba(96,165,250,0.2); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+  .rec-next-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 6px; }
+  .rec-next-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .rec-next-meta { font-size: 12px; color: var(--text-muted); }
+  .rec-next-actions { display: flex; gap: 8px; margin-top: 10px; }
+
+  /* Stretch goals */
+  .stretch-goals { background: var(--surface); border: 1px dashed var(--border); border-radius: 8px; padding: 14px; margin-top: 10px; }
+  .stretch-goals-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 10px; }
+  .stretch-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border-light); }
+  .stretch-item:last-child { border-bottom: none; }
+  .stretch-track-badge { font-size: 9px; font-weight: 700; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; color: white; flex-shrink: 0; }
+  .stretch-item-title { font-size: 12px; color: var(--text-dim); flex: 1; }
+  .stretch-item-type { font-size: 10px; color: var(--text-muted); }
+
+  /* Focus mode */
+  body.focus-mode .week-days.hidden { display: none !important; }
+  body.focus-mode .day-card.done-card { opacity: 0.35; }
+  .focus-bar { display: none; background: rgba(96,165,250,0.1); border: 1px solid rgba(96,165,250,0.2); border-radius: 10px; padding: 12px 18px; margin-bottom: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  body.focus-mode .focus-bar { display: flex; }
+  .focus-bar-text { font-size: 13px; font-weight: 700; color: var(--accent); }
+  .focus-timer { font-size: 20px; font-weight: 800; color: var(--accent); font-family: var(--font-mono); }
+
+  /* Toast */
+  .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 200; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+  .toast { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 18px; font-size: 13px; color: var(--text); box-shadow: var(--shadow-panel); pointer-events: auto; max-width: 300px; opacity: 0; transform: translateX(20px); transition: opacity 0.3s, transform 0.3s; }
+  .toast.show { opacity: 1; transform: translateX(0); }
+  .toast-badge { font-size: 18px; margin-right: 8px; }
+
+  /* Section dividers */
+  .prog-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+
+  /* Week completion rate */
+  .week-completion-row { display: flex; flex-direction: column; gap: 6px; }
+  .week-comp-item { display: flex; align-items: center; gap: 8px; }
+  .week-comp-label { font-size: 12px; color: var(--text-dim); width: 60px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .week-comp-bar-track { flex: 1; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .week-comp-bar-fill { height: 100%; border-radius: 3px; background: var(--accent); }
+  .week-comp-pct { font-size: 10px; color: var(--text-muted); width: 32px; text-align: right; }
+
+  /* -- DEEP DIVE -- */
+  .deepdive { max-width: 800px; margin: 0 auto; padding: 40px 24px; }
+  .deepdive-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--text-dim); text-decoration: none;
+    margin-bottom: 32px; cursor: pointer;
+    background: none; border: none; padding: 0;
+    transition: color 0.15s;
+  }
+  .deepdive-back:hover { color: var(--accent); }
+  .deepdive-hero {
+    margin-bottom: 40px;
+  }
+  .deepdive-hero h2 {
+    font-family: var(--font-heading); font-size: 36px; font-weight: 800;
+    letter-spacing: -0.5px; margin-bottom: 12px;
+  }
+  .deepdive-hero .dd-meta {
+    font-size: 13px; color: var(--text-muted); margin-bottom: 16px;
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .deepdive-hero p {
+    font-family: var(--font-body); font-size: 15px; color: var(--text-dim);
+    line-height: 1.8; margin-bottom: 14px;
+  }
+  .dd-section { margin-bottom: 40px; }
+  .dd-section-title {
+    font-family: var(--font-ui); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted);
+    margin-bottom: 16px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .dd-concepts-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .dd-concept-card {
+    background: var(--surface); border-radius: 10px; padding: 16px;
+    border: 1px solid var(--border);
+  }
+  .dd-concept-card h4 {
+    font-size: 14px; font-weight: 700; margin-bottom: 6px;
+  }
+  .dd-concept-card p {
+    font-size: 12px; color: var(--text-dim); line-height: 1.5;
+  }
+  .dd-reading-path { display: flex; flex-direction: column; gap: 0; }
+  .dd-reading-step {
+    display: flex; gap: 16px; position: relative;
+  }
+  .dd-reading-step:not(:last-child)::before {
+    content: '';
+    position: absolute; left: 20px; top: 40px; bottom: 0;
+    width: 2px; background: var(--border);
+  }
+  .dd-step-num {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--surface2); border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: var(--accent);
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .dd-step-content {
+    padding-bottom: 24px; flex: 1;
+  }
+  .dd-step-content h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .dd-step-content p { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+  .dd-step-content .dd-rationale {
+    font-size: 12px; color: var(--text-muted); margin-top: 6px;
+    font-style: italic;
+  }
+  .dd-assessment { display: flex; flex-direction: column; gap: 12px; }
+  .dd-assessment-item {
+    background: var(--surface); border-radius: 8px; padding: 14px 16px;
+    border: 1px solid var(--border); display: flex; gap: 12px; align-items: flex-start;
+  }
+  .dd-assessment-icon {
+    font-size: 18px; flex-shrink: 0; margin-top: 2px;
+  }
+  .dd-assessment-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .dd-assessment-item p { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+  .dd-bridge {
+    background: var(--surface); border-radius: 12px; padding: 20px;
+    border: 1px solid var(--border); border-left: 4px solid var(--accent2);
+  }
+  .dd-bridge h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .dd-bridge p { font-size: 13px; color: var(--text-dim); line-height: 1.6; margin-bottom: 12px; }
+  .dd-bridge ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .dd-bridge ul li {
+    font-size: 13px; color: var(--text-dim);
+    padding-left: 16px; position: relative;
+  }
+  .dd-bridge ul li::before {
+    content: '→'; position: absolute; left: 0; color: var(--accent2);
+  }
+  .dd-community { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .dd-community-card {
+    background: var(--surface); border-radius: 8px; padding: 14px;
+    border: 1px solid var(--border);
+  }
+  .dd-community-card .dd-community-type {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 6px;
+  }
+  .dd-community-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .dd-community-card p { font-size: 12px; color: var(--text-dim); line-height: 1.45; }
+  .dd-community-card a {
+    display: inline-block; margin-top: 6px; font-size: 11px; color: var(--accent);
+    text-decoration: none;
+  }
+  .dd-community-card a:hover { text-decoration: underline; }
+  .dd-cta {
+    display: flex; gap: 12px; margin-top: 40px; padding-top: 24px;
+    border-top: 1px solid var(--border); flex-wrap: wrap;
+  }
+
+  /* -- CHAT -- */
+  .chat-section { max-width: 680px; margin: 0 auto; padding: 40px 24px; }
+  .chat-header { text-align: center; margin-bottom: 32px; }
+  .chat-header h2 {
+    font-family: var(--font-heading); font-size: 28px; font-weight: 800;
+    letter-spacing: -0.3px; margin-bottom: 8px;
+  }
+  .chat-header p { font-size: 15px; color: var(--text-dim); line-height: 1.7; }
+  .chat-window {
+    background: var(--surface); border-radius: 16px; padding: 0;
+    border: 1px solid var(--border); overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  }
+  .chat-titlebar {
+    background: var(--surface2); padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .chat-titlebar-dots { display: flex; gap: 6px; }
+  .chat-titlebar-dots span {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .chat-titlebar-name { font-size: 13px; font-weight: 600; color: var(--text-dim); margin-left: 4px; }
+  .chat-messages { padding: 20px; min-height: 320px; display: flex; flex-direction: column; gap: 14px; }
+  .chat-bubble {
+    max-width: 85%; padding: 12px 16px; border-radius: 14px;
+    font-size: 14px; line-height: 1.6;
+  }
+  .chat-bubble.bot {
+    background: var(--surface2); color: var(--text);
+    align-self: flex-start; border-bottom-left-radius: 4px;
+  }
+  .chat-bubble.user {
+    background: var(--accent); color: white;
+    align-self: flex-end; border-bottom-right-radius: 4px;
+  }
+  .chat-bubble strong { font-weight: 700; }
+  .chat-bubble p { margin-bottom: 6px; }
+  .chat-bubble p:last-child { margin-bottom: 0; }
+  .chat-bubble ul { margin: 8px 0 4px 0; padding-left: 16px; }
+  .chat-bubble ul li { margin-bottom: 4px; }
+  .chat-typing {
+    display: flex; gap: 5px; align-items: center;
+    padding: 12px 16px; background: var(--surface2);
+    border-radius: 14px; border-bottom-left-radius: 4px;
+    align-self: flex-start;
+  }
+  .chat-typing span {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--text-muted); animation: chatBounce 1.2s infinite;
+  }
+  .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes chatBounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+    40% { transform: translateY(-6px); opacity: 1; }
+  }
+  .chat-input-area {
+    padding: 16px; border-top: 1px solid var(--border);
+    display: flex; gap: 10px; align-items: flex-end;
+  }
+  .chat-input {
+    flex: 1; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 14px; color: var(--text);
+    font-family: var(--font-ui); font-size: 14px; resize: none;
+    min-height: 44px; max-height: 120px; outline: none;
+    transition: border-color 0.15s;
+    line-height: 1.5;
+  }
+  .chat-input::placeholder { color: var(--text-muted); }
+  .chat-input:focus { border-color: var(--accent); }
+  .chat-send {
+    background: var(--accent); border: none; border-radius: 10px;
+    width: 44px; height: 44px; cursor: pointer; color: white;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.15s, opacity 0.15s; flex-shrink: 0;
+  }
+  .chat-send:hover { transform: scale(1.05); }
+  .chat-send:disabled { opacity: 0.4; cursor: default; transform: none; }
+  .chat-personas {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px; margin-bottom: 24px;
+  }
+  .chat-persona-btn {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 14px; cursor: pointer;
+    font-size: 13px; color: var(--text-dim); text-align: left;
+    transition: border-color 0.15s, color 0.15s; font-family: var(--font-ui);
+  }
+  .chat-persona-btn:hover { border-color: var(--accent); color: var(--text); }
+  .chat-persona-label { font-weight: 600; display: block; margin-bottom: 2px; }
+  .chat-persona-hint { font-size: 11px; color: var(--text-muted); }
+  .chat-result-card {
+    background: var(--surface2); border-radius: 10px; padding: 14px 16px;
+    margin-top: 10px; border: 1px solid var(--border);
+  }
+  .chat-result-card .crc-track {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.5px; margin-bottom: 6px;
+  }
+  .chat-result-card .crc-name {
+    font-size: 16px; font-weight: 700; margin-bottom: 6px;
+  }
+  .chat-result-card .crc-desc { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+  .chat-result-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .chat-result-actions button {
+    font-size: 12px; padding: 7px 14px; border-radius: 6px;
+    font-family: var(--font-ui); cursor: pointer;
+    transition: transform 0.1s;
+  }
+  .chat-result-actions button:hover { transform: translateY(-1px); }
+
+  /* Landing chat entry point */
+  .landing-chat-entry {
+    margin-top: 24px; padding-top: 24px;
+    border-top: 1px solid var(--border-light);
+  }
+  .landing-chat-entry p {
+    font-size: 14px; color: var(--text-muted); margin-bottom: 12px;
+  }
 </style>
 </head>
 <body>
@@ -424,10 +791,13 @@
   <a href="#" class="nav-brand" onclick="showSection('landing'); return false;">AI Curriculum</a>
   <div class="nav-links">
     <a href="#" onclick="showSection('landing'); return false;">Home</a>
+    <a href="#" onclick="showProgressDashboard(); return false;" id="nav-progress" style="display:none;">Progress</a>
     <a href="https://github.com/samriegel/ai-curriculum" target="_blank" rel="noopener">GitHub</a>
     <a href="https://www.linkedin.com/in/sam-riegel/" target="_blank" rel="noopener">Author</a>
   </div>
 </nav>
+
+<div class="toast-container" id="toastContainer"></div>
 
 <!-- LANDING -->
 <div id="landing" class="section active">
@@ -455,8 +825,9 @@
       </div>
     </div>
     <button class="btn btn-primary" onclick="startQuiz()">Take the Assessment</button>
-    <div style="margin-top: 16px;">
+    <div style="margin-top: 16px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
       <button class="btn btn-ghost" onclick="showTrackPicker()">Skip quiz — choose a track</button>
+      <button class="btn btn-ghost" onclick="showChat()">Not sure? Tell us about yourself</button>
     </div>
   </div>
 </div>
@@ -484,6 +855,55 @@
   <div class="quiz-container">
     <h2 class="quiz-question" style="margin-bottom:24px;">Choose Your Track</h2>
     <div class="quiz-options" id="trackOptions"></div>
+  </div>
+</div>
+
+<!-- PROGRESS DASHBOARD -->
+<div id="progressDashboard" class="section">
+  <div class="prog-section" id="progContent"></div>
+</div>
+
+<!-- DEEP DIVE -->
+<div id="deepdive" class="section">
+  <div class="deepdive" id="deepdiveContent"></div>
+</div>
+
+<!-- CHAT -->
+<div id="chat" class="section">
+  <div class="chat-section">
+    <button class="deepdive-back" onclick="showSection('landing')">← Back to home</button>
+    <div class="chat-header">
+      <div class="cortex-badge" style="margin: 0 auto 16px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        Track Advisor
+      </div>
+      <h2>Tell us about yourself</h2>
+      <p>Describe your background, goals, or situation. The advisor will suggest the right track or a custom blend — no account needed, works offline.</p>
+    </div>
+
+    <div style="margin-bottom: 12px;">
+      <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 10px;">Quick-start personas</div>
+      <div class="chat-personas" id="chatPersonas"></div>
+    </div>
+
+    <div class="chat-window">
+      <div class="chat-titlebar">
+        <div class="chat-titlebar-dots">
+          <span style="background: #ff5f57"></span>
+          <span style="background: #ffbd2e"></span>
+          <span style="background: #28ca41"></span>
+        </div>
+        <span class="chat-titlebar-name">AI Curriculum Advisor</span>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input-area">
+        <textarea class="chat-input" id="chatInput" placeholder="Describe your background and what you want to learn..." rows="1"
+          onkeydown="handleChatKey(event)" oninput="autoResizeTextarea(this)"></textarea>
+        <button class="chat-send" id="chatSendBtn" onclick="sendChatMessage()" title="Send">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1183,10 +1603,11 @@ function showResults() {
     </div>
     <div class="results-actions">
       <button class="btn btn-primary" onclick="showSchedule()">View Your Schedule</button>
+      <button class="btn btn-secondary" onclick="showDeepDive('${selectedTrack}','results')">Deep Dive Guide</button>
       <button class="btn btn-ghost" onclick="startQuiz()">Retake Quiz</button>
     </div>
     <div style="margin-top: 24px; text-align: center;">
-      <p style="font-size: 13px; color: var(--text-muted);">Not the right fit? <a href="#" onclick="showTrackPicker(); return false;" style="color: var(--accent);">Choose a different track</a></p>
+      <p style="font-size: 13px; color: var(--text-muted);">Not the right fit? <a href="#" onclick="showTrackPicker(); return false;" style="color: var(--accent);">Choose a different track</a> · <a href="#" onclick="showChat(); return false;" style="color: var(--accent);">Describe your situation</a></p>
     </div>
   `;
 
@@ -1235,7 +1656,10 @@ function showSchedule() {
   let html = `
     <div class="retake-bar">
       <span>Track: <strong style="color: ${track.color}">${track.name}</strong> · ${track.duration} weeks · ${track.hoursPerWeek} hrs/week</span>
-      <button class="btn btn-ghost" onclick="showTrackPicker()">Change Track</button>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-ghost" onclick="showDeepDive('${selectedTrack}','schedule')">Track Guide</button>
+        <button class="btn btn-ghost" onclick="showTrackPicker()">Change Track</button>
+      </div>
     </div>
 
     <div class="progress-bar-container">
@@ -1306,15 +1730,6 @@ function toggleWeek(wi) {
   const header = days.previousElementSibling;
   days.classList.toggle('hidden');
   header.classList.toggle('collapsed');
-}
-
-function toggleDay(track, wi, di) {
-  const progress = getProgress();
-  if (!progress[track]) progress[track] = {};
-  const key = `${wi}-${di}`;
-  progress[track][key] = !progress[track][key];
-  saveProgress(progress);
-  showSchedule();
 }
 
 // ============================================================
@@ -1502,14 +1917,1560 @@ function closeModal() {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closePanel(); } });
 
 // ============================================================
-// INIT
+// DEEP DIVE DATA
+// ============================================================
+
+const DEEP_DIVES = {
+  explorer: {
+    philosophy: [
+      'The Explorer track exists because the most consequential decisions about AI in the next decade will be made by people who will never write a line of code. Executives, policymakers, educators, journalists, and managers are already making choices — about which AI tools to buy, which to allow, how to communicate about them — often without the conceptual vocabulary to evaluate those choices well. This track is designed to fix that.',
+      'The pedagogy here is deliberately non-technical but not shallow. We believe you can understand what a neural network is, how AI learns, why it fails, and what alignment means — without ever touching Python. The curriculum builds mental models rather than skills, and it does so in a specific sequence: capabilities first, then mechanics, then tools, then ethics, then strategy. You cannot evaluate AI responsibly until you know what it actually can and cannot do.',
+      'Each week builds on the last in a way that mirrors how organizations actually adopt AI: you start with understanding, move to tool use, then to team workflows, then to vendor evaluation, and finally to forward planning. By the end, you should be the most AI-literate person in most rooms — able to ask the right questions, detect the hype, and make better decisions.'
+    ],
+    concepts: [
+      { title: 'Prediction vs Intelligence', desc: 'AI as a drop in the cost of prediction — the Agrawal/Gans/Goldfarb frame that clarifies what AI is actually good at.' },
+      { title: 'Training and Data', desc: 'How models learn from examples. Why the data determines the model. Why bias in data becomes bias in output.' },
+      { title: 'Capabilities and Limits', desc: 'What current AI does well (pattern matching, generation, classification) and where it fails (reasoning, planning, novel situations).' },
+      { title: 'Prompt Engineering', desc: 'The craft of communicating with language models. Specificity, examples, roles, and structured output.' },
+      { title: 'AI Ethics Frameworks', desc: 'How Anthropic, Google, and regulators think about safe AI. The EU AI Act risk classification system.' },
+      { title: 'Organizational Adoption', desc: 'Why AI transformation is a people problem more than a technology problem. Change management and augmentation vs automation.' },
+      { title: 'Vendor Evaluation', desc: 'How to assess AI products rigorously: claims, data practices, risk categories, and what questions to always ask.' },
+      { title: 'Personal AI Strategy', desc: 'Building a deliberate, specific plan for how you will and will not use AI in your own work.' }
+    ],
+    readingOrder: [
+      { title: 'Prediction Machines (Agrawal, Gans & Goldfarb)', rationale: 'The conceptual frame comes first. Once you understand AI as prediction technology, everything else clicks.' },
+      { title: 'Stanford HAI AI Index 2024', rationale: 'The data-driven reality check. Read after Prediction Machines to ground the theory in current capabilities.' },
+      { title: '3Blue1Brown Neural Network Series', rationale: 'The one technical resource. Watch this before the ethics section so you understand what you\'re evaluating.' },
+      { title: 'Anthropic Prompt Engineering Docs', rationale: 'Practical skill-building in week 3. Read this before the automation and tools weeks.' },
+      { title: 'Google AI Principles + EU AI Act Overview', rationale: 'Ethics before strategy. You need the framework before you can make good organizational decisions.' },
+      { title: 'Superminds (Malone)', rationale: 'The organizational lens. Read after the individual tool weeks to understand collective-level implications.' },
+      { title: 'NIST AI Risk Management Framework', rationale: 'Vendor evaluation needs this foundation. Read before the evaluation exercises in weeks 6-7.' },
+      { title: 'Superagency (Hoffman)', rationale: 'The capstone provocation. Best read after you\'ve formed your own opinions, not before.' }
+    ],
+    assessment: [
+      { icon: '🎯', title: 'Vocabulary test', desc: 'You can explain to a non-technical colleague what a language model is, why AI can be biased, and what a hallucination is — without using jargon.' },
+      { icon: '🔍', title: 'Vendor evaluation', desc: 'Given an AI product pitch, you can identify at least 5 questions the vendor should answer before you proceed.' },
+      { icon: '📋', title: 'Strategy document', desc: 'You have a written personal AI strategy specifying what you will use AI for, what you will not, and why.' },
+      { icon: '⚖️', title: 'Ethics reasoning', desc: 'You can explain a real AI ethics dilemma — not with a slogan, but by naming the tradeoffs and who bears the risk.' },
+      { icon: '🏢', title: 'Organizational framing', desc: 'You can make the case for how to introduce one AI workflow change to a skeptical team, addressing the most common objections.' }
+    ],
+    bridge: {
+      title: 'Ready for the Practitioner Track?',
+      desc: 'The Practitioner track assumes everything in Explorer and builds on it. You\'ll move from conceptual understanding to hands-on workflow integration — building custom AI tools, designing automation pipelines, and developing real evaluation skills.',
+      items: [
+        'Get comfortable with ChatGPT or Claude at a daily-use level before moving up',
+        'Try one automation (Zapier or Make) connecting an AI tool to something in your workflow',
+        'Read the Anthropic prompt engineering docs in full, not just the overview',
+        'The Practitioner track requires 4-6 hours per week — make sure that\'s realistic'
+      ]
+    },
+    community: [
+      { type: 'Newsletter', name: 'The Rundown AI', desc: 'Daily 5-minute AI news brief. Excellent signal-to-noise ratio for non-technical readers.', url: 'https://www.therundown.ai/' },
+      { type: 'Newsletter', name: 'Import AI (Jack Clark)', desc: 'Weekly technical-but-accessible AI research digest. Bridges Explorer and Practitioner.', url: 'https://importai.substack.com/' },
+      { type: 'Community', name: 'r/artificial', desc: 'Broad AI discussion community. Good for staying current on tools and general news.', url: 'https://reddit.com/r/artificial' },
+      { type: 'Forum', name: 'LinkedIn AI Groups', desc: 'Search "AI strategy" and "AI leadership" — active communities of practitioners at your level.', url: 'https://www.linkedin.com/' },
+      { type: 'Podcast', name: 'Hard Fork (NYT)', desc: 'Kevin Roose and Casey Newton cover AI and tech accessibly. Good for context and culture.', url: 'https://www.nytimes.com/column/hard-fork' },
+      { type: 'Newsletter', name: 'One Useful Thing (Mollick)', desc: 'Ethan Mollick writes about AI with academic rigor and practical relevance for non-engineers.', url: 'https://www.oneusefulthing.org/' }
+    ]
+  },
+
+  practitioner: {
+    philosophy: [
+      'The Practitioner track exists for a specific person: someone who already uses AI tools and has hit a ceiling. You\'ve used ChatGPT or Claude regularly, you know it\'s useful, but you\'re not sure you\'re getting 20% of what it could do for you. You\'ve written prompts that worked and prompts that failed, without always knowing why. This track is about closing that gap — systematically.',
+      'The pedagogy is skill-stacking. We start with prompt engineering not as a "tip" but as a craft with real principles: chain-of-thought, few-shot examples, structured output, system prompts. From there we move to automation (connecting AI to other tools), data literacy (understanding what AI needs to work well), and evaluation (knowing when to trust it). Each skill builds on the last, and all of them compound.',
+      'What makes this track distinct from just "using AI more" is the deliberate measurement focus. Every major exercise in this curriculum asks you to test, compare, and measure. Did the few-shot prompt actually improve output? How much time did the automation save? What\'s the error rate on your AI-assisted decisions? Practitioners who measure their AI use improve faster than those who don\'t.'
+    ],
+    concepts: [
+      { title: 'Chain-of-Thought Prompting', desc: 'Making AI reason step-by-step before answering. Dramatically improves accuracy on complex tasks.' },
+      { title: 'System Prompts and Personas', desc: 'Setting up AI with a persistent role, style, and constraints. The difference between one-off queries and configured tools.' },
+      { title: 'Few-Shot Examples', desc: 'Showing AI what good output looks like before asking for new output. Often the fastest way to improve results.' },
+      { title: 'Workflow Automation', desc: 'Connecting AI to other tools via Zapier, Make, or n8n. AI as one step in a larger automated system.' },
+      { title: 'Custom GPTs and Projects', desc: 'Building domain-specific AI tools for recurring tasks. Gives your team leverage without requiring engineers.' },
+      { title: 'Data Quality Assessment', desc: 'Understanding how data quality affects AI output. The garbage-in-garbage-out problem at every level.' },
+      { title: 'AI Risk Assessment', desc: 'Systematically identifying what could go wrong with any AI tool before deploying it.' },
+      { title: 'Human-AI Decision Making', desc: 'When to trust AI output and when to override it. How to use AI to sharpen your own judgment, not replace it.' }
+    ],
+    readingOrder: [
+      { title: 'Stanford HAI AI Index 2024', rationale: 'Calibrate your mental model of current capabilities before sharpening your skills against them.' },
+      { title: 'Anthropic Prompt Engineering Docs (full)', rationale: 'The technical foundation for the first three weeks of hands-on practice. Read this as a reference manual, not a narrative.' },
+      { title: 'Google\'s Rules of ML', rationale: 'Even as a non-engineer, this gives you the right mental model for how AI systems behave in production. Read before the automation unit.' },
+      { title: 'Breiman\'s Two Cultures', rationale: 'The philosophical context for data literacy week. Why ML thinks differently from traditional statistics.' },
+      { title: 'Corporate AI Principles (Google + Anthropic)', rationale: 'Read in the ethics week as a comparative exercise — not for inspiration but for critical analysis.' },
+      { title: 'NIST AI RMF + OWASP Top 10 for LLMs', rationale: 'The security and evaluation weeks. These two documents together give you a complete risk vocabulary.' },
+      { title: 'Power and Prediction (Agrawal et al.)', rationale: 'The decision-making unit. Chapters 3-5 are the most relevant — read after you have practical experience to contextualize the economics.' },
+      { title: 'Superagency (Hoffman)', rationale: 'The capstone provocation, read last when you have the experience to evaluate its claims critically.' }
+    ],
+    assessment: [
+      { icon: '🔧', title: 'Prompt library', desc: 'You have a documented library of 10+ tested prompt templates for your specific work, with notes on what each does and doesn\'t do well.' },
+      { icon: '⚙️', title: 'Working automation', desc: 'You\'ve shipped at least one AI-powered automation that saves you real time on a recurring task.' },
+      { icon: '🛡️', title: 'Risk assessment', desc: 'You can write a one-paragraph risk assessment for any AI tool, covering data practices, failure modes, and mitigations.' },
+      { icon: '📊', title: 'Measurement baseline', desc: 'You have before/after measurements for at least one AI-enhanced workflow: time, quality, or error rate.' },
+      { icon: '🤝', title: 'Team adoption', desc: 'You\'ve successfully introduced at least one AI tool or workflow to your team, including training and a simple policy.' }
+    ],
+    bridge: {
+      title: 'Ready for the Builder Track?',
+      desc: 'The Builder track requires programming experience. Before jumping in, you need to be comfortable writing Python (or at least reading it), understand basic APIs, and be willing to write code. If you\'re not there yet, consider the No-Code week in Practitioner as a bridge.',
+      items: [
+        'Complete at least one coding tutorial — Python for Everybody or CS50 work well',
+        'Get an Anthropic API key and make one API call with the Python SDK',
+        'Understand JSON: how to read it, write it, and why AI APIs use it',
+        'The Builder track is 6-10 hours per week — a significant step up from Practitioner'
+      ]
+    },
+    community: [
+      { type: 'Community', name: 'Lenny\'s Newsletter Community', desc: 'Product and operator-focused AI discussion. Practical, not hype-driven.', url: 'https://www.lennysnewsletter.com/' },
+      { type: 'Discord', name: 'Prompt Engineers Guild', desc: 'Active Discord focused on practical prompting techniques and workflow automation.', url: 'https://discord.gg/promptengineers' },
+      { type: 'Newsletter', name: 'AI Breakfast', desc: 'Daily practical AI news for operators and practitioners. Less technical than research digests.', url: 'https://aibreakfast.beehiiv.com/' },
+      { type: 'Community', name: 'r/PromptEngineering', desc: 'Subreddit for prompt techniques, examples, and critiques. Good for specific pattern questions.', url: 'https://reddit.com/r/PromptEngineering' },
+      { type: 'Newsletter', name: 'Ben\'s Bites', desc: 'Daily AI tool discoveries. Good for staying current on the practitioner tool ecosystem.', url: 'https://bensbites.beehiiv.com/' },
+      { type: 'Slack', name: 'Women in AI (open to all)', desc: 'Strong practitioner community with a focus on application rather than theory.', url: 'https://www.womeninai.co/' }
+    ]
+  },
+
+  builder: {
+    philosophy: [
+      'The Builder track exists because there is a gap between "software engineer" and "AI engineer" that no individual course adequately bridges. You know how to build software. You understand APIs, databases, deployment pipelines, and production concerns. What you don\'t yet have is the ability to reason clearly about when to use AI, how to architect around it, how to evaluate it, and how to make it behave reliably. This curriculum builds that reasoning.',
+      'The pedagogy is deliberately layered: fundamentals before applications. We start with ML foundations and deep learning not because you\'ll be training frontier models — you won\'t — but because understanding backpropagation, training dynamics, and architecture tradeoffs is what separates engineers who reach for AI reflexively from those who reach for it precisely. The transformer unit exists here for the same reason you should understand TCP/IP even if you just call socket.connect().',
+      'The practical half of the curriculum — RAG, agents, fine-tuning, MLOps, security — is built around real projects rather than toy examples. Every week has a shipping goal. By week 12, you should have multiple real AI-powered systems running in production, an evaluation pipeline, a security posture, and the vocabulary to have informed conversations with ML researchers about what\'s possible and what isn\'t.'
+    ],
+    concepts: [
+      { title: 'Gradient Descent and Backprop', desc: 'How neural networks actually learn. Understanding this prevents cargo-culting and enables debugging.' },
+      { title: 'Transformer Architecture', desc: 'Attention, multi-head attention, positional encoding, FFN layers. The substrate under every modern LLM.' },
+      { title: 'RAG Architecture', desc: 'Retrieval-augmented generation: embedding, chunking, vector search, reranking. The most deployed AI pattern.' },
+      { title: 'Tool Use and Agents', desc: 'Function calling, ReAct loops, multi-agent coordination. Building AI systems that take action.' },
+      { title: 'Fine-Tuning and LoRA', desc: 'Adapting pre-trained models to specific domains. When to fine-tune vs. prompt vs. RAG.' },
+      { title: 'MLOps and Monitoring', desc: 'Deployment, drift detection, A/B testing, logging for AI systems. Production ML is harder than production software.' },
+      { title: 'LLM Security (OWASP)', desc: 'Prompt injection, data extraction, jailbreaks, and defenses. Security posture for AI applications.' },
+      { title: 'Evaluation Methodology', desc: 'LLM-as-judge, human eval, automated regression. How to know if your AI system is getting better or worse.' }
+    ],
+    readingOrder: [
+      { title: 'Breiman\'s Two Cultures + 3Blue1Brown Series', rationale: 'Week 1. The philosophical and visual foundations before you write a line of ML code.' },
+      { title: 'fast.ai Lessons 1-3', rationale: 'Weeks 2-3. Jeremy Howard\'s top-down approach gets you building real systems before the theory slows you down.' },
+      { title: 'Attention Is All You Need + Karpathy GPT video', rationale: 'Week 4. The foundational paper and its best explanation. Do both — they\'re complementary, not redundant.' },
+      { title: 'Lilian Weng\'s Agent Architecture Post', rationale: 'Weeks 6-7. The definitive technical blog post on modern AI architectures. More current than any book.' },
+      { title: 'Designing ML Systems (Chip Huyen)', rationale: 'Weeks 3 and 9. The production-ML bible. Read chapters 1-3 early for framing, 7-9 during MLOps week.' },
+      { title: 'OWASP Top 10 for LLMs + NIST AI 100-2', rationale: 'Week 11 security week. These two together give you the full threat model.' },
+      { title: 'Constitutional AI (Anthropic)', rationale: 'Week 8 and week 12. First as training methodology, then as ethics framework. Two readings, two purposes.' },
+      { title: 'HuggingFace NLP Course', rationale: 'Runs parallel to weeks 4 and 8. The practical complement to the theoretical readings.' }
+    ],
+    assessment: [
+      { icon: '🏗️', title: 'Working RAG system', desc: 'A deployed RAG pipeline with documented chunking strategy, retrieval evaluation, and LLM-as-judge scoring.' },
+      { icon: '🤖', title: 'Functioning agent', desc: 'An agent with at least 3 tools that completes a non-trivial real-world task reliably, with safety guardrails.' },
+      { icon: '🔒', title: 'Security audit', desc: 'You\'ve red-teamed your own AI application against all 10 OWASP LLM vulnerabilities and documented your defenses.' },
+      { icon: '📈', title: 'Production deployment', desc: 'At least one AI service running in production with monitoring, logging, health checks, and an alerting strategy.' },
+      { icon: '🧪', title: 'Eval pipeline', desc: 'An automated evaluation pipeline that tests regressions — you can tell if a prompt or model change makes things worse.' }
+    ],
+    bridge: {
+      title: 'Ready for the Researcher Track?',
+      desc: 'The Researcher track requires strong mathematical foundations (linear algebra, calculus, probability theory at an undergraduate level) and the ability to read primary ML papers fluently. Before moving up, make sure you can read a paper like "Attention Is All You Need" and understand every equation.',
+      items: [
+        'Work through Goodfellow Chapters 2-4 before starting Researcher — these are assumed background',
+        'Read 5 recent ML papers end-to-end and reproduce at least one result from scratch',
+        'Complete the full Karpathy Zero to Hero series if you haven\'t',
+        'The Researcher track is 10+ hours per week — this is a serious academic commitment'
+      ]
+    },
+    community: [
+      { type: 'Discord', name: 'Latent Space', desc: 'The best AI engineer community. Mix of practitioners, founders, and researchers.', url: 'https://discord.gg/latentspace' },
+      { type: 'Newsletter', name: 'The Pragmatic Engineer (Gergely)', desc: 'Covers AI engineering trends through an engineering lens. Not hype-driven.', url: 'https://newsletter.pragmaticengineer.com/' },
+      { type: 'Newsletter', name: 'LangChain Blog', desc: 'Practical patterns for LLM applications. Architecture posts are high signal.', url: 'https://blog.langchain.dev/' },
+      { type: 'Community', name: 'HuggingFace Forums', desc: 'Model-specific help, fine-tuning questions, integration issues. Active and expert.', url: 'https://discuss.huggingface.co/' },
+      { type: 'Newsletter', name: 'AI Alignment Forum', desc: 'Safety and alignment discussion that crosses from Builder into Researcher territory.', url: 'https://www.alignmentforum.org/' },
+      { type: 'Discord', name: 'EleutherAI', desc: 'Open-source ML research community. Active in training, evaluation, and interpretability.', url: 'https://discord.gg/eleutherai' }
+    ]
+  },
+
+  researcher: {
+    philosophy: [
+      'The Researcher track exists for people who want to contribute to AI, not just use it. It assumes you can code, have reasonable mathematical background, and want to understand AI systems at the level of their mathematical foundations — not just their behavior. The curriculum is explicitly modeled on what a strong ML PhD student should know at the end of their first year, but compressed and made self-directed.',
+      'The pedagogy is bottom-up and cumulative. We start with mathematics (linear algebra, probability, optimization) because every other layer depends on it. The temptation in AI education is to start with cool applications and derive theory as needed — this track resists that. If you want to read recent papers fluently, conduct novel experiments, and reason about what\'s possible at the frontier, you need the foundations to be robust. Gaps in mathematical background propagate into gaps in research intuition.',
+      'The final weeks of this track are designed to be genuinely research-grade. The capstone is a real research project — not a homework assignment with a known answer but an open question with a proposed approach, experiments, analysis, and a written paper. We include consciousness and philosophy deliberately, not as dilettantism, but because the most important questions in AI safety and alignment ultimately touch these questions, and researchers who have never engaged with them seriously are at a disadvantage.'
+    ],
+    concepts: [
+      { title: 'Matrix Calculus and Optimization', desc: 'Gradients in high dimensions, Hessians, SGD convergence theory. The mathematical machinery behind all of deep learning.' },
+      { title: 'Information Theory', desc: 'Entropy, KL divergence, mutual information. Training objectives and evaluation metrics derive from these.' },
+      { title: 'Scaling Laws', desc: 'Kaplan et al. — how performance scales with compute, data, and parameters. The empirical laws that drove the LLM era.' },
+      { title: 'RLHF and Alignment Training', desc: 'Reward modeling, PPO, DPO, Constitutional AI. How values get encoded into model behavior through training.' },
+      { title: 'Mechanistic Interpretability', desc: 'Circuits, features, superposition. Understanding what happens inside neural networks at the component level.' },
+      { title: 'Evaluation Methodology', desc: 'Benchmark design, LLM-as-judge, red teaming, capability elicitation. The hard problem of measuring what you care about.' },
+      { title: 'Post-Transformer Architectures', desc: 'Mamba, RWKV, RetNet, Flash Attention. The active research frontier beyond the standard transformer.' },
+      { title: 'AI Safety Formal Concepts', desc: 'Outer/inner alignment, mesa-optimization, deceptive alignment, scalable oversight. The formal vocabulary of alignment research.' }
+    ],
+    readingOrder: [
+      { title: 'Goodfellow et al. (Chapters 2-5)', rationale: 'Months 1-2. The mathematical foundations must come first. Don\'t shortcut this — weaknesses here compound into every later week.' },
+      { title: 'Breiman\'s Two Cultures', rationale: 'Week 2. The philosophical context. Researchers need to understand the field\'s internal debates about what ML is for.' },
+      { title: 'Karpathy: Neural Networks Zero to Hero (full series)', rationale: 'Weeks 4-5. After the theory, you need to build everything from scratch. Karpathy\'s series is the bridge.' },
+      { title: 'Attention Is All You Need + post-transformer survey', rationale: 'Week 5. Line-by-line. Then immediately the follow-on architectures that address its limitations.' },
+      { title: 'Scaling Laws (Kaplan et al.)', rationale: 'Week 6. The paper that changed the field\'s trajectory. Essential context for everything that followed.' },
+      { title: 'Constitutional AI + RLHF literature', rationale: 'Week 7. The training pipeline papers. Read these as methodology, not just policy.' },
+      { title: 'Anthropic Interpretability Research', rationale: 'Week 8. The most active technical area in alignment. Read the circuits papers and superposition hypothesis.' },
+      { title: 'Recent breakthroughs (arXiv, past 6 months)', rationale: 'Weeks 13-14. By this point you have the foundations to read frontier papers. This is when you start your research.' }
+    ],
+    assessment: [
+      { icon: '📐', title: 'Mathematical fluency', desc: 'You can derive backpropagation from first principles, implement an optimizer from scratch, and explain why Adam converges faster than SGD.' },
+      { icon: '📄', title: 'Paper reproduction', desc: 'You\'ve reproduced the key result from a recent ML paper — implemented from scratch, not cloned from a repo.' },
+      { icon: '🔬', title: 'Original experiment', desc: 'You\'ve run an experiment that answers a question not in any existing paper, with proper controls and analysis.' },
+      { icon: '✍️', title: 'Research paper', desc: 'You\'ve written a research paper with abstract, related work, method, experiments, discussion — in correct academic format.' },
+      { icon: '🧭', title: 'Research agenda', desc: 'You have a written 6-month research agenda with 3 specific questions, proposed approaches, and a failure analysis for each.' }
+    ],
+    bridge: {
+      title: 'Beyond the Researcher Track',
+      desc: 'If you\'ve completed the Researcher track, you are ready for active research participation. The next steps are about community integration and original contribution rather than more structured learning.',
+      items: [
+        'Submit to a workshop at NeurIPS, ICML, or ICLR — the review process teaches you more than any curriculum',
+        'Replicate a paper and publish your replication report (ML reproducibility is a valued contribution)',
+        'Join an alignment or interpretability research group — MIRI, Anthropic\'s alignment team, or academic labs are all open to strong candidates',
+        'Start reading arXiv preprints daily — subscribe to cs.LG, cs.CL, and stat.ML feeds',
+        'Contribute to open-source ML projects (EleutherAI, HuggingFace) to build a public record'
+      ]
+    },
+    community: [
+      { type: 'Forum', name: 'AI Alignment Forum', desc: 'The primary venue for alignment research discussion. Essential reading for safety researchers.', url: 'https://www.alignmentforum.org/' },
+      { type: 'Discord', name: 'EleutherAI', desc: 'Open-source ML research community. Active training runs, evaluations, and interpretability work.', url: 'https://discord.gg/eleutherai' },
+      { type: 'Newsletter', name: 'Interconnects (Nathan Lambert)', desc: 'RLHF and alignment research explained by a researcher. High technical depth.', url: 'https://www.interconnects.ai/' },
+      { type: 'Forum', name: 'LessWrong', desc: 'Rationality and AI safety discourse. More philosophical than empirical but essential background.', url: 'https://www.lesswrong.com/' },
+      { type: 'Newsletter', name: 'The Gradient', desc: 'Long-form ML research explainers and interviews. Bridges academic research and broader awareness.', url: 'https://thegradient.pub/' },
+      { type: 'Community', name: 'arXiv cs.LG / cs.CL', desc: 'The actual frontier. Set up email alerts for your specific research topics and author names.', url: 'https://arxiv.org/list/cs.LG/recent' }
+    ]
+  }
+};
+
+// ============================================================
+// DEEP DIVE RENDERER
+// ============================================================
+
+function showDeepDive(trackKey, fromContext) {
+  const track = TRACKS[trackKey];
+  const dd = DEEP_DIVES[trackKey];
+  const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444' };
+  const color = trackColors[trackKey] || track.color;
+
+  const conceptsHtml = dd.concepts.map(c => `
+    <div class="dd-concept-card">
+      <h4>${c.title}</h4>
+      <p>${c.desc}</p>
+    </div>
+  `).join('');
+
+  const readingHtml = dd.readingOrder.map((r, i) => `
+    <div class="dd-reading-step">
+      <div class="dd-step-num" style="border-color: ${color}; color: ${color};">${i + 1}</div>
+      <div class="dd-step-content">
+        <h4>${r.title}</h4>
+        <p class="dd-rationale">${r.rationale}</p>
+      </div>
+    </div>
+  `).join('');
+
+  const assessmentHtml = dd.assessment.map(a => `
+    <div class="dd-assessment-item">
+      <div class="dd-assessment-icon">${a.icon}</div>
+      <div>
+        <h4>${a.title}</h4>
+        <p>${a.desc}</p>
+      </div>
+    </div>
+  `).join('');
+
+  const communityHtml = dd.community.map(c => `
+    <div class="dd-community-card">
+      <div class="dd-community-type">${c.type}</div>
+      <h4>${c.name}</h4>
+      <p>${c.desc}</p>
+      ${c.url ? `<a href="${c.url}" target="_blank" rel="noopener">Visit →</a>` : ''}
+    </div>
+  `).join('');
+
+  // fromContext: 'schedule', 'results', 'chat' — defaults to results if unset
+  const ctx = fromContext || (selectedTrack === trackKey ? 'results' : 'results');
+  const backLabel = ctx === 'schedule' ? '← Back to schedule' : ctx === 'chat' ? '← Back to advisor' : '← Back to results';
+  const backAction = ctx === 'schedule' ? 'showSchedule()' : ctx === 'chat' ? 'showChat()' : 'showResults()';
+
+  const html = `
+    <button class="deepdive-back" onclick="${backAction}">${backLabel}</button>
+
+    <div class="deepdive-hero">
+      <div class="cortex-badge" style="margin-bottom: 12px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Track Guide
+      </div>
+      <h2 style="color: ${color};">${track.name} Track — Deep Dive</h2>
+      <div class="dd-meta">
+        <span>${track.duration} weeks</span>
+        <span>${track.hoursPerWeek} hours/week</span>
+        <span>${track.weeks.reduce((s, w) => s + w.days.length, 0)} activities</span>
+      </div>
+      ${dd.philosophy.map(p => `<p>${p}</p>`).join('')}
+    </div>
+
+    <div class="dd-section">
+      <div class="dd-section-title">Key Concepts Map</div>
+      <div class="dd-concepts-grid">${conceptsHtml}</div>
+    </div>
+
+    <div class="dd-section">
+      <div class="dd-section-title">Recommended Reading Order</div>
+      <div class="dd-reading-path">${readingHtml}</div>
+    </div>
+
+    <div class="dd-section">
+      <div class="dd-section-title">Assessment Criteria — How You Know You're Done</div>
+      <div class="dd-assessment">${assessmentHtml}</div>
+    </div>
+
+    <div class="dd-section">
+      <div class="dd-section-title">Bridge to Next Level</div>
+      <div class="dd-bridge">
+        <h4>${dd.bridge.title}</h4>
+        <p>${dd.bridge.desc}</p>
+        <ul>${dd.bridge.items.map(i => `<li>${i}</li>`).join('')}</ul>
+      </div>
+    </div>
+
+    <div class="dd-section">
+      <div class="dd-section-title">Community Resources</div>
+      <div class="dd-community">${communityHtml}</div>
+    </div>
+
+    <div class="dd-cta">
+      <button class="btn btn-primary" onclick="${backAction}">
+        ${ctx === 'schedule' ? 'Back to Schedule' : ctx === 'chat' ? 'Back to Advisor' : 'Back to Results'}
+      </button>
+      <button class="btn btn-secondary" onclick="showSchedule()">View Schedule</button>
+    </div>
+  `;
+
+  document.getElementById('deepdiveContent').innerHTML = html;
+  showSection('deepdive');
+}
+
+// ============================================================
+// CHAT — RULE-BASED TRACK ADVISOR
+// ============================================================
+
+const CHAT_PERSONAS = [
+  { label: 'Product Manager', hint: 'AI literacy for product decisions', text: "I'm a product manager who wants to understand AI well enough to make better product decisions and talk intelligently with engineers. I don't need to code, but I need to stop feeling like I'm guessing." },
+  { label: 'Designer', hint: 'Exploring AI creative tools', text: "I'm a UX/product designer interested in how AI is changing design workflows. I want to use AI tools more effectively and understand what AI-generated content means for my work." },
+  { label: 'Data Analyst', hint: 'Bridging analytics and ML', text: "I'm a data analyst comfortable with SQL and Excel, some Python. I want to move into machine learning and understand how to build AI-powered features, not just run reports." },
+  { label: 'Teacher / Educator', hint: 'Incorporating AI in the classroom', text: "I'm a teacher trying to understand AI so I can use it in my classroom and help students navigate it responsibly. I want practical understanding, not technical depth." },
+  { label: 'Executive', hint: 'Strategic AI understanding', text: "I'm a C-suite executive who needs to make AI strategy decisions for my organization. I need to cut through the hype, ask the right questions of vendors, and set good policy without getting deep into the technology." },
+  { label: 'Journalist', hint: 'Covering AI accurately', text: "I'm a journalist who covers technology and needs to understand AI well enough to report on it accurately. I want to understand what's real vs hype and be able to evaluate AI company claims." },
+  { label: 'Healthcare Pro', hint: 'AI in clinical/health contexts', text: "I work in healthcare and AI is coming into my field fast. I want to understand clinical AI, how to evaluate AI diagnostic tools, and what the regulatory picture looks like." },
+  { label: 'Legal Professional', hint: 'AI, law, and compliance', text: "I'm a lawyer or legal professional. AI is affecting my practice and my clients. I want to understand how these systems work at a conceptual level and understand the regulatory landscape." },
+  { label: 'Student', hint: 'Getting started in AI', text: "I'm a student (college or recent grad) who wants to build AI skills for my career. I'm willing to put in the time and learn to code if needed. Where do I start?" }
+];
+
+const KEYWORD_RULES = [
+  // Technical / builder signals
+  { keywords: ['code', 'coding', 'python', 'javascript', 'typescript', 'developer', 'engineer', 'programming', 'software', 'deploy', 'api', 'backend', 'frontend', 'github', 'production', 'build apps', 'building apps'], track: 'builder', weight: 4 },
+  { keywords: ['machine learning', 'ml', 'deep learning', 'neural network', 'pytorch', 'tensorflow', 'keras', 'huggingface', 'fine-tune', 'train a model', 'model training', 'gradient'], track: 'builder', weight: 3 },
+  // Researcher signals
+  { keywords: ['research', 'phd', 'paper', 'arxiv', 'academic', 'university', 'thesis', 'dissertation', 'alignment', 'interpretability', 'theoretical', 'mathematics', 'math', 'proof'], track: 'researcher', weight: 4 },
+  { keywords: ['transformer', 'attention mechanism', 'rlhf', 'reinforcement learning', 'gradient descent', 'backpropagation', 'scaling laws', 'mechanistic'], track: 'researcher', weight: 3 },
+  // Practitioner signals
+  { keywords: ['prompts', 'prompt engineering', 'chatgpt', 'claude', 'automation', 'workflow', 'zapier', 'notion', 'productivity', 'power user', 'tools', 'daily use', 'regularly'], track: 'practitioner', weight: 4 },
+  { keywords: ['midjourney', 'copilot', 'no-code', 'low-code', 'airtable', 'make.com', 'integrations', 'spreadsheet', 'excel'], track: 'practitioner', weight: 3 },
+  // Explorer signals
+  { keywords: ['executive', 'manager', 'leadership', 'strategy', 'policy', 'decide', 'decisions', 'business', 'organization', 'team', 'understand', 'basics', 'fundamentals'], track: 'explorer', weight: 4 },
+  { keywords: ['journalist', 'writer', 'reporter', 'content', 'media', 'communication', 'teacher', 'educator', 'professor', 'student high school'], track: 'explorer', weight: 3 },
+  { keywords: ['healthcare', 'medical', 'clinical', 'hospital', 'nursing', 'doctor', 'physician', 'legal', 'lawyer', 'attorney', 'compliance', 'regulation'], track: 'explorer', weight: 3 },
+  // Time / experience signals
+  { keywords: ['no coding', 'can\'t code', 'don\'t code', 'not a coder', 'no technical', 'non-technical', 'beginner', 'new to', 'just starting'], track: 'explorer', weight: 3 },
+  { keywords: ['some coding', 'little python', 'basic code', 'scripting', 'can code a bit', 'learning to code'], track: 'practitioner', weight: 2 },
+  { keywords: ['10 hours', 'full time', 'intensive', 'serious commitment', 'deep dive', 'immerse'], track: 'researcher', weight: 2 },
+  { keywords: ['2 hours', '3 hours', 'limited time', 'busy', 'not much time'], track: 'explorer', weight: 2 },
+];
+
+const PERSONA_RECOMMENDATIONS = {
+  'product manager': { primary: 'practitioner', blend: 'explorer', note: 'Product managers need the Practitioner track\'s depth on capabilities and evaluation, combined with Explorer\'s strategy framing.' },
+  'designer': { primary: 'practitioner', blend: null, note: 'Designers benefit most from Practitioner\'s tool fluency and workflow integration. The automation and custom GPT weeks are especially relevant.' },
+  'data analyst': { primary: 'builder', blend: 'practitioner', note: 'With your analytics background, start at Builder but plan to spend extra time on the ML foundations. Your data intuition will accelerate weeks 4-7.' },
+  'teacher': { primary: 'explorer', blend: null, note: 'Explorer is designed for exactly this — deep conceptual understanding without requiring technical skills. The ethics weeks are especially relevant for educators.' },
+  'educator': { primary: 'explorer', blend: null, note: 'Explorer is designed for exactly this — deep conceptual understanding without requiring technical skills. The ethics weeks are especially relevant for educators.' },
+  'executive': { primary: 'explorer', blend: null, note: 'Explorer is built for decision-makers who need to evaluate AI clearly without building it. Focus on weeks 5-7 (strategy and vendor evaluation).' },
+  'c-suite': { primary: 'explorer', blend: null, note: 'Explorer\'s strategy weeks (5-8) are the most valuable for your goals. You can move through weeks 1-4 quickly as foundation.' },
+  'journalist': { primary: 'explorer', blend: 'practitioner', note: 'Explorer gives you the conceptual vocabulary to evaluate AI claims. Add the Practitioner\'s data literacy week for stronger analytical coverage.' },
+  'healthcare': { primary: 'explorer', blend: null, note: 'Explorer gives you the regulatory and ethics depth most relevant to healthcare AI. Weeks 4 (ethics) and 6 (vendor evaluation) are especially important.' },
+  'doctor': { primary: 'explorer', blend: null, note: 'Explorer\'s vendor evaluation and ethics weeks are directly applicable to clinical AI evaluation.' },
+  'lawyer': { primary: 'explorer', blend: null, note: 'Explorer\'s regulation weeks (4, 6) cover the EU AI Act and NIST frameworks directly relevant to legal practice.' },
+  'attorney': { primary: 'explorer', blend: null, note: 'Explorer\'s regulation and ethics content is the right starting point for legal practitioners.' },
+  'student': { primary: 'builder', blend: 'researcher', note: 'If you\'re a student with time to invest, start Builder but keep Researcher as a horizon — you\'re in the best position to go deep.' }
+};
+
+function detectPersona(text) {
+  const lower = text.toLowerCase();
+  for (const [key, rec] of Object.entries(PERSONA_RECOMMENDATIONS)) {
+    if (lower.includes(key)) return rec;
+  }
+  return null;
+}
+
+function scoreText(text) {
+  const lower = text.toLowerCase();
+  const scores = { explorer: 0, practitioner: 0, builder: 0, researcher: 0 };
+  for (const rule of KEYWORD_RULES) {
+    for (const kw of rule.keywords) {
+      if (lower.includes(kw)) {
+        scores[rule.track] = (scores[rule.track] || 0) + rule.weight;
+      }
+    }
+  }
+  return scores;
+}
+
+function rankTracks(scores) {
+  return Object.entries(scores)
+    .sort((a, b) => b[1] - a[1])
+    .map(([k]) => k);
+}
+
+function buildRecommendation(text) {
+  const persona = detectPersona(text);
+  const scores = scoreText(text);
+  const ranked = rankTracks(scores);
+  const topScore = scores[ranked[0]];
+  const secondScore = ranked[1] ? scores[ranked[1]] : 0;
+  const isBlend = topScore > 0 && secondScore > 0 && (topScore - secondScore) < 4;
+
+  if (persona) {
+    return {
+      primary: persona.primary,
+      blend: persona.blend,
+      note: persona.note,
+      isPersonaMatch: true
+    };
+  }
+
+  if (topScore === 0) {
+    return {
+      primary: 'explorer',
+      blend: null,
+      note: 'Based on your description, the Explorer track is a safe starting point. It builds conceptual fluency without technical prerequisites and runs 8 weeks at 2-3 hours per week.',
+      isPersonaMatch: false
+    };
+  }
+
+  const blendTrack = isBlend ? ranked[1] : null;
+
+  const notes = {
+    'explorer-practitioner': 'Your description suggests you want conceptual grounding plus real workflow skills. Start with Explorer, then move to Practitioner — they\'re designed to stack.',
+    'practitioner-builder': 'You\'re between power-user and builder. Try the Practitioner track first; if you want to go deeper into code, transition to Builder around week 4-5.',
+    'builder-researcher': 'Strong technical background with research interest. Builder gives you the practical foundation; Researcher builds the theoretical depth above it.',
+    'builder-practitioner': 'Your technical background puts you at Builder, but your goals might be better served by Practitioner\'s workflow focus. Consider your day-to-day goals.',
+    'explorer-researcher': 'Wide gap between these two. Consider starting with Explorer to build vocabulary, then reassess after 4 weeks whether you want to jump to Researcher.',
+  };
+
+  const blendKey = blendTrack ? [ranked[0], ranked[1]].sort().join('-') : null;
+  const note = isBlend && blendKey && notes[blendKey]
+    ? notes[blendKey]
+    : `Your description aligns with the ${TRACKS[ranked[0]].name} track. This recommendation is based on your stated background and goals.`;
+
+  return {
+    primary: ranked[0],
+    blend: blendTrack,
+    note,
+    isPersonaMatch: false
+  };
+}
+
+function buildResponseHTML(rec, userText) {
+  const primary = TRACKS[rec.primary];
+  const blend = rec.blend ? TRACKS[rec.blend] : null;
+  const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444' };
+  const color = trackColors[rec.primary];
+
+  let html = `<p>${rec.note}</p>`;
+
+  html += `<div class="chat-result-card">
+    <div class="crc-track" style="color: ${color};">Recommended Track</div>
+    <div class="crc-name" style="color: ${color};">${primary.name}</div>
+    <div class="crc-desc">${primary.description}</div>
+    <div class="crc-desc" style="margin-top: 8px; font-size: 12px; color: var(--text-muted);">
+      ${primary.duration} weeks · ${primary.hoursPerWeek} hrs/week · ${primary.weeks.reduce((s, w) => s + w.days.length, 0)} activities
+    </div>`;
+
+  if (blend) {
+    const blendColor = trackColors[rec.blend];
+    html += `<div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border);">
+      <div class="crc-track" style="color: ${blendColor};">Also Consider</div>
+      <div class="crc-name" style="font-size: 14px; color: ${blendColor};">${blend.name}</div>
+      <div class="crc-desc">${blend.description}</div>
+    </div>`;
+  }
+
+  html += `<div class="chat-result-actions">
+    <button class="btn btn-primary btn-small" onclick="startWithTrack('${rec.primary}')">Start ${primary.name} Track</button>
+    <button class="btn btn-ghost btn-small" onclick="showDeepDiveFromChat('${rec.primary}')">Read the Full Guide</button>
+    ${blend ? `<button class="btn btn-ghost btn-small" onclick="startWithTrack('${rec.blend}')">Try ${blend.name} Instead</button>` : ''}
+  </div></div>`;
+
+  return html;
+}
+
+let chatHistory = [];
+let chatBotBusy = false;
+
+function showChat() {
+  chatHistory = [];
+  chatBotBusy = false;
+  document.getElementById('chatMessages').innerHTML = '';
+  document.getElementById('chatInput').value = '';
+
+  // Render persona buttons
+  const personasHtml = CHAT_PERSONAS.map((p, i) => `
+    <button class="chat-persona-btn" onclick="useChatPersona(${i})">
+      <span class="chat-persona-label">${p.label}</span>
+      <span class="chat-persona-hint">${p.hint}</span>
+    </button>
+  `).join('');
+  document.getElementById('chatPersonas').innerHTML = personasHtml;
+
+  showSection('chat');
+
+  // Initial bot message
+  setTimeout(() => {
+    addBotMessage(`<p>Hi! I'm the Cortex Track Advisor. Tell me about your background, your goals, and how much time you have — I'll recommend the right learning path.</p><p>You can also pick a quick-start persona above, or just describe your situation in your own words.</p>`);
+  }, 300);
+}
+
+function useChatPersona(idx) {
+  const persona = CHAT_PERSONAS[idx];
+  document.getElementById('chatInput').value = persona.text;
+  autoResizeTextarea(document.getElementById('chatInput'));
+  document.getElementById('chatInput').focus();
+}
+
+function addBotMessage(html) {
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-bubble bot';
+  div.innerHTML = html;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addUserMessage(text) {
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-bubble user';
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTypingIndicator() {
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-typing';
+  div.id = 'chatTyping';
+  div.innerHTML = '<span></span><span></span><span></span>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeTypingIndicator() {
+  const t = document.getElementById('chatTyping');
+  if (t) t.remove();
+}
+
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendChatMessage();
+  }
+}
+
+function autoResizeTextarea(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function sendChatMessage() {
+  if (chatBotBusy) return;
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  autoResizeTextarea(input);
+  chatBotBusy = true;
+  document.getElementById('chatSendBtn').disabled = true;
+
+  addUserMessage(text);
+  chatHistory.push({ role: 'user', text });
+
+  showTypingIndicator();
+
+  // Simulate a short thinking pause
+  const delay = 600 + Math.random() * 800;
+  setTimeout(() => {
+    removeTypingIndicator();
+    const rec = buildRecommendation(chatHistory.map(m => m.text).join(' '));
+    const responseHTML = buildResponseHTML(rec, text);
+    addBotMessage(responseHTML);
+    chatHistory.push({ role: 'bot', rec });
+
+    // Follow-up offer
+    setTimeout(() => {
+      const followUps = [
+        'Want me to explain the difference between any two tracks?',
+        'Would it help to see a sample week from the recommended track?',
+        'If you\'d like to refine the recommendation, tell me more about your coding experience or weekly time budget.'
+      ];
+      const follow = followUps[Math.floor(Math.random() * followUps.length)];
+      addBotMessage(`<p style="color: var(--text-muted); font-size: 13px;">${follow}</p>`);
+
+      chatBotBusy = false;
+      document.getElementById('chatSendBtn').disabled = false;
+    }, 800);
+  }, delay);
+}
+
+function startWithTrack(trackKey) {
+  selectedTrack = trackKey;
+  saveTrack(trackKey);
+  showResults();
+}
+
+function showDeepDiveFromChat(trackKey) {
+  selectedTrack = trackKey;
+  saveTrack(trackKey);
+  showDeepDive(trackKey, 'chat');
+}
+
+// ============================================================
+// INTERESTS & ADAPTIVE TRACKING
+// ============================================================
+
+function getInterests() {
+  try { return JSON.parse(localStorage.getItem('ai-curriculum-interests') || 'null') || { types: {read:0,watch:0,do:0,discuss:0,reflect:0}, topics: {}, completionTimes: {}, streak: {current:0, best:0, lastDate:null}, weeklyGoal: 4, heatmap: {}, badges: [] }; } catch { return { types: {read:0,watch:0,do:0,discuss:0,reflect:0}, topics: {}, completionTimes:{}, streak:{current:0,best:0,lastDate:null}, weeklyGoal:4, heatmap:{}, badges:[] }; }
+}
+
+function saveInterests(interests) {
+  localStorage.setItem('ai-curriculum-interests', JSON.stringify(interests));
+}
+
+function getDateKey(d) {
+  const date = d || new Date();
+  return date.toISOString().slice(0,10);
+}
+
+function trackActivity(trackKey, wi, di, completed) {
+  const track = TRACKS[trackKey];
+  if (!track || !track.weeks[wi] || !track.weeks[wi].days[di]) return;
+  const day = track.weeks[wi].days[di];
+  const interests = getInterests();
+
+  if (completed) {
+    // Track activity type
+    interests.types[day.type] = (interests.types[day.type] || 0) + 1;
+
+    // Track topic (use week title as topic key)
+    const topicKey = track.weeks[wi].title.replace(/\s+/g, '-').toLowerCase();
+    interests.topics[topicKey] = (interests.topics[topicKey] || 0) + 1;
+
+    // Track completion time
+    const now = new Date();
+    const hour = now.getHours();
+    const dateKey = getDateKey(now);
+
+    // Heatmap entry
+    interests.heatmap[dateKey] = (interests.heatmap[dateKey] || 0) + 1;
+
+    // Streak logic
+    const today = dateKey;
+    const last = interests.streak.lastDate;
+    if (last === today) {
+      // same day, no streak change
+    } else if (last) {
+      const lastD = new Date(last);
+      const todayD = new Date(today);
+      const diff = Math.round((todayD - lastD) / 86400000);
+      if (diff === 1) {
+        interests.streak.current += 1;
+      } else if (diff > 1) {
+        interests.streak.current = 1;
+      }
+    } else {
+      interests.streak.current = 1;
+    }
+    interests.streak.lastDate = today;
+    if (interests.streak.current > interests.streak.best) interests.streak.best = interests.streak.current;
+
+    // Spaced repetition for read/watch
+    if (day.type === 'read' || day.type === 'watch') {
+      const reviewKey = `${trackKey}-${wi}-${di}`;
+      const reviews = getReviews();
+      if (!reviews[reviewKey]) {
+        const r1 = new Date(now); r1.setDate(r1.getDate() + 3);
+        reviews[reviewKey] = { title: day.title, stage: 1, dueDate: getDateKey(r1), trackKey, wi, di };
+        saveReviews(reviews);
+      }
+    }
+
+    // Badge checks
+    checkBadges(interests, trackKey, wi, di, hour);
+  } else {
+    // Uncompleting — decrement counts (floor at 0)
+    interests.types[day.type] = Math.max(0, (interests.types[day.type] || 0) - 1);
+    const topicKey = track.weeks[wi].title.replace(/\s+/g, '-').toLowerCase();
+    interests.topics[topicKey] = Math.max(0, (interests.topics[topicKey] || 0) - 1);
+    // Don't reverse badges or streak on uncheck
+  }
+
+  saveInterests(interests);
+}
+
+function checkBadges(interests, trackKey, wi, di, hour) {
+  const earned = new Set(interests.badges || []);
+  const progress = getProgress();
+  const track = TRACKS[trackKey];
+  const day = track.weeks[wi].days[di];
+
+  // First Step
+  const totalDone = Object.values(interests.types).reduce((a,b) => a+b, 0);
+  if (totalDone >= 1) earned.add('first-step');
+
+  // Consistent — 3+ day streak
+  if (interests.streak.current >= 3) earned.add('consistent');
+
+  // Week One — all days of week 0 done
+  const trackProg = progress[trackKey] || {};
+  const week0Complete = track.weeks[0].days.every((_, i) => trackProg[`0-${i}`]);
+  if (week0Complete) earned.add('week-one');
+
+  // Halfway
+  const totalDays = track.weeks.reduce((s,w)=>s+w.days.length,0);
+  const completedDays = Object.values(trackProg).filter(Boolean).length;
+  if (totalDays > 0 && completedDays / totalDays >= 0.5) earned.add('halfway');
+
+  // Deep Diver — any read activity completed
+  if (interests.types.read >= 1) earned.add('deep-diver');
+
+  // Track completions
+  for (const [tk, t] of Object.entries(TRACKS)) {
+    const tp = progress[tk] || {};
+    const td = t.weeks.reduce((s,w)=>s+w.days.length,0);
+    const cd = Object.values(tp).filter(Boolean).length;
+    if (td > 0 && cd === td) {
+      const badgeMap = { explorer: 'explorer-badge', practitioner: 'practitioner-badge', builder: 'builder-badge', researcher: 'researcher-badge' };
+      earned.add(badgeMap[tk]);
+    }
+  }
+
+  // Cross-Pollinator — activities from 2+ tracks
+  const tracksWithProgress = Object.entries(progress).filter(([,v]) => Object.values(v).some(Boolean));
+  if (tracksWithProgress.length >= 2) earned.add('cross-pollinator');
+
+  // Night Owl — after 10pm
+  if (hour >= 22) earned.add('night-owl');
+
+  // Early Bird — before 8am
+  if (hour < 8) earned.add('early-bird');
+
+  const newBadges = [...earned].filter(b => !interests.badges.includes(b));
+  interests.badges = [...earned];
+
+  // Show toast for new badges
+  newBadges.forEach(b => {
+    const def = BADGE_DEFS.find(bd => bd.id === b);
+    if (def) showToast(`${def.icon} Badge unlocked: ${def.name}`);
+  });
+}
+
+const BADGE_DEFS = [
+  { id: 'first-step', icon: '✨', name: 'First Step', desc: 'Complete your first activity' },
+  { id: 'consistent', icon: '🔥', name: 'Consistent', desc: 'Maintain a 3-day streak' },
+  { id: 'week-one', icon: '🗓️', name: 'Week One', desc: 'Complete your first full week' },
+  { id: 'halfway', icon: '🏁', name: 'Halfway', desc: 'Reach 50% completion' },
+  { id: 'deep-diver', icon: '📚', name: 'Deep Diver', desc: 'Complete a read activity' },
+  { id: 'explorer-badge', icon: '🧭', name: 'Explorer', desc: 'Complete the Explorer track' },
+  { id: 'practitioner-badge', icon: '⚙️', name: 'Practitioner', desc: 'Complete the Practitioner track' },
+  { id: 'builder-badge', icon: '🏗️', name: 'Builder', desc: 'Complete the Builder track' },
+  { id: 'researcher-badge', icon: '🔬', name: 'Researcher', desc: 'Complete the Researcher track' },
+  { id: 'cross-pollinator', icon: '🌱', name: 'Cross-Pollinator', desc: 'Work across multiple tracks' },
+  { id: 'night-owl', icon: '🦉', name: 'Night Owl', desc: 'Complete an activity after 10pm' },
+  { id: 'early-bird', icon: '🌅', name: 'Early Bird', desc: 'Complete an activity before 8am' },
+];
+
+// ============================================================
+// SPACED REPETITION
+// ============================================================
+
+function getReviews() {
+  try { return JSON.parse(localStorage.getItem('ai-curriculum-reviews') || '{}'); } catch { return {}; }
+}
+
+function saveReviews(reviews) {
+  localStorage.setItem('ai-curriculum-reviews', JSON.stringify(reviews));
+}
+
+function getDueReviews() {
+  const reviews = getReviews();
+  const today = getDateKey();
+  return Object.entries(reviews)
+    .filter(([, r]) => r.dueDate <= today)
+    .map(([k, r]) => ({ key: k, ...r }));
+}
+
+function markReviewed(key) {
+  const reviews = getReviews();
+  const r = reviews[key];
+  if (!r) return;
+  const stageIntervals = [3, 7, 14, 30, 60];
+  const nextStage = Math.min(r.stage, stageIntervals.length - 1);
+  const nextDue = new Date();
+  nextDue.setDate(nextDue.getDate() + stageIntervals[nextStage]);
+  reviews[key] = { ...r, stage: r.stage + 1, dueDate: getDateKey(nextDue) };
+  if (r.stage + 1 > stageIntervals.length) {
+    delete reviews[key]; // graduated — no more reviews
+  }
+  saveReviews(reviews);
+}
+
+// ============================================================
+// RECOMMENDATIONS ENGINE
+// ============================================================
+
+function getRecommendedNext() {
+  if (!selectedTrack) return null;
+  const track = TRACKS[selectedTrack];
+  const progress = getProgress();
+  const trackProgress = progress[selectedTrack] || {};
+  const interests = getInterests();
+
+  // Find incomplete activities, scored by interest match
+  const candidates = [];
+  track.weeks.forEach((week, wi) => {
+    week.days.forEach((day, di) => {
+      if (!trackProgress[`${wi}-${di}`]) {
+        const typeScore = interests.types[day.type] || 0;
+        candidates.push({ wi, di, day, typeScore, week });
+      }
+    });
+  });
+
+  if (candidates.length === 0) return null;
+
+  // Sort: favor activity types the user has done most (familiarity comfort), then sequential
+  candidates.sort((a, b) => {
+    if (b.typeScore !== a.typeScore) return b.typeScore - a.typeScore;
+    return (a.wi * 100 + a.di) - (b.wi * 100 + b.di);
+  });
+
+  return candidates[0];
+}
+
+function getStretchGoals() {
+  if (!selectedTrack) return [];
+  const interests = getInterests();
+  const topType = Object.entries(interests.types).sort((a,b)=>b[1]-a[1])[0];
+  if (!topType || topType[1] < 2) return [];
+
+  const favType = topType[0];
+  const progress = getProgress();
+  const results = [];
+
+  for (const [tk, track] of Object.entries(TRACKS)) {
+    if (tk === selectedTrack) continue;
+    track.weeks.forEach((week, wi) => {
+      week.days.forEach((day, di) => {
+        const tp = progress[tk] || {};
+        if (day.type === favType && !tp[`${wi}-${di}`] && results.length < 3) {
+          results.push({ track, trackKey: tk, week, wi, di, day });
+        }
+      });
+    });
+  }
+
+  return results.slice(0, 3);
+}
+
+// ============================================================
+// TOAST NOTIFICATIONS
+// ============================================================
+
+function showToast(message, duration) {
+  const dur = duration || 4000;
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.innerHTML = message;
+  container.appendChild(toast);
+  requestAnimationFrame(() => { requestAnimationFrame(() => { toast.classList.add('show'); }); });
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 400);
+  }, dur);
+}
+
+// ============================================================
+// FOCUS MODE
+// ============================================================
+
+let focusTimerInterval = null;
+let focusTimerSeconds = 0;
+let focusModeActive = false;
+
+function toggleFocusMode() {
+  focusModeActive = !focusModeActive;
+  if (focusModeActive) {
+    document.body.classList.add('focus-mode');
+    // Collapse all weeks except the first incomplete
+    const track = TRACKS[selectedTrack];
+    const progress = getProgress();
+    const trackProg = progress[selectedTrack] || {};
+    let foundCurrent = false;
+    track.weeks.forEach((week, wi) => {
+      const weekDays = document.getElementById(`week-${wi}`);
+      const weekHeader = weekDays ? weekDays.previousElementSibling : null;
+      if (!weekDays) return;
+      const weekComplete = week.days.every((_, di) => trackProg[`${wi}-${di}`]);
+      if (!weekComplete && !foundCurrent) {
+        foundCurrent = true;
+        weekDays.classList.remove('hidden');
+        if (weekHeader) weekHeader.classList.remove('collapsed');
+      } else {
+        weekDays.classList.add('hidden');
+        if (weekHeader) weekHeader.classList.add('collapsed');
+      }
+    });
+    // Mark done cards
+    document.querySelectorAll('.day-card').forEach(card => {
+      const check = card.querySelector('.day-check');
+      if (check && check.classList.contains('done')) card.classList.add('done-card');
+    });
+    showToast('Focus Mode on — showing your current week only');
+  } else {
+    document.body.classList.remove('focus-mode');
+    document.querySelectorAll('.day-card').forEach(card => card.classList.remove('done-card'));
+    stopFocusTimer();
+    showToast('Focus Mode off');
+  }
+  updateFocusBar();
+}
+
+function startFocusTimer() {
+  if (focusTimerInterval) return;
+  focusTimerSeconds = 0;
+  focusTimerInterval = setInterval(() => {
+    focusTimerSeconds++;
+    const m = String(Math.floor(focusTimerSeconds / 60)).padStart(2, '0');
+    const s = String(focusTimerSeconds % 60).padStart(2, '0');
+    const el = document.getElementById('focusTimerDisplay');
+    if (el) el.textContent = `${m}:${s}`;
+  }, 1000);
+}
+
+function stopFocusTimer() {
+  clearInterval(focusTimerInterval);
+  focusTimerInterval = null;
+  focusTimerSeconds = 0;
+}
+
+function updateFocusBar() {
+  const bar = document.getElementById('focusModeBar');
+  if (!bar) return;
+  bar.style.display = focusModeActive ? 'flex' : 'none';
+}
+
+// ============================================================
+// EXPORT / IMPORT
+// ============================================================
+
+function exportProgress() {
+  const data = {
+    progress: getProgress(),
+    interests: getInterests(),
+    reviews: getReviews(),
+    track: getSavedTrack(),
+    exportDate: new Date().toISOString(),
+    version: '1.0'
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `ai-curriculum-progress-${getDateKey()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Progress exported successfully');
+}
+
+function importProgress() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json,application/json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (data.progress) saveProgress(data.progress);
+        if (data.interests) saveInterests(data.interests);
+        if (data.reviews) saveReviews(data.reviews);
+        if (data.track) {
+          saveTrack(data.track);
+          selectedTrack = data.track;
+        }
+        showToast('Progress imported! Refreshing...');
+        setTimeout(() => {
+          if (selectedTrack) showSchedule();
+          else showProgressDashboard();
+        }, 1000);
+      } catch {
+        showToast('Import failed — invalid file format');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+// ============================================================
+// PROGRESS DASHBOARD
+// ============================================================
+
+function showProgressDashboard() {
+  if (!selectedTrack) selectedTrack = getSavedTrack();
+  document.getElementById('nav-progress').style.display = '';
+  renderProgressDashboard();
+  showSection('progressDashboard');
+}
+
+function renderProgressDashboard() {
+  const interests = getInterests();
+  const progress = getProgress();
+  const dueReviews = getDueReviews();
+
+  let html = `
+    <div class="prog-header">
+      <div>
+        <div class="prog-card-title" style="margin-bottom:4px;">Your Learning Journey</div>
+        <h2>Progress Dashboard</h2>
+      </div>
+      <div class="prog-header-actions">
+        ${selectedTrack ? `<button class="btn btn-ghost" onclick="toggleFocusMode(); showSchedule();">Focus Mode</button>` : ''}
+        <button class="btn btn-ghost" onclick="exportProgress()">Export</button>
+        <button class="btn btn-ghost" onclick="importProgress()">Import</button>
+        ${selectedTrack ? `<button class="btn btn-primary" onclick="showSchedule()">View Schedule</button>` : ''}
+      </div>
+    </div>
+  `;
+
+  // Due for review banner
+  if (dueReviews.length > 0) {
+    html += `<div class="review-banner">
+      <div class="review-banner-title">Due for Review (${dueReviews.length})</div>
+      ${dueReviews.slice(0,4).map(r => `
+        <div class="review-item">
+          <span class="review-item-title">${r.title}</span>
+          <span class="review-item-due" onclick="markReviewed('${r.key}'); renderProgressDashboard();" style="cursor:pointer;" title="Mark reviewed">Reviewed ✓</span>
+        </div>
+      `).join('')}
+    </div>`;
+  }
+
+  // Summary cards row
+  html += `<div class="prog-grid">`;
+
+  // Streak card
+  const streakEmoji = interests.streak.current >= 7 ? '🔥' : interests.streak.current >= 3 ? '✨' : '📅';
+  html += `<div class="prog-card">
+    <div class="prog-card-title">Learning Streak</div>
+    <div class="streak-display">
+      <div class="streak-flame">${streakEmoji}</div>
+      <div>
+        <div class="streak-number">${interests.streak.current}</div>
+        <div class="streak-label">${interests.streak.current === 1 ? 'day' : 'days'} in a row</div>
+        <div class="streak-best">Best: ${interests.streak.best} days</div>
+      </div>
+    </div>
+  </div>`;
+
+  // Weekly goal ring
+  const goal = interests.weeklyGoal || 4;
+  const weekDone = getThisWeekCount();
+  const goalPct = Math.min(100, Math.round((weekDone / goal) * 100));
+  const circumference = 2 * Math.PI * 34;
+  const dashOffset = circumference * (1 - goalPct / 100);
+  html += `<div class="prog-card">
+    <div class="prog-card-title">Weekly Goal</div>
+    <div class="goal-ring-wrap">
+      <div class="goal-ring">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle class="goal-ring-bg" cx="40" cy="40" r="34"/>
+          <circle class="goal-ring-fill" cx="40" cy="40" r="34" stroke-dasharray="${circumference}" stroke-dashoffset="${dashOffset}"/>
+        </svg>
+        <div class="goal-ring-text">
+          <div class="goal-ring-pct">${goalPct}%</div>
+          <div class="goal-ring-sub">done</div>
+        </div>
+      </div>
+      <div class="goal-meta">
+        <div class="goal-meta-row">${weekDone} / ${goal} activities</div>
+        <div class="goal-meta-row" style="color: var(--text-muted); font-size: 12px;">this week</div>
+        <button class="goal-set-btn" onclick="setWeeklyGoal()">Change goal</button>
+      </div>
+    </div>
+  </div>`;
+
+  // Pace card
+  const paceData = selectedTrack ? calcPace() : null;
+  if (paceData) {
+    const paceClass = paceData.status === 'on-track' ? 'pace-on' : paceData.status === 'ahead' ? 'pace-ahead' : 'pace-behind';
+    const paceLabel = paceData.status === 'on-track' ? 'On Track' : paceData.status === 'ahead' ? 'Ahead' : 'Behind';
+    const paceIcon = paceData.status === 'on-track' ? '✅' : paceData.status === 'ahead' ? '🚀' : '⚠️';
+    html += `<div class="prog-card">
+      <div class="prog-card-title">Current Pace</div>
+      <div class="pace-badge ${paceClass}">${paceIcon} ${paceLabel}</div>
+      <div class="pace-detail">${paceData.detail}</div>
+    </div>`;
+  }
+
+  // Total time
+  const totalMins = calcTotalTime();
+  const hours = Math.floor(totalMins / 60);
+  const mins = totalMins % 60;
+  const timeStr = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+  html += `<div class="prog-card">
+    <div class="prog-card-title">Time Invested</div>
+    <div class="streak-number" style="color: var(--accent5); font-size: 36px;">${timeStr}</div>
+    <div class="streak-best">estimated from activity durations</div>
+  </div>`;
+
+  html += `</div>`; // end prog-grid
+
+  // Activity type breakdown
+  html += `<div class="prog-card" style="margin-bottom: 16px;">
+    <div class="prog-card-title">Activity Type Breakdown</div>
+    <div class="type-bars">`;
+
+  const typeLabels = { read: 'Read', watch: 'Watch', do: 'Do', discuss: 'Discuss', reflect: 'Reflect' };
+  const typeColors2 = { read: 'var(--read)', watch: 'var(--watch)', do: 'var(--do)', discuss: 'var(--discuss)', reflect: 'var(--reflect)' };
+  const maxType = Math.max(1, ...Object.values(interests.types));
+
+  for (const [type, label] of Object.entries(typeLabels)) {
+    const count = interests.types[type] || 0;
+    const pct = Math.round((count / maxType) * 100);
+    html += `<div class="type-bar-row">
+      <div class="type-bar-label">${label}</div>
+      <div class="type-bar-track"><div class="type-bar-fill" style="width: ${pct}%; background: ${typeColors2[type]};"></div></div>
+      <div class="type-bar-count">${count}</div>
+    </div>`;
+  }
+  html += `</div></div>`;
+
+  // Week completion rates
+  if (selectedTrack) {
+    const track = TRACKS[selectedTrack];
+    const trackProg = progress[selectedTrack] || {};
+    html += `<div class="prog-card" style="margin-bottom: 16px;">
+      <div class="prog-card-title">Completion by Week</div>
+      <div class="week-completion-row">`;
+    track.weeks.forEach((week, wi) => {
+      const weekTotal = week.days.length;
+      const weekDone2 = week.days.filter((_, di) => trackProg[`${wi}-${di}`]).length;
+      const wPct = Math.round((weekDone2 / weekTotal) * 100);
+      html += `<div class="week-comp-item">
+        <div class="week-comp-label" title="${week.title}">Wk ${wi+1}</div>
+        <div class="week-comp-bar-track"><div class="week-comp-bar-fill" style="width: ${wPct}%;"></div></div>
+        <div class="week-comp-pct">${wPct}%</div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  }
+
+  // Interests profile
+  html += renderInterestsCard(interests);
+
+  // Badges
+  html += renderBadgesSection(interests);
+
+  // Heatmap
+  html += renderHeatmap(interests.heatmap);
+
+  document.getElementById('progContent').innerHTML = html;
+}
+
+function getThisWeekCount() {
+  const interests = getInterests();
+  const now = new Date();
+  const day = now.getDay();
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
+  monday.setHours(0,0,0,0);
+  let count = 0;
+  for (const [dateKey, val] of Object.entries(interests.heatmap || {})) {
+    const d = new Date(dateKey);
+    if (d >= monday && d <= now) count += val;
+  }
+  return count;
+}
+
+function calcPace() {
+  if (!selectedTrack) return null;
+  const track = TRACKS[selectedTrack];
+  const progress = getProgress();
+  const trackProg = progress[selectedTrack] || {};
+  const totalDays2 = track.weeks.reduce((s,w)=>s+w.days.length,0);
+  const completed2 = Object.values(trackProg).filter(Boolean).length;
+  if (completed2 === 0) return { status: 'on-track', detail: 'Start your first activity to track your pace.' };
+
+  const interests = getInterests();
+  const streak = interests.streak;
+  const totalWeeks = track.duration;
+  const activitiesPerWeek = track.weeks[0].days.length; // approx
+
+  // Estimate weeks elapsed from heatmap
+  const dates = Object.keys(interests.heatmap || {}).sort();
+  if (dates.length < 1) return { status: 'on-track', detail: `${completed2} of ${totalDays2} activities done.` };
+
+  const startDate = new Date(dates[0]);
+  const weeksElapsed = Math.max(1, Math.round((new Date() - startDate) / (7 * 86400000)));
+  const expectedByNow = Math.min(totalDays2, weeksElapsed * activitiesPerWeek);
+  const diff = completed2 - expectedByNow;
+
+  if (diff >= activitiesPerWeek) return { status: 'ahead', detail: `${completed2} done vs ${expectedByNow} expected. You're about ${Math.round(diff / activitiesPerWeek)} week(s) ahead.` };
+  if (diff <= -activitiesPerWeek) return { status: 'behind', detail: `${completed2} done vs ${expectedByNow} expected. Consider catching up on missed activities.` };
+  return { status: 'on-track', detail: `${completed2} of ${totalDays2} activities done. Keep going!` };
+}
+
+function calcTotalTime() {
+  const progress = getProgress();
+  let totalMins = 0;
+  for (const [tk, trackProg] of Object.entries(progress)) {
+    const track = TRACKS[tk];
+    if (!track) continue;
+    for (const [key, done] of Object.entries(trackProg)) {
+      if (!done) continue;
+      const [wi, di] = key.split('-').map(Number);
+      const day = track.weeks[wi]?.days[di];
+      if (!day) continue;
+      const match = day.time.match(/(\d+)/);
+      if (match) totalMins += parseInt(match[1]);
+    }
+  }
+  return totalMins;
+}
+
+function setWeeklyGoal() {
+  const current = getInterests().weeklyGoal || 4;
+  const input = prompt(`Set weekly activity goal (current: ${current}):`, current);
+  if (!input) return;
+  const val = parseInt(input);
+  if (isNaN(val) || val < 1 || val > 50) { showToast('Please enter a number between 1 and 50'); return; }
+  const interests = getInterests();
+  interests.weeklyGoal = val;
+  saveInterests(interests);
+  renderProgressDashboard();
+}
+
+function renderInterestsCard(interests) {
+  const typeColors2 = { read: 'var(--read)', watch: 'var(--watch)', do: 'var(--do)', discuss: 'var(--discuss)', reflect: 'var(--reflect)' };
+  const typeLabels = { read: 'Read', watch: 'Watch', do: 'Do', discuss: 'Discuss', reflect: 'Reflect' };
+  const maxType = Math.max(1, ...Object.values(interests.types));
+  let html = `<div class="interests-card" style="margin-bottom: 16px;">
+    <div class="prog-card-title">Your Interests Profile</div>
+    <div class="interests-radar">`;
+
+  for (const [type, label] of Object.entries(typeLabels)) {
+    const count = interests.types[type] || 0;
+    const pct = Math.round((count / maxType) * 100);
+    html += `<div class="interest-item">
+      <div class="interest-dot" style="background: ${typeColors2[type]};"></div>
+      <div class="interest-label">${label}</div>
+      <div class="interest-bar-track"><div class="interest-bar-fill" style="width: ${pct}%; background: ${typeColors2[type]};"></div></div>
+      <div class="interest-val">${count}</div>
+    </div>`;
+  }
+
+  html += `</div></div>`;
+  return html;
+}
+
+function renderBadgesSection(interests) {
+  const earned = new Set(interests.badges || []);
+  let html = `<div style="margin-bottom: 24px;">
+    <div class="prog-section-title">Achievement Badges (${earned.size} / ${BADGE_DEFS.length})</div>
+    <div class="badges-grid">`;
+
+  for (const def of BADGE_DEFS) {
+    const isEarned = earned.has(def.id);
+    html += `<div class="badge-card ${isEarned ? 'earned' : 'locked'}">
+      <div class="badge-icon">${def.icon}</div>
+      <div class="badge-name">${def.name}</div>
+      <div class="badge-desc">${def.desc}</div>
+      ${isEarned ? '<div class="badge-earned-label">EARNED</div>' : ''}
+    </div>`;
+  }
+
+  html += `</div></div>`;
+  return html;
+}
+
+function renderHeatmap(heatmapData) {
+  const data = heatmapData || {};
+  const today = new Date();
+  const cells = [];
+  for (let i = 89; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    cells.push({ date: d, key: getDateKey(d), count: data[getDateKey(d)] || 0 });
+  }
+
+  // Group into weeks (7-cell columns)
+  const weeks = [];
+  for (let i = 0; i < cells.length; i += 7) {
+    weeks.push(cells.slice(i, i + 7));
+  }
+
+  const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  let html = `<div style="margin-bottom: 24px;">
+    <div class="prog-section-title">Activity Heatmap (Last 90 Days)</div>
+    <div class="heatmap-wrap">
+      <div class="heatmap-grid">`;
+
+  weeks.forEach(week => {
+    html += `<div class="heatmap-col">`;
+    week.forEach(cell => {
+      const cls = cell.count === 0 ? '' : cell.count === 1 ? 'h1' : cell.count === 2 ? 'h2' : cell.count === 3 ? 'h3' : 'h4';
+      const label = cell.count > 0 ? `${cell.count} activit${cell.count === 1 ? 'y' : 'ies'} on ${cell.key}` : cell.key;
+      html += `<div class="heatmap-cell ${cls}" title="${label}"></div>`;
+    });
+    html += `</div>`;
+  });
+
+  html += `</div>
+    <div class="heatmap-legend">
+      Less
+      <div class="heatmap-cell"></div>
+      <div class="heatmap-cell h1"></div>
+      <div class="heatmap-cell h2"></div>
+      <div class="heatmap-cell h3"></div>
+      <div class="heatmap-cell h4"></div>
+      More
+    </div>
+    </div></div>`;
+  return html;
+}
+
+// ============================================================
+// MODIFIED TOGGLE DAY — hooks into interest tracking
+// ============================================================
+
+// Override the original toggleDay to add tracking
+function toggleDay(track, wi, di) {
+  const progress = getProgress();
+  if (!progress[track]) progress[track] = {};
+  const key = `${wi}-${di}`;
+  const wasCompleted = progress[track][key];
+  const nowCompleted = !wasCompleted;
+
+  progress[track][key] = nowCompleted;
+  saveProgress(progress);
+
+  // Interest tracking
+  trackActivity(track, wi, di, nowCompleted);
+
+  // Show "nav-progress" link once user has any activity
+  document.getElementById('nav-progress').style.display = '';
+
+  // Show recommended next after completing
+  if (nowCompleted) {
+    const rec = getRecommendedNext();
+    if (rec) {
+      const trackColors3 = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444' };
+      showToast(`Next: <strong>${rec.day.title}</strong> (${rec.day.type}, ${rec.day.time})`, 5000);
+    }
+  }
+
+  showSchedule();
+}
+
+// ============================================================
+// SCHEDULE — add recommended next + stretch goals + focus bar
+// ============================================================
+
+// Patch showSchedule to add extra features after rendering
+showSchedule = function() {
+  if (!selectedTrack) return;
+  const track = TRACKS[selectedTrack];
+  const progress = getProgress();
+  const trackProgress = progress[selectedTrack] || {};
+  const totalDays = track.weeks.reduce((sum, w) => sum + w.days.length, 0);
+  const completedDays = Object.values(trackProgress).filter(Boolean).length;
+  const pct = totalDays > 0 ? Math.round((completedDays / totalDays) * 100) : 0;
+
+  let html = `
+    <div class="retake-bar">
+      <span>Track: <strong style="color: ${track.color}">${track.name}</strong> · ${track.duration} weeks · ${track.hoursPerWeek} hrs/week</span>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="btn btn-ghost" onclick="showProgressDashboard()">Dashboard</button>
+        <button class="btn btn-ghost" onclick="toggleFocusMode()">Focus Mode</button>
+        <button class="btn btn-ghost" onclick="showDeepDive('${selectedTrack}','schedule')">Track Guide</button>
+        <button class="btn btn-ghost" onclick="showTrackPicker()">Change Track</button>
+      </div>
+    </div>
+
+    <div id="focusModeBar" class="focus-bar" style="display: ${focusModeActive ? 'flex' : 'none'};">
+      <span class="focus-bar-text">Focus Mode Active</span>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <span class="focus-timer" id="focusTimerDisplay">00:00</span>
+        <button class="btn btn-ghost" onclick="startFocusTimer()">Start Timer</button>
+        <button class="btn btn-ghost" onclick="stopFocusTimer()">Stop</button>
+        <button class="btn btn-ghost" onclick="toggleFocusMode()">Exit Focus</button>
+      </div>
+    </div>
+
+    <div class="progress-bar-container">
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" style="width: ${pct}%"></div>
+      </div>
+      <div class="progress-text">${completedDays}/${totalDays} (${pct}%)</div>
+    </div>
+  `;
+
+  // Due reviews banner in schedule
+  const dueReviews = getDueReviews();
+  if (dueReviews.length > 0) {
+    html += `<div class="review-banner">
+      <div class="review-banner-title">Due for Review (${dueReviews.length})</div>
+      ${dueReviews.slice(0,3).map(r => `
+        <div class="review-item">
+          <span class="review-item-title">${r.title}</span>
+          <span class="review-item-due" onclick="markReviewed('${r.key}'); showSchedule();" style="cursor:pointer;">Mark Reviewed ✓</span>
+        </div>
+      `).join('')}
+    </div>`;
+  }
+
+  // Recommended next
+  const rec = getRecommendedNext();
+  if (rec && completedDays > 0) {
+    const typeColors3 = { read: 'var(--read)', watch: 'var(--watch)', do: 'var(--do)', discuss: 'var(--discuss)', reflect: 'var(--reflect)' };
+    html += `<div class="rec-next-card">
+      <div class="rec-next-label">Recommended Next</div>
+      <div class="rec-next-title">${rec.day.title}</div>
+      <div class="rec-next-meta">Week ${rec.wi+1}: ${rec.week.title} · ${rec.day.type} · ${rec.day.time}</div>
+      <div class="rec-next-actions">
+        <button class="btn btn-primary btn-small" onclick="openModal('${selectedTrack}', ${rec.wi}, ${rec.di})">View Activity</button>
+        <button class="btn btn-ghost btn-small" onclick="toggleDay('${selectedTrack}', ${rec.wi}, ${rec.di})">Mark Complete</button>
+      </div>
+    </div>`;
+  }
+
+  html += `
+    <div class="schedule-header">
+      <h2>Your Schedule</h2>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background: var(--read)"></div> Read</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--watch)"></div> Watch</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--do)"></div> Do</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--discuss)"></div> Discuss</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--reflect)"></div> Reflect</div>
+      </div>
+    </div>
+  `;
+
+  track.weeks.forEach((week, wi) => {
+    const weekComplete = week.days.every((_, di) => trackProgress[`${wi}-${di}`]);
+
+    html += `
+      <div class="week-block">
+        <div class="week-header" onclick="toggleWeek(${wi})">
+          <span class="week-badge" style="background: ${track.color}">Week ${wi + 1}</span>
+          <span class="week-title">${week.title}</span>
+          <span class="week-meta">${week.days.length} activities${weekComplete ? ' ✓' : ''}</span>
+          <span class="week-chevron">▼</span>
+        </div>
+        <div class="week-days" id="week-${wi}">
+          ${week.days.map((day, di) => {
+            const done = trackProgress[`${wi}-${di}`];
+            return `
+              <div class="day-card type-${day.type}${done ? ' done-card' : ''}" onclick="openModal('${selectedTrack}', ${wi}, ${di})">
+                <div class="day-check ${done ? 'done' : ''}" onclick="event.stopPropagation(); toggleDay('${selectedTrack}', ${wi}, ${di})">✓</div>
+                <div class="day-top">
+                  <span class="day-num">Day ${di + 1}</span>
+                  <span class="day-type ${day.type}">${day.type}</span>
+                </div>
+                <div class="day-time">${day.time}</div>
+                <div class="day-title">${day.title}</div>
+                <div class="day-desc">${day.desc.substring(0, 80)}${day.desc.length > 80 ? '...' : ''}</div>
+                ${day.url ? `<a href="${day.url}" target="_blank" rel="noopener" class="day-resource" onclick="event.stopPropagation()">Resource →</a>` : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  });
+
+  // Stretch goals
+  const stretches = getStretchGoals();
+  if (stretches.length > 0) {
+    const trackColors4 = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444' };
+    html += `<div class="stretch-goals">
+      <div class="stretch-goals-title">Stretch Goals — Cross-track activities matching your interests</div>
+      ${stretches.map(s => `
+        <div class="stretch-item">
+          <span class="stretch-track-badge" style="background: ${trackColors4[s.trackKey]};">${s.track.name}</span>
+          <span class="stretch-item-title">${s.day.title}</span>
+          <span class="stretch-item-type">${s.day.type} · ${s.day.time}</span>
+        </div>
+      `).join('')}
+    </div>`;
+  }
+
+  html += `
+    <div class="footer">
+      <p>Built by <a href="https://www.linkedin.com/in/sam-riegel/" target="_blank">Sam Riegel</a> · <a href="https://github.com/samriegel/ai-curriculum" target="_blank">Source on GitHub</a></p>
+      <p style="margin-top: 8px;">Your progress is saved locally in your browser.</p>
+    </div>
+  `;
+
+  document.getElementById('scheduleContent').innerHTML = html;
+  document.getElementById('nav-progress').style.display = '';
+  showSection('schedule');
+
+  // Apply focus mode visual state if active
+  if (focusModeActive) {
+    document.body.classList.add('focus-mode');
+    const tProg = progress[selectedTrack] || {};
+    let foundCurrent2 = false;
+    track.weeks.forEach((week, wi) => {
+      const weekDays = document.getElementById(`week-${wi}`);
+      const weekHeader = weekDays ? weekDays.previousElementSibling : null;
+      if (!weekDays) return;
+      const weekComplete2 = week.days.every((_, di) => tProg[`${wi}-${di}`]);
+      if (!weekComplete2 && !foundCurrent2) {
+        foundCurrent2 = true;
+        weekDays.classList.remove('hidden');
+        if (weekHeader) weekHeader.classList.remove('collapsed');
+      } else {
+        weekDays.classList.add('hidden');
+        if (weekHeader) weekHeader.classList.add('collapsed');
+      }
+    });
+    document.querySelectorAll('.day-card').forEach(card => {
+      const check = card.querySelector('.day-check');
+      if (check && check.classList.contains('done')) card.classList.add('done-card');
+    });
+  }
+};
+
+// ============================================================
+// INIT — restore saved state on page load
 // ============================================================
 
 (function init() {
-  const saved = getSavedTrack();
-  if (saved && TRACKS[saved]) {
-    selectedTrack = saved;
-    showSchedule();
+  const savedTrack = getSavedTrack();
+  if (savedTrack && TRACKS[savedTrack]) {
+    selectedTrack = savedTrack;
+    document.getElementById('nav-progress').style.display = '';
   }
 })();
 </script>
