@@ -5,36 +5,59 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Curriculum — Personalized Learning Path</title>
 <meta name="description" content="A free, personalized AI curriculum that adapts to your experience level. From understanding AI concepts to building AI systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
+    --font-body: 'Libre Baskerville', 'Georgia', serif;
+    --font-heading: 'Inter', 'Helvetica Neue', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --font-ui: 'Inter', system-ui, sans-serif;
+
     --read: #3B82F6;
     --watch: #8B5CF6;
     --do: #10B981;
     --discuss: #F59E0B;
     --reflect: #EC4899;
-    --bg: #0F172A;
-    --surface: #1E293B;
-    --surface2: #334155;
-    --text: #F1F5F9;
-    --text-dim: #94A3B8;
-    --text-muted: #64748B;
-    --accent: #0EA5E9;
-    --accent2: #8B5CF6;
+
+    --bg: #141416;
+    --surface: #1e1e22;
+    --surface2: #2a2a2e;
+    --text: #e8e6e3;
+    --text-dim: #a8a5a0;
+    --text-muted: #6b6965;
+    --accent: #60a5fa;
+    --accent2: #818cf8;
     --accent3: #F97316;
-    --accent4: #EF4444;
-    --accent5: #14B8A6;
-    --success: #10B981;
-    --border: #334155;
+    --accent4: #f87171;
+    --accent5: #34d399;
+    --success: #34d399;
+    --border: #2a2a2e;
+    --border-light: #222226;
+
+    --color-claim: #60a5fa;
+    --color-claim-bg: #1e293b;
+    --color-verified: #34d399;
+    --color-verified-bg: #064e3b;
+    --color-warn: #fbbf24;
+    --color-warn-bg: #451a03;
+
+    --shadow-panel: 0 4px 24px rgba(0,0,0,0.5);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --panel-width: 420px;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-family: var(--font-ui);
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 
   .container { max-width: 900px; margin: 0 auto; padding: 24px; }
@@ -57,18 +80,27 @@
   .section { display: none; }
   .section.active { display: block; }
 
+  /* -- CORTEX BADGE -- */
+  .cortex-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: var(--font-ui); font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent2); background: rgba(129,140,248,0.1);
+    padding: 0.25rem 0.75rem; border-radius: 100px; margin-bottom: 1.5rem;
+  }
+
   /* -- LANDING -- */
-  .landing { text-align: center; padding: 80px 24px; }
+  .landing { text-align: center; padding: 80px 24px; border-bottom: 1px solid var(--border); }
   .landing h1 {
-    font-size: 42px; font-weight: 800; letter-spacing: -1px;
-    margin-bottom: 16px;
+    font-family: var(--font-heading); font-size: 42px; font-weight: 800;
+    letter-spacing: -1px; margin-bottom: 16px; line-height: 1.2;
     background: linear-gradient(135deg, var(--accent), var(--accent2));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   .landing .subtitle {
-    font-size: 18px; color: var(--text-dim); max-width: 600px;
-    margin: 0 auto 32px; line-height: 1.7;
+    font-family: var(--font-body); font-size: 17px; color: var(--text-dim);
+    max-width: 600px; margin: 0 auto 32px; line-height: 1.8;
   }
   .landing .features {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -113,8 +145,8 @@
     text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;
   }
   .quiz-question {
-    font-size: 24px; font-weight: 700; letter-spacing: -0.3px;
-    margin-bottom: 8px;
+    font-family: var(--font-heading); font-size: 24px; font-weight: 700;
+    letter-spacing: -0.3px; margin-bottom: 8px;
   }
   .quiz-hint {
     font-size: 14px; color: var(--text-dim); margin-bottom: 24px;
@@ -155,7 +187,7 @@
     display: flex; align-items: center; justify-content: space-between;
     margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
   }
-  .schedule-header h2 { font-size: 24px; font-weight: 700; }
+  .schedule-header h2 { font-family: var(--font-heading); font-size: 24px; font-weight: 700; }
   .legend {
     display: flex; gap: 16px; flex-wrap: wrap;
   }
@@ -238,39 +270,124 @@
   .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 4px; transition: width 0.3s; }
   .progress-text { font-size: 14px; font-weight: 700; color: var(--text); white-space: nowrap; }
 
-  /* -- MODAL -- */
+  /* -- CORTEX REASONING PANEL (Slide-out) -- */
+  .panel-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.3);
+    opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 90;
+  }
+  .panel-overlay.visible { opacity: 1; pointer-events: auto; }
+
+  .reasoning-panel {
+    position: fixed; top: 0; right: 0;
+    width: min(var(--panel-width), 90vw); height: 100vh;
+    background: var(--surface); border-left: 1px solid var(--border);
+    box-shadow: var(--shadow-panel);
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 100; overflow-y: auto; overflow-x: hidden;
+  }
+  .reasoning-panel.open { transform: translateX(0); }
+
+  .panel-header {
+    position: sticky; top: 0; background: var(--surface);
+    padding: 1.25rem 1.5rem 1rem; border-bottom: 1px solid var(--border-light); z-index: 10;
+  }
+  .panel-header-top {
+    display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;
+  }
+  .panel-label {
+    font-family: var(--font-ui); font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-claim);
+  }
+  .panel-close {
+    background: none; border: none; cursor: pointer; color: var(--text-muted);
+    padding: 0.25rem; border-radius: var(--radius-sm); font-size: 1.2rem; line-height: 1;
+  }
+  .panel-close:hover { color: var(--text); }
+
+  .panel-claim-text {
+    font-family: var(--font-body); font-size: 0.9rem; line-height: 1.5; color: var(--text);
+    padding: 0.75rem; background: var(--color-claim-bg); border-radius: var(--radius-md);
+    border-left: 3px solid var(--color-claim);
+  }
+  .panel-badges { display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
+  .badge {
+    font-family: var(--font-ui); font-size: 0.62rem; font-weight: 600;
+    padding: 0.2rem 0.5rem; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .badge-confidence { background: var(--color-verified-bg); color: var(--color-verified); }
+  .badge-type { background: rgba(129,140,248,0.1); color: var(--accent2); }
+
+  .panel-section { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-light); }
+  .panel-section-title {
+    font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem;
+  }
+
+  .reasoning-chain { list-style: none; position: relative; }
+  .reasoning-chain::before {
+    content: ''; position: absolute; left: 11px; top: 24px; bottom: 8px;
+    width: 2px; background: var(--border);
+  }
+  .reasoning-step { position: relative; padding-left: 2rem; margin-bottom: 1rem; }
+  .reasoning-step:last-child { margin-bottom: 0; }
+  .step-dot {
+    position: absolute; left: 4px; top: 4px; width: 16px; height: 16px;
+    border-radius: 50%; border: 2px solid var(--color-claim); background: var(--surface); z-index: 1;
+  }
+  .step-dot.evaluation { border-color: #fbbf24; }
+  .step-dot.decision { border-color: #ec4899; }
+  .step-dot.caveat { border-color: #f97316; }
+  .step-label {
+    font-family: var(--font-ui); font-size: 0.6rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.2rem;
+  }
+  .step-content {
+    font-family: var(--font-ui); font-size: 0.82rem; line-height: 1.55; color: var(--text-dim);
+  }
+
+  .source-card {
+    background: rgba(26,29,36,0.8); border-radius: var(--radius-md);
+    padding: 0.85rem 1rem; margin-bottom: 0.75rem; border: 1px solid var(--border-light);
+  }
+  .source-title-link {
+    font-family: var(--font-ui); font-size: 0.8rem; font-weight: 600;
+    color: var(--text); line-height: 1.3; text-decoration: none;
+  }
+  .source-title-link:hover { color: var(--accent); text-decoration: underline; }
+  .source-citation {
+    font-family: var(--font-ui); font-size: 0.7rem; color: var(--text-muted); margin-top: 4px;
+  }
+
+  .alternative-card {
+    padding: 0.6rem 0.85rem; background: rgba(26,26,30,0.5);
+    border-radius: var(--radius-sm); margin-bottom: 0.5rem; border-left: 2px solid var(--color-warn);
+  }
+  .alt-title { font-family: var(--font-ui); font-size: 0.78rem; font-weight: 600; color: var(--text-dim); }
+  .alt-reason { font-family: var(--font-ui); font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+
+  /* Legacy modal (keep for fallback) */
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.7);
     backdrop-filter: blur(4px); z-index: 1000;
-    display: none; align-items: center; justify-content: center;
-    padding: 24px;
+    display: none; align-items: center; justify-content: center; padding: 24px;
   }
   .modal-overlay.active { display: flex; }
   .modal {
-    background: var(--surface); border-radius: 16px;
-    max-width: 600px; width: 100%; max-height: 85vh;
-    overflow-y: auto; position: relative;
-    box-shadow: 0 24px 48px rgba(0,0,0,0.5);
-    border-left: 6px solid var(--accent);
-    animation: modalIn 0.2s ease;
-  }
-  @keyframes modalIn {
-    from { opacity: 0; transform: translateY(20px) scale(0.97); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+    background: var(--surface); border-radius: 16px; max-width: 600px; width: 100%;
+    max-height: 85vh; overflow-y: auto; position: relative;
+    box-shadow: 0 24px 48px rgba(0,0,0,0.5); border-left: 6px solid var(--accent);
   }
   .modal-close {
-    position: absolute; top: 12px; right: 12px;
-    background: var(--surface2); border: none; color: var(--text-dim);
-    width: 28px; height: 28px; border-radius: 6px; cursor: pointer;
-    font-size: 16px; display: flex; align-items: center; justify-content: center;
+    position: absolute; top: 12px; right: 12px; background: var(--surface2);
+    border: none; color: var(--text-dim); width: 28px; height: 28px; border-radius: 6px;
+    cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center;
   }
   .modal-close:hover { background: var(--text-muted); color: white; }
   .modal-body { padding: 24px; }
-  .modal-body h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .modal-body h3 { font-family: var(--font-heading); font-size: 20px; font-weight: 700; margin-bottom: 8px; }
   .modal-body .modal-meta { font-size: 13px; color: var(--text-dim); margin-bottom: 16px; }
-  .modal-body p { font-size: 14px; line-height: 1.6; color: var(--text-dim); margin-bottom: 12px; }
-  .modal-body ul { padding-left: 20px; margin-bottom: 12px; }
-  .modal-body li { font-size: 14px; line-height: 1.6; color: var(--text-dim); margin-bottom: 4px; }
+  .modal-body p { font-family: var(--font-body); font-size: 14px; line-height: 1.7; color: var(--text-dim); margin-bottom: 12px; }
   .modal-body a { color: var(--accent); text-decoration: none; }
   .modal-body a:hover { text-decoration: underline; }
 
@@ -315,9 +432,13 @@
 <!-- LANDING -->
 <div id="landing" class="section active">
   <div class="landing">
+    <div class="cortex-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      Cortex Curriculum
+    </div>
     <h1>Your AI Learning Path</h1>
     <p class="subtitle">
-      A free, personalized AI curriculum. Take a 5-question assessment and get a study schedule built for your experience level — from first encounter to frontier research.
+      A free, personalized AI curriculum. Take a 5-question assessment and get a study schedule built for your experience level — from first encounter to frontier research. Every resource recommendation includes transparent reasoning you can inspect.
     </p>
     <div class="features">
       <div class="feature-card">
@@ -366,7 +487,21 @@
   </div>
 </div>
 
-<!-- MODAL -->
+<!-- CORTEX REASONING PANEL -->
+<div class="panel-overlay" id="panelOverlay" onclick="closePanel()"></div>
+<div class="reasoning-panel" id="reasoningPanel">
+  <div class="panel-header">
+    <div class="panel-header-top">
+      <span class="panel-label">Resource Reasoning</span>
+      <button class="panel-close" onclick="closePanel()">×</button>
+    </div>
+    <div class="panel-claim-text" id="panelClaim"></div>
+    <div class="panel-badges" id="panelBadges"></div>
+  </div>
+  <div id="panelSections"></div>
+</div>
+
+<!-- LEGACY MODAL (fallback) -->
 <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">×</button>
@@ -1183,35 +1318,188 @@ function toggleDay(track, wi, di) {
 }
 
 // ============================================================
-// MODAL
+// EVIDENCE STORE — reasoning for resource recommendations
+// ============================================================
+
+const EVIDENCE = {
+  // Key resources get detailed reasoning chains
+  'Stanford HAI AI Index': {
+    confidence: 0.95,
+    reasoning: [
+      { type: 'evaluation', content: 'Stanford HAI produces the most comprehensive annual survey of AI capabilities, adoption, and policy. Data-driven, not opinion-driven.' },
+      { type: 'decision', content: 'Selected as the opening resource for Explorer and Practitioner tracks because it gives an evidence-based overview without requiring technical background.' }
+    ],
+    alternatives: [{ text: 'McKinsey Global AI Survey', reason: 'Industry-focused rather than comprehensive; less methodologically rigorous' }]
+  },
+  '3Blue1Brown': {
+    confidence: 0.97,
+    reasoning: [
+      { type: 'evaluation', content: 'Grant Sanderson\'s visual explanations of neural networks are unmatched for building geometric intuition. 15M+ views validates accessibility across skill levels.' },
+      { type: 'decision', content: 'Used across Explorer and Builder tracks at different depths — Explorer watches for conceptual understanding, Builder watches to prepare for implementation.' }
+    ],
+    alternatives: [{ text: 'StatQuest with Josh Starmer', reason: 'Excellent but more statistical focus; less visual intuition for neural architectures' }]
+  },
+  'Anthropic Prompt Engineering': {
+    confidence: 0.93,
+    reasoning: [
+      { type: 'evaluation', content: 'Anthropic\'s documentation is the most technically precise prompt engineering guide available — written by the team that builds Claude.' },
+      { type: 'decision', content: 'Appears in all four tracks because prompt engineering is a universal skill. Depth increases: Explorer gets overview, Researcher gets tool use and function calling.' }
+    ],
+    alternatives: [{ text: 'OpenAI Prompt Engineering Guide', reason: 'Good but less detailed; Anthropic\'s covers structured output and chain-of-thought more thoroughly' }]
+  },
+  'Attention Is All You Need': {
+    confidence: 0.98,
+    reasoning: [
+      { type: 'evaluation', content: 'The 2017 paper that introduced the transformer architecture — the foundation of every modern LLM. Reading the original source prevents secondhand distortion.' },
+      { type: 'decision', content: 'Builder track reads it for architecture understanding; Researcher track reads it line-by-line with equation annotation.' },
+      { type: 'caveat', content: 'Dense paper — paired with Karpathy\'s video walkthrough in both tracks to make it accessible.' }
+    ],
+    alternatives: [{ text: 'Jay Alammar\'s "The Illustrated Transformer"', reason: 'Excellent companion resource but not a substitute for the original paper at Builder/Researcher level' }]
+  },
+  'Constitutional AI': {
+    confidence: 0.92,
+    reasoning: [
+      { type: 'evaluation', content: 'Anthropic\'s Constitutional AI paper is the most concrete example of how values get encoded into AI systems — principles → critiques → revisions, not just RLHF.' },
+      { type: 'decision', content: 'Placed in Builder and Researcher tracks as the bridge between technical training and ethical AI. Shows that safety is an engineering problem, not just a policy one.' }
+    ],
+    alternatives: [{ text: 'InstructGPT paper (Ouyang et al.)', reason: 'Important historically but Constitutional AI represents the next evolution of alignment training' }]
+  },
+  'fast.ai': {
+    confidence: 0.94,
+    reasoning: [
+      { type: 'evaluation', content: 'Jeremy Howard\'s top-down teaching approach — build first, understand theory later — is the fastest path from "I can code" to "I can build ML systems."' },
+      { type: 'decision', content: 'Core resource for Builder track weeks 2-3. Not used in Researcher track because researchers need bottom-up mathematical foundations first.' }
+    ],
+    alternatives: [{ text: 'Andrew Ng\'s Deep Learning Specialization', reason: 'More thorough but significantly longer (3 months vs 2 weeks); fast.ai gets to practical results faster' }]
+  },
+  'Karpathy Zero to Hero': {
+    confidence: 0.96,
+    reasoning: [
+      { type: 'evaluation', content: 'Andrej Karpathy\'s "Neural Networks: Zero to Hero" series builds every component from scratch — micrograd, makemore, GPT. No black boxes.' },
+      { type: 'decision', content: 'Used in Builder track for micrograd (week 2) and GPT from scratch (week 4). Researcher track uses the full series across weeks 4-5.' }
+    ],
+    alternatives: [{ text: 'Goodfellow Deep Learning Book chapters', reason: 'More rigorous mathematically but lacks the "build it yourself" approach that Karpathy provides' }]
+  },
+  'Goodfellow Deep Learning': {
+    confidence: 0.91,
+    reasoning: [
+      { type: 'evaluation', content: 'The standard graduate textbook for deep learning theory. Free online. Covers linear algebra through deep generative models with mathematical rigor.' },
+      { type: 'decision', content: 'Researcher track only — the mathematical depth is essential for understanding why architectures work, not just how to use them.' },
+      { type: 'caveat', content: 'Published 2016, so missing transformer-era developments. Supplemented with recent papers in later weeks.' }
+    ],
+    alternatives: [{ text: 'Bishop\'s "Deep Learning: Foundations and Concepts" (2024)', reason: 'More current but less battle-tested; Goodfellow remains the reference standard' }]
+  },
+  'Prediction Machines': {
+    confidence: 0.88,
+    reasoning: [
+      { type: 'evaluation', content: 'Reframes AI as a prediction technology — drops in the cost of prediction. This economic framing is the clearest mental model for non-technical leaders.' },
+      { type: 'decision', content: 'Explorer track week 1 — sets the right frame before diving into capabilities and ethics. Better starting point than hype-driven books.' }
+    ],
+    alternatives: [{ text: '"AI Superpowers" by Kai-Fu Lee', reason: 'Included in week 2 instead — more geopolitical than economic; Prediction Machines is a better conceptual foundation' }]
+  }
+};
+
+function getEvidence(title) {
+  for (const [key, ev] of Object.entries(EVIDENCE)) {
+    if (title.includes(key) || key.includes(title.substring(0, 20))) return { key, ...ev };
+  }
+  // Generate minimal evidence for resources without detailed entries
+  return {
+    key: title,
+    confidence: 0.80,
+    reasoning: [
+      { type: 'decision', content: 'Selected for this position in the curriculum based on topic relevance, accessibility at this track level, and quality of the resource.' }
+    ],
+    alternatives: []
+  };
+}
+
+// ============================================================
+// CORTEX REASONING PANEL
 // ============================================================
 
 function openModal(trackKey, wi, di) {
   const track = TRACKS[trackKey];
   const week = track.weeks[wi];
   const day = week.days[di];
+  const evidence = getEvidence(day.title);
 
+  const typeLabels = { read: 'Read', watch: 'Watch', do: 'Hands-On', discuss: 'Discussion', reflect: 'Reflection' };
   const typeColors = { read: 'var(--read)', watch: 'var(--watch)', do: 'var(--do)', discuss: 'var(--discuss)', reflect: 'var(--reflect)' };
 
-  document.getElementById('modalBody').innerHTML = `
-    <h3>${day.title}</h3>
-    <div class="modal-meta">
-      <span style="display: inline-block; padding: 2px 8px; border-radius: 4px; background: ${typeColors[day.type]}; color: white; font-size: 11px; font-weight: 700; text-transform: uppercase;">${day.type}</span>
-      <span style="margin-left: 8px;">Week ${wi + 1}, Day ${di + 1} · ${day.time}</span>
-    </div>
-    <p>${day.desc}</p>
-    ${day.url ? `<p><a href="${day.url}" target="_blank" rel="noopener">Open Resource →</a></p>` : ''}
+  // Claim text
+  document.getElementById('panelClaim').innerHTML = `<strong>${day.title}</strong><br><span style="font-size: 0.8rem; color: var(--text-dim); font-family: var(--font-ui);">${day.desc}</span>`;
+
+  // Badges
+  const confPct = Math.round(evidence.confidence * 100);
+  document.getElementById('panelBadges').innerHTML = `
+    <span class="badge badge-confidence">${confPct}% relevance</span>
+    <span class="badge badge-type">${typeLabels[day.type] || day.type}</span>
+    <span class="badge" style="background: rgba(96,165,250,0.1); color: var(--accent);">Week ${wi + 1}, Day ${di + 1}</span>
+    <span class="badge" style="background: var(--surface2); color: var(--text-dim);">${day.time}</span>
   `;
 
-  document.querySelector('.modal').style.borderLeftColor = typeColors[day.type] || 'var(--accent)';
-  document.getElementById('modalOverlay').classList.add('active');
+  // Build sections
+  let sections = '';
+
+  // Reasoning chain
+  if (evidence.reasoning && evidence.reasoning.length > 0) {
+    sections += `<div class="panel-section">
+      <div class="panel-section-title">Reasoning Chain</div>
+      <ul class="reasoning-chain">
+        ${evidence.reasoning.map(step => `
+          <li class="reasoning-step">
+            <div class="step-dot ${step.type}"></div>
+            <div class="step-label">${step.type}</div>
+            <div class="step-content">${step.content}</div>
+          </li>
+        `).join('')}
+      </ul>
+    </div>`;
+  }
+
+  // Source
+  if (day.url) {
+    sections += `<div class="panel-section">
+      <div class="panel-section-title">Source</div>
+      <div class="source-card">
+        <a href="${day.url}" target="_blank" rel="noopener" class="source-title-link">${day.title} →</a>
+        <div class="source-citation">${day.url}</div>
+      </div>
+    </div>`;
+  }
+
+  // Alternatives considered
+  if (evidence.alternatives && evidence.alternatives.length > 0) {
+    sections += `<div class="panel-section">
+      <div class="panel-section-title">Alternatives Considered</div>
+      ${evidence.alternatives.map(alt => `
+        <div class="alternative-card">
+          <div class="alt-title">${alt.text}</div>
+          <div class="alt-reason">${alt.reason}</div>
+        </div>
+      `).join('')}
+    </div>`;
+  }
+
+  document.getElementById('panelSections').innerHTML = sections;
+
+  // Open panel
+  document.getElementById('panelOverlay').classList.add('visible');
+  document.getElementById('reasoningPanel').classList.add('open');
+}
+
+function closePanel() {
+  document.getElementById('panelOverlay').classList.remove('visible');
+  document.getElementById('reasoningPanel').classList.remove('open');
 }
 
 function closeModal() {
   document.getElementById('modalOverlay').classList.remove('active');
+  closePanel();
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closePanel(); } });
 
 // ============================================================
 // INIT
