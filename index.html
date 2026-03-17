@@ -526,6 +526,183 @@
     background: currentColor;
   }
 
+  /* ── PRACTICE PROBLEMS ────────────────────────────────────── */
+  .cx-practice-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px); z-index: 300;
+    display: none; align-items: center; justify-content: center; padding: 24px;
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .cx-practice-overlay.active { display: flex; opacity: 1; }
+  .cx-practice-modal {
+    background: var(--surface); border-radius: 16px; max-width: 640px; width: 100%;
+    max-height: 90vh; overflow-y: auto; position: relative;
+    box-shadow: 0 24px 48px rgba(0,0,0,0.5); border: 1px solid var(--border);
+  }
+  .cx-practice-header {
+    padding: 20px 24px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .cx-practice-header-info { display: flex; align-items: center; gap: 12px; }
+  .cx-practice-badge {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; padding: 4px 10px; border-radius: 4px;
+    color: white; background: var(--accent);
+  }
+  .cx-practice-title { font-family: var(--font-heading); font-size: 16px; font-weight: 700; }
+  .cx-practice-close {
+    background: var(--surface2); border: none; color: var(--text-dim);
+    width: 28px; height: 28px; border-radius: 6px; cursor: pointer;
+    font-size: 16px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .cx-practice-close:hover { background: var(--text-muted); color: white; }
+  .cx-practice-body { padding: 24px; }
+  .cx-practice-progress {
+    display: flex; gap: 4px; margin-bottom: 20px;
+  }
+  .cx-practice-progress-step {
+    flex: 1; height: 4px; border-radius: 2px;
+    background: var(--surface2); transition: background 0.3s;
+  }
+  .cx-practice-progress-step.done { background: var(--success); }
+  .cx-practice-progress-step.current { background: var(--accent); }
+  .cx-practice-progress-step.wrong { background: var(--accent4); }
+  .cx-practice-question-num {
+    font-size: 11px; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;
+  }
+  .cx-practice-difficulty {
+    display: inline-flex; gap: 3px; margin-left: 8px;
+  }
+  .cx-practice-difficulty-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--surface2);
+  }
+  .cx-practice-difficulty-dot.filled { background: var(--accent); }
+  .cx-practice-question-text {
+    font-family: var(--font-heading); font-size: 18px; font-weight: 700;
+    line-height: 1.4; margin-bottom: 20px;
+  }
+  .cx-practice-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+  .cx-practice-option {
+    background: var(--surface2); border: 2px solid var(--border);
+    border-radius: 8px; padding: 12px 16px; cursor: pointer;
+    font-size: 14px; color: var(--text); font-family: var(--font-ui);
+    text-align: left; transition: border-color 0.15s, background 0.15s;
+  }
+  .cx-practice-option:hover { border-color: var(--accent); background: rgba(96,165,250,0.05); }
+  .cx-practice-option.selected { border-color: var(--accent); background: rgba(96,165,250,0.1); }
+  .cx-practice-option.correct { border-color: var(--success); background: rgba(52,211,153,0.1); }
+  .cx-practice-option.incorrect { border-color: var(--accent4); background: rgba(248,113,113,0.1); }
+  .cx-practice-option.disabled { pointer-events: none; opacity: 0.7; }
+  .cx-practice-tf-buttons { display: flex; gap: 12px; margin-bottom: 20px; }
+  .cx-practice-tf-btn {
+    flex: 1; padding: 14px; border-radius: 8px; border: 2px solid var(--border);
+    background: var(--surface2); color: var(--text); font-size: 15px;
+    font-weight: 600; cursor: pointer; font-family: var(--font-ui);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .cx-practice-tf-btn:hover { border-color: var(--accent); }
+  .cx-practice-tf-btn.selected { border-color: var(--accent); background: rgba(96,165,250,0.1); }
+  .cx-practice-tf-btn.correct { border-color: var(--success); background: rgba(52,211,153,0.1); }
+  .cx-practice-tf-btn.incorrect { border-color: var(--accent4); background: rgba(248,113,113,0.1); }
+  .cx-practice-code-area {
+    width: 100%; min-height: 100px; background: var(--surface2);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 16px; color: var(--text); font-family: var(--font-mono);
+    font-size: 13px; resize: vertical; outline: none;
+    transition: border-color 0.15s; margin-bottom: 20px;
+  }
+  .cx-practice-code-area:focus { border-color: var(--accent); }
+  .cx-practice-submit {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 24px; border-radius: 8px; border: none;
+    background: var(--accent); color: white; font-size: 14px;
+    font-weight: 600; cursor: pointer; font-family: var(--font-ui);
+    transition: transform 0.15s;
+  }
+  .cx-practice-submit:hover { transform: translateY(-1px); }
+  .cx-practice-submit:disabled { opacity: 0.4; cursor: default; transform: none; }
+  .cx-practice-feedback {
+    padding: 14px 18px; border-radius: 8px; margin-bottom: 16px;
+    font-size: 14px; line-height: 1.6;
+  }
+  .cx-practice-feedback.correct {
+    background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3);
+    color: var(--success);
+  }
+  .cx-practice-feedback.incorrect {
+    background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3);
+    color: var(--accent4);
+  }
+  .cx-practice-feedback .explanation {
+    color: var(--text-dim); margin-top: 8px; font-size: 13px;
+  }
+  .cx-practice-next {
+    padding: 10px 24px; border-radius: 8px; border: none;
+    background: var(--accent2); color: white; font-size: 14px;
+    font-weight: 600; cursor: pointer; font-family: var(--font-ui);
+  }
+  .cx-practice-summary {
+    text-align: center; padding: 20px 0;
+  }
+  .cx-practice-summary-score {
+    font-size: 48px; font-weight: 800; margin-bottom: 8px;
+  }
+  .cx-practice-summary-label {
+    font-size: 14px; color: var(--text-dim); margin-bottom: 20px;
+  }
+  .cx-practice-summary-bar {
+    height: 8px; background: var(--surface2); border-radius: 4px;
+    overflow: hidden; margin-bottom: 20px; max-width: 300px; margin-left: auto; margin-right: auto;
+  }
+  .cx-practice-summary-fill {
+    height: 100%; border-radius: 4px; transition: width 0.6s ease;
+  }
+  .cx-practice-summary-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+  /* Practice button on week cards */
+  .cx-practice-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 6px; border: 1px solid var(--accent2);
+    background: rgba(129,140,248,0.1); color: var(--accent2);
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    font-family: var(--font-ui); transition: all 0.15s;
+    margin-left: auto;
+  }
+  .cx-practice-btn:hover { background: rgba(129,140,248,0.2); transform: translateY(-1px); }
+
+  /* ── MASTERY GATING ──────────────────────────────────────── */
+  .week-block.cx-locked { opacity: 0.5; pointer-events: none; position: relative; }
+  .week-block.cx-locked .week-header { pointer-events: auto; cursor: default; }
+  .cx-lock-banner {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px; background: rgba(248,113,113,0.08);
+    border: 1px solid rgba(248,113,113,0.2); border-radius: 8px;
+    margin-bottom: 12px; font-size: 13px; color: var(--text-dim);
+  }
+  .cx-lock-icon { font-size: 16px; flex-shrink: 0; }
+  .cx-lock-text { flex: 1; }
+  .cx-skip-gate-btn {
+    padding: 5px 12px; border-radius: 5px; border: 1px solid var(--border);
+    background: transparent; color: var(--text-muted); font-size: 11px;
+    cursor: pointer; font-family: var(--font-ui); white-space: nowrap;
+    transition: all 0.15s; flex-shrink: 0;
+  }
+  .cx-skip-gate-btn:hover { border-color: var(--accent4); color: var(--accent4); }
+  .cx-mastery-indicator {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; color: var(--success); font-weight: 600;
+    margin-left: 8px;
+  }
+  .cx-mastery-indicator.pending { color: var(--text-muted); }
+  @keyframes cx-unlock-flash {
+    0% { box-shadow: 0 0 0 0 rgba(52,211,153,0.4); }
+    50% { box-shadow: 0 0 20px 4px rgba(52,211,153,0.2); }
+    100% { box-shadow: 0 0 0 0 rgba(52,211,153,0); }
+  }
+  .week-block.cx-just-unlocked { animation: cx-unlock-flash 1s ease; }
+
   /* Section transitions */
   .section { display: none; opacity: 0; transition: opacity var(--cx-transition); }
   .section.active { display: block; opacity: 1; }
@@ -627,6 +804,161 @@
     font-size: 11px; color: var(--text-muted); text-align: center;
     padding: 8px 16px; background: var(--surface2); border-radius: 6px;
     margin-bottom: 16px; line-height: 1.5;
+  }
+
+  /* Chat API status badge */
+  .chat-api-status {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 600; padding: 3px 10px;
+    border-radius: 100px; letter-spacing: 0.03em;
+  }
+  .chat-api-status.connected { background: rgba(52,211,153,0.15); color: var(--success); }
+  .chat-api-status.offline { background: rgba(168,165,160,0.15); color: var(--text-muted); }
+  .chat-api-status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  /* Chat settings gear */
+  .chat-settings-btn {
+    background: none; border: none; color: var(--text-muted); cursor: pointer;
+    padding: 4px; border-radius: 4px; margin-left: auto; display: flex;
+    align-items: center; transition: color 0.15s;
+  }
+  .chat-settings-btn:hover { color: var(--text); }
+
+  /* Chat message counter */
+  .chat-msg-counter {
+    font-size: 11px; color: var(--text-muted); text-align: center;
+    padding: 4px 0;
+  }
+
+  /* Chat quality indicator */
+  .chat-quality-indicator {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; padding: 2px 8px; border-radius: 100px;
+    margin-top: 6px;
+  }
+  .chat-quality-indicator.good { background: rgba(52,211,153,0.12); color: var(--success); }
+  .chat-quality-indicator.neutral { background: rgba(251,191,36,0.12); color: var(--color-warn); }
+  .chat-quality-indicator.seeking { background: rgba(248,113,113,0.12); color: var(--accent4); }
+
+  /* Chat streaming cursor */
+  .chat-streaming-cursor::after {
+    content: ''; display: inline-block; width: 2px; height: 14px;
+    background: var(--accent); margin-left: 2px; vertical-align: text-bottom;
+    animation: cursorBlink 0.8s infinite;
+  }
+  @keyframes cursorBlink {
+    0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; }
+  }
+
+  /* API Key Modal */
+  .api-key-modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px); z-index: 200;
+    display: none; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity var(--cx-transition);
+  }
+  .api-key-modal-overlay.active { display: flex; opacity: 1; }
+  .api-key-modal {
+    background: var(--surface); border-radius: 16px; padding: 28px;
+    max-width: 440px; width: 100%; border: 1px solid var(--border);
+    box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+  }
+  .api-key-modal h3 { font-family: var(--font-heading); font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .api-key-modal p { font-size: 13px; color: var(--text-dim); margin-bottom: 16px; line-height: 1.5; }
+  .api-key-modal .api-key-input {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px 16px; color: var(--text);
+    font-family: var(--font-mono); font-size: 13px; outline: none;
+    transition: border-color var(--cx-transition); margin-bottom: 12px;
+  }
+  .api-key-modal .api-key-input:focus { border-color: var(--accent); }
+  .api-key-modal .api-key-input::placeholder { color: var(--text-muted); }
+  .api-key-modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+  .api-key-warning {
+    font-size: 11px; color: var(--color-warn); background: var(--color-warn-bg);
+    border-radius: 6px; padding: 8px 12px; margin-bottom: 12px; line-height: 1.4;
+  }
+
+  /* ── ENGAGEMENT ANALYTICS ────────────────────────────── */
+  .engagement-score-card {
+    background: linear-gradient(135deg, rgba(96,165,250,0.08), rgba(129,140,248,0.08));
+    border: 1px solid rgba(96,165,250,0.2); border-radius: 12px;
+    padding: 20px; text-align: center;
+  }
+  .engagement-score-value {
+    font-size: 48px; font-weight: 800; line-height: 1;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .engagement-score-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .engagement-score-breakdown { display: flex; gap: 12px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+  .engagement-score-factor { font-size: 11px; color: var(--text-dim); }
+  .engagement-score-factor strong { color: var(--text); }
+
+  .analytics-chart-container {
+    background: var(--surface); border-radius: 12px; padding: 20px;
+    border: 1px solid var(--border); margin-bottom: 16px;
+  }
+  .analytics-chart-container .prog-card-title { margin-bottom: 16px; }
+  .analytics-chart-container svg { width: 100%; overflow: visible; }
+
+  .session-history-table { width: 100%; border-collapse: collapse; }
+  .session-history-table th {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text-muted); text-align: left;
+    padding: 8px 10px; border-bottom: 1px solid var(--border);
+  }
+  .session-history-table td {
+    font-size: 12px; color: var(--text-dim); padding: 8px 10px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .session-history-table tr:last-child td { border-bottom: none; }
+
+  /* ── KNOWLEDGE STATE & ADAPTIVE DIFFICULTY ────────────── */
+  .mastery-curve-container {
+    background: var(--surface); border-radius: 12px; padding: 20px;
+    border: 1px solid var(--border); margin-bottom: 16px;
+  }
+  .mastery-curve-container .prog-card-title { margin-bottom: 16px; }
+  .mastery-curve-container svg { width: 100%; overflow: visible; }
+
+  .cx-mastery-score {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 700; padding: 2px 8px;
+    border-radius: 100px; margin-left: 8px;
+  }
+  .cx-mastery-score.mastery-red { background: rgba(248,113,113,0.15); color: var(--accent4); }
+  .cx-mastery-score.mastery-yellow { background: rgba(251,191,36,0.15); color: var(--color-warn); }
+  .cx-mastery-score.mastery-green { background: rgba(52,211,153,0.15); color: var(--success); }
+
+  .cx-recommended-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; padding: 3px 8px; border-radius: 4px;
+    background: rgba(96,165,250,0.15); color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .cx-difficulty-reason-btn {
+    background: none; border: 1px solid var(--border); color: var(--text-muted);
+    font-size: 11px; padding: 4px 10px; border-radius: 5px; cursor: pointer;
+    font-family: var(--font-ui); transition: all 0.15s; margin-top: 8px;
+  }
+  .cx-difficulty-reason-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .cx-difficulty-reason-panel {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px 16px; margin-top: 8px;
+    font-size: 12px; color: var(--text-dim); line-height: 1.6;
+  }
+  .cx-difficulty-reason-panel .reason-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 6px;
+  }
+  .cx-difficulty-reason-panel .reason-item {
+    display: flex; align-items: flex-start; gap: 6px; margin-bottom: 4px;
+  }
+  .cx-difficulty-reason-panel .reason-dot {
+    width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+    flex-shrink: 0; margin-top: 6px;
   }
 
   /* ── PROGRESS DASHBOARD ─────────────────────────────────── */
@@ -1094,7 +1426,7 @@
       <p class="cx-body">Describe your background, goals, or situation. The advisor will suggest the right track or a custom blend — no account needed, works offline.</p>
     </div>
 
-    <div class="cx-disclaimer">Powered by keyword matching — not AI. The advisor analyzes your description to recommend a track based on role, experience, and goals.</div>
+    <div class="cx-disclaimer" id="chatDisclaimer">Powered by keyword matching — not AI. The advisor analyzes your description to recommend a track based on role, experience, and goals.</div>
 
     <div style="margin-bottom: 12px;">
       <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 10px;">Quick-start personas</div>
@@ -1108,9 +1440,14 @@
           <span style="background: #ffbd2e"></span>
           <span style="background: #28ca41"></span>
         </div>
-        <span class="chat-titlebar-name">Track Advisor (Rule-Based)</span>
+        <span class="chat-titlebar-name" id="chatTitlebarName">Track Advisor (Rule-Based)</span>
+        <span class="chat-api-status offline" id="chatApiStatus"><span class="chat-api-status-dot"></span> Offline Mode</span>
+        <button class="chat-settings-btn" onclick="openApiKeyModal()" title="API Settings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        </button>
       </div>
       <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-msg-counter" id="chatMsgCounter" style="display:none;">0 / 20 messages</div>
       <div class="chat-input-area">
         <textarea class="chat-input" id="chatInput" placeholder="Describe your background and what you want to learn..." rows="1"
           onkeydown="handleChatKey(event)" oninput="autoResizeTextarea(this)"></textarea>
@@ -1153,6 +1490,21 @@
     <div class="cx-modal-actions">
       <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="closeGoalModal()">Cancel</button>
       <button class="cx-btn cx-btn-primary btn btn-primary" style="padding: 10px 20px;" onclick="saveGoalFromModal()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- API KEY MODAL -->
+<div class="api-key-modal-overlay" id="apiKeyModalOverlay" onclick="if(event.target===this)closeApiKeyModal()">
+  <div class="api-key-modal">
+    <h3>Claude API Settings</h3>
+    <p>Enter your Anthropic API key to enable AI-powered chat advising. The key is stored in your browser only.</p>
+    <div class="api-key-warning">Your API key is stored locally using basic encoding. Do not use this on shared or public computers.</div>
+    <input type="password" class="api-key-input" id="apiKeyInput" placeholder="sk-ant-api03-..." autocomplete="off" onkeydown="if(event.key==='Enter')saveApiKey()">
+    <div class="api-key-modal-actions">
+      <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="removeApiKey()" id="apiKeyRemoveBtn" style="margin-right:auto;display:none;">Remove Key</button>
+      <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="closeApiKeyModal()">Cancel</button>
+      <button class="cx-btn cx-btn-primary btn btn-primary" style="padding: 10px 20px;" onclick="saveApiKey()">Save</button>
     </div>
   </div>
 </div>
@@ -2982,11 +3334,17 @@ function openModal(trackKey, wi, di) {
   // Open panel
   document.getElementById('panelOverlay').classList.add('visible');
   document.getElementById('reasoningPanel').classList.add('open');
+
+  // Start engagement timer for this activity
+  startActivityTimer(`${trackKey}-${wi}-${di}`);
 }
 
 function closePanel() {
   document.getElementById('panelOverlay').classList.remove('visible');
   document.getElementById('reasoningPanel').classList.remove('open');
+
+  // Stop engagement timer
+  stopActivityTimer();
 }
 
 function closeModal() {
@@ -3489,12 +3847,267 @@ function buildResponseHTML(rec, userText) {
 
 let chatHistory = [];
 let chatBotBusy = false;
+let chatSessionMsgCount = 0;
+const CHAT_MAX_MESSAGES = 20;
+
+// ============================================================
+// API KEY MANAGEMENT
+// ============================================================
+
+function encodeApiKey(key) {
+  return btoa(key.split('').reverse().join(''));
+}
+function decodeApiKey(encoded) {
+  try { return atob(encoded).split('').reverse().join(''); } catch { return ''; }
+}
+function getApiKey() {
+  const stored = localStorage.getItem('ai-curriculum-api-key');
+  return stored ? decodeApiKey(stored) : '';
+}
+function hasApiKey() {
+  return !!getApiKey();
+}
+function openApiKeyModal() {
+  const overlay = document.getElementById('apiKeyModalOverlay');
+  const input = document.getElementById('apiKeyInput');
+  const removeBtn = document.getElementById('apiKeyRemoveBtn');
+  input.value = hasApiKey() ? '••••••••••••••••••••' : '';
+  removeBtn.style.display = hasApiKey() ? '' : 'none';
+  overlay.classList.add('active');
+  if (!hasApiKey()) setTimeout(() => input.focus(), 100);
+}
+function closeApiKeyModal() {
+  document.getElementById('apiKeyModalOverlay').classList.remove('active');
+}
+function saveApiKey() {
+  const input = document.getElementById('apiKeyInput');
+  const key = input.value.trim();
+  if (!key || key.startsWith('••')) { closeApiKeyModal(); return; }
+  if (!key.startsWith('sk-ant-')) {
+    showToast('Invalid API key format. Key should start with sk-ant-');
+    return;
+  }
+  localStorage.setItem('ai-curriculum-api-key', encodeApiKey(key));
+  closeApiKeyModal();
+  updateChatApiStatus();
+  showToast('API key saved. Chat advisor now powered by Claude.');
+}
+function removeApiKey() {
+  localStorage.removeItem('ai-curriculum-api-key');
+  closeApiKeyModal();
+  updateChatApiStatus();
+  showToast('API key removed. Reverted to offline mode.');
+}
+function updateChatApiStatus() {
+  const badge = document.getElementById('chatApiStatus');
+  const titlebar = document.getElementById('chatTitlebarName');
+  const disclaimer = document.getElementById('chatDisclaimer');
+  if (!badge) return;
+  if (hasApiKey()) {
+    badge.className = 'chat-api-status connected';
+    badge.innerHTML = '<span class="chat-api-status-dot"></span> API Connected';
+    if (titlebar) titlebar.textContent = 'Track Advisor (Claude)';
+    if (disclaimer) disclaimer.textContent = 'Powered by Claude — AI-powered Socratic tutoring. The advisor guides you through questions rather than giving direct answers.';
+  } else {
+    badge.className = 'chat-api-status offline';
+    badge.innerHTML = '<span class="chat-api-status-dot"></span> Offline Mode';
+    if (titlebar) titlebar.textContent = 'Track Advisor (Rule-Based)';
+    if (disclaimer) disclaimer.textContent = 'Powered by keyword matching — not AI. The advisor analyzes your description to recommend a track based on role, experience, and goals.';
+  }
+}
+
+// ============================================================
+// CHAT QUALITY TRACKING
+// ============================================================
+
+function classifyChatIntent(text) {
+  const lower = text.toLowerCase();
+  const explanationPatterns = ['why', 'how does', 'how do', 'explain', 'what is the difference', 'help me understand', 'can you clarify', 'what does', 'how would'];
+  const answerSeekingPatterns = ['give me the answer', 'just tell me', 'just show', 'what is the answer', 'tell me the answer', 'give me', 'just give', 'show me the solution'];
+  const conceptExploringPatterns = ['what if', 'could i', 'would it make sense', 'i\'m thinking', 'i wonder', 'compare', 'relate', 'connection between'];
+  const debuggingPatterns = ['not working', 'error', 'broken', 'stuck', 'help me fix', 'wrong', 'doesn\'t work', 'failing'];
+
+  for (const p of answerSeekingPatterns) if (lower.includes(p)) return 'answer-seeking';
+  for (const p of debuggingPatterns) if (lower.includes(p)) return 'debugging';
+  for (const p of conceptExploringPatterns) if (lower.includes(p)) return 'concept-exploring';
+  for (const p of explanationPatterns) if (lower.includes(p)) return 'explanation-seeking';
+  return 'explanation-seeking'; // default to positive
+}
+
+function getChatQualityData() {
+  try { return JSON.parse(localStorage.getItem('ai-curriculum-chat-quality') || '{"sessions":[],"intents":{}}'); }
+  catch { return { sessions: [], intents: {} }; }
+}
+function saveChatQualityData(data) {
+  localStorage.setItem('ai-curriculum-chat-quality', JSON.stringify(data));
+}
+
+function trackChatIntent(intent) {
+  const data = getChatQualityData();
+  data.intents[intent] = (data.intents[intent] || 0) + 1;
+  saveChatQualityData(data);
+}
+
+function getQualityIndicatorHTML(intent) {
+  const labels = {
+    'explanation-seeking': { text: 'Exploring concepts', cls: 'good' },
+    'concept-exploring': { text: 'Deep thinking', cls: 'good' },
+    'debugging': { text: 'Problem solving', cls: 'neutral' },
+    'answer-seeking': { text: 'Try asking "why" or "how"', cls: 'seeking' }
+  };
+  const info = labels[intent] || labels['explanation-seeking'];
+  return `<div class="chat-quality-indicator ${info.cls}">${info.text}</div>`;
+}
+
+function updateMsgCounter() {
+  const counter = document.getElementById('chatMsgCounter');
+  if (!counter) return;
+  if (hasApiKey()) {
+    counter.style.display = '';
+    counter.textContent = `${chatSessionMsgCount} / ${CHAT_MAX_MESSAGES} messages`;
+    if (chatSessionMsgCount >= CHAT_MAX_MESSAGES) {
+      counter.style.color = 'var(--accent4)';
+    }
+  } else {
+    counter.style.display = 'none';
+  }
+}
+
+// ============================================================
+// CLAUDE API STREAMING
+// ============================================================
+
+function buildSystemPrompt() {
+  const trackName = selectedTrack ? TRACKS[selectedTrack].name : 'not yet selected';
+  const trackWeek = selectedTrack ? 'Week 1' : 'N/A';
+  return `You are the AI Curriculum Track Advisor — a Socratic tutor that helps learners find and follow the right AI learning path.
+
+CURRICULUM CONTEXT:
+- Current track: ${trackName}
+- Available tracks: Explorer (conceptual, no coding), Practitioner (power user, workflows), Builder (code, APIs, ML), Researcher (deep theory, papers)
+- The curriculum is self-paced with weekly activity blocks
+
+YOUR ROLE:
+1. Guide through questions, don't give direct answers until the student shows effort
+2. Ask clarifying questions about their background, goals, and available time
+3. Recommend the most appropriate track with reasoning
+4. Help them understand concepts by asking them to think through problems
+5. Be encouraging but honest about what each track requires
+
+RULES:
+- Keep responses concise (2-4 paragraphs max)
+- Ask at least one question back to the student in most responses
+- If they ask for a direct answer, redirect with a guiding question first
+- Reference specific tracks and their content when relevant
+- Be warm and supportive, like a knowledgeable mentor`;
+}
+
+async function streamClaudeResponse(userText) {
+  const apiKey = getApiKey();
+  const msgs = document.getElementById('chatMessages');
+
+  // Build message history for context
+  const apiMessages = chatHistory
+    .filter(m => m.role === 'user' || m.role === 'assistant')
+    .slice(-10) // Keep last 10 messages for context window management
+    .map(m => ({ role: m.role, content: m.text || m.content || '' }));
+  apiMessages.push({ role: 'user', content: userText });
+
+  // Create streaming bubble
+  const bubble = document.createElement('div');
+  bubble.className = 'chat-bubble bot chat-streaming-cursor';
+  bubble.innerHTML = '';
+  msgs.appendChild(bubble);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  let fullText = '';
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1024,
+        system: buildSystemPrompt(),
+        messages: apiMessages,
+        stream: true
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`API error ${response.status}: ${errText}`);
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || '';
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const data = line.slice(6);
+        if (data === '[DONE]') continue;
+
+        try {
+          const event = JSON.parse(data);
+          if (event.type === 'content_block_delta' && event.delta?.type === 'text_delta') {
+            fullText += event.delta.text;
+            bubble.innerHTML = formatChatMarkdown(fullText);
+            msgs.scrollTop = msgs.scrollHeight;
+          }
+        } catch { /* skip malformed events */ }
+      }
+    }
+
+    bubble.classList.remove('chat-streaming-cursor');
+    bubble.innerHTML = formatChatMarkdown(fullText);
+    chatHistory.push({ role: 'assistant', text: fullText, content: fullText });
+    return true;
+  } catch (err) {
+    bubble.remove();
+    console.error('Claude API error:', err);
+    return false;
+  }
+}
+
+function formatChatMarkdown(text) {
+  // Simple markdown-to-HTML for chat bubbles
+  return text
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/`(.+?)`/g, '<code style="background:rgba(255,255,255,0.1);padding:1px 4px;border-radius:3px;font-size:12px;">$1</code>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>')
+    .replace(/^/, '<p>').replace(/$/, '</p>');
+}
+
+// ============================================================
+// CHAT UI FUNCTIONS
+// ============================================================
 
 function showChat() {
   chatHistory = [];
   chatBotBusy = false;
+  chatSessionMsgCount = 0;
   document.getElementById('chatMessages').innerHTML = '';
   document.getElementById('chatInput').value = '';
+  updateChatApiStatus();
+  updateMsgCounter();
 
   // Render persona buttons
   const personasHtml = CHAT_PERSONAS.map((p, i) => `
@@ -3509,7 +4122,11 @@ function showChat() {
 
   // Initial bot message
   setTimeout(() => {
-    addBotMessage(`<p>Hi! I'm the Track Advisor. Tell me about your background, your goals, and how much time you have — I'll suggest the right learning path.</p><p>I use keyword matching to analyze your description and recommend a track. Pick a quick-start persona above, or describe your situation in your own words.</p>`);
+    if (hasApiKey()) {
+      addBotMessage(`<p>Hi! I'm the Track Advisor, powered by Claude. Tell me about your background, your goals, and how much time you have — I'll help you find the right learning path.</p><p>I'll guide you through questions rather than just giving answers. Pick a quick-start persona above, or describe your situation.</p>`);
+    } else {
+      addBotMessage(`<p>Hi! I'm the Track Advisor. Tell me about your background, your goals, and how much time you have — I'll suggest the right learning path.</p><p>I use keyword matching to analyze your description and recommend a track. Pick a quick-start persona above, or describe your situation in your own words.</p><p style="color: var(--text-muted); font-size: 12px;">Tip: Click the gear icon to add a Claude API key for AI-powered advising.</p>`);
+    }
   }, 300);
 }
 
@@ -3565,8 +4182,15 @@ function autoResizeTextarea(el) {
   el.style.height = Math.min(el.scrollHeight, 120) + 'px';
 }
 
-function sendChatMessage() {
+async function sendChatMessage() {
   if (chatBotBusy) return;
+
+  // Rate limit check
+  if (hasApiKey() && chatSessionMsgCount >= CHAT_MAX_MESSAGES) {
+    showToast('Session message limit reached (20). Start a new chat session.');
+    return;
+  }
+
   const input = document.getElementById('chatInput');
   const text = input.value.trim();
   if (!text) return;
@@ -3577,33 +4201,62 @@ function sendChatMessage() {
   document.getElementById('chatSendBtn').disabled = true;
 
   addUserMessage(text);
+
+  // Classify and track chat quality
+  const intent = classifyChatIntent(text);
+  trackChatIntent(intent);
+  // Add subtle quality indicator to user's message
+  const userBubbles = document.querySelectorAll('.chat-bubble.user');
+  const lastUserBubble = userBubbles[userBubbles.length - 1];
+  if (lastUserBubble) {
+    lastUserBubble.insertAdjacentHTML('beforeend', getQualityIndicatorHTML(intent));
+  }
+
   chatHistory.push({ role: 'user', text });
+  chatSessionMsgCount++;
+  updateMsgCounter();
 
-  showTypingIndicator();
-
-  // Simulate a short thinking pause
-  const delay = 600 + Math.random() * 800;
-  setTimeout(() => {
+  if (hasApiKey()) {
+    // LLM-powered path
+    showTypingIndicator();
+    const success = await streamClaudeResponse(text);
     removeTypingIndicator();
-    const rec = buildRecommendation(chatHistory.map(m => m.text).join(' '));
-    const responseHTML = buildResponseHTML(rec, text);
-    addBotMessage(responseHTML);
-    chatHistory.push({ role: 'bot', rec });
 
-    // Follow-up offer
+    if (!success) {
+      // Fallback to rule-based
+      showToast('API call failed — falling back to offline mode');
+      sendRuleBasedResponse(text);
+    }
+  } else {
+    // Rule-based path (original behavior)
+    showTypingIndicator();
+    const delay = 600 + Math.random() * 800;
     setTimeout(() => {
-      const followUps = [
-        'Want me to explain the difference between any two tracks?',
-        'Would it help to see a sample week from the recommended track?',
-        'If you\'d like to refine the recommendation, tell me more about your coding experience or weekly time budget.'
-      ];
-      const follow = followUps[Math.floor(Math.random() * followUps.length)];
-      addBotMessage(`<p style="color: var(--text-muted); font-size: 13px;">${follow}</p>`);
+      removeTypingIndicator();
+      sendRuleBasedResponse(text);
+    }, delay);
+  }
 
-      chatBotBusy = false;
-      document.getElementById('chatSendBtn').disabled = false;
-    }, 800);
-  }, delay);
+  chatBotBusy = false;
+  document.getElementById('chatSendBtn').disabled = false;
+}
+
+function sendRuleBasedResponse(text) {
+  const rec = buildRecommendation(chatHistory.map(m => m.role === 'user' ? m.text : '').join(' '));
+  const responseHTML = buildResponseHTML(rec, text);
+  addBotMessage(responseHTML);
+  chatHistory.push({ role: 'assistant', text: responseHTML, rec });
+
+  // Follow-up offer
+  setTimeout(() => {
+    const followUps = [
+      'Want me to explain the difference between any two tracks?',
+      'Would it help to see a sample week from the recommended track?',
+      'If you\'d like to refine the recommendation, tell me more about your coding experience or weekly time budget.'
+    ];
+    const follow = followUps[Math.floor(Math.random() * followUps.length)];
+    addBotMessage(`<p style="color: var(--text-muted); font-size: 13px;">${follow}</p>`);
+  }, 800);
 }
 
 function startWithTrack(trackKey) {
@@ -3616,6 +4269,285 @@ function showDeepDiveFromChat(trackKey) {
   selectedTrack = trackKey;
   saveTrack(trackKey);
   showDeepDive(trackKey, 'chat');
+}
+
+// ============================================================
+// ENGAGEMENT ANALYTICS (Task #5)
+// ============================================================
+
+let currentActivityStart = null;
+let currentActivityId = null;
+
+function getEngagementData() {
+  try {
+    return JSON.parse(localStorage.getItem('ai-curriculum-engagement') || 'null') || {
+      sessions: [],
+      activityTimes: {},
+      dailyTime: {},
+      weeklyTime: {},
+      productiveStruggle: {}
+    };
+  } catch {
+    return { sessions: [], activityTimes: {}, dailyTime: {}, weeklyTime: {}, productiveStruggle: {} };
+  }
+}
+function saveEngagementData(data) {
+  localStorage.setItem('ai-curriculum-engagement', JSON.stringify(data));
+}
+
+function startActivityTimer(activityId) {
+  // Stop any previous timer
+  if (currentActivityStart && currentActivityId) {
+    stopActivityTimer();
+  }
+  currentActivityStart = Date.now();
+  currentActivityId = activityId;
+}
+
+function stopActivityTimer() {
+  if (!currentActivityStart || !currentActivityId) return;
+  const duration = Math.round((Date.now() - currentActivityStart) / 1000); // seconds
+  if (duration < 2) { currentActivityStart = null; currentActivityId = null; return; } // ignore tiny durations
+
+  const data = getEngagementData();
+  const now = new Date();
+  const dateKey = now.toISOString().slice(0, 10);
+  const weekKey = getWeekKey(now);
+
+  // Store activity time
+  if (!data.activityTimes[currentActivityId]) {
+    data.activityTimes[currentActivityId] = [];
+  }
+  data.activityTimes[currentActivityId].push({
+    start: new Date(currentActivityStart).toISOString(),
+    end: now.toISOString(),
+    duration
+  });
+
+  // Aggregate daily time
+  data.dailyTime[dateKey] = (data.dailyTime[dateKey] || 0) + duration;
+
+  // Aggregate weekly time
+  data.weeklyTime[weekKey] = (data.weeklyTime[weekKey] || 0) + duration;
+
+  // Record session
+  data.sessions.push({
+    activityId: currentActivityId,
+    date: dateKey,
+    duration,
+    timestamp: now.toISOString()
+  });
+  // Keep only last 100 sessions
+  if (data.sessions.length > 100) data.sessions = data.sessions.slice(-100);
+
+  saveEngagementData(data);
+  currentActivityStart = null;
+  currentActivityId = null;
+}
+
+function getWeekKey(date) {
+  const d = new Date(date);
+  const day = d.getDay();
+  const monday = new Date(d);
+  monday.setDate(d.getDate() - (day === 0 ? 6 : day - 1));
+  return monday.toISOString().slice(0, 10);
+}
+
+function trackProductiveStruggle(activityId) {
+  // Record time spent on activity before first chat interaction
+  const data = getEngagementData();
+  if (!currentActivityStart) return;
+  const timeBeforeChat = Math.round((Date.now() - currentActivityStart) / 1000);
+  data.productiveStruggle[activityId] = timeBeforeChat;
+  saveEngagementData(data);
+}
+
+function calcEngagementScore() {
+  const data = getEngagementData();
+  const interests = getInterests();
+  const chatQuality = getChatQualityData();
+
+  // Component 1: Time invested (0-30 points)
+  const totalTimeSec = Object.values(data.dailyTime).reduce((a, b) => a + b, 0);
+  const totalTimeHrs = totalTimeSec / 3600;
+  const timeScore = Math.min(30, Math.round(totalTimeHrs * 3));
+
+  // Component 2: Consistency/streak (0-25 points)
+  const streakScore = Math.min(25, (interests.streak?.current || 0) * 5);
+
+  // Component 3: Chat quality (0-25 points)
+  const goodIntents = (chatQuality.intents['explanation-seeking'] || 0) + (chatQuality.intents['concept-exploring'] || 0);
+  const badIntents = chatQuality.intents['answer-seeking'] || 0;
+  const totalIntents = goodIntents + badIntents + (chatQuality.intents['debugging'] || 0);
+  const chatScore = totalIntents > 0 ? Math.round((goodIntents / totalIntents) * 25) : 12;
+
+  // Component 4: Activity variety (0-20 points)
+  const typesUsed = Object.values(interests.types).filter(v => v > 0).length;
+  const varietyScore = Math.min(20, typesUsed * 4);
+
+  return {
+    total: Math.min(100, timeScore + streakScore + chatScore + varietyScore),
+    time: timeScore,
+    streak: streakScore,
+    chat: chatScore,
+    variety: varietyScore
+  };
+}
+
+function renderEngagementWidgets() {
+  const data = getEngagementData();
+  const score = calcEngagementScore();
+  const chatQuality = getChatQualityData();
+  let html = '';
+
+  // Engagement Score card
+  html += `<div class="prog-card engagement-score-card" style="margin-bottom: 16px;">
+    <div class="prog-card-title">Engagement Score</div>
+    <div class="engagement-score-value">${score.total}</div>
+    <div class="engagement-score-label">out of 100</div>
+    <div class="engagement-score-breakdown">
+      <span class="engagement-score-factor"><strong>${score.time}</strong> time</span>
+      <span class="engagement-score-factor"><strong>${score.streak}</strong> consistency</span>
+      <span class="engagement-score-factor"><strong>${score.chat}</strong> chat quality</span>
+      <span class="engagement-score-factor"><strong>${score.variety}</strong> variety</span>
+    </div>
+  </div>`;
+
+  // Weekly Time Chart (SVG bar chart)
+  html += renderWeeklyTimeChart(data);
+
+  // Chat Quality Distribution (SVG donut)
+  html += renderChatQualityDonut(chatQuality);
+
+  // Session History
+  html += renderSessionHistory(data);
+
+  return html;
+}
+
+function renderWeeklyTimeChart(data) {
+  const now = new Date();
+  const weeks = [];
+  for (let i = 7; i >= 0; i--) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - (i * 7));
+    const key = getWeekKey(d);
+    const secs = data.weeklyTime[key] || 0;
+    const hrs = Math.round(secs / 360) / 10; // round to 0.1
+    weeks.push({ key, hrs, label: key.slice(5) });
+  }
+
+  const maxHrs = Math.max(1, ...weeks.map(w => w.hrs));
+  const chartW = 400;
+  const chartH = 120;
+  const barW = 38;
+  const gap = (chartW - barW * weeks.length) / (weeks.length + 1);
+
+  let bars = '';
+  weeks.forEach((w, i) => {
+    const x = gap + i * (barW + gap);
+    const barH = (w.hrs / maxHrs) * (chartH - 30);
+    const y = chartH - 20 - barH;
+    bars += `<rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="3" fill="var(--accent)" opacity="0.7"/>`;
+    bars += `<text x="${x + barW/2}" y="${chartH - 6}" text-anchor="middle" fill="var(--text-muted)" font-size="8" font-family="var(--font-ui)">${w.label}</text>`;
+    if (w.hrs > 0) bars += `<text x="${x + barW/2}" y="${y - 4}" text-anchor="middle" fill="var(--text-dim)" font-size="9" font-family="var(--font-ui)">${w.hrs}h</text>`;
+  });
+
+  return `<div class="analytics-chart-container">
+    <div class="prog-card-title">Weekly Time Invested</div>
+    <svg viewBox="0 0 ${chartW} ${chartH}" preserveAspectRatio="xMidYMid meet">
+      <line x1="0" y1="${chartH - 20}" x2="${chartW}" y2="${chartH - 20}" stroke="var(--border)" stroke-width="1"/>
+      ${bars}
+    </svg>
+  </div>`;
+}
+
+function renderChatQualityDonut(chatQuality) {
+  const intents = chatQuality.intents || {};
+  const explanation = (intents['explanation-seeking'] || 0) + (intents['concept-exploring'] || 0);
+  const answerSeeking = intents['answer-seeking'] || 0;
+  const debugging = intents['debugging'] || 0;
+  const total = explanation + answerSeeking + debugging;
+
+  if (total === 0) {
+    return `<div class="analytics-chart-container">
+      <div class="prog-card-title">Chat Quality Distribution</div>
+      <div style="text-align:center; padding: 20px; color: var(--text-muted); font-size: 13px;">No chat interactions yet. Start a conversation to see quality metrics.</div>
+    </div>`;
+  }
+
+  const slices = [
+    { label: 'Explanation-seeking', value: explanation, color: 'var(--success)' },
+    { label: 'Debugging', value: debugging, color: 'var(--color-warn)' },
+    { label: 'Answer-seeking', value: answerSeeking, color: 'var(--accent4)' }
+  ].filter(s => s.value > 0);
+
+  const cx = 60, cy = 60, r = 45, innerR = 28;
+  let startAngle = -Math.PI / 2;
+  let paths = '';
+
+  slices.forEach(s => {
+    const angle = (s.value / total) * Math.PI * 2;
+    const endAngle = startAngle + angle;
+    const largeArc = angle > Math.PI ? 1 : 0;
+
+    const x1 = cx + r * Math.cos(startAngle);
+    const y1 = cy + r * Math.sin(startAngle);
+    const x2 = cx + r * Math.cos(endAngle);
+    const y2 = cy + r * Math.sin(endAngle);
+    const ix1 = cx + innerR * Math.cos(endAngle);
+    const iy1 = cy + innerR * Math.sin(endAngle);
+    const ix2 = cx + innerR * Math.cos(startAngle);
+    const iy2 = cy + innerR * Math.sin(startAngle);
+
+    paths += `<path d="M${x1},${y1} A${r},${r} 0 ${largeArc},1 ${x2},${y2} L${ix1},${iy1} A${innerR},${innerR} 0 ${largeArc},0 ${ix2},${iy2} Z" fill="${s.color}" opacity="0.8"/>`;
+    startAngle = endAngle;
+  });
+
+  const pct = total > 0 ? Math.round((explanation / total) * 100) : 0;
+
+  let legend = slices.map(s => {
+    const p = Math.round((s.value / total) * 100);
+    return `<div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-dim);"><div style="width:8px;height:8px;border-radius:50%;background:${s.color};flex-shrink:0;"></div>${s.label} (${p}%)</div>`;
+  }).join('');
+
+  return `<div class="analytics-chart-container">
+    <div class="prog-card-title">Chat Quality Distribution</div>
+    <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+      <svg width="120" height="120" viewBox="0 0 120 120">
+        ${paths}
+        <text x="${cx}" y="${cy - 2}" text-anchor="middle" fill="var(--text)" font-size="16" font-weight="800" font-family="var(--font-ui)">${pct}%</text>
+        <text x="${cx}" y="${cy + 12}" text-anchor="middle" fill="var(--text-muted)" font-size="8" font-family="var(--font-ui)">QUALITY</text>
+      </svg>
+      <div style="display:flex;flex-direction:column;gap:6px;">${legend}</div>
+    </div>
+  </div>`;
+}
+
+function renderSessionHistory(data) {
+  const sessions = (data.sessions || []).slice(-10).reverse();
+  if (sessions.length === 0) {
+    return `<div class="analytics-chart-container">
+      <div class="prog-card-title">Recent Sessions</div>
+      <div style="text-align:center; padding: 20px; color: var(--text-muted); font-size: 13px;">No sessions recorded yet. Open and complete activities to track sessions.</div>
+    </div>`;
+  }
+
+  let rows = sessions.map(s => {
+    const mins = Math.round(s.duration / 60);
+    const durStr = mins > 0 ? `${mins}m` : `${s.duration}s`;
+    const parts = s.activityId ? s.activityId.split('-') : [];
+    const actLabel = parts.length >= 3 ? `W${parseInt(parts[1])+1}D${parseInt(parts[2])+1}` : s.activityId;
+    return `<tr><td>${s.date}</td><td>${actLabel}</td><td>${durStr}</td></tr>`;
+  }).join('');
+
+  return `<div class="analytics-chart-container">
+    <div class="prog-card-title">Recent Sessions (Last 10)</div>
+    <table class="session-history-table">
+      <thead><tr><th>Date</th><th>Activity</th><th>Duration</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
 }
 
 // ============================================================
@@ -3965,8 +4897,12 @@ function exportProgress() {
     interests: getInterests(),
     reviews: getReviews(),
     track: getSavedTrack(),
+    engagement: getEngagementData(),
+    chatQuality: getChatQualityData(),
+    knowledgeState: getKnowledgeState(),
+    difficultyLog: getAdaptiveDifficultyLog(),
     exportDate: new Date().toISOString(),
-    version: '1.0'
+    version: '3.0'
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -3992,6 +4928,10 @@ function importProgress() {
         if (data.progress) saveProgress(data.progress);
         if (data.interests) saveInterests(data.interests);
         if (data.reviews) saveReviews(data.reviews);
+        if (data.engagement) saveEngagementData(data.engagement);
+        if (data.chatQuality) saveChatQualityData(data.chatQuality);
+        if (data.knowledgeState) saveKnowledgeState(data.knowledgeState);
+        if (data.difficultyLog) saveAdaptiveDifficultyLog(data.difficultyLog);
         if (data.track) {
           saveTrack(data.track);
           selectedTrack = data.track;
@@ -4208,6 +5148,17 @@ function renderProgressDashboard() {
   // Heatmap
   html += renderHeatmap(interests.heatmap);
 
+  // Mastery Curve (Knowledge State visualization)
+  const masteryCurveHtml = renderMasteryCurve();
+  if (masteryCurveHtml) {
+    html += `<div class="prog-section-title" style="margin-top: 24px;">Knowledge Mastery</div>`;
+    html += masteryCurveHtml;
+  }
+
+  // Engagement Analytics section
+  html += `<div class="prog-section-title" style="margin-top: 24px;">Engagement Analytics</div>`;
+  html += renderEngagementWidgets();
+
   document.getElementById('progContent').innerHTML = html;
 }
 
@@ -4402,6 +5353,11 @@ function toggleDay(track, wi, di) {
 
   // Interest tracking
   trackActivity(track, wi, di, nowCompleted);
+
+  // Engagement: stop timer on completion
+  if (nowCompleted) {
+    stopActivityTimer();
+  }
 
   // Show "nav-progress" link once user has any activity
   document.getElementById('nav-progress').style.display = '';
@@ -4721,6 +5677,759 @@ function downloadCertificate() {
 }
 
 // ============================================================
+// PRACTICE PROBLEMS — Data + Engine + Mastery Gating
+// ============================================================
+
+const PROBLEMS = {
+  explorer: {
+    0: [
+      { id:'e1-1', type:'mcq', difficulty:1, question:'What does AI primarily excel at according to the "Prediction Machines" framework?', options:['Making predictions from data','Understanding human emotions','Creating consciousness','Replacing all human jobs'], answer:0, explanation:'Agrawal, Gans & Goldfarb frame AI as a technology that dramatically reduces the cost of prediction, which is its core economic function.', concept:'AI as prediction' },
+      { id:'e1-2', type:'truefalse', difficulty:1, question:'A neural network requires explicitly programmed rules for every decision it makes.', answer:false, explanation:'Neural networks learn patterns from data through training, rather than following explicit rules.', concept:'Neural networks' },
+      { id:'e1-3', type:'mcq', difficulty:2, question:'Which of the following is a current limitation of AI systems?', options:['Processing large amounts of data','Robust common-sense reasoning','Pattern recognition in images','Generating text from prompts'], answer:1, explanation:'While AI excels at pattern recognition and generation, robust common-sense reasoning remains one of its key limitations.', concept:'AI limitations' },
+      { id:'e1-4', type:'truefalse', difficulty:1, question:'The Stanford HAI AI Index is an opinion-based report about where AI is heading.', answer:false, explanation:'The HAI AI Index is data-driven, not opinion-driven. It compiles quantitative data on AI capabilities, adoption, investment, and policy.', concept:'AI landscape' }
+    ],
+    1: [
+      { id:'e2-1', type:'mcq', difficulty:1, question:'What is the process by which a neural network adjusts its parameters to improve performance?', options:['Compiling','Gradient descent','Encryption','Indexing'], answer:1, explanation:'Gradient descent is the optimization algorithm that adjusts network weights by computing the gradient of the loss function and stepping in the direction that reduces error.', concept:'Gradient descent' },
+      { id:'e2-2', type:'truefalse', difficulty:2, question:'AI models can only be biased if a programmer intentionally adds bias to the code.', answer:false, explanation:'Bias in AI often comes from training data that reflects historical or societal biases. The model learns the patterns present in its data.', concept:'AI bias' },
+      { id:'e2-3', type:'mcq', difficulty:1, question:'Google\'s Teachable Machine demonstrates that training a simple classifier requires:', options:['A PhD in machine learning','Thousands of lines of code','Examples of what you want to classify','A powerful GPU server'], answer:2, explanation:'Teachable Machine shows that training a basic classifier mainly requires examples.', concept:'ML training basics' }
+    ],
+    2: [
+      { id:'e3-1', type:'mcq', difficulty:2, question:'Which prompt engineering technique provides examples of desired output within the prompt?', options:['Zero-shot prompting','Chain-of-thought','Few-shot prompting','System prompting'], answer:2, explanation:'Few-shot prompting includes examples of input-output pairs in the prompt, helping the model understand the expected format and quality.', concept:'Prompt engineering' },
+      { id:'e3-2', type:'truefalse', difficulty:1, question:'A more specific prompt generally produces better AI output than a vague one.', answer:true, explanation:'Specificity helps AI understand exactly what you need. Vague prompts leave too much room for interpretation.', concept:'Prompt specificity' },
+      { id:'e3-3', type:'mcq', difficulty:2, question:'What is the primary risk of relying on AI-generated content without verification?', options:['The content might be too long','The AI might hallucinate false information','The formatting might be inconsistent','The response time might be slow'], answer:1, explanation:'Hallucination — generating plausible-sounding but factually incorrect information — is a key risk of LLMs that requires human verification.', concept:'AI hallucination' }
+    ],
+    3: [
+      { id:'e4-1', type:'mcq', difficulty:2, question:'The EU AI Act classifies AI systems into risk categories. Which is NOT one of them?', options:['Unacceptable risk','High risk','Entertainment risk','Limited risk'], answer:2, explanation:'The EU AI Act uses four risk levels: unacceptable, high, limited, and minimal risk. There is no "entertainment risk" category.', concept:'AI regulation' },
+      { id:'e4-2', type:'truefalse', difficulty:2, question:'Anthropic and Google have identical AI safety principles and approaches.', answer:false, explanation:'While both companies take safety seriously, they have different approaches.', concept:'Corporate AI ethics' },
+      { id:'e4-3', type:'mcq', difficulty:1, question:'Why is AI transparency important?', options:['It makes AI run faster','It lets users understand and evaluate AI decisions','It reduces the cost of AI systems','It eliminates all bias'], answer:1, explanation:'Transparency allows users, regulators, and affected parties to understand how AI systems make decisions, which is essential for accountability and trust.', concept:'AI transparency' }
+    ],
+    4: [
+      { id:'e5-1', type:'mcq', difficulty:2, question:'According to Gerald Kane, digital transformation primarily fails because of:', options:['Insufficient computing power','People and organizational resistance','Lack of AI algorithms','Poor internet connectivity'], answer:1, explanation:'Kane argues that transformation fails due to people and culture, not technology.', concept:'AI adoption' },
+      { id:'e5-2', type:'truefalse', difficulty:1, question:'Tasks that are highly repetitive and require little judgment are generally the best candidates for AI automation.', answer:true, explanation:'Repetitive, low-judgment tasks are ideal automation candidates because they have predictable patterns that AI can learn reliably.', concept:'AI opportunity mapping' },
+      { id:'e5-3', type:'mcq', difficulty:2, question:'In "Superminds," Thomas Malone describes organizations as:', options:['Purely hierarchical command structures','Collections of interacting intelligent agents','Simple input-output machines','Replaceable by AI systems'], answer:1, explanation:'Malone frames organizations as superminds — collections of interacting intelligent agents that collectively think and decide.', concept:'Organizational AI' }
+    ],
+    5: [
+      { id:'e6-1', type:'mcq', difficulty:2, question:'What framework does NIST provide for evaluating AI systems?', options:['AI Entertainment Framework','AI Risk Management Framework','AI Speed Optimization Guide','AI Marketing Framework'], answer:1, explanation:'NIST AI RMF 1.0 provides a structured Govern-Map-Measure-Manage framework for assessing and managing AI risks.', concept:'AI risk management' },
+      { id:'e6-2', type:'truefalse', difficulty:2, question:'When evaluating an AI vendor, you should focus solely on the accuracy metrics they report.', answer:false, explanation:'Vendor-reported metrics can be cherry-picked. You should also evaluate data practices, failure modes, bias testing, and security posture.', concept:'Vendor evaluation' },
+      { id:'e6-3', type:'mcq', difficulty:1, question:'Which question is MOST important to ask when evaluating an AI product?', options:['What color is the dashboard?','What data does it train on and how is it stored?','How many features does it have?','Does it have a mobile app?'], answer:1, explanation:'Understanding the data pipeline is fundamental to evaluating AI product risk and trustworthiness.', concept:'AI product evaluation' }
+    ],
+    6: [
+      { id:'e7-1', type:'mcq', difficulty:2, question:'The difference between AI augmentation and AI automation is:', options:['Augmentation is cheaper','Augmentation enhances human capability; automation replaces human tasks','They are the same thing','Automation is always better'], answer:1, explanation:'Augmentation uses AI to enhance what humans can do, while automation replaces human tasks entirely.', concept:'Augmentation vs automation' },
+      { id:'e7-2', type:'truefalse', difficulty:1, question:'Microsoft\'s Work Trend Index uses real workplace data to track how AI changes knowledge work.', answer:true, explanation:'The Work Trend Index provides evidence-based insights on how AI is actually changing work patterns.', concept:'AI at work' },
+      { id:'e7-3', type:'mcq', difficulty:2, question:'When redesigning a workflow with AI, the first step should be:', options:['Buy the most expensive AI tool','Understand the current workflow in detail before adding AI','Replace all human roles immediately','Skip testing and deploy directly'], answer:1, explanation:'Understanding the existing workflow is essential before determining where AI can add value.', concept:'Workflow redesign' }
+    ],
+    7: [
+      { id:'e8-1', type:'mcq', difficulty:2, question:'Reid Hoffman\'s "Superagency" argues that AI primarily:', options:['Will replace all human workers','Amplifies individual capability','Should be banned','Is only useful for tech companies'], answer:1, explanation:'Hoffman argues AI creates superagency — amplifying what individuals can accomplish.', concept:'AI future' },
+      { id:'e8-2', type:'truefalse', difficulty:1, question:'A personal AI strategy should include both what you WILL and what you WON\'T use AI for.', answer:true, explanation:'Defining boundaries is as important as identifying opportunities.', concept:'AI strategy' },
+      { id:'e8-3', type:'mcq', difficulty:2, question:'Why is it important to track developments from AI research labs?', options:['To buy their stock','To understand what capabilities are emerging before they arrive','To copy their code','To avoid using AI'], answer:1, explanation:'Tracking frontier research helps you anticipate upcoming capabilities and prepare.', concept:'AI frontier' }
+    ]
+  },
+  practitioner: {
+    0: [
+      { id:'p1-1', type:'mcq', difficulty:2, question:'Which metric would BEST evaluate your current AI tool effectiveness?', options:['Number of times you open the tool','Time saved per task compared to manual work','The AI model parameter count','Number of tokens in your prompts'], answer:1, explanation:'Time saved per task is a concrete, measurable metric that directly quantifies AI value.', concept:'AI effectiveness' },
+      { id:'p1-2', type:'truefalse', difficulty:1, question:'AI hallucination refers to when an AI generates confident but factually incorrect responses.', answer:true, explanation:'Hallucination is when LLMs produce plausible-sounding but false information with high confidence.', concept:'AI hallucination' },
+      { id:'p1-3', type:'mcq', difficulty:2, question:'When mapping AI strengths vs weaknesses in your workflow, which approach is most useful?', options:['Ask the AI vendor','Test with real tasks and record success/failure rates','Read online reviews','Trust marketing materials'], answer:1, explanation:'Empirical testing with your actual tasks reveals real-world performance.', concept:'AI capability mapping' }
+    ],
+    1: [
+      { id:'p2-1', type:'mcq', difficulty:2, question:'A system prompt is used to:', options:['Make the AI run faster','Set persistent behavior, role, and constraints for the AI','Change the AI model being used','Encrypt the conversation'], answer:1, explanation:'System prompts establish the AI\'s persona, constraints, and output format that persist throughout the conversation.', concept:'System prompts' },
+      { id:'p2-2', type:'code', difficulty:3, question:'Write a system prompt that instructs an AI to act as a data analyst who responds with bullet points. Start with "You are..."', answer:'You are a data analyst', explanation:'An effective system prompt should define the role and output format. The more specific, the more consistent.', concept:'System prompt writing' },
+      { id:'p2-3', type:'mcq', difficulty:2, question:'Chain-of-thought prompting improves accuracy by:', options:['Making the AI think faster','Asking the AI to reason step-by-step before answering','Using longer prompts','Adding more examples'], answer:1, explanation:'Chain-of-thought prompting asks the model to show its reasoning, improving accuracy on complex tasks.', concept:'Chain-of-thought' },
+      { id:'p2-4', type:'truefalse', difficulty:2, question:'Few-shot prompting means providing zero examples and relying on pre-training.', answer:false, explanation:'Few-shot provides examples. Zero examples is zero-shot prompting.', concept:'Few-shot prompting' }
+    ],
+    2: [
+      { id:'p3-1', type:'mcq', difficulty:2, question:'Which is NOT typically used for AI workflow automation?', options:['Zapier','Make (Integromat)','n8n','Photoshop'], answer:3, explanation:'Zapier, Make, and n8n are automation platforms. Photoshop is an image editing tool.', concept:'Automation platforms' },
+      { id:'p3-2', type:'truefalse', difficulty:2, question:'Google\'s first Rule of ML states: "Don\'t be afraid to launch a machine learning model."', answer:true, explanation:'Rule #1 emphasizes that a working ML system, even simple, provides value and learning.', concept:'ML in production' },
+      { id:'p3-3', type:'mcq', difficulty:3, question:'When building an AI automation, what should you define FIRST?', options:['The AI model to use','The specific input and expected output for each step','The dashboard design','The pricing tier'], answer:1, explanation:'Clearly defining inputs and outputs ensures the automation is well-scoped and testable.', concept:'Automation design' }
+    ],
+    3: [
+      { id:'p4-1', type:'mcq', difficulty:2, question:'Breiman\'s "Two Cultures" describes the split between:', options:['Front-end and back-end','Statistical modeling (explanation) and algorithmic prediction','Supervised and unsupervised learning','Hardware and software'], answer:1, explanation:'Breiman argued statistics has two cultures: data models (explanation) and algorithmic models (prediction).', concept:'Two cultures' },
+      { id:'p4-2', type:'truefalse', difficulty:2, question:'A dataset with 99% accuracy can still be biased if it performs poorly on underrepresented groups.', answer:true, explanation:'Overall accuracy can mask disparate performance across subgroups.', concept:'Data bias' },
+      { id:'p4-3', type:'mcq', difficulty:2, question:'Which data quality dimension asks "Does the data reflect the current state of the world?"', options:['Completeness','Accuracy','Freshness','Consistency'], answer:2, explanation:'Freshness measures whether data is current. Stale data leads to decisions based on outdated information.', concept:'Data quality' }
+    ],
+    4: [
+      { id:'p5-1', type:'mcq', difficulty:2, question:'The EU AI Act classifies which as "unacceptable risk"?', options:['AI weather forecasting','AI social scoring by governments','AI email filtering','AI music recommendation'], answer:1, explanation:'Government social scoring systems are banned under the EU AI Act.', concept:'EU AI Act' },
+      { id:'p5-2', type:'truefalse', difficulty:2, question:'A responsible AI policy only needs to address technical concerns, not behavioral guidelines.', answer:false, explanation:'Policies must address both technical safeguards and human behavioral guidelines.', concept:'AI policy' },
+      { id:'p5-3', type:'mcq', difficulty:3, question:'A risk assessment for an AI tool should evaluate:', options:['Only the benefits','Only the costs','Data practices, failure modes, and mitigations','Only the UI design'], answer:2, explanation:'A thorough risk assessment covers data practices, failure modes, and mitigations.', concept:'Risk assessment' }
+    ],
+    5: [
+      { id:'p6-1', type:'mcq', difficulty:2, question:'A Custom GPT or Claude Project is valuable because it:', options:['Costs less','Creates a domain-specific assistant for recurring needs','Runs faster','Requires no prompt'], answer:1, explanation:'Custom GPTs/Projects let you configure persistent instructions for specific use cases.', concept:'Custom AI tools' },
+      { id:'p6-2', type:'truefalse', difficulty:1, question:'An API allows different software systems to communicate with each other.', answer:true, explanation:'APIs define how software components interact. AI APIs let apps send text to a model and receive responses.', concept:'API basics' },
+      { id:'p6-3', type:'mcq', difficulty:2, question:'The main advantage of chaining multiple AI tools together is:', options:['It looks more impressive','Each tool handles what it\'s best at, producing better overall results','It uses less computing power','It eliminates human review'], answer:1, explanation:'Tool chaining leverages each tool\'s strengths.', concept:'Multi-tool workflows' }
+    ],
+    6: [
+      { id:'p7-1', type:'mcq', difficulty:3, question:'NIST AI RMF 1.0\'s four core functions are:', options:['Plan, Build, Test, Deploy','Govern, Map, Measure, Manage','Identify, Protect, Detect, Respond','Design, Develop, Deliver, Maintain'], answer:1, explanation:'NIST AI RMF organizes risk management into: Govern, Map, Measure, Manage.', concept:'NIST AI RMF' },
+      { id:'p7-2', type:'truefalse', difficulty:2, question:'OWASP Top 10 for LLMs focuses on security vulnerabilities specific to large language model applications.', answer:true, explanation:'OWASP\'s LLM Top 10 addresses risks unique to LLM applications.', concept:'LLM security' },
+      { id:'p7-3', type:'mcq', difficulty:2, question:'Which vendor red flag should concern you most?', options:['The product has a free tier','The vendor won\'t explain training data or methodology','The interface uses dark mode','The product is newer than 2 years'], answer:1, explanation:'Lack of transparency about training data is a major red flag.', concept:'Vendor red flags' }
+    ],
+    7: [
+      { id:'p8-1', type:'mcq', difficulty:2, question:'In "Power and Prediction," AI changes decision economics by:', options:['Making all decisions automatic','Reducing prediction cost, changing which decisions are worth making','Eliminating human judgment','Making decisions slower'], answer:1, explanation:'When prediction becomes cheap, previously unviable decisions become viable.', concept:'Decision economics' },
+      { id:'p8-2', type:'truefalse', difficulty:2, question:'You should always defer to AI judgment when it disagrees with your assessment.', answer:false, explanation:'AI should inform, not replace, human judgment.', concept:'Human-AI collaboration' },
+      { id:'p8-3', type:'mcq', difficulty:3, question:'Pentland\'s "idea flow" concept suggests:', options:['Ideas should only come from leadership','How information flows between people determines collective intelligence','Social media is the best channel','Individual genius matters most'], answer:1, explanation:'The pattern of information flow is the strongest predictor of group performance.', concept:'Collective intelligence' }
+    ],
+    8: [
+      { id:'p9-1', type:'mcq', difficulty:2, question:'When redesigning a process with AI, start by:', options:['Buying AI software immediately','Mapping the current process end-to-end','Eliminating all humans','Asking AI to redesign it'], answer:1, explanation:'Understanding every step is essential before determining where AI adds value.', concept:'Process redesign' },
+      { id:'p9-2', type:'truefalse', difficulty:2, question:'A single metric like "time saved" is sufficient to measure AI impact.', answer:false, explanation:'AI impact should be measured across multiple dimensions.', concept:'AI measurement' },
+      { id:'p9-3', type:'mcq', difficulty:2, question:'Change management for AI adoption should focus on:', options:['Technical training only','Addressing fear, demonstrating value, and building trust incrementally','Mandating AI use by policy','Replacing resistant people'], answer:1, explanation:'Successful AI adoption requires addressing emotional concerns and building trust.', concept:'Change management' }
+    ],
+    9: [
+      { id:'p10-1', type:'mcq', difficulty:2, question:'A personal AI strategy should specify:', options:['Every AI tool you\'ll ever use','What to adopt, experiment with, avoid, and skills to build','Only which AI stocks to invest in','A prediction of AGI arrival'], answer:1, explanation:'An actionable strategy defines specific plans tied to concrete timelines.', concept:'AI strategy' },
+      { id:'p10-2', type:'truefalse', difficulty:1, question:'Tracking frontier AI research helps anticipate capabilities before they become products.', answer:true, explanation:'Research breakthroughs typically take 12-24 months to become products.', concept:'AI awareness' },
+      { id:'p10-3', type:'mcq', difficulty:2, question:'The most important Practitioner takeaway is:', options:['AI solves all problems','Measure your AI use, iterate deliberately, maintain human judgment','Use AI for everything','AI tools never err'], answer:1, explanation:'The Practitioner mindset is measurement-driven and deliberate.', concept:'Practitioner mindset' }
+    ]
+  },
+  builder: {
+    0: [
+      { id:'b1-1', type:'mcq', difficulty:2, question:'In gradient descent, the learning rate controls:', options:['Feature count','How large each parameter update step is','Total training epochs','Network size'], answer:1, explanation:'The learning rate determines step size. Too large causes overshooting; too small causes slow convergence.', concept:'Gradient descent' },
+      { id:'b1-2', type:'code', difficulty:3, question:'Write a Python function signature for linear regression prediction taking weights (w), bias (b), and input (x).', answer:'def predict(', explanation:'A linear regression prediction is y = w*x + b.', concept:'Linear regression' },
+      { id:'b1-3', type:'truefalse', difficulty:2, question:'The bias-variance tradeoff means you can always reduce both simultaneously by adding features.', answer:false, explanation:'Reducing bias typically increases variance and vice versa. More features alone don\'t resolve this.', concept:'Bias-variance tradeoff' }
+    ],
+    1: [
+      { id:'b2-1', type:'mcq', difficulty:3, question:'In backpropagation, the chain rule is used to:', options:['Select training data','Compute gradients through composed functions layer by layer','Choose the activation function','Initialize weights'], answer:1, explanation:'Backpropagation uses the chain rule to compute gradients by propagating error signals backwards.', concept:'Backpropagation' },
+      { id:'b2-2', type:'truefalse', difficulty:3, question:'ReLU outputs zero for negative inputs and passes positive inputs unchanged.', answer:true, explanation:'ReLU(x) = max(0, x). Simple but enables deep learning.', concept:'Activation functions' },
+      { id:'b2-3', type:'code', difficulty:3, question:'Write a ReLU function in Python that takes x and returns max(0, x).', answer:'def relu(x):', explanation:'ReLU is max(0, x) — simple but critical for deep networks.', concept:'Activation functions' }
+    ],
+    2: [
+      { id:'b3-1', type:'mcq', difficulty:2, question:'Transfer learning works by:', options:['Transferring data between databases','Using a pre-trained model as starting point for another task','Moving a model between computers','Copying code between projects'], answer:1, explanation:'Transfer learning leverages features learned on a large dataset and fine-tunes them for a specific task.', concept:'Transfer learning' },
+      { id:'b3-2', type:'truefalse', difficulty:2, question:'Data augmentation artificially increases training set size by creating modified versions of existing data.', answer:true, explanation:'Augmentation applies transformations to create new training examples, improving robustness.', concept:'Data augmentation' },
+      { id:'b3-3', type:'mcq', difficulty:3, question:'The biggest gap between research and production ML is:', options:['Model accuracy','Data management, monitoring, and operational complexity','GPU availability','Paper publication'], answer:1, explanation:'Production ML\'s hard problems are data quality, pipeline reliability, and monitoring — not model architecture.', concept:'Production ML' }
+    ],
+    3: [
+      { id:'b4-1', type:'mcq', difficulty:3, question:'Self-attention computes:', options:['Token positions','Weighted relationships between every pair of tokens','Word frequency','Grammar structure'], answer:1, explanation:'Self-attention computes scores between all token pairs using Query, Key, and Value projections.', concept:'Self-attention' },
+      { id:'b4-2', type:'mcq', difficulty:3, question:'The Transformer uses positional encoding because:', options:['To compress data','Attention is permutation-invariant with no inherent notion of order','To speed up training','To reduce memory'], answer:1, explanation:'Self-attention treats input as a set. Positional encodings inject order information.', concept:'Positional encoding' },
+      { id:'b4-3', type:'truefalse', difficulty:2, question:'Multi-head attention runs several attention operations in parallel, each learning different patterns.', answer:true, explanation:'Multiple heads capture different types of relationships simultaneously.', concept:'Multi-head attention' }
+    ],
+    4: [
+      { id:'b5-1', type:'mcq', difficulty:2, question:'Streaming API responses are beneficial because:', options:['They reduce cost','They provide tokens as generated, improving perceived latency','They increase accuracy','They bypass rate limits'], answer:1, explanation:'Streaming delivers tokens incrementally, so users see output immediately.', concept:'API streaming' },
+      { id:'b5-2', type:'mcq', difficulty:3, question:'Structured output (e.g., JSON) from an LLM is important because:', options:['It looks professional','It allows programmatic parsing and integration','It uses fewer tokens','It prevents hallucination'], answer:1, explanation:'Structured output enables reliable downstream processing.', concept:'Structured output' },
+      { id:'b5-3', type:'truefalse', difficulty:2, question:'Rate limiting API calls protects against both runaway costs and provider throttling.', answer:true, explanation:'Rate limiting prevents cost spikes and ensures you stay within usage limits.', concept:'API best practices' }
+    ],
+    5: [
+      { id:'b6-1', type:'mcq', difficulty:3, question:'In RAG, the retrieval step:', options:['Generates the final response','Finds relevant document chunks to provide as LLM context','Trains the language model','Evaluates quality'], answer:1, explanation:'RAG retrieves relevant chunks using similarity search, then provides them as context.', concept:'RAG architecture' },
+      { id:'b6-2', type:'mcq', difficulty:3, question:'Chunking strategy matters because:', options:['Larger chunks are always better','Chunk size affects retrieval precision and context quality','It only affects storage costs','Chunking is optional'], answer:1, explanation:'Too large dilutes relevance; too small loses context. Semantic chunking typically works best.', concept:'Chunking strategies' },
+      { id:'b6-3', type:'truefalse', difficulty:3, question:'Vector embeddings map text to high-dimensional vectors where semantic similarity equals geometric proximity.', answer:true, explanation:'Embedding models map text so that semantically similar texts are close in vector space.', concept:'Vector embeddings' }
+    ],
+    6: [
+      { id:'b7-1', type:'mcq', difficulty:3, question:'The ReAct pattern interleaves:', options:['Reading and writing','Reasoning and acting','Research and automation','Ranking and testing'], answer:1, explanation:'ReAct alternates between reasoning steps and action steps to solve complex tasks.', concept:'ReAct pattern' },
+      { id:'b7-2', type:'truefalse', difficulty:3, question:'AI agents with tool use need sandboxing and permission controls.', answer:true, explanation:'Agents taking real-world actions need safety guardrails.', concept:'Agent safety' },
+      { id:'b7-3', type:'mcq', difficulty:3, question:'Multi-agent systems collaborate by:', options:['All using the same model','Having defined roles, shared context, and structured communication','Competing with each other','Running sequentially'], answer:1, explanation:'Effective multi-agent systems define clear roles and structured communication.', concept:'Multi-agent systems' }
+    ],
+    7: [
+      { id:'b8-1', type:'mcq', difficulty:3, question:'LoRA makes fine-tuning efficient by:', options:['Using a smaller dataset','Only updating low-rank decomposition matrices instead of all weights','Reducing model size permanently','Skipping evaluation'], answer:1, explanation:'LoRA freezes original weights and adds small trainable low-rank matrices.', concept:'LoRA' },
+      { id:'b8-2', type:'truefalse', difficulty:3, question:'Constitutional AI trains models using principles to self-critique and revise outputs.', answer:true, explanation:'CAI defines principles, then has the model critique and revise its own outputs.', concept:'Constitutional AI' },
+      { id:'b8-3', type:'mcq', difficulty:3, question:'Comparing fine-tuned vs base model, you should:', options:['Only test on training data','Evaluate on held-out test sets across multiple metrics','Trust that fine-tuning always helps','Only compare speed'], answer:1, explanation:'Rigorous evaluation on held-out data across multiple metrics is essential.', concept:'Model evaluation' }
+    ],
+    8: [
+      { id:'b9-1', type:'mcq', difficulty:3, question:'Google\'s MLOps maturity levels progress from:', options:['Small to large models','Manual ML to ML pipeline automation to CI/CD for ML','Local to cloud','Python to Java'], answer:1, explanation:'Three levels: manual, pipeline automation, and CI/CD for ML.', concept:'MLOps maturity' },
+      { id:'b9-2', type:'truefalse', difficulty:2, question:'Model drift occurs when input data properties change over time, degrading performance.', answer:true, explanation:'Data drift degrades model performance and requires monitoring and retraining.', concept:'Model drift' },
+      { id:'b9-3', type:'mcq', difficulty:3, question:'A production ML service should include all EXCEPT:', options:['Health check endpoints','Logging and monitoring','Manual approval for every prediction','Rate limiting'], answer:2, explanation:'Manual approval for every prediction would make the system unusable at scale.', concept:'Production ML' }
+    ],
+    9: [
+      { id:'b10-1', type:'mcq', difficulty:3, question:'Prompt injection attacks work by:', options:['Hacking hardware','Crafting inputs that override system instructions','Sending too many requests','Guessing the API key'], answer:1, explanation:'Prompt injection embeds malicious instructions that override the system prompt.', concept:'Prompt injection' },
+      { id:'b10-2', type:'truefalse', difficulty:3, question:'Output filtering alone is sufficient to prevent all LLM security vulnerabilities.', answer:false, explanation:'Defense in depth is required: input validation, sandboxing, rate limiting, and audit logging.', concept:'Defense in depth' },
+      { id:'b10-3', type:'mcq', difficulty:3, question:'Which OWASP LLM vulnerability involves revealing training data or system prompts?', options:['Prompt Injection','Sensitive Information Disclosure','Overreliance','Model Denial of Service'], answer:1, explanation:'Sensitive Information Disclosure occurs when models leak confidential information.', concept:'Information disclosure' }
+    ],
+    10: [
+      { id:'b11-1', type:'mcq', difficulty:3, question:'EU AI Act high-risk system requirements include:', options:['Only a privacy policy','Data governance, documentation, transparency, human oversight, accuracy','Just an annual audit','Only open-sourcing the model'], answer:1, explanation:'High-risk systems must meet requirements across multiple dimensions.', concept:'EU AI Act compliance' },
+      { id:'b11-2', type:'truefalse', difficulty:2, question:'Bias testing should use diverse inputs representing different demographic groups.', answer:true, explanation:'Testing with diverse inputs reveals disparate performance across groups.', concept:'Bias testing' },
+      { id:'b11-3', type:'mcq', difficulty:3, question:'When an AI system causes harm, responsibility falls on:', options:['Only the end user','Only data providers','Multiple parties: developers, deployers, and organizations','No one'], answer:2, explanation:'Responsibility is shared across the value chain.', concept:'AI responsibility' }
+    ],
+    11: [
+      { id:'b12-1', type:'mcq', difficulty:3, question:'A strong capstone should demonstrate:', options:['Use of the most expensive model','Integration of multiple techniques (API, RAG/agents, deployment, security)','The longest codebase','Every framework mentioned'], answer:1, explanation:'A capstone demonstrates integrated engineering competency.', concept:'Capstone integration' },
+      { id:'b12-2', type:'truefalse', difficulty:2, question:'A capstone evaluation should include both what works and what doesn\'t, plus security assessment.', answer:true, explanation:'Honest evaluation demonstrates engineering maturity.', concept:'Self-evaluation' },
+      { id:'b12-3', type:'mcq', difficulty:2, question:'Open sourcing your capstone benefits you by:', options:['Guaranteeing employment','Demonstrating work publicly and inviting feedback','Making code legally protected','Reducing documentation needs'], answer:1, explanation:'Open-sourcing demonstrates transparency and creates a public portfolio piece.', concept:'Open source' }
+    ]
+  },
+  researcher: {
+    0: [
+      { id:'r1-1', type:'mcq', difficulty:3, question:'SVD decomposes a matrix M into:', options:['M = LU','M = U*Sigma*V^T (orthogonal * diagonal * orthogonal)','M = QR','M = PDP^-1'], answer:1, explanation:'SVD: U (left singular vectors), Sigma (singular values), V^T (right singular vectors).', concept:'SVD' },
+      { id:'r1-2', type:'mcq', difficulty:3, question:'KL divergence D_KL(P||Q) measures:', options:['Average of P and Q','Information lost when Q approximates P','Correlation of P and Q','Entropy of P'], answer:1, explanation:'KL divergence quantifies the cost of using Q to approximate P.', concept:'KL divergence' },
+      { id:'r1-3', type:'truefalse', difficulty:3, question:'KL divergence is symmetric: D_KL(P||Q) = D_KL(Q||P).', answer:false, explanation:'KL divergence is asymmetric, which has practical implications for training.', concept:'KL divergence' }
+    ],
+    1: [
+      { id:'r2-1', type:'mcq', difficulty:3, question:'Adam improves upon vanilla SGD by:', options:['Using a fixed learning rate','Maintaining per-parameter adaptive learning rates using moment estimates','Using a larger batch size','Training longer'], answer:1, explanation:'Adam tracks exponential moving averages of gradient and squared gradient for adaptive rates.', concept:'Adam optimizer' },
+      { id:'r2-2', type:'truefalse', difficulty:3, question:'Momentum in SGD helps escape shallow local minima by accumulating velocity.', answer:true, explanation:'Momentum adds past update fractions, building velocity in consistent gradient directions.', concept:'Momentum' },
+      { id:'r2-3', type:'mcq', difficulty:4, question:'High condition number of the Hessian affects optimization because:', options:['It determines architecture','It creates elongated loss landscapes needing different learning rates per parameter','It sets batch size','It determines activation'], answer:1, explanation:'High condition numbers create steep/flat directions, making fixed-rate SGD oscillate.', concept:'Conditioning' }
+    ],
+    2: [
+      { id:'r3-1', type:'mcq', difficulty:3, question:'L1 regularization differs from L2 in that L1:', options:['Always better accuracy','Produces sparse solutions, driving some weights to zero','Uses larger penalty','Only works with linear models'], answer:1, explanation:'L1\'s diamond constraint produces sparsity; L2 produces small but non-zero weights.', concept:'Regularization' },
+      { id:'r3-2', type:'truefalse', difficulty:3, question:'Dropout can be interpreted as training an ensemble of exponentially many sub-networks.', answer:true, explanation:'Each dropout mask creates a different sub-network; inference approximates the ensemble.', concept:'Dropout' },
+      { id:'r3-3', type:'mcq', difficulty:3, question:'Bias-variance decomposition of expected test error:', options:['Error = Bias + Variance','Error = Bias^2 + Variance + Irreducible Noise','Error = Bias * Variance','Error = 1 - Accuracy'], answer:1, explanation:'Error decomposes into bias squared, variance, and irreducible noise.', concept:'Bias-variance' }
+    ],
+    3: [
+      { id:'r4-1', type:'mcq', difficulty:3, question:'The universal approximation theorem states:', options:['Deep networks always find global optimum','A single hidden layer with sufficient neurons can approximate any continuous function on a compact set','Neural networks are Turing machines','Deep always beats shallow'], answer:1, explanation:'Proves existence but says nothing about learnability or required width.', concept:'Universal approximation' },
+      { id:'r4-2', type:'truefalse', difficulty:3, question:'Residual connections help train very deep networks by allowing gradients to flow through shortcut paths.', answer:true, explanation:'Skip connections create gradient highways, mitigating vanishing gradients.', concept:'Residual connections' },
+      { id:'r4-3', type:'mcq', difficulty:4, question:'Batch normalization normalizes using:', options:['Global stats','Mini-batch mean and variance with learnable scale and shift','Fixed mean=0 variance=1','Previous layer weights'], answer:1, explanation:'BatchNorm computes mini-batch statistics, then applies learnable gamma and beta.', concept:'Batch normalization' }
+    ],
+    4: [
+      { id:'r5-1', type:'mcq', difficulty:4, question:'Scaling by 1/sqrt(d_k) in attention prevents:', options:['Memory issues','Softmax saturation from large dot products causing vanishing gradients','Model size growth','Slow training'], answer:1, explanation:'Large dot products push softmax into saturated regions. Scaling maintains stable variance.', concept:'Attention scaling' },
+      { id:'r5-2', type:'truefalse', difficulty:3, question:'Flash Attention achieves speed by reducing the number of attention computations.', answer:false, explanation:'Flash Attention is IO-aware — it tiles computation to minimize memory transfers, not reduce FLOPs.', concept:'Flash Attention' },
+      { id:'r5-3', type:'mcq', difficulty:4, question:'Mamba addresses which transformer limitation?', options:['Lack of nonlinearity','Quadratic complexity with sequence length','Inability to learn','Limited vocabulary'], answer:1, explanation:'State space models achieve O(n) vs transformers\' O(n^2) attention complexity.', concept:'Post-transformer architectures' }
+    ],
+    5: [
+      { id:'r6-1', type:'mcq', difficulty:4, question:'Kaplan\'s scaling laws showed loss scales as a power law with:', options:['Only epochs','Compute, dataset size, and model parameters independently','Only architecture','Only learning rate'], answer:1, explanation:'Loss follows smooth power laws with compute, data, and parameters.', concept:'Scaling laws' },
+      { id:'r6-2', type:'truefalse', difficulty:3, question:'BPE tokenization iteratively merges the most frequent adjacent token pair.', answer:true, explanation:'BPE starts with characters and merges frequent pairs until reaching desired vocab size.', concept:'Tokenization' },
+      { id:'r6-3', type:'mcq', difficulty:3, question:'Pipeline parallelism assigns:', options:['Batch splits across GPUs','Different model layers to different GPUs, forming a pipeline','Single GPU efficiency','Small models only'], answer:1, explanation:'Pipeline parallelism partitions layers across devices with micro-batching.', concept:'Distributed training' }
+    ],
+    6: [
+      { id:'r7-1', type:'mcq', difficulty:4, question:'DPO simplifies RLHF by:', options:['Using more feedback','Eliminating the reward model — optimizing policy directly from preference pairs','Using a simpler model','Removing training data'], answer:1, explanation:'DPO reparameterizes the RLHF objective to optimize directly from preferences.', concept:'DPO' },
+      { id:'r7-2', type:'truefalse', difficulty:3, question:'In Constitutional AI, the model self-critiques based on principles without per-example human feedback.', answer:true, explanation:'CAI\'s key innovation is self-supervised revision using principles as a constitution.', concept:'Constitutional AI' },
+      { id:'r7-3', type:'mcq', difficulty:4, question:'The RLHF reward model is trained on:', options:['Raw text','Human preference comparisons between outputs','Classification labels','Unlabeled images'], answer:1, explanation:'Reward models learn from pairs where humans indicated which response they preferred.', concept:'Reward modeling' }
+    ],
+    7: [
+      { id:'r8-1', type:'mcq', difficulty:4, question:'The superposition hypothesis suggests networks:', options:['Learn one feature per neuron','Represent more features than dimensions by overlapping representations','Are always interpretable','Have random features'], answer:1, explanation:'Networks encode more features than dimensions using non-orthogonal overlapping representations.', concept:'Superposition' },
+      { id:'r8-2', type:'truefalse', difficulty:3, question:'Mechanistic interpretability aims to reverse-engineer learned algorithms at the component level.', answer:true, explanation:'It studies specific computations performed by circuits, understanding models as programs.', concept:'Mechanistic interpretability' },
+      { id:'r8-3', type:'mcq', difficulty:3, question:'Probing experiments test encoded information by:', options:['Modifying architecture','Training simple classifiers on frozen activations','Running on more data','Changing training'], answer:1, explanation:'Probing trains a simple classifier on frozen activations to predict specific properties.', concept:'Probing' }
+    ],
+    8: [
+      { id:'r9-1', type:'mcq', difficulty:3, question:'A key criticism of MMLU-style benchmarks:', options:['Too easy','Benchmark contamination — test data may appear in training','Too many topics','Only English'], answer:1, explanation:'Contamination inflates scores without reflecting genuine capability.', concept:'Benchmark limitations' },
+      { id:'r9-2', type:'truefalse', difficulty:3, question:'LLM-as-judge uses one model to evaluate another\'s outputs.', answer:true, explanation:'Provides scalable evaluation though it introduces its own biases.', concept:'LLM-as-judge' },
+      { id:'r9-3', type:'mcq', difficulty:4, question:'Red teaming is important because:', options:['Makes systems faster','Discovers failure modes that standard benchmarks miss','Reduces costs','Improves UI'], answer:1, explanation:'Red teaming applies adversarial thinking to find what benchmarks miss.', concept:'Red teaming' }
+    ],
+    9: [
+      { id:'r10-1', type:'mcq', difficulty:3, question:'CLIP learns by:', options:['Generating images','Matching images with text using contrastive learning','Classifying into fixed categories','Translating languages'], answer:1, explanation:'CLIP learns a shared embedding space for images and text via contrastive objectives.', concept:'CLIP' },
+      { id:'r10-2', type:'truefalse', difficulty:3, question:'Diffusion models generate images by iteratively removing noise from a random state.', answer:true, explanation:'Reverse diffusion starts from pure noise and iteratively denoises to produce clean images.', concept:'Diffusion models' },
+      { id:'r10-3', type:'mcq', difficulty:4, question:'State space models achieve linear-time processing by:', options:['Sparse attention','Parameterizing as efficient linear recurrences','Reducing vocabulary','Random token order'], answer:1, explanation:'SSMs use continuous-time linear systems discretized into recurrences for O(n) processing.', concept:'State space models' }
+    ],
+    10: [
+      { id:'r11-1', type:'mcq', difficulty:4, question:'Mesa-optimization occurs when:', options:['Training loss is high','A learned optimizer pursues a different objective than trained on','Model is too small','Data is biased'], answer:1, explanation:'The model learns an internal optimizer that may optimize a proxy objective.', concept:'Mesa-optimization' },
+      { id:'r11-2', type:'truefalse', difficulty:4, question:'Debate for scalable oversight has two AIs argue opposing sides for a human judge.', answer:true, explanation:'AI debate allows humans to evaluate questions they couldn\'t answer directly.', concept:'Scalable oversight' },
+      { id:'r11-3', type:'mcq', difficulty:3, question:'Responsible scaling policies include:', options:['Scaling as fast as possible','Pre-defined thresholds triggering safety evaluations before further scaling','Publishing results after 5 years','Never training larger models'], answer:1, explanation:'Structured checkpoints with safety requirements before proceeding.', concept:'Responsible scaling' }
+    ],
+    11: [
+      { id:'r12-1', type:'mcq', difficulty:3, question:'Chalmers\' "hard problem" asks:', options:['How to make AI faster','Why physical processes give rise to subjective experience','How to test intelligence','When AI surpasses humans'], answer:1, explanation:'Why there is "something it is like" to have experiences.', concept:'Hard problem' },
+      { id:'r12-2', type:'truefalse', difficulty:3, question:'IIT claims consciousness is identical to integrated information (Phi).', answer:true, explanation:'IIT proposes consciousness IS Phi — measuring how much the whole exceeds its parts.', concept:'IIT' },
+      { id:'r12-3', type:'mcq', difficulty:3, question:'Buddhist anatta is relevant to AI consciousness because:', options:['It proves AI is conscious','It suggests consciousness may not require a unified permanent self','It has nothing to do with AI','It proves AI cannot be conscious'], answer:1, explanation:'If human consciousness lacks a fixed self, it reframes what AI consciousness might mean.', concept:'Non-self and AI' }
+    ],
+    12: [
+      { id:'r13-1', type:'mcq', difficulty:4, question:'The emergent abilities debate centers on:', options:['Whether LLMs can generate text','Whether sharp capability transitions are genuine or metric artifacts','Whether larger models cost more','Whether LLMs need GPUs'], answer:1, explanation:'Are capabilities truly sudden at scale, or do nonlinear metrics create the illusion?', concept:'Emergent capabilities' },
+      { id:'r13-2', type:'truefalse', difficulty:3, question:'Reproducing a paper\'s key result from scratch is one of the most valuable research exercises.', answer:true, explanation:'Reproduction forces deep understanding and reveals unstated assumptions.', concept:'Research reproduction' },
+      { id:'r13-3', type:'mcq', difficulty:3, question:'A good research proposal should include:', options:['Only positive expected results','Problem statement, approach, expected results, AND failure modes','Only a literature review','Only implementation details'], answer:1, explanation:'Strong proposals include awareness of what could go wrong.', concept:'Research methodology' }
+    ],
+    13: [
+      { id:'r14-1', type:'mcq', difficulty:3, question:'Synthetic data is valuable because:', options:['Always higher quality','It scales beyond human annotation limits','Eliminates all bias','Free to generate'], answer:1, explanation:'Synthetic data enables scaling beyond annotation bottlenecks.', concept:'Synthetic data' },
+      { id:'r14-2', type:'truefalse', difficulty:3, question:'Publication bias means positive results are more likely published than negative ones.', answer:true, explanation:'This distorts the literature and hides important negative findings.', concept:'Publication bias' },
+      { id:'r14-3', type:'mcq', difficulty:3, question:'Benchmark gaming refers to:', options:['Creating AI games','Optimizing for benchmark scores rather than genuine capability','Playing video games','Competitive tournaments'], answer:1, explanation:'Goodhart\'s Law: optimizing for the metric rather than the underlying capability.', concept:'Benchmark gaming' }
+    ],
+    14: [
+      { id:'r15-1', type:'mcq', difficulty:3, question:'Proper controls in experiments are important because:', options:['Make papers longer','Isolate your intervention\'s effect from confounding variables','Required by law','Reduce training time'], answer:1, explanation:'Controls isolate your contribution\'s effect, making conclusions reliable.', concept:'Experimental controls' },
+      { id:'r15-2', type:'truefalse', difficulty:3, question:'Ablation studies remove components to understand each one\'s contribution.', answer:true, explanation:'Ablation reveals what actually matters in your system.', concept:'Ablation studies' },
+      { id:'r15-3', type:'mcq', difficulty:3, question:'When results don\'t match your hypothesis:', options:['Discard results','Analyze failure modes — they often reveal more than successes','Change results to match','Abandon the project'], answer:1, explanation:'Unexpected results are often the most valuable scientific outcome.', concept:'Research analysis' }
+    ],
+    15: [
+      { id:'r16-1', type:'mcq', difficulty:3, question:'The most important paper section for other researchers is often:', options:['Abstract','Related work','Experimental methodology — enabling reproduction','Conclusion'], answer:2, explanation:'Detailed methodology enables verification and extension of your work.', concept:'Research writing' },
+      { id:'r16-2', type:'truefalse', difficulty:2, question:'Making research code open source increases impact and credibility.', answer:true, explanation:'Open code enables verification, reproduction, and extension.', concept:'Open research' },
+      { id:'r16-3', type:'mcq', difficulty:3, question:'A research agenda is valuable because it:', options:['Guarantees publication','Provides strategic direction with questions, approaches, and risk analyses','Is required for graduation','Replaces literature review'], answer:1, explanation:'Demonstrates strategic thinking about future research directions.', concept:'Research planning' }
+    ]
+  }
+};
+
+// ============================================================
+// KNOWLEDGE STATE TRACKING (Phase 3)
+// ============================================================
+
+function getKnowledgeState() {
+  try { return JSON.parse(localStorage.getItem('ai-curriculum-knowledge-state') || '{}'); } catch { return {}; }
+}
+function saveKnowledgeState(state) {
+  localStorage.setItem('ai-curriculum-knowledge-state', JSON.stringify(state));
+}
+
+function getWeekKnowledgeKey(trackId, weekNum) {
+  return `${trackId}-w${weekNum}`;
+}
+
+function updateKnowledgeState(trackId, weekNum, problemResult) {
+  const state = getKnowledgeState();
+  const key = getWeekKnowledgeKey(trackId, weekNum);
+  const allResults = getProblemResults().filter(r => r.trackId === trackId && r.weekNum === weekNum);
+
+  // Get or initialize knowledge state for this week
+  if (!state[key]) {
+    state[key] = {
+      initialPerformance: null,
+      masteryCeiling: 0,
+      learningSpeed: 0,
+      attempts: [],
+      lastUpdated: new Date().toISOString()
+    };
+  }
+
+  const ks = state[key];
+
+  // Record this attempt
+  ks.attempts.push({
+    correct: problemResult.correct,
+    difficulty: problemResult.difficulty,
+    timestamp: problemResult.timestamp
+  });
+
+  // Calculate initialPerformance: score on first attempt at each problem
+  const firstAttempts = {};
+  allResults.forEach(r => {
+    if (!firstAttempts[r.problemId]) firstAttempts[r.problemId] = r.correct ? 1 : 0;
+  });
+  const firstScores = Object.values(firstAttempts);
+  ks.initialPerformance = firstScores.length > 0 ? firstScores.reduce((a,b) => a+b, 0) / firstScores.length : 0;
+
+  // Calculate masteryCeiling: best performance weighted by engagement
+  // Group results by session (approximate by grouping consecutive results)
+  const sessionScores = [];
+  const byProblem = {};
+  allResults.forEach(r => {
+    if (!byProblem[r.problemId] || r.correct) byProblem[r.problemId] = r;
+  });
+  const bestScore = Object.keys(byProblem).length > 0
+    ? Object.values(byProblem).filter(r => r.correct).length / Object.keys(byProblem).length
+    : 0;
+
+  // Weight by engagement (number of attempts indicates effort)
+  const engagementWeight = Math.min(1, allResults.length / 6); // normalize to ~2 full sessions
+  ks.masteryCeiling = bestScore * (0.7 + 0.3 * engagementWeight);
+
+  // Calculate learningSpeed: improvement rate across attempts
+  if (ks.attempts.length >= 2) {
+    const windowSize = Math.min(3, Math.floor(ks.attempts.length / 2));
+    const early = ks.attempts.slice(0, windowSize);
+    const late = ks.attempts.slice(-windowSize);
+    const earlyScore = early.filter(a => a.correct).length / early.length;
+    const lateScore = late.filter(a => a.correct).length / late.length;
+    ks.learningSpeed = lateScore - earlyScore; // positive = improving
+  }
+
+  ks.lastUpdated = new Date().toISOString();
+  state[key] = ks;
+  saveKnowledgeState(state);
+  return ks;
+}
+
+function getWeekMasteryScore(trackId, weekNum) {
+  const state = getKnowledgeState();
+  const key = getWeekKnowledgeKey(trackId, weekNum);
+  const ks = state[key];
+  if (!ks || ks.attempts.length === 0) return null;
+
+  // Composite mastery score (0-100)
+  // Weighted: 50% mastery ceiling, 30% initial performance, 20% learning speed
+  const ceiling = ks.masteryCeiling * 50;
+  const initial = (ks.initialPerformance || 0) * 30;
+  const speed = Math.max(0, Math.min(1, (ks.learningSpeed + 1) / 2)) * 20; // normalize -1..1 to 0..1
+  return Math.round(ceiling + initial + speed);
+}
+
+function getMasteryColor(score) {
+  if (score === null) return 'mastery-red';
+  if (score < 40) return 'mastery-red';
+  if (score <= 70) return 'mastery-yellow';
+  return 'mastery-green';
+}
+
+function renderMasteryCurve() {
+  if (!selectedTrack) return '';
+  const track = TRACKS[selectedTrack];
+  const state = getKnowledgeState();
+  const hasAnyData = track.weeks.some((_, wi) => {
+    const key = getWeekKnowledgeKey(selectedTrack, wi);
+    return state[key] && state[key].attempts.length > 0;
+  });
+
+  if (!hasAnyData) return '';
+
+  const chartW = 500;
+  const chartH = 150;
+  const paddingL = 40;
+  const paddingR = 20;
+  const paddingT = 20;
+  const paddingB = 30;
+  const plotW = chartW - paddingL - paddingR;
+  const plotH = chartH - paddingT - paddingB;
+
+  const points = [];
+  track.weeks.forEach((week, wi) => {
+    const score = getWeekMasteryScore(selectedTrack, wi);
+    if (score !== null) {
+      const x = paddingL + (wi / Math.max(1, track.weeks.length - 1)) * plotW;
+      const y = paddingT + plotH - (score / 100) * plotH;
+      points.push({ x, y, score, week: wi + 1, title: week.title });
+    }
+  });
+
+  if (points.length === 0) return '';
+
+  // Build SVG
+  let svg = '';
+
+  // Grid lines
+  for (let pct = 0; pct <= 100; pct += 25) {
+    const y = paddingT + plotH - (pct / 100) * plotH;
+    svg += `<line x1="${paddingL}" y1="${y}" x2="${chartW - paddingR}" y2="${y}" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="${pct === 0 ? '' : '3,3'}"/>`;
+    svg += `<text x="${paddingL - 6}" y="${y + 3}" text-anchor="end" fill="var(--text-muted)" font-size="9" font-family="var(--font-ui)">${pct}</text>`;
+  }
+
+  // Threshold lines
+  const y40 = paddingT + plotH - (40 / 100) * plotH;
+  const y70 = paddingT + plotH - (70 / 100) * plotH;
+  svg += `<line x1="${paddingL}" y1="${y40}" x2="${chartW - paddingR}" y2="${y40}" stroke="var(--accent4)" stroke-width="0.5" opacity="0.4"/>`;
+  svg += `<line x1="${paddingL}" y1="${y70}" x2="${chartW - paddingR}" y2="${y70}" stroke="var(--success)" stroke-width="0.5" opacity="0.4"/>`;
+
+  // Line connecting points
+  if (points.length > 1) {
+    const pathD = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x},${p.y}`).join(' ');
+    svg += `<path d="${pathD}" fill="none" stroke="var(--accent)" stroke-width="2" opacity="0.8"/>`;
+    // Area fill
+    const areaD = pathD + ` L${points[points.length-1].x},${paddingT + plotH} L${points[0].x},${paddingT + plotH} Z`;
+    svg += `<path d="${areaD}" fill="var(--accent)" opacity="0.05"/>`;
+  }
+
+  // Points and labels
+  points.forEach(p => {
+    const color = p.score >= 70 ? 'var(--success)' : p.score >= 40 ? 'var(--color-warn)' : 'var(--accent4)';
+    svg += `<circle cx="${p.x}" cy="${p.y}" r="4" fill="${color}" stroke="var(--surface)" stroke-width="2"/>`;
+    svg += `<text x="${p.x}" y="${p.y - 10}" text-anchor="middle" fill="var(--text-dim)" font-size="9" font-weight="700" font-family="var(--font-ui)">${p.score}</text>`;
+    svg += `<text x="${p.x}" y="${paddingT + plotH + 14}" text-anchor="middle" fill="var(--text-muted)" font-size="8" font-family="var(--font-ui)">W${p.week}</text>`;
+  });
+
+  return `<div class="mastery-curve-container">
+    <div class="prog-card-title">Mastery Curve by Week</div>
+    <svg viewBox="0 0 ${chartW} ${chartH}" preserveAspectRatio="xMidYMid meet">
+      ${svg}
+    </svg>
+    <div style="display:flex;gap:16px;margin-top:8px;font-size:11px;color:var(--text-muted);">
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent4);"></span> &lt;40 Needs work</span>
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--color-warn);"></span> 40-70 Developing</span>
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--success);"></span> &gt;70 Mastered</span>
+    </div>
+  </div>`;
+}
+
+// ============================================================
+// ADAPTIVE DIFFICULTY SEQUENCING (Phase 4)
+// ============================================================
+
+function getAdaptiveDifficultyLog() {
+  try { return JSON.parse(localStorage.getItem('ai-curriculum-difficulty-log') || '[]'); } catch { return []; }
+}
+function saveAdaptiveDifficultyLog(log) {
+  localStorage.setItem('ai-curriculum-difficulty-log', JSON.stringify(log));
+}
+
+function getRecommendedDifficulty(trackId, weekNum) {
+  const mastery = getWeekMasteryScore(trackId, weekNum);
+  const state = getKnowledgeState();
+  const key = getWeekKnowledgeKey(trackId, weekNum);
+  const ks = state[key];
+
+  // Default to medium if no data
+  if (mastery === null || !ks) {
+    return { minDiff: 1, maxDiff: 2, targetSuccess: 0.7, reason: 'no-data' };
+  }
+
+  const masteryNorm = mastery / 100; // 0-1
+
+  if (masteryNorm > 0.7) {
+    return { minDiff: 3, maxDiff: 4, targetSuccess: 0.7, reason: 'high-mastery' };
+  } else if (masteryNorm >= 0.4) {
+    return { minDiff: 2, maxDiff: 3, targetSuccess: 0.7, reason: 'mid-mastery' };
+  } else {
+    return { minDiff: 1, maxDiff: 2, targetSuccess: 0.7, reason: 'low-mastery' };
+  }
+}
+
+function sortProblemsByAdaptiveDifficulty(problems, trackId, weekNum) {
+  const rec = getRecommendedDifficulty(trackId, weekNum);
+
+  // Score each problem: closer to recommended range = higher priority
+  const scored = problems.map(p => {
+    const inRange = p.difficulty >= rec.minDiff && p.difficulty <= rec.maxDiff;
+    const distance = inRange ? 0 : Math.min(Math.abs(p.difficulty - rec.minDiff), Math.abs(p.difficulty - rec.maxDiff));
+    return { ...p, _isRecommended: inRange, _distance: distance };
+  });
+
+  // Sort: recommended first, then by distance to range
+  scored.sort((a, b) => {
+    if (a._isRecommended !== b._isRecommended) return a._isRecommended ? -1 : 1;
+    return a._distance - b._distance;
+  });
+
+  return scored;
+}
+
+function getDifficultyReasonText(trackId, weekNum) {
+  const rec = getRecommendedDifficulty(trackId, weekNum);
+  const mastery = getWeekMasteryScore(trackId, weekNum);
+  const state = getKnowledgeState();
+  const key = getWeekKnowledgeKey(trackId, weekNum);
+  const ks = state[key];
+
+  const reasons = [];
+
+  if (rec.reason === 'no-data') {
+    reasons.push('No practice data yet for this week. Starting with easy-medium difficulty to establish a baseline.');
+    reasons.push('Complete a few problems and the system will adapt to your level.');
+  } else if (rec.reason === 'high-mastery') {
+    reasons.push(`Your mastery score for this week is ${mastery}/100, indicating strong understanding.`);
+    reasons.push('Recommending harder problems (difficulty 3-4) to challenge you further.');
+    if (ks && ks.learningSpeed > 0.1) reasons.push(`Your learning speed is positive (${(ks.learningSpeed * 100).toFixed(0)}% improvement), suggesting you can handle increased difficulty.`);
+  } else if (rec.reason === 'mid-mastery') {
+    reasons.push(`Your mastery score for this week is ${mastery}/100, showing developing understanding.`);
+    reasons.push('Recommending medium-hard problems (difficulty 2-3) to target the zone of proximal development.');
+    if (ks && ks.learningSpeed < 0) reasons.push('Your recent performance suggests focusing on solidifying current concepts before advancing.');
+  } else if (rec.reason === 'low-mastery') {
+    reasons.push(`Your mastery score for this week is ${mastery}/100, indicating foundational concepts need reinforcement.`);
+    reasons.push('Recommending easier problems (difficulty 1-2) to build confidence and strengthen fundamentals.');
+  }
+
+  reasons.push(`Target success rate: ~${Math.round(rec.targetSuccess * 100)}% (zone of proximal development)`);
+
+  return reasons;
+}
+
+function logDifficultySelection(trackId, weekNum, problemId, difficulty, wasRecommended) {
+  const log = getAdaptiveDifficultyLog();
+  log.push({
+    trackId, weekNum, problemId, difficulty, wasRecommended,
+    timestamp: new Date().toISOString()
+  });
+  // Keep last 200 entries
+  if (log.length > 200) log.splice(0, log.length - 200);
+  saveAdaptiveDifficultyLog(log);
+}
+
+// Practice Engine State
+let practiceState = { trackId:null, weekNum:null, problems:[], currentIdx:0, results:[], selectedAnswer:null, submitted:false, startTime:null };
+
+function getProblemResults() {
+  try { return JSON.parse(localStorage.getItem('ai-curriculum-problems') || '[]'); } catch { return []; }
+}
+function saveProblemResult(r) { const rs = getProblemResults(); rs.push(r); localStorage.setItem('ai-curriculum-problems', JSON.stringify(rs)); }
+
+function getWeekProblemScore(trackId, weekNum) {
+  const results = getProblemResults().filter(r => r.trackId === trackId && r.weekNum === weekNum);
+  if (!results.length) return null;
+  const byProblem = {};
+  results.forEach(r => { if (!byProblem[r.problemId] || r.correct) byProblem[r.problemId] = r; });
+  const total = Object.keys(byProblem).length;
+  const correct = Object.values(byProblem).filter(r => r.correct).length;
+  return { total, correct, pct: Math.round((correct / total) * 100) };
+}
+
+function isWeekMasteryMet(trackId, weekNum) {
+  const score = getWeekProblemScore(trackId, weekNum);
+  const problems = PROBLEMS[trackId] && PROBLEMS[trackId][weekNum];
+  if (!score || !problems) return false;
+  return score.total >= problems.length && score.pct >= 60;
+}
+
+function getMasterySkips() { try { return JSON.parse(localStorage.getItem('ai-curriculum-mastery-skips') || '[]'); } catch { return []; } }
+function saveMasterySkip(trackId, weekNum) {
+  const skips = getMasterySkips();
+  const key = `${trackId}-${weekNum}`;
+  if (!skips.includes(key)) { skips.push(key); localStorage.setItem('ai-curriculum-mastery-skips', JSON.stringify(skips)); }
+}
+
+function isWeekUnlocked(trackId, weekNum) {
+  if (weekNum === 0) return true;
+  const prev = weekNum - 1;
+  if (getMasterySkips().includes(`${trackId}-${prev}`)) return true;
+  if (!PROBLEMS[trackId] || !PROBLEMS[trackId][prev]) return true;
+  return isWeekMasteryMet(trackId, prev);
+}
+
+function openPractice(trackId, weekNum) {
+  const problems = PROBLEMS[trackId] && PROBLEMS[trackId][weekNum];
+  if (!problems || !problems.length) return;
+  const track = TRACKS[trackId];
+  // Sort problems by adaptive difficulty
+  const sortedProblems = sortProblemsByAdaptiveDifficulty([...problems], trackId, weekNum);
+  practiceState = { trackId, weekNum, problems:sortedProblems, currentIdx:0, results:[], selectedAnswer:null, submitted:false, startTime:Date.now() };
+  document.getElementById('practiceBadge').textContent = `Week ${weekNum+1}`;
+  document.getElementById('practiceBadge').style.background = track.color;
+  document.getElementById('practiceTitle').textContent = `${track.weeks[weekNum].title} — Practice`;
+  renderPracticeQuestion();
+  document.getElementById('practiceOverlay').classList.add('active');
+}
+
+function closePractice() {
+  document.getElementById('practiceOverlay').classList.remove('active');
+  if (selectedTrack) showSchedule();
+}
+
+function renderPracticeQuestion() {
+  const { problems, currentIdx, results } = practiceState;
+  const p = problems[currentIdx];
+  const body = document.getElementById('practiceBody');
+  let html = '<div class="cx-practice-progress">';
+  problems.forEach((_, i) => {
+    let cls = i < currentIdx ? (results[i]&&results[i].correct ? 'done' : 'wrong') : i===currentIdx ? 'current' : '';
+    html += `<div class="cx-practice-progress-step ${cls}"></div>`;
+  });
+  html += '</div>';
+  let diffDots = '<span class="cx-practice-difficulty">';
+  for (let d=1;d<=4;d++) diffDots += `<span class="cx-practice-difficulty-dot ${d<=p.difficulty?'filled':''}"></span>`;
+  diffDots += '</span>';
+  const recommendedBadge = p._isRecommended ? `<div class="cx-recommended-badge">Recommended</div>` : '';
+  html += recommendedBadge;
+  html += `<div class="cx-practice-question-num">Question ${currentIdx+1} of ${problems.length} ${diffDots}</div>`;
+  html += `<div class="cx-practice-question-text">${p.question}</div>`;
+  if (p.type === 'mcq') {
+    html += '<div class="cx-practice-options">';
+    p.options.forEach((opt, i) => html += `<button class="cx-practice-option" data-idx="${i}" onclick="selectPracticeOption(${i})">${opt}</button>`);
+    html += '</div>';
+  } else if (p.type === 'truefalse') {
+    html += `<div class="cx-practice-tf-buttons"><button class="cx-practice-tf-btn" data-val="true" onclick="selectPracticeTF(true)">True</button><button class="cx-practice-tf-btn" data-val="false" onclick="selectPracticeTF(false)">False</button></div>`;
+  } else if (p.type === 'code') {
+    html += `<textarea class="cx-practice-code-area" id="practiceCodeInput" placeholder="Write your answer here..." spellcheck="false"></textarea>`;
+  }
+  html += `<div id="practiceFeedback"></div><div id="practiceActions"><button class="cx-practice-submit" id="practiceSubmitBtn" onclick="submitPracticeAnswer()" disabled>Submit Answer</button></div>`;
+  html += `<button class="cx-difficulty-reason-btn" onclick="toggleDifficultyReason()">Why this difficulty?</button>`;
+  html += `<div id="difficultyReasonPanel" style="display:none;"></div>`;
+  body.innerHTML = html;
+  practiceState.selectedAnswer = null;
+  practiceState.submitted = false;
+  if (p.type === 'code') document.getElementById('practiceSubmitBtn').disabled = false;
+}
+
+function selectPracticeOption(idx) {
+  if (practiceState.submitted) return;
+  practiceState.selectedAnswer = idx;
+  document.querySelectorAll('.cx-practice-option').forEach(el => el.classList.remove('selected'));
+  document.querySelector(`.cx-practice-option[data-idx="${idx}"]`).classList.add('selected');
+  document.getElementById('practiceSubmitBtn').disabled = false;
+}
+
+function selectPracticeTF(val) {
+  if (practiceState.submitted) return;
+  practiceState.selectedAnswer = val;
+  document.querySelectorAll('.cx-practice-tf-btn').forEach(el => el.classList.remove('selected'));
+  document.querySelector(`.cx-practice-tf-btn[data-val="${val}"]`).classList.add('selected');
+  document.getElementById('practiceSubmitBtn').disabled = false;
+}
+
+function submitPracticeAnswer() {
+  if (practiceState.submitted) return;
+  const p = practiceState.problems[practiceState.currentIdx];
+  let answer = practiceState.selectedAnswer;
+  let isCorrect = false;
+  if (p.type === 'code') {
+    answer = document.getElementById('practiceCodeInput').value.trim();
+    if (!answer) return;
+    isCorrect = answer.toLowerCase().includes(p.answer.toLowerCase());
+  } else if (p.type === 'mcq') {
+    if (answer === null) return;
+    isCorrect = answer === p.answer;
+  } else if (p.type === 'truefalse') {
+    if (answer === null) return;
+    isCorrect = answer === p.answer;
+  }
+  practiceState.submitted = true;
+  const result = { trackId:practiceState.trackId, weekNum:practiceState.weekNum, problemId:p.id, attempts:1, correct:isCorrect, timeSpent:Math.round((Date.now()-practiceState.startTime)/1000), difficulty:p.difficulty, timestamp:new Date().toISOString() };
+  practiceState.results.push(result);
+  saveProblemResult(result);
+  // Update knowledge state after each problem
+  updateKnowledgeState(practiceState.trackId, practiceState.weekNum, result);
+  // Log difficulty selection for adaptive tracking
+  logDifficultySelection(practiceState.trackId, practiceState.weekNum, p.id, p.difficulty, !!p._isRecommended);
+  // Show feedback
+  const fb = document.getElementById('practiceFeedback');
+  fb.innerHTML = `<div class="cx-practice-feedback ${isCorrect?'correct':'incorrect'}"><strong>${isCorrect?'Correct!':'Incorrect'}</strong><div class="explanation">${p.explanation}</div></div>`;
+  if (p.type === 'mcq') {
+    document.querySelectorAll('.cx-practice-option').forEach((el,i) => { el.classList.add('disabled'); if(i===p.answer) el.classList.add('correct'); if(i===answer&&!isCorrect) el.classList.add('incorrect'); });
+  } else if (p.type === 'truefalse') {
+    document.querySelectorAll('.cx-practice-tf-btn').forEach(el => { const v=el.dataset.val==='true'; if(v===p.answer)el.classList.add('correct'); if(v===answer&&!isCorrect)el.classList.add('incorrect'); });
+  }
+  const isLast = practiceState.currentIdx >= practiceState.problems.length - 1;
+  document.getElementById('practiceActions').innerHTML = `<button class="cx-practice-next" onclick="${isLast?'showPracticeSummary()':'nextPracticeQuestion()'}">${isLast?'See Results':'Next Question'}</button>`;
+}
+
+function nextPracticeQuestion() { practiceState.currentIdx++; practiceState.startTime=Date.now(); renderPracticeQuestion(); }
+
+function toggleDifficultyReason() {
+  const panel = document.getElementById('difficultyReasonPanel');
+  if (!panel) return;
+  if (panel.style.display === 'none') {
+    const reasons = getDifficultyReasonText(practiceState.trackId, practiceState.weekNum);
+    panel.innerHTML = `<div class="cx-difficulty-reason-panel">
+      <div class="reason-label">Adaptive Difficulty Reasoning</div>
+      ${reasons.map(r => `<div class="reason-item"><span class="reason-dot"></span><span>${r}</span></div>`).join('')}
+    </div>`;
+    panel.style.display = '';
+  } else {
+    panel.style.display = 'none';
+  }
+}
+
+function showPracticeSummary() {
+  const { problems, results, trackId, weekNum } = practiceState;
+  const correct = results.filter(r=>r.correct).length;
+  const total = problems.length;
+  const pct = Math.round((correct/total)*100);
+  const passed = pct >= 60;
+  const color = passed ? 'var(--success)' : 'var(--accent4)';
+  const track = TRACKS[trackId];
+  document.getElementById('practiceBody').innerHTML = `<div class="cx-practice-summary">
+    <div class="cx-practice-summary-score" style="color:${color}">${pct}%</div>
+    <div class="cx-practice-summary-label">${correct} of ${total} correct${passed?' — Mastery achieved!':' — Need 60% to unlock next week'}</div>
+    <div class="cx-practice-summary-bar"><div class="cx-practice-summary-fill" style="width:${pct}%;background:${color};"></div></div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">${results.map((r,i)=>`${r.correct?'<span style="color:var(--success)">&#10003;</span>':'<span style="color:var(--accent4)">&#10007;</span>'} Q${i+1}`).join(' &nbsp; ')}</div>
+    <div class="cx-practice-summary-actions">
+      <button class="cx-practice-next" onclick="closePractice()">${passed?'Continue Learning':'Back to Schedule'}</button>
+      ${!passed?`<button class="cx-practice-submit" onclick="openPractice('${trackId}',${weekNum})">Try Again</button>`:''}
+    </div>
+  </div>`;
+  if (passed) { const nw=weekNum+1; showToast(nw<track.weeks.length?`Week ${weekNum+1} mastered! Week ${nw+1} unlocked.`:`Week ${weekNum+1} mastered!`,5000); }
+}
+
+function skipMasteryGate(trackId, weekNum) {
+  if (!confirm('Skip mastery gate? You may miss foundational concepts. Are you sure?')) return;
+  saveMasterySkip(trackId, weekNum);
+  showToast(`Gate skipped for Week ${weekNum+1}. You can still practice anytime.`);
+  showSchedule();
+}
+
+// Patch showSchedule to add practice buttons + mastery gating
+const _origShowSchedule = showSchedule;
+showSchedule = function() {
+  _origShowSchedule();
+  if (!selectedTrack) return;
+  const track = TRACKS[selectedTrack];
+  track.weeks.forEach((week, wi) => {
+    const weekBlock = document.querySelectorAll('.week-block')[wi];
+    if (!weekBlock) return;
+    const weekHeader = weekBlock.querySelector('.week-header');
+    if (!weekHeader) return;
+    const hasProblems = PROBLEMS[selectedTrack] && PROBLEMS[selectedTrack][wi] && PROBLEMS[selectedTrack][wi].length > 0;
+    const score = getWeekProblemScore(selectedTrack, wi);
+    if (hasProblems && !weekHeader.querySelector('.cx-practice-btn')) {
+      const btn = document.createElement('button');
+      btn.className = 'cx-practice-btn';
+      btn.onclick = function(e) { e.stopPropagation(); openPractice(selectedTrack, wi); };
+      if (score && score.pct >= 60) { btn.innerHTML=`&#10003; ${score.pct}%`; btn.style.borderColor='var(--success)'; btn.style.color='var(--success)'; btn.style.background='rgba(52,211,153,0.1)'; }
+      else if (score) { btn.innerHTML=`Practice (${score.pct}%)`; }
+      else { btn.textContent='Practice'; }
+      const chevron = weekHeader.querySelector('.week-chevron');
+      weekHeader.insertBefore(btn, chevron);
+    }
+    // Add mastery score indicator from knowledge state
+    const masteryScore = getWeekMasteryScore(selectedTrack, wi);
+    if (masteryScore !== null && !weekHeader.querySelector('.cx-mastery-score')) {
+      const masteryEl = document.createElement('span');
+      masteryEl.className = `cx-mastery-score ${getMasteryColor(masteryScore)}`;
+      masteryEl.textContent = `Mastery: ${masteryScore}`;
+      const weekMeta = weekHeader.querySelector('.week-meta');
+      if (weekMeta) weekMeta.parentNode.insertBefore(masteryEl, weekMeta);
+    }
+    if (wi > 0 && !isWeekUnlocked(selectedTrack, wi)) {
+      weekBlock.classList.add('cx-locked');
+      const lockBanner = document.createElement('div');
+      lockBanner.className = 'cx-lock-banner';
+      lockBanner.innerHTML = `<span class="cx-lock-icon">&#x1f512;</span><span class="cx-lock-text">Complete Week ${wi} practice with 60%+ to unlock</span><button class="cx-skip-gate-btn" onclick="event.stopPropagation();skipMasteryGate('${selectedTrack}',${wi-1})">Skip Gate</button>`;
+      const weekDays = weekBlock.querySelector('.week-days');
+      if (weekDays) { weekBlock.insertBefore(lockBanner, weekDays); weekDays.classList.add('hidden'); }
+      weekHeader.classList.add('collapsed');
+    }
+  });
+};
+
+// ============================================================
 // INIT — restore saved state on page load
 // ============================================================
 
@@ -4731,8 +6440,24 @@ function downloadCertificate() {
   }
   // Always show Progress nav link — P4 fix
   document.getElementById('nav-progress').style.display = '';
+  // Initialize chat API status display
+  updateChatApiStatus();
 })();
 </script>
+
+<!-- PRACTICE PROBLEMS MODAL -->
+<div class="cx-practice-overlay" id="practiceOverlay" onclick="if(event.target===this)closePractice()">
+  <div class="cx-practice-modal">
+    <div class="cx-practice-header">
+      <div class="cx-practice-header-info">
+        <span class="cx-practice-badge" id="practiceBadge">Practice</span>
+        <span class="cx-practice-title" id="practiceTitle">Week 1 Practice</span>
+      </div>
+      <button class="cx-practice-close" onclick="closePractice()">x</button>
+    </div>
+    <div class="cx-practice-body" id="practiceBody"></div>
+  </div>
+</div>
 
 </div><!-- /cx-root -->
 </body>
