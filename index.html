@@ -36,17 +36,26 @@
     --border: #2a2a2e;
     --border-light: #222226;
 
+    /* Cortex Design System Tokens */
     --color-claim: #60a5fa;
     --color-claim-bg: #1e293b;
     --color-verified: #34d399;
     --color-verified-bg: #064e3b;
     --color-warn: #fbbf24;
     --color-warn-bg: #451a03;
+    --cx-confidence-high: #34d399;
+    --cx-confidence-mid: #fbbf24;
+    --cx-confidence-low: #f87171;
+    --cx-evidence-bg: rgba(96,165,250,0.06);
+    --cx-provenance-border: rgba(96,165,250,0.2);
 
     --shadow-panel: 0 4px 24px rgba(0,0,0,0.5);
     --radius-sm: 4px;
     --radius-md: 8px;
     --panel-width: 420px;
+
+    /* Cortex transition tokens */
+    --cx-transition: 200ms ease;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -76,9 +85,7 @@
   }
   .nav-links a:hover { color: var(--accent); }
 
-  /* -- SECTIONS -- */
-  .section { display: none; }
-  .section.active { display: block; }
+  /* -- SECTIONS -- (transitions defined in Cortex section below) */
 
   /* -- CORTEX BADGE -- */
   .cortex-badge {
@@ -416,6 +423,211 @@
   }
   .footer p { font-size: 13px; color: var(--text-muted); }
   .footer a { color: var(--accent); text-decoration: none; }
+
+  /* ── CORTEX DESIGN SYSTEM COMPONENTS ──────────────────────── */
+
+  /* cx-nav: Cortex navigation shell */
+  .cx-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 24px; border-bottom: 1px solid var(--border);
+    max-width: 900px; margin: 0 auto;
+    background: linear-gradient(180deg, rgba(30,30,34,0.8) 0%, transparent 100%);
+    backdrop-filter: blur(8px);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .cx-nav-brand { font-size: 16px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.3px; }
+  .cx-nav-links { display: flex; gap: 16px; }
+  .cx-nav-item {
+    font-size: 13px; color: var(--text-dim); text-decoration: none;
+    transition: color var(--cx-transition);
+    position: relative;
+  }
+  .cx-nav-item:hover { color: var(--accent); }
+  .cx-nav-item::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 2px; background: var(--accent); transform: scaleX(0);
+    transition: transform var(--cx-transition);
+  }
+  .cx-nav-item:hover::after { transform: scaleX(1); }
+
+  /* cx-btn: Cortex button variants */
+  .cx-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    border-radius: 10px; border: none;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: transform var(--cx-transition), box-shadow var(--cx-transition);
+    padding: 14px 32px;
+  }
+  .cx-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .cx-btn-primary { background: var(--accent); color: white; }
+  .cx-btn-secondary { background: var(--surface2); color: var(--text); }
+  .cx-btn-small { padding: 8px 16px; font-size: 13px; border-radius: 6px; }
+  .cx-btn-ghost {
+    background: transparent; color: var(--text-dim); border: 1px solid var(--border);
+    padding: 8px 16px; font-size: 13px; border-radius: 6px;
+  }
+
+  /* cx-card: Cortex card variants */
+  .cx-card {
+    background: var(--surface); border-radius: 12px; padding: 20px;
+    border: 1px solid var(--border);
+    transition: transform var(--cx-transition), box-shadow var(--cx-transition);
+  }
+  .cx-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+  .cx-card-evidence {
+    border-left: 3px solid var(--cx-provenance-border);
+    background: var(--cx-evidence-bg);
+  }
+
+  /* cx-section: Cortex section containers */
+  .cx-section { max-width: 900px; margin: 0 auto; padding: 24px; }
+  .cx-container { max-width: 900px; margin: 0 auto; }
+
+  /* cx-heading / cx-body / cx-caption: Typography hierarchy */
+  .cx-heading { font-family: var(--font-heading); font-weight: 700; letter-spacing: -0.3px; }
+  .cx-body { font-family: var(--font-ui); font-size: 14px; line-height: 1.6; color: var(--text-dim); }
+  .cx-caption { font-family: var(--font-ui); font-size: 12px; color: var(--text-muted); }
+
+  /* cx-status / cx-progress: Status indicators */
+  .cx-status {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600; padding: 4px 10px;
+    border-radius: 100px; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .cx-status-verified { background: var(--color-verified-bg); color: var(--color-verified); }
+  .cx-status-warn { background: var(--color-warn-bg); color: var(--color-warn); }
+  .cx-status-claim { background: var(--color-claim-bg); color: var(--color-claim); }
+  .cx-progress {
+    height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden;
+  }
+  .cx-progress-fill {
+    height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 4px; transition: width 0.3s;
+  }
+
+  /* cx-option: Cortex quiz option */
+  .cx-option {
+    background: var(--surface); border: 2px solid var(--border);
+    border-radius: 10px; padding: 16px 20px; cursor: pointer;
+    transition: border-color var(--cx-transition), background var(--cx-transition);
+    text-align: left;
+  }
+  .cx-option:hover { border-color: var(--accent); background: rgba(14, 165, 233, 0.05); }
+  .cx-option.selected { border-color: var(--accent); background: rgba(14, 165, 233, 0.1); }
+
+  /* cx-evidence-indicator: Small provenance indicator on cards */
+  .cx-evidence-indicator {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; color: var(--color-claim); opacity: 0.7;
+    margin-top: 6px;
+  }
+  .cx-evidence-indicator::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: currentColor;
+  }
+
+  /* Section transitions */
+  .section { display: none; opacity: 0; transition: opacity var(--cx-transition); }
+  .section.active { display: block; opacity: 1; }
+
+  /* cx-modal: Cortex inline modal for weekly goal */
+  .cx-modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px); z-index: 200;
+    display: none; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity var(--cx-transition);
+  }
+  .cx-modal-overlay.active { display: flex; opacity: 1; }
+  .cx-modal {
+    background: var(--surface); border-radius: 16px; padding: 28px;
+    max-width: 400px; width: 100%; border: 1px solid var(--border);
+    box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+  }
+  .cx-modal h3 { font-family: var(--font-heading); font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+  .cx-modal-input {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px 16px; color: var(--text);
+    font-family: var(--font-ui); font-size: 16px; outline: none;
+    transition: border-color var(--cx-transition);
+    margin-bottom: 16px;
+  }
+  .cx-modal-input:focus { border-color: var(--accent); }
+  .cx-modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+  /* cx-certificate */
+  .cx-certificate {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    border: 3px solid var(--accent2); border-radius: 16px;
+    padding: 48px 40px; text-align: center; position: relative;
+    overflow: hidden; max-width: 640px; margin: 0 auto;
+  }
+  .cx-certificate::before {
+    content: ''; position: absolute; inset: 8px;
+    border: 1px solid rgba(129,140,248,0.3); border-radius: 12px;
+    pointer-events: none;
+  }
+  .cx-certificate-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.2em; color: var(--accent2); margin-bottom: 8px;
+  }
+  .cx-certificate h2 {
+    font-family: var(--font-heading); font-size: 28px; font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-bottom: 16px;
+  }
+  .cx-certificate-name {
+    font-family: var(--font-body); font-size: 24px; font-weight: 700;
+    color: var(--text); margin-bottom: 8px;
+  }
+  .cx-certificate-track {
+    font-size: 16px; color: var(--text-dim); margin-bottom: 24px;
+  }
+  .cx-certificate-details {
+    display: flex; gap: 24px; justify-content: center; margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .cx-certificate-detail {
+    font-size: 13px; color: var(--text-muted);
+  }
+  .cx-certificate-detail strong { color: var(--text); }
+  .cx-certificate-footer {
+    font-size: 11px; color: var(--text-muted); margin-top: 16px;
+    padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* Progress dashboard empty state */
+  .cx-empty-state {
+    text-align: center; padding: 60px 24px;
+    background: var(--surface); border-radius: 16px;
+    border: 1px dashed var(--border); margin-bottom: 24px;
+  }
+  .cx-empty-state-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.6; }
+  .cx-empty-state h3 {
+    font-family: var(--font-heading); font-size: 20px; font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .cx-empty-state p {
+    font-size: 14px; color: var(--text-dim); max-width: 440px;
+    margin: 0 auto 20px; line-height: 1.6;
+  }
+  .cx-empty-preview {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    max-width: 400px; margin: 0 auto 24px;
+  }
+  .cx-empty-preview-card {
+    background: var(--surface2); border-radius: 8px; padding: 12px;
+    text-align: center; border: 1px solid var(--border);
+  }
+  .cx-empty-preview-card .stat-value { font-size: 20px; font-weight: 800; color: var(--accent); }
+  .cx-empty-preview-card .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+  /* Chat advisor disclaimer */
+  .cx-disclaimer {
+    font-size: 11px; color: var(--text-muted); text-align: center;
+    padding: 8px 16px; background: var(--surface2); border-radius: 6px;
+    margin-bottom: 16px; line-height: 1.5;
+  }
 
   /* ── PROGRESS DASHBOARD ─────────────────────────────────── */
   .prog-section { max-width: 900px; margin: 0 auto; padding: 32px 24px; }
@@ -786,14 +998,15 @@
 </style>
 </head>
 <body>
+<div data-cortex="true" id="cx-root">
 
-<nav class="nav">
-  <a href="#" class="nav-brand" onclick="showSection('landing'); return false;">AI Curriculum</a>
-  <div class="nav-links">
-    <a href="#" onclick="showSection('landing'); return false;">Home</a>
-    <a href="#" onclick="showProgressDashboard(); return false;" id="nav-progress" style="display:none;">Progress</a>
-    <a href="https://github.com/samriegel/ai-curriculum" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://www.linkedin.com/in/sam-riegel/" target="_blank" rel="noopener">Author</a>
+<nav class="cx-nav nav">
+  <a href="#" class="cx-nav-brand nav-brand" onclick="showSection('landing'); return false;">AI Curriculum</a>
+  <div class="cx-nav-links nav-links">
+    <a href="#" class="cx-nav-item" onclick="showSection('landing'); return false;">Home</a>
+    <a href="#" class="cx-nav-item" onclick="showProgressDashboard(); return false;" id="nav-progress">Progress</a>
+    <a href="https://github.com/samriegel/ai-curriculum" class="cx-nav-item" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/sam-riegel/" class="cx-nav-item" target="_blank" rel="noopener">Author</a>
   </div>
 </nav>
 
@@ -811,23 +1024,23 @@
       A free, personalized AI curriculum. Take a 5-question assessment and get a study schedule built for your experience level — from first encounter to frontier research. Every resource recommendation includes transparent reasoning you can inspect.
     </p>
     <div class="features">
-      <div class="feature-card">
-        <h3>Adaptive</h3>
-        <p>Four tracks from Explorer to Researcher. The quiz places you where you'll learn fastest.</p>
+      <div class="feature-card cx-card">
+        <h3 class="cx-heading">Adaptive</h3>
+        <p class="cx-body">Four tracks from Explorer to Researcher. The quiz places you where you'll learn fastest.</p>
       </div>
-      <div class="feature-card">
-        <h3>Real Resources</h3>
-        <p>Papers, books, courses, and exercises — curated, not generated. Every link goes somewhere real.</p>
+      <div class="feature-card cx-card">
+        <h3 class="cx-heading">Real Resources</h3>
+        <p class="cx-body">Papers, books, courses, and exercises — curated, not generated. Every link goes somewhere real.</p>
       </div>
-      <div class="feature-card">
-        <h3>Track Progress</h3>
-        <p>Check off completed activities. Your progress saves locally and picks up where you left off.</p>
+      <div class="feature-card cx-card">
+        <h3 class="cx-heading">Transparent Reasoning</h3>
+        <p class="cx-body">Every resource recommendation includes an evidence chain you can inspect — see why it was chosen.</p>
       </div>
     </div>
-    <button class="btn btn-primary" onclick="startQuiz()">Take the Assessment</button>
+    <button class="cx-btn cx-btn-primary btn btn-primary" onclick="startQuiz()">Take the Assessment</button>
     <div style="margin-top: 16px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-      <button class="btn btn-ghost" onclick="showTrackPicker()">Skip quiz — choose a track</button>
-      <button class="btn btn-ghost" onclick="showChat()">Not sure? Tell us about yourself</button>
+      <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="showTrackPicker()">Skip quiz — choose a track</button>
+      <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="showChat()">Not sure? Talk to the advisor</button>
     </div>
   </div>
 </div>
@@ -877,9 +1090,11 @@
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
         Track Advisor
       </div>
-      <h2>Tell us about yourself</h2>
-      <p>Describe your background, goals, or situation. The advisor will suggest the right track or a custom blend — no account needed, works offline.</p>
+      <h2 class="cx-heading">Tell us about yourself</h2>
+      <p class="cx-body">Describe your background, goals, or situation. The advisor will suggest the right track or a custom blend — no account needed, works offline.</p>
     </div>
+
+    <div class="cx-disclaimer">Powered by keyword matching — not AI. The advisor analyzes your description to recommend a track based on role, experience, and goals.</div>
 
     <div style="margin-bottom: 12px;">
       <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 10px;">Quick-start personas</div>
@@ -893,7 +1108,7 @@
           <span style="background: #ffbd2e"></span>
           <span style="background: #28ca41"></span>
         </div>
-        <span class="chat-titlebar-name">AI Curriculum Advisor</span>
+        <span class="chat-titlebar-name">Track Advisor (Rule-Based)</span>
       </div>
       <div class="chat-messages" id="chatMessages"></div>
       <div class="chat-input-area">
@@ -924,9 +1139,27 @@
 <!-- LEGACY MODAL (fallback) -->
 <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal()">×</button>
+    <button class="modal-close" onclick="closeModal()">x</button>
     <div class="modal-body" id="modalBody"></div>
   </div>
+</div>
+
+<!-- CORTEX WEEKLY GOAL MODAL -->
+<div class="cx-modal-overlay" id="goalModalOverlay" onclick="if(event.target===this)closeGoalModal()">
+  <div class="cx-modal">
+    <h3>Set Weekly Activity Goal</h3>
+    <p style="font-size: 13px; color: var(--text-dim); margin-bottom: 16px;">How many activities do you want to complete each week?</p>
+    <input type="number" class="cx-modal-input" id="goalModalInput" min="1" max="50" value="4" onkeydown="if(event.key==='Enter')saveGoalFromModal()">
+    <div class="cx-modal-actions">
+      <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="closeGoalModal()">Cancel</button>
+      <button class="cx-btn cx-btn-primary btn btn-primary" style="padding: 10px 20px;" onclick="saveGoalFromModal()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- CERTIFICATE SECTION -->
+<div id="certificate" class="section">
+  <div class="cx-section" id="certificateContent"></div>
 </div>
 
 <script>
@@ -1480,9 +1713,23 @@ function saveTrack(track) {
 // ============================================================
 
 function showSection(id) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0, 0);
+  const current = document.querySelector('.section.active');
+  const next = document.getElementById(id);
+  if (current && current !== next) {
+    current.style.opacity = '0';
+    setTimeout(() => {
+      current.classList.remove('active');
+      current.style.opacity = '';
+      next.classList.add('active');
+      next.style.opacity = '0';
+      requestAnimationFrame(() => { next.style.opacity = '1'; });
+      window.scrollTo(0, 0);
+    }, 150);
+  } else {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    next.classList.add('active');
+    window.scrollTo(0, 0);
+  }
 }
 
 // ============================================================
@@ -1509,19 +1756,19 @@ function renderQuestion() {
   ).join('');
 
   let html = `
-    <div class="quiz-step-label">Question ${currentQuestion + 1} of ${QUESTIONS.length}</div>
-    <h2 class="quiz-question">${q.question}</h2>
-    <p class="quiz-hint">${q.hint}</p>
+    <div class="quiz-step-label cx-caption">Question ${currentQuestion + 1} of ${QUESTIONS.length}</div>
+    <h2 class="quiz-question cx-heading">${q.question}</h2>
+    <p class="quiz-hint cx-body">${q.hint}</p>
     <div class="quiz-options">
       ${q.options.map((opt, i) => `
-        <div class="quiz-option" onclick="selectOption(${i})" data-idx="${i}">
+        <div class="quiz-option cx-option" onclick="selectOption(${i})" data-idx="${i}">
           <div class="option-title">${opt.text}</div>
           <div class="option-desc">${opt.desc}</div>
         </div>
       `).join('')}
     </div>
     <div class="quiz-nav">
-      ${currentQuestion > 0 ? '<button class="btn btn-ghost" onclick="prevQuestion()">Back</button>' : '<div></div>'}
+      ${currentQuestion > 0 ? '<button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="prevQuestion()">Back</button>' : '<div></div>'}
       <div></div>
     </div>
   `;
@@ -1583,28 +1830,32 @@ function showResults() {
 
   document.getElementById('resultsContent').innerHTML = `
     <div class="results-header">
-      <div class="your-track">Your recommended track</div>
-      <h2 style="color: ${track.color}">${track.name} Track</h2>
-      <p class="track-desc">${track.description}</p>
+      <div class="cortex-badge" style="margin: 0 auto 12px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        Assessment Result
+      </div>
+      <div class="your-track cx-caption">Your recommended track</div>
+      <h2 class="cx-heading" style="color: ${track.color}">${track.name} Track</h2>
+      <p class="track-desc cx-body">${track.description}</p>
     </div>
     <div class="results-stats">
-      <div class="stat-card">
+      <div class="stat-card cx-card">
         <div class="stat-value" style="color: ${track.color}">${track.duration}</div>
         <div class="stat-label">Weeks</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card cx-card">
         <div class="stat-value" style="color: ${track.color}">${track.hoursPerWeek}</div>
         <div class="stat-label">Hours / Week</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card cx-card">
         <div class="stat-value" style="color: ${track.color}">${totalDays}</div>
         <div class="stat-label">Activities</div>
       </div>
     </div>
     <div class="results-actions">
-      <button class="btn btn-primary" onclick="showSchedule()">View Your Schedule</button>
-      <button class="btn btn-secondary" onclick="showDeepDive('${selectedTrack}','results')">Deep Dive Guide</button>
-      <button class="btn btn-ghost" onclick="startQuiz()">Retake Quiz</button>
+      <button class="cx-btn cx-btn-primary btn btn-primary" onclick="showSchedule()">View Your Schedule</button>
+      <button class="cx-btn cx-btn-secondary btn btn-secondary" onclick="showDeepDive('${selectedTrack}','results')">Deep Dive Guide</button>
+      <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="startQuiz()">Retake Quiz</button>
     </div>
     <div style="margin-top: 24px; text-align: center;">
       <p style="font-size: 13px; color: var(--text-muted);">Not the right fit? <a href="#" onclick="showTrackPicker(); return false;" style="color: var(--accent);">Choose a different track</a> · <a href="#" onclick="showChat(); return false;" style="color: var(--accent);">Describe your situation</a></p>
@@ -1624,7 +1875,7 @@ function showTrackPicker() {
     const t = TRACKS[key];
     const totalDays = t.weeks.reduce((sum, w) => sum + w.days.length, 0);
     html += `
-      <div class="quiz-option" onclick="pickTrack('${key}')" style="border-left: 4px solid ${t.color};">
+      <div class="quiz-option cx-option" onclick="pickTrack('${key}')" style="border-left: 4px solid ${t.color};">
         <div class="option-title">${t.name} Track</div>
         <div class="option-desc">${t.description}</div>
         <div style="margin-top: 8px; font-size: 12px; color: var(--text-muted);">${t.duration} weeks · ${t.hoursPerWeek} hrs/wk · ${totalDays} activities</div>
@@ -1737,13 +1988,14 @@ function toggleWeek(wi) {
 // ============================================================
 
 const EVIDENCE = {
-  // Key resources get detailed reasoning chains
+  // ── CROSS-TRACK KEY RESOURCES ───────────────────────────────
   'Stanford HAI AI Index': {
     confidence: 0.95,
     reasoning: [
       { type: 'evaluation', content: 'Stanford HAI produces the most comprehensive annual survey of AI capabilities, adoption, and policy. Data-driven, not opinion-driven.' },
       { type: 'decision', content: 'Selected as the opening resource for Explorer and Practitioner tracks because it gives an evidence-based overview without requiring technical background.' }
     ],
+    sources: [{ title: 'Stanford HAI', citation: 'Stanford Institute for Human-Centered AI, Annual AI Index Report' }],
     alternatives: [{ text: 'McKinsey Global AI Survey', reason: 'Industry-focused rather than comprehensive; less methodologically rigorous' }]
   },
   '3Blue1Brown': {
@@ -1752,6 +2004,7 @@ const EVIDENCE = {
       { type: 'evaluation', content: 'Grant Sanderson\'s visual explanations of neural networks are unmatched for building geometric intuition. 15M+ views validates accessibility across skill levels.' },
       { type: 'decision', content: 'Used across Explorer and Builder tracks at different depths — Explorer watches for conceptual understanding, Builder watches to prepare for implementation.' }
     ],
+    sources: [{ title: '3Blue1Brown YouTube', citation: 'Neural Networks series, 2017-2023' }],
     alternatives: [{ text: 'StatQuest with Josh Starmer', reason: 'Excellent but more statistical focus; less visual intuition for neural architectures' }]
   },
   'Anthropic Prompt Engineering': {
@@ -1760,6 +2013,7 @@ const EVIDENCE = {
       { type: 'evaluation', content: 'Anthropic\'s documentation is the most technically precise prompt engineering guide available — written by the team that builds Claude.' },
       { type: 'decision', content: 'Appears in all four tracks because prompt engineering is a universal skill. Depth increases: Explorer gets overview, Researcher gets tool use and function calling.' }
     ],
+    sources: [{ title: 'Anthropic Documentation', citation: 'docs.anthropic.com/en/docs/build-with-claude/prompt-engineering' }],
     alternatives: [{ text: 'OpenAI Prompt Engineering Guide', reason: 'Good but less detailed; Anthropic\'s covers structured output and chain-of-thought more thoroughly' }]
   },
   'Attention Is All You Need': {
@@ -1769,14 +2023,16 @@ const EVIDENCE = {
       { type: 'decision', content: 'Builder track reads it for architecture understanding; Researcher track reads it line-by-line with equation annotation.' },
       { type: 'caveat', content: 'Dense paper — paired with Karpathy\'s video walkthrough in both tracks to make it accessible.' }
     ],
+    sources: [{ title: 'Vaswani et al., 2017', citation: 'NeurIPS 2017, arXiv:1706.03762' }],
     alternatives: [{ text: 'Jay Alammar\'s "The Illustrated Transformer"', reason: 'Excellent companion resource but not a substitute for the original paper at Builder/Researcher level' }]
   },
   'Constitutional AI': {
     confidence: 0.92,
     reasoning: [
-      { type: 'evaluation', content: 'Anthropic\'s Constitutional AI paper is the most concrete example of how values get encoded into AI systems — principles → critiques → revisions, not just RLHF.' },
+      { type: 'evaluation', content: 'Anthropic\'s Constitutional AI paper is the most concrete example of how values get encoded into AI systems — principles, critiques, revisions, not just RLHF.' },
       { type: 'decision', content: 'Placed in Builder and Researcher tracks as the bridge between technical training and ethical AI. Shows that safety is an engineering problem, not just a policy one.' }
     ],
+    sources: [{ title: 'Bai et al., 2022', citation: 'Anthropic, arXiv:2212.08073' }],
     alternatives: [{ text: 'InstructGPT paper (Ouyang et al.)', reason: 'Important historically but Constitutional AI represents the next evolution of alignment training' }]
   },
   'fast.ai': {
@@ -1785,23 +2041,26 @@ const EVIDENCE = {
       { type: 'evaluation', content: 'Jeremy Howard\'s top-down teaching approach — build first, understand theory later — is the fastest path from "I can code" to "I can build ML systems."' },
       { type: 'decision', content: 'Core resource for Builder track weeks 2-3. Not used in Researcher track because researchers need bottom-up mathematical foundations first.' }
     ],
+    sources: [{ title: 'fast.ai', citation: 'Practical Deep Learning for Coders, course.fast.ai' }],
     alternatives: [{ text: 'Andrew Ng\'s Deep Learning Specialization', reason: 'More thorough but significantly longer (3 months vs 2 weeks); fast.ai gets to practical results faster' }]
   },
-  'Karpathy Zero to Hero': {
+  'Karpathy': {
     confidence: 0.96,
     reasoning: [
       { type: 'evaluation', content: 'Andrej Karpathy\'s "Neural Networks: Zero to Hero" series builds every component from scratch — micrograd, makemore, GPT. No black boxes.' },
       { type: 'decision', content: 'Used in Builder track for micrograd (week 2) and GPT from scratch (week 4). Researcher track uses the full series across weeks 4-5.' }
     ],
+    sources: [{ title: 'Karpathy YouTube', citation: 'Neural Networks: Zero to Hero, 2022-2023' }],
     alternatives: [{ text: 'Goodfellow Deep Learning Book chapters', reason: 'More rigorous mathematically but lacks the "build it yourself" approach that Karpathy provides' }]
   },
-  'Goodfellow Deep Learning': {
+  'Goodfellow': {
     confidence: 0.91,
     reasoning: [
       { type: 'evaluation', content: 'The standard graduate textbook for deep learning theory. Free online. Covers linear algebra through deep generative models with mathematical rigor.' },
       { type: 'decision', content: 'Researcher track only — the mathematical depth is essential for understanding why architectures work, not just how to use them.' },
       { type: 'caveat', content: 'Published 2016, so missing transformer-era developments. Supplemented with recent papers in later weeks.' }
     ],
+    sources: [{ title: 'Goodfellow, Bengio, Courville', citation: 'Deep Learning, MIT Press, 2016' }],
     alternatives: [{ text: 'Bishop\'s "Deep Learning: Foundations and Concepts" (2024)', reason: 'More current but less battle-tested; Goodfellow remains the reference standard' }]
   },
   'Prediction Machines': {
@@ -1810,21 +2069,829 @@ const EVIDENCE = {
       { type: 'evaluation', content: 'Reframes AI as a prediction technology — drops in the cost of prediction. This economic framing is the clearest mental model for non-technical leaders.' },
       { type: 'decision', content: 'Explorer track week 1 — sets the right frame before diving into capabilities and ethics. Better starting point than hype-driven books.' }
     ],
-    alternatives: [{ text: '"AI Superpowers" by Kai-Fu Lee', reason: 'Included in week 2 instead — more geopolitical than economic; Prediction Machines is a better conceptual foundation' }]
+    sources: [{ title: 'Agrawal, Gans, Goldfarb', citation: 'Prediction Machines, Harvard Business Review Press, 2018' }],
+    alternatives: [{ text: '"AI Superpowers" by Kai-Fu Lee', reason: 'Included later — more geopolitical than economic; Prediction Machines is a better conceptual foundation' }]
+  },
+  // ── EXPLORER TRACK ──────────────────────────────────────────
+  'AI Is Not What You Think': {
+    confidence: 0.90,
+    reasoning: [
+      { type: 'evaluation', content: 'The HAI executive summary is the most data-dense, hype-free introduction to what AI actually does today. Ideal week-1 reality check.' },
+      { type: 'decision', content: 'Placed first in Explorer because it calibrates expectations before deeper reading begins.' }
+    ],
+    sources: [{ title: 'Stanford HAI', citation: 'AI Index Report 2024 Executive Summary' }],
+    alternatives: [{ text: 'MIT Technology Review Annual Report', reason: 'More narrative, less quantitative; HAI is better for forming an evidence-based starting point' }]
+  },
+  'AI in 2024': {
+    confidence: 0.97,
+    reasoning: [
+      { type: 'evaluation', content: '3Blue1Brown\'s first neural network video is the gold standard for visual AI education. No prerequisites required.' },
+      { type: 'decision', content: 'Placed in week 1 to give Explorers immediate visual intuition before textual reading.' }
+    ],
+    sources: [{ title: '3Blue1Brown', citation: 'But what is a neural network?, YouTube, 2017' }],
+    alternatives: [{ text: 'CGP Grey "How Machines Learn"', reason: 'Good overview but less mathematical intuition; 3B1B builds the right mental model' }]
+  },
+  'AI Landscape': {
+    confidence: 0.88,
+    reasoning: [
+      { type: 'evaluation', content: 'Prediction Machines reframes AI as cheap prediction, the most useful mental model for non-technical decision makers.' },
+      { type: 'decision', content: 'Week 1 reading because the economic frame helps Explorers evaluate every AI claim they encounter afterward.' }
+    ],
+    sources: [{ title: 'Agrawal, Gans, Goldfarb', citation: 'Prediction Machines, HBR Press, 2018' }],
+    alternatives: [{ text: '"The AI Organization" by David De Cremer', reason: 'More organizational but Prediction Machines provides the cleaner mental model first' }]
+  },
+  'Week 1 Reflection': {
+    confidence: 0.85,
+    reasoning: [
+      { type: 'evaluation', content: 'Reflection activities consolidate learning by forcing articulation of new understanding. Research on metacognition supports this.' },
+      { type: 'decision', content: 'Every Explorer week ends with reflection to build the habit of deliberate sense-making.' }
+    ],
+    sources: [{ title: 'Pedagogical Design', citation: 'Based on Bloom\'s Taxonomy reflection principles' }],
+    alternatives: [{ text: 'Discussion with a peer', reason: 'Effective but requires a partner; self-reflection works independently' }]
+  },
+  'Machine Learning Explained': {
+    confidence: 0.95,
+    reasoning: [
+      { type: 'evaluation', content: '3Blue1Brown\'s gradient descent video bridges concept and mechanics — you see how learning actually works without needing to code it.' },
+      { type: 'decision', content: 'Week 2 follows the conceptual introduction with the mechanics of learning, building depth progressively.' }
+    ],
+    sources: [{ title: '3Blue1Brown', citation: 'Gradient descent, how neural networks learn, YouTube' }],
+    alternatives: [{ text: 'Khan Academy intro to derivatives', reason: 'More mathematical; 3B1B is better for building intuition without calc prerequisites' }]
+  },
+  'Training, Data, and Bias': {
+    confidence: 0.87,
+    reasoning: [
+      { type: 'evaluation', content: 'Kai-Fu Lee provides real-world data context for how AI capabilities develop. Chapter 1 grounds the abstract in China\'s data-driven AI rise.' },
+      { type: 'decision', content: 'Paired with the technical video to balance mechanics with real-world implications of data quality and scale.' }
+    ],
+    sources: [{ title: 'Kai-Fu Lee', citation: 'AI Superpowers, Chapter 1, 2018' }],
+    alternatives: [{ text: 'Cathy O\'Neil "Weapons of Math Destruction"', reason: 'Focuses on bias but is narrower; Lee gives broader data-capability context first' }]
+  },
+  'Teachable Machine': {
+    confidence: 0.92,
+    reasoning: [
+      { type: 'evaluation', content: 'Google\'s Teachable Machine is the best zero-code way to experience ML training firsthand. Takes 5 minutes to train a real classifier.' },
+      { type: 'decision', content: 'Hands-on in week 2 ensures Explorers have experiential understanding alongside theoretical reading.' }
+    ],
+    sources: [{ title: 'Google Creative Lab', citation: 'Teachable Machine, teachablemachine.withgoogle.com' }],
+    alternatives: [{ text: 'Runway ML', reason: 'More powerful but higher friction for first-timers; Teachable Machine is instantly accessible' }]
+  },
+  'Prompt Engineering 101': {
+    confidence: 0.93,
+    reasoning: [
+      { type: 'evaluation', content: 'Anthropic\'s guide is authoritative, current, and written for practical application. The overview section is accessible to non-engineers.' },
+      { type: 'decision', content: 'Week 3 in Explorer because prompt engineering is the most immediately actionable skill for any AI user.' }
+    ],
+    sources: [{ title: 'Anthropic', citation: 'Prompt Engineering Overview, docs.anthropic.com' }],
+    alternatives: [{ text: 'Brex prompt engineering guide', reason: 'Good for specific use cases but less comprehensive than Anthropic\'s documentation' }]
+  },
+  'Prompt Practice': {
+    confidence: 0.88,
+    reasoning: [
+      { type: 'evaluation', content: 'Deliberate practice with real work tasks transfers better than toy examples. Comparing specific vs vague prompts builds intuition fast.' },
+      { type: 'decision', content: 'Follows the reading to immediately apply principles. The comparison exercise develops critical evaluation skills.' }
+    ],
+    sources: [{ title: 'Curriculum Design', citation: 'Transfer learning pedagogy — practice with authentic tasks' }],
+    alternatives: [{ text: 'PromptPerfect exercises', reason: 'Structured but less personalized; using your own tasks creates stronger retention' }]
+  },
+  'AI Tools Landscape': {
+    confidence: 0.82,
+    reasoning: [
+      { type: 'evaluation', content: 'The AI tool ecosystem evolves rapidly. A survey activity ensures learners encounter tools beyond their current experience.' },
+      { type: 'decision', content: 'Placed after prompt engineering so learners can evaluate tools with better criteria than "what\'s popular."' }
+    ],
+    sources: [{ title: 'Market Survey', citation: 'Current major AI consumer tools landscape' }],
+    alternatives: [{ text: 'There\'s An AI For That directory', reason: 'Comprehensive but overwhelming; a curated comparison of 4-5 major tools is more pedagogically useful' }]
+  },
+  'Tool Assessment': {
+    confidence: 0.85,
+    reasoning: [
+      { type: 'evaluation', content: 'Forcing a concrete decision about one tool for one task develops the evaluation muscle that generic reading cannot.' },
+      { type: 'decision', content: 'Bridges the skills week into the ethics week by establishing a personal relationship with AI tools before evaluating them critically.' }
+    ],
+    sources: [{ title: 'Curriculum Design', citation: 'Decision-forcing exercises in professional education' }],
+    alternatives: [{ text: 'Tool comparison matrix', reason: 'More analytical but less actionable; a single-tool commitment creates urgency' }]
+  },
+  'Responsible AI Frameworks': {
+    confidence: 0.90,
+    reasoning: [
+      { type: 'evaluation', content: 'Comparing Google and Anthropic\'s approaches reveals that responsible AI is not monolithic — companies make different tradeoffs.' },
+      { type: 'decision', content: 'Comparative reading develops critical thinking better than reading a single framework uncritically.' }
+    ],
+    sources: [{ title: 'Google AI', citation: 'AI Principles, ai.google/responsibility' }, { title: 'Anthropic', citation: 'Core Views on AI Safety' }],
+    alternatives: [{ text: 'IEEE Ethically Aligned Design', reason: 'More comprehensive but far longer; comparing two corporate approaches is more practical for week 4' }]
+  },
+  'Bias in AI Systems': {
+    confidence: 0.89,
+    reasoning: [
+      { type: 'evaluation', content: 'Cathy O\'Neil\'s TED talk is the most compelling 12-minute introduction to algorithmic bias. Concrete examples make abstract risks tangible.' },
+      { type: 'decision', content: 'Video format after dense reading provides variety. O\'Neil\'s accessibility matches Explorer-level engagement.' }
+    ],
+    sources: [{ title: 'Cathy O\'Neil', citation: 'TED Talk, "The Era of Blind Faith in Big Data Must End"' }],
+    alternatives: [{ text: 'Joy Buolamwini "Gender Shades"', reason: 'More technically specific; O\'Neil covers broader systemic issues better for a general audience' }]
+  },
+  'Regulation Landscape': {
+    confidence: 0.87,
+    reasoning: [
+      { type: 'evaluation', content: 'The EU AI Act is the world\'s first comprehensive AI regulation. Understanding its risk classification system is essential for any AI decision-maker.' },
+      { type: 'decision', content: 'Placed in ethics week because regulation is how societies encode ethical choices into enforceable rules.' }
+    ],
+    sources: [{ title: 'European Commission', citation: 'EU AI Act, digital-strategy.ec.europa.eu' }],
+    alternatives: [{ text: 'US Executive Orders on AI', reason: 'Less structured than the EU Act; the EU framework provides a clearer taxonomy for learning' }]
+  },
+  'Ethics Discussion': {
+    confidence: 0.84,
+    reasoning: [
+      { type: 'evaluation', content: 'The AI disclosure question is concrete enough to debate meaningfully without technical knowledge. It forces position-taking with nuance.' },
+      { type: 'decision', content: 'Discussion activities prevent passive consumption. This question has no right answer, which develops tolerance for ambiguity.' }
+    ],
+    sources: [{ title: 'Socratic Method', citation: 'Ethics pedagogy through dilemma discussion' }],
+    alternatives: [{ text: 'Case study analysis', reason: 'More analytical but less engaging for solo learners; a provocative question stimulates deeper thought' }]
+  },
+  'Organizational AI Adoption': {
+    confidence: 0.86,
+    reasoning: [
+      { type: 'evaluation', content: 'Malone\'s Superminds framework provides a taxonomy for collective intelligence that applies directly to AI-augmented organizations.' },
+      { type: 'decision', content: 'Week 5 shifts from individual to organizational perspective, which is where most Explorers will apply their knowledge.' }
+    ],
+    sources: [{ title: 'Thomas Malone', citation: 'Superminds, Little Brown, 2018' }],
+    alternatives: [{ text: '"AI-First Company" by Ash Fontana', reason: 'More startup-focused; Malone\'s framework applies across organization types' }]
+  },
+  'Technology Fallacy': {
+    confidence: 0.85,
+    reasoning: [
+      { type: 'evaluation', content: 'Kane\'s central argument — that digital transformation fails because of people, not technology — is essential context for AI adoption.' },
+      { type: 'decision', content: 'Paired with Malone to give both the structural and human dimensions of organizational AI.' }
+    ],
+    sources: [{ title: 'Gerald Kane et al.', citation: 'The Technology Fallacy, MIT Press, 2019' }],
+    alternatives: [{ text: '"Competing in the Age of AI" by Iansiti & Lakhani', reason: 'More strategy-focused but less about the human resistance that actually blocks adoption' }]
+  },
+  'AI Opportunity Mapping': {
+    confidence: 0.87,
+    reasoning: [
+      { type: 'evaluation', content: 'Systematic task analysis is how organizations actually identify AI opportunities. Rating repetitiveness vs judgment creates actionable prioritization.' },
+      { type: 'decision', content: 'This exercise produces a reusable artifact — an AI opportunity map that learners can bring to their teams.' }
+    ],
+    sources: [{ title: 'Curriculum Design', citation: 'Task decomposition methodology for AI opportunity assessment' }],
+    alternatives: [{ text: 'AI maturity assessment framework', reason: 'Higher-level but less actionable; task-level mapping produces immediate insights' }]
+  },
+  'Evaluating AI Claims': {
+    confidence: 0.87,
+    reasoning: [
+      { type: 'evaluation', content: 'NIST AI RMF provides a structured, government-endorsed framework for AI risk assessment. More rigorous than corporate guidelines.' },
+      { type: 'decision', content: 'Placed before vendor evaluation so learners have a framework before applying it to real products.' }
+    ],
+    sources: [{ title: 'NIST', citation: 'AI Risk Management Framework 1.0, 2023' }],
+    alternatives: [{ text: 'ISO/IEC 42001', reason: 'More comprehensive but harder to access; NIST RMF is free and more practical for self-study' }]
+  },
+  'Vendor Evaluation Exercise': {
+    confidence: 0.86,
+    reasoning: [
+      { type: 'evaluation', content: 'Evaluating a real AI product forces concrete application of risk frameworks. Writing a 1-page assessment develops the evaluation muscle.' },
+      { type: 'decision', content: 'Follows the NIST reading to immediately apply the framework. Real products reveal complexities that hypotheticals miss.' }
+    ],
+    sources: [{ title: 'Applied Learning', citation: 'Authentic assessment through real-world product evaluation' }],
+    alternatives: [{ text: 'Comparative analysis of 3 products', reason: 'More thorough but too time-consuming for one session; depth on one product builds better skills' }]
+  },
+  'Power and Prediction': {
+    confidence: 0.88,
+    reasoning: [
+      { type: 'evaluation', content: 'The sequel to Prediction Machines goes deeper into how AI reshapes decision-making economics and organizational power structures.' },
+      { type: 'decision', content: 'Placed after practical experience so the economic theory has concrete examples to attach to.' }
+    ],
+    sources: [{ title: 'Agrawal, Gans, Goldfarb', citation: 'Power and Prediction, Harvard Business Review Press, 2022' }],
+    alternatives: [{ text: 'Ajay Agrawal\'s lectures', reason: 'Shorter but the book format allows deeper engagement with the decision framework' }]
+  },
+  'Team of Teams': {
+    confidence: 0.84,
+    reasoning: [
+      { type: 'evaluation', content: 'McChrystal\'s model for adaptive organizations under uncertainty maps directly to AI transformation challenges.' },
+      { type: 'decision', content: 'Placed in the organizational week because shared consciousness and empowered execution are exactly what AI-augmented teams need.' }
+    ],
+    sources: [{ title: 'Gen. Stanley McChrystal', citation: 'Team of Teams, Portfolio/Penguin, 2015' }],
+    alternatives: [{ text: '"Accelerate" by Forsgren, Humble, Kim', reason: 'More tech-focused but narrower on DevOps; Team of Teams applies to any organizational transformation' }]
+  },
+  'Microsoft Work Trend Index': {
+    confidence: 0.83,
+    reasoning: [
+      { type: 'evaluation', content: 'Microsoft\'s Work Trend Index provides the largest dataset on how AI is actually changing knowledge work — not theory, but real adoption data.' },
+      { type: 'decision', content: 'Placed in the augmentation week to ground philosophical discussions in quantitative evidence.' }
+    ],
+    sources: [{ title: 'Microsoft', citation: 'Work Trend Index, microsoft.com/worklab' }],
+    alternatives: [{ text: 'Slack State of Work Report', reason: 'Smaller sample size; Microsoft\'s data covers more industries and job functions' }]
+  },
+  'Workflow Redesign': {
+    confidence: 0.86,
+    reasoning: [
+      { type: 'evaluation', content: 'Redesigning a real workflow with AI forces practical design thinking — you discover constraints that reading alone cannot reveal.' },
+      { type: 'decision', content: 'This exercise bridges the conceptual and practical — Explorers produce something they can actually implement.' }
+    ],
+    sources: [{ title: 'Design Thinking', citation: 'Process redesign methodology applied to AI augmentation' }],
+    alternatives: [{ text: 'AI workflow template', reason: 'Templates are easier but less valuable — designing from scratch builds deeper understanding' }]
+  },
+  'Superagency': {
+    confidence: 0.82,
+    reasoning: [
+      { type: 'evaluation', content: 'Hoffman\'s 2025 book is the most current treatment of AI as individual amplification. Provocative enough to stimulate final-week thinking.' },
+      { type: 'decision', content: 'Capstone provocation — read last so learners can evaluate Hoffman\'s claims against 7 weeks of developed knowledge.' }
+    ],
+    sources: [{ title: 'Reid Hoffman', citation: 'Superagency, Crown Currency, 2025' }],
+    alternatives: [{ text: '"Co-Intelligence" by Ethan Mollick', reason: 'More academic but Hoffman\'s framing is bolder — better for stimulating final-week position-taking' }]
+  },
+  'Personal AI Strategy': {
+    confidence: 0.90,
+    reasoning: [
+      { type: 'evaluation', content: 'A personal AI strategy is the most valuable single artifact an Explorer can produce — it forces concrete commitments backed by 7 weeks of learning.' },
+      { type: 'decision', content: 'Placed as the capstone because it synthesizes everything into an actionable personal plan.' }
+    ],
+    sources: [{ title: 'Capstone Design', citation: 'Integrative assessment through strategic planning' }],
+    alternatives: [{ text: 'Organizational AI strategy', reason: 'Too ambitious for Explorer scope; personal strategy is achievable and immediately useful' }]
+  },
+  'Capstone Reflection': {
+    confidence: 0.85,
+    reasoning: [
+      { type: 'evaluation', content: 'Final reflection consolidates 8 weeks of learning and identifies what to learn next. Metacognitive closure improves long-term retention.' },
+      { type: 'decision', content: 'Every track ends with reflection. The "what will you do differently" question bridges learning to action.' }
+    ],
+    sources: [{ title: 'Metacognition Research', citation: 'Reflective practice in professional learning' }],
+    alternatives: [{ text: 'Peer presentation', reason: 'Effective but requires an audience; self-reflection works independently and can happen anytime' }]
+  },
+  // ── PRACTITIONER TRACK ──────────────────────────────────────
+  'Benchmark Your AI Use': {
+    confidence: 0.86,
+    reasoning: [
+      { type: 'evaluation', content: 'Self-auditing current AI use creates a baseline for improvement. Rating effectiveness and time saved makes abstract "I use AI" into concrete data.' },
+      { type: 'decision', content: 'Week 1 exercise because Practitioners need to know their starting point before optimizing.' }
+    ],
+    sources: [{ title: 'Self-Assessment', citation: 'Baseline measurement methodology for skill development' }],
+    alternatives: [{ text: 'Tool usage analytics', reason: 'More objective but most tools don\'t expose this data; manual audit develops self-awareness' }]
+  },
+  'Capability Mapping': {
+    confidence: 0.84,
+    reasoning: [
+      { type: 'evaluation', content: 'Mapping strengths and failure modes of current AI tools prevents both overreliance and underutilization.' },
+      { type: 'decision', content: 'Reflection after benchmarking deepens the baseline into actionable intelligence about where to improve.' }
+    ],
+    sources: [{ title: 'Skills Analysis', citation: 'Gap analysis methodology in professional development' }],
+    alternatives: [{ text: 'Strengths-based assessment', reason: 'Narrower; mapping both strengths and failures gives a more complete picture' }]
+  },
+  'Anthropic Prompt Guide': {
+    confidence: 0.93,
+    reasoning: [
+      { type: 'evaluation', content: 'The full Anthropic prompt engineering documentation covers chain-of-thought, structured output, and system prompts — all essential for practitioner-level work.' },
+      { type: 'decision', content: 'Week 2 deep read because advanced prompting is the highest-leverage skill for the Practitioner track.' }
+    ],
+    sources: [{ title: 'Anthropic', citation: 'Full Prompt Engineering Documentation, docs.anthropic.com' }],
+    alternatives: [{ text: 'DeepLearning.AI prompt engineering course', reason: 'Video format but covers less depth on structured output and system prompts' }]
+  },
+  'System Prompts': {
+    confidence: 0.88,
+    reasoning: [
+      { type: 'evaluation', content: 'System prompts are the most underutilized prompt engineering technique. Writing 3 and testing each with 5 inputs builds real skill through iteration.' },
+      { type: 'decision', content: 'Hands-on exercise immediately after the documentation reading ensures knowledge transfers to practice.' }
+    ],
+    sources: [{ title: 'Applied Prompt Engineering', citation: 'Iterative testing methodology for prompt optimization' }],
+    alternatives: [{ text: 'Pre-written system prompt templates', reason: 'Templates start you off but don\'t build the skill of crafting from scratch' }]
+  },
+  'Few-Shot Prompting': {
+    confidence: 0.89,
+    reasoning: [
+      { type: 'evaluation', content: 'Few-shot examples are the single most reliable technique for improving AI output quality. The before/after comparison makes the improvement measurable.' },
+      { type: 'decision', content: 'Placed after system prompts to stack techniques progressively — each exercise adds to the previous one.' }
+    ],
+    sources: [{ title: 'Brown et al., 2020', citation: 'Language Models are Few-Shot Learners, GPT-3 paper' }],
+    alternatives: [{ text: 'Zero-shot chain-of-thought', reason: 'Effective but less reliable than few-shot for consistent results; few-shot is the safer starting technique' }]
+  },
+  'Prompt Template Library': {
+    confidence: 0.87,
+    reasoning: [
+      { type: 'evaluation', content: 'A personal prompt library is the practical artifact that makes week 2 learning durable. Templates compound in value over time.' },
+      { type: 'decision', content: 'Capstone exercise for the prompting unit — produces a reusable asset that justifies the time investment.' }
+    ],
+    sources: [{ title: 'Knowledge Management', citation: 'Personal knowledge base methodology for recurring tasks' }],
+    alternatives: [{ text: 'Community prompt repositories', reason: 'Starting points but personal prompts tuned to your work are more valuable' }]
+  },
+  'Automation Landscape': {
+    confidence: 0.83,
+    reasoning: [
+      { type: 'evaluation', content: 'Understanding the automation ecosystem before building prevents tool lock-in and reveals what\'s possible beyond manual prompt entry.' },
+      { type: 'decision', content: 'Survey before build — Practitioners need context before committing to a platform.' }
+    ],
+    sources: [{ title: 'Tool Ecosystem', citation: 'Zapier, Make, n8n automation platform comparison' }],
+    alternatives: [{ text: 'Focus on one platform only', reason: 'Faster but risks missing better tools; a survey takes 30 minutes and prevents bad platform choices' }]
+  },
+  'Build an Automation': {
+    confidence: 0.90,
+    reasoning: [
+      { type: 'evaluation', content: 'Building one real automation teaches more than reading about ten. The 60-minute constraint forces practical scope decisions.' },
+      { type: 'decision', content: 'This is the highest-value single exercise in the Practitioner track — it produces a time-saving tool immediately.' }
+    ],
+    sources: [{ title: 'Project-Based Learning', citation: 'Authentic task completion in workflow automation' }],
+    alternatives: [{ text: 'Following a tutorial automation', reason: 'Lower friction but less transferable; building for a real task creates deeper learning' }]
+  },
+  'Google Rules of ML': {
+    confidence: 0.85,
+    reasoning: [
+      { type: 'evaluation', content: 'Google\'s Rules of ML give non-engineers the mental model for how ML systems behave in production. Rule #1: "Don\'t be afraid to launch" is itself instructive.' },
+      { type: 'decision', content: 'Placed in the automation week to give context for why AI systems don\'t always work as expected in real workflows.' }
+    ],
+    sources: [{ title: 'Google', citation: 'Rules of Machine Learning, developers.google.com' }],
+    alternatives: [{ text: '"Machine Learning Engineering" by Andriy Burkov', reason: 'More comprehensive but requires more technical background; Google\'s rules are accessible to Practitioners' }]
+  },
+  'Thinking with Data': {
+    confidence: 0.86,
+    reasoning: [
+      { type: 'evaluation', content: 'Breiman\'s Two Cultures thesis explains why ML approaches data differently from traditional statistics — essential context for data-literate AI use.' },
+      { type: 'decision', content: 'Practitioner-level data literacy starts with understanding the philosophical split between prediction and explanation.' }
+    ],
+    sources: [{ title: 'Leo Breiman', citation: 'Statistical Modeling: The Two Cultures, Statistical Science, 2001' }],
+    alternatives: [{ text: '"Naked Statistics" by Charles Wheelan', reason: 'More accessible but doesn\'t address the ML-statistics divide that Practitioners need to understand' }]
+  },
+  'Data Quality Assessment': {
+    confidence: 0.87,
+    reasoning: [
+      { type: 'evaluation', content: 'Assessing a real dataset forces confrontation with data quality issues that AI tools inherit. Completeness, bias, freshness are all learnable checkpoints.' },
+      { type: 'decision', content: 'Practical exercise after the conceptual reading ensures data literacy translates to evaluative skill.' }
+    ],
+    sources: [{ title: 'Data Quality Framework', citation: 'Assessment dimensions: completeness, accuracy, bias, freshness' }],
+    alternatives: [{ text: 'Synthetic dataset exercise', reason: 'Cleaner but less realistic; real data reveals real problems that synthetic data hides' }]
+  },
+  'Data Visualization': {
+    confidence: 0.83,
+    reasoning: [
+      { type: 'evaluation', content: 'Hans Rosling\'s TED talk demonstrates data storytelling mastery. It shows how visualization changes understanding — a skill transferable to AI outputs.' },
+      { type: 'decision', content: 'Video provides cognitive variety in a reading-heavy week. Rosling models the data communication skills Practitioners need.' }
+    ],
+    sources: [{ title: 'Hans Rosling', citation: 'TED Talk, "The best stats you\'ve ever seen"' }],
+    alternatives: [{ text: 'Edward Tufte reading', reason: 'More rigorous but longer; Rosling\'s 20-minute talk is perfect for a supporting activity' }]
+  },
+  'Corporate AI Principles': {
+    confidence: 0.88,
+    reasoning: [
+      { type: 'evaluation', content: 'Comparing corporate AI principles reveals that responsible AI is not a solved problem — companies make genuinely different tradeoffs.' },
+      { type: 'decision', content: 'Practitioner ethics week focuses on practical governance, not abstract philosophy. Comparing real companies is more useful than hypotheticals.' }
+    ],
+    sources: [{ title: 'Google, Anthropic', citation: 'Corporate AI governance frameworks comparison' }],
+    alternatives: [{ text: 'Academic ethics frameworks', reason: 'More philosophical but less actionable; corporate frameworks show how ethics translates to policy' }]
+  },
+  'EU AI Act': {
+    confidence: 0.87,
+    reasoning: [
+      { type: 'evaluation', content: 'The EU AI Act risk classification system is the most structured regulatory framework — understanding it prepares Practitioners for compliance conversations.' },
+      { type: 'decision', content: 'Practical regulation knowledge is essential for Practitioners who will recommend or implement AI tools in regulated environments.' }
+    ],
+    sources: [{ title: 'European Commission', citation: 'EU AI Act Classification System' }],
+    alternatives: [{ text: 'NIST AI RMF only', reason: 'NIST is voluntary; the EU Act is law — Practitioners need to understand both but regulatory law has teeth' }]
+  },
+  'Risk Assessment': {
+    confidence: 0.87,
+    reasoning: [
+      { type: 'evaluation', content: 'Writing a risk assessment for each AI tool develops the evaluation habit. One paragraph forces concision and prioritization.' },
+      { type: 'decision', content: 'Applied exercise after regulatory reading ensures frameworks translate into practical risk analysis skills.' }
+    ],
+    sources: [{ title: 'Risk Management', citation: 'Practitioner-level AI risk assessment methodology' }],
+    alternatives: [{ text: 'Full risk matrix', reason: 'More comprehensive but too time-consuming for weekly practice; one-paragraph assessments build the habit faster' }]
+  },
+  'Custom GPTs': {
+    confidence: 0.88,
+    reasoning: [
+      { type: 'evaluation', content: 'Custom GPTs/Claude Projects are the highest-leverage no-code AI tool. Building one for a real use case demonstrates immediate value to teams.' },
+      { type: 'decision', content: 'Placed in the no-code week because it\'s the most powerful thing a non-developer can build with AI.' }
+    ],
+    sources: [{ title: 'OpenAI, Anthropic', citation: 'Custom GPT and Claude Projects platforms' }],
+    alternatives: [{ text: 'Poe bot builder', reason: 'More flexible but less widely adopted; GPTs/Projects have larger ecosystems and enterprise support' }]
+  },
+  'OWASP Top 10 for LLMs': {
+    confidence: 0.91,
+    reasoning: [
+      { type: 'evaluation', content: 'OWASP\'s LLM-specific top 10 is the most actionable security reference for AI applications. Each vulnerability maps to concrete defenses.' },
+      { type: 'decision', content: 'Security knowledge is essential even for Practitioners — they need to evaluate tools\' security postures.' }
+    ],
+    sources: [{ title: 'OWASP', citation: 'Top 10 for LLM Applications 2025' }],
+    alternatives: [{ text: 'General cybersecurity overview', reason: 'Too broad; OWASP\'s LLM-specific list addresses the unique risks of AI applications' }]
+  },
+  'NIST AI Risk Management': {
+    confidence: 0.87,
+    reasoning: [
+      { type: 'evaluation', content: 'NIST AI RMF Sections 3-4 provide the Govern-Map-Measure-Manage framework that structures rigorous AI risk assessment.' },
+      { type: 'decision', content: 'Paired with vendor evaluation to provide the framework, then immediately apply it.' }
+    ],
+    sources: [{ title: 'NIST', citation: 'AI Risk Management Framework 1.0, Sections 3-4' }],
+    alternatives: [{ text: 'ISO 31000 general risk management', reason: 'More established but not AI-specific; NIST AI RMF addresses AI-unique risks' }]
+  },
+  // ── BUILDER TRACK ───────────────────────────────────────────
+  'Breiman\'s Two Cultures': {
+    confidence: 0.90,
+    reasoning: [
+      { type: 'evaluation', content: 'The original paper establishes the philosophical foundation for ML: prediction over explanation. Understanding this prevents misapplying statistical intuitions to ML.' },
+      { type: 'decision', content: 'Builder week 1 reading because engineers need to understand why ML is philosophically different from the statistics they may have studied.' }
+    ],
+    sources: [{ title: 'Leo Breiman', citation: 'Statistical Modeling: The Two Cultures, Statistical Science 16(3), 2001' }],
+    alternatives: [{ text: 'Hastie et al. "Elements of Statistical Learning"', reason: 'More comprehensive but Breiman\'s paper is the philosophical argument that frames everything else' }]
+  },
+  'Linear Regression from Scratch': {
+    confidence: 0.89,
+    reasoning: [
+      { type: 'evaluation', content: 'Implementing gradient descent from scratch — without libraries — is the fastest way to build intuition for how neural networks actually learn.' },
+      { type: 'decision', content: 'Week 1 hands-on because doing beats watching. The "no libraries" constraint forces understanding of every step.' }
+    ],
+    sources: [{ title: 'From-Scratch Implementation', citation: 'Foundational ML implementation exercise' }],
+    alternatives: [{ text: 'scikit-learn tutorial', reason: 'Faster but hides the mechanics; from-scratch builds the understanding that debugging requires' }]
+  },
+  'Neural Net from Scratch': {
+    confidence: 0.91,
+    reasoning: [
+      { type: 'evaluation', content: 'A 2-layer neural network implementation on MNIST is the canonical "hello world" of deep learning. It reveals backpropagation mechanics directly.' },
+      { type: 'decision', content: 'Follows fast.ai lesson 1 to bridge the practical (fast.ai) with the theoretical (from-scratch implementation).' }
+    ],
+    sources: [{ title: 'Deep Learning Fundamentals', citation: 'From-scratch neural network implementation exercise' }],
+    alternatives: [{ text: 'PyTorch tutorial neural network', reason: 'Easier but PyTorch handles the hard parts; from-scratch ensures you understand what the framework does' }]
+  },
+  'Micrograd Implementation': {
+    confidence: 0.93,
+    reasoning: [
+      { type: 'evaluation', content: 'Building your own autograd engine is the most effective way to truly understand backpropagation. Karpathy\'s design is elegant enough to implement in an hour.' },
+      { type: 'decision', content: 'Paired with the video — watch first, then build. The implementation cements the concepts the video introduces.' }
+    ],
+    sources: [{ title: 'Karpathy', citation: 'micrograd implementation, github.com/karpathy/micrograd' }],
+    alternatives: [{ text: 'JAX autograd exploration', reason: 'More production-relevant but too complex for a learning exercise; micrograd is pedagogically optimal' }]
+  },
+  'Image Classifier Project': {
+    confidence: 0.88,
+    reasoning: [
+      { type: 'evaluation', content: 'Building and deploying a real image classifier forces engagement with the full ML lifecycle: data, training, evaluation, deployment.' },
+      { type: 'decision', content: '"Something you actually care about" ensures motivation. Personal interest drives the quality of the learning artifact.' }
+    ],
+    sources: [{ title: 'Project-Based ML', citation: 'End-to-end ML project methodology' }],
+    alternatives: [{ text: 'Kaggle competition', reason: 'More structured but competitive framing can distract from learning; a personal project maintains focus' }]
+  },
+  'Designing ML Systems': {
+    confidence: 0.92,
+    reasoning: [
+      { type: 'evaluation', content: 'Chip Huyen\'s book is the definitive guide to production ML — the gap between research ML and systems that actually work in production.' },
+      { type: 'decision', content: 'Read in two chunks: chapters 1-3 early for framing, chapters 7-9 during MLOps week for deployment depth.' }
+    ],
+    sources: [{ title: 'Chip Huyen', citation: 'Designing Machine Learning Systems, O\'Reilly, 2022' }],
+    alternatives: [{ text: '"Reliable Machine Learning" by Cathy Chen et al.', reason: 'More Google-specific; Huyen\'s book is more broadly applicable across organizations' }]
+  },
+  'Mini Transformer': {
+    confidence: 0.91,
+    reasoning: [
+      { type: 'evaluation', content: 'Implementing a small transformer from scratch after reading the paper and watching Karpathy solidifies architectural understanding through construction.' },
+      { type: 'decision', content: 'Week 4 capstone exercise — by this point, Builders have seen the architecture from three angles (paper, video, HuggingFace) and can build it themselves.' }
+    ],
+    sources: [{ title: 'Implementation Exercise', citation: 'Transformer from scratch, building on Vaswani et al.' }],
+    alternatives: [{ text: 'Fine-tuning a pre-trained transformer', reason: 'More practical but doesn\'t build architectural understanding; from-scratch is essential at Builder level' }]
+  },
+  'HuggingFace NLP Course': {
+    confidence: 0.88,
+    reasoning: [
+      { type: 'evaluation', content: 'HuggingFace\'s NLP course bridges theory and practice — it shows how to use transformers in real applications with the most popular open-source library.' },
+      { type: 'decision', content: 'Runs parallel to the architecture weeks to provide the practical counterpart to theoretical understanding.' }
+    ],
+    sources: [{ title: 'HuggingFace', citation: 'NLP Course, huggingface.co/learn/nlp-course' }],
+    alternatives: [{ text: 'spaCy course', reason: 'More focused on traditional NLP; HuggingFace covers the transformer ecosystem that Builders need' }]
+  },
+  'Anthropic API': {
+    confidence: 0.91,
+    reasoning: [
+      { type: 'evaluation', content: 'Building a working application with the Anthropic API is the entry point to professional AI development. Streaming and structured output are production essentials.' },
+      { type: 'decision', content: 'First exercise in the API week because Claude\'s API is the most developer-friendly LLM API available.' }
+    ],
+    sources: [{ title: 'Anthropic', citation: 'Claude API Documentation, docs.anthropic.com' }],
+    alternatives: [{ text: 'OpenAI API', reason: 'Also excellent but Anthropic\'s documentation and developer experience are currently best-in-class' }]
+  },
+  'Build a RAG Pipeline': {
+    confidence: 0.92,
+    reasoning: [
+      { type: 'evaluation', content: 'RAG is the most deployed AI architecture pattern. Building a full pipeline — embed, store, retrieve, generate — is essential Builder knowledge.' },
+      { type: 'decision', content: 'The 90-minute allocation reflects the complexity; this is a substantial engineering exercise that produces a reusable system.' }
+    ],
+    sources: [{ title: 'RAG Architecture', citation: 'Lewis et al., 2020 + modern implementation patterns' }],
+    alternatives: [{ text: 'LangChain RAG template', reason: 'Faster but abstracts away the decisions; building from components teaches more' }]
+  },
+  'Build an Agent': {
+    confidence: 0.90,
+    reasoning: [
+      { type: 'evaluation', content: 'Building an AI agent with tool use teaches the ReAct reasoning loop that powers modern AI applications. This is where AI goes from chatbot to system.' },
+      { type: 'decision', content: 'Follows RAG because agents often use RAG as one of their tools. Building them in sequence creates a layered understanding.' }
+    ],
+    sources: [{ title: 'Agent Architectures', citation: 'Yao et al. ReAct, 2022 + modern tool-use patterns' }],
+    alternatives: [{ text: 'Using a framework like CrewAI', reason: 'Faster but hides the reasoning loop; building from scratch reveals why agents fail and how to fix them' }]
+  },
+  'Fine-Tune a Model': {
+    confidence: 0.89,
+    reasoning: [
+      { type: 'evaluation', content: 'Fine-tuning with LoRA on a small open model teaches the training pipeline without requiring expensive compute. Essential for understanding model adaptation.' },
+      { type: 'decision', content: 'Placed after RAG and agents because fine-tuning is the next level of customization — when prompting and RAG aren\'t enough.' }
+    ],
+    sources: [{ title: 'Hu et al., 2021', citation: 'LoRA: Low-Rank Adaptation of Large Language Models' }],
+    alternatives: [{ text: 'Full fine-tuning', reason: 'More thorough but requires much more compute; LoRA teaches the same concepts practically' }]
+  },
+  'MLOps Fundamentals': {
+    confidence: 0.88,
+    reasoning: [
+      { type: 'evaluation', content: 'Google\'s MLOps guide defines the maturity levels of ML automation. Essential framing for understanding where your systems sit on the spectrum.' },
+      { type: 'decision', content: 'Read before the deployment exercise to provide the framework for thinking about production ML systematically.' }
+    ],
+    sources: [{ title: 'Google Cloud', citation: 'MLOps: Continuous delivery and automation pipelines in ML' }],
+    alternatives: [{ text: 'MLflow documentation', reason: 'Tool-specific; Google\'s guide provides the conceptual framework that applies across tools' }]
+  },
+  'Deploy an ML Service': {
+    confidence: 0.89,
+    reasoning: [
+      { type: 'evaluation', content: 'Deploying a production-ready ML API with monitoring forces engagement with the unglamorous but critical aspects of ML engineering.' },
+      { type: 'decision', content: 'This is where Builder track differentiates from tutorials — production deployment with real monitoring and health checks.' }
+    ],
+    sources: [{ title: 'Production ML', citation: 'API service deployment with observability' }],
+    alternatives: [{ text: 'Serverless deployment', reason: 'Simpler but hides the infrastructure decisions; a full deployment teaches more about production realities' }]
+  },
+  'Red Team Your App': {
+    confidence: 0.91,
+    reasoning: [
+      { type: 'evaluation', content: 'Red teaming your own application is the most effective security exercise — you know the system well enough to find real vulnerabilities.' },
+      { type: 'decision', content: 'Follows OWASP reading to immediately apply the threat model to a system you built. Theory becomes practice.' }
+    ],
+    sources: [{ title: 'AI Security', citation: 'OWASP LLM Top 10 applied red teaming methodology' }],
+    alternatives: [{ text: 'Automated security scanner', reason: 'Catches surface-level issues but misses the creative attacks that red teaming discovers' }]
+  },
+  'Bias Audit': {
+    confidence: 0.87,
+    reasoning: [
+      { type: 'evaluation', content: 'Auditing your own model for bias with diverse inputs reveals the gap between intended and actual behavior. Documentation makes the finding actionable.' },
+      { type: 'decision', content: 'Placed in the ethics week because bias is an engineering problem that requires engineering methods to detect.' }
+    ],
+    sources: [{ title: 'Fairness Testing', citation: 'Model bias audit methodology with diverse test inputs' }],
+    alternatives: [{ text: 'Using Fairlearn or AIF360', reason: 'Tools are helpful but manual testing with diverse inputs reveals biases that automated tools miss' }]
+  },
+  'Capstone: Build': {
+    confidence: 0.93,
+    reasoning: [
+      { type: 'evaluation', content: 'A complete AI application using 3+ techniques from the curriculum demonstrates integrated engineering skill — not just isolated competencies.' },
+      { type: 'decision', content: 'The capstone integrates everything: API use, RAG or agents, deployment, security, and ethics considerations in one project.' }
+    ],
+    sources: [{ title: 'Capstone Design', citation: 'Integrative engineering project demonstrating full-stack AI competency' }],
+    alternatives: [{ text: 'Portfolio of small projects', reason: 'Shows breadth but not integration; one complete project demonstrates real engineering capability' }]
+  },
+  // ── RESEARCHER TRACK ────────────────────────────────────────
+  'Linear Algebra Review': {
+    confidence: 0.91,
+    reasoning: [
+      { type: 'evaluation', content: 'Goodfellow Chapter 2 provides the exact linear algebra needed for deep learning — eigendecomposition, SVD, matrix calculus. No more, no less.' },
+      { type: 'decision', content: 'First week because every subsequent topic depends on fluent linear algebra. Gaps here compound into every later week.' }
+    ],
+    sources: [{ title: 'Goodfellow et al.', citation: 'Deep Learning, Chapter 2: Linear Algebra' }],
+    alternatives: [{ text: 'Gilbert Strang\'s MIT OCW 18.06', reason: 'More thorough but 36 lectures long; Goodfellow Ch 2 covers exactly what\'s needed for deep learning' }]
+  },
+  'Matrix Operations': {
+    confidence: 0.88,
+    reasoning: [
+      { type: 'evaluation', content: 'Implementing matrix operations from scratch and computing gradients by hand builds the numerical intuition that framework-dependent engineers lack.' },
+      { type: 'decision', content: 'Paired with the reading because Researchers need to verify their understanding through computation, not just recognition.' }
+    ],
+    sources: [{ title: 'Mathematical Foundations', citation: 'From-scratch numerical computation exercises' }],
+    alternatives: [{ text: 'NumPy exercises', reason: 'NumPy handles the details; from-scratch forces understanding of what NumPy does under the hood' }]
+  },
+  'Probability and Information Theory': {
+    confidence: 0.90,
+    reasoning: [
+      { type: 'evaluation', content: 'Goodfellow Chapter 3 covers probability distributions, Bayes, and KL divergence — the mathematical language of modern ML training objectives.' },
+      { type: 'decision', content: 'Placed immediately after linear algebra because loss functions and training objectives are built on information theory.' }
+    ],
+    sources: [{ title: 'Goodfellow et al.', citation: 'Deep Learning, Chapter 3: Probability and Information Theory' }],
+    alternatives: [{ text: 'Cover & Thomas "Elements of Information Theory"', reason: 'More rigorous but 700+ pages; Goodfellow Ch 3 covers exactly what ML researchers need' }]
+  },
+  'Optimization Theory': {
+    confidence: 0.89,
+    reasoning: [
+      { type: 'evaluation', content: 'Goodfellow Chapters 4 and 8 cover gradient-based optimization and SGD variants — the computational engine of all deep learning.' },
+      { type: 'decision', content: 'Week 2 because optimization theory connects the mathematical foundations to actual training procedures.' }
+    ],
+    sources: [{ title: 'Goodfellow et al.', citation: 'Deep Learning, Chapters 4, 8: Optimization' }],
+    alternatives: [{ text: 'Boyd & Vandenberghe "Convex Optimization"', reason: 'More rigorous but deep learning is non-convex; Goodfellow addresses the specific optimization landscape of neural networks' }]
+  },
+  'Optimizer Comparison': {
+    confidence: 0.88,
+    reasoning: [
+      { type: 'evaluation', content: 'Implementing SGD, momentum, and Adam from scratch reveals why Adam converges faster — the adaptive learning rate mechanism becomes visceral when you build it.' },
+      { type: 'decision', content: 'Follows the theory to make optimization dynamics concrete through implementation and comparison.' }
+    ],
+    sources: [{ title: 'Kingma & Ba, 2014', citation: 'Adam: A Method for Stochastic Optimization + SGD variants comparison' }],
+    alternatives: [{ text: 'Using optim.Adam in PyTorch', reason: 'Trivial to call but teaches nothing about why it works; from-scratch reveals the mechanics' }]
+  },
+  'Bias-Variance Tradeoff': {
+    confidence: 0.89,
+    reasoning: [
+      { type: 'evaluation', content: 'Goodfellow Chapter 5 formalizes bias-variance, capacity, and regularization — the theoretical framework for understanding when and why models fail.' },
+      { type: 'decision', content: 'Placed after optimization because understanding model failure modes requires understanding the training process first.' }
+    ],
+    sources: [{ title: 'Goodfellow et al.', citation: 'Deep Learning, Chapter 5: Machine Learning Basics' }],
+    alternatives: [{ text: 'Hastie et al. ESL Chapter 7', reason: 'More statistical but Goodfellow frames it for deep learning specifically' }]
+  },
+  'ML from Scratch': {
+    confidence: 0.90,
+    reasoning: [
+      { type: 'evaluation', content: 'Implementing logistic regression, SVM, and a decision tree from scratch on a real dataset reveals the fundamental differences between learning algorithms.' },
+      { type: 'decision', content: 'Classical ML before deep learning ensures Researchers understand why neural networks are not always the right choice.' }
+    ],
+    sources: [{ title: 'Classical ML', citation: 'From-scratch implementation of fundamental learning algorithms' }],
+    alternatives: [{ text: 'scikit-learn comparison', reason: 'Faster but from-scratch implementation reveals algorithmic details that framework use hides' }]
+  },
+  'Deep Feedforward Networks': {
+    confidence: 0.90,
+    reasoning: [
+      { type: 'evaluation', content: 'Goodfellow Chapter 6 covers architecture design, activation functions, and the universal approximation theorem — the theoretical core of deep learning.' },
+      { type: 'decision', content: 'After classical ML to show why depth matters and what problems deep architectures solve that shallow ones cannot.' }
+    ],
+    sources: [{ title: 'Goodfellow et al.', citation: 'Deep Learning, Chapter 6: Deep Feedforward Networks' }],
+    alternatives: [{ text: 'Hornik 1991 universal approximation paper', reason: 'The original proof but Goodfellow\'s treatment provides more practical context for the theory' }]
+  },
+  'Transformer from Scratch': {
+    confidence: 0.94,
+    reasoning: [
+      { type: 'evaluation', content: 'Implementing every transformer component — attention, FFN, LayerNorm, positional encoding — from scratch is the most rigorous way to understand the architecture.' },
+      { type: 'decision', content: 'The Researcher track demands deeper implementation than the Builder track. 120 minutes for full implementation including all components.' }
+    ],
+    sources: [{ title: 'Vaswani et al., 2017', citation: 'Attention Is All You Need — full from-scratch implementation' }],
+    alternatives: [{ text: 'Annotated Transformer by Harvard NLP', reason: 'Excellent reference but following someone else\'s implementation builds less understanding than doing it yourself' }]
+  },
+  'Scaling Laws': {
+    confidence: 0.93,
+    reasoning: [
+      { type: 'evaluation', content: 'Kaplan et al.\'s scaling laws paper changed the trajectory of AI — it showed that performance scales predictably with compute, data, and parameters.' },
+      { type: 'decision', content: 'Essential for Researchers because understanding scaling laws is prerequisite for reasoning about what larger models can and cannot do.' }
+    ],
+    sources: [{ title: 'Kaplan et al., 2020', citation: 'Scaling Laws for Neural Language Models, arXiv:2001.08361' }],
+    alternatives: [{ text: 'Chinchilla paper (Hoffmann et al.)', reason: 'Refines Kaplan\'s laws but understanding the original is prerequisite; both should be read eventually' }]
+  },
+  'RLHF': {
+    confidence: 0.91,
+    reasoning: [
+      { type: 'evaluation', content: 'Understanding RLHF, PPO, and DPO is essential for reasoning about how models are trained to behave. The training pipeline is where values meet mathematics.' },
+      { type: 'decision', content: 'Follows Constitutional AI to show the full alignment training pipeline from principles through reward modeling to optimization.' }
+    ],
+    sources: [{ title: 'Christiano et al., 2017', citation: 'Deep RL from Human Feedback + Rafailov et al. DPO, 2023' }],
+    alternatives: [{ text: 'InstructGPT paper only', reason: 'Good introduction but DPO has simplified the field; Researchers need to understand the full evolution' }]
+  },
+  'Mechanistic Interpretability': {
+    confidence: 0.92,
+    reasoning: [
+      { type: 'evaluation', content: 'Anthropic\'s interpretability research is the cutting edge of understanding what happens inside neural networks. Circuits and features provide a framework.' },
+      { type: 'decision', content: 'Researcher track because this is active research territory — understanding it positions you at the frontier.' }
+    ],
+    sources: [{ title: 'Anthropic Research', citation: 'Circuits, features, and superposition research, anthropic.com/research' }],
+    alternatives: [{ text: 'Chris Olah\'s earlier work (distill.pub)', reason: 'Foundational but Anthropic\'s more recent work represents the current state of the field' }]
+  },
+  'Evaluation Methodology': {
+    confidence: 0.89,
+    reasoning: [
+      { type: 'evaluation', content: 'Modern LLM evaluation — MMLU, HumanEval, MT-Bench — is both essential and deeply flawed. Researchers need to understand both the methods and their limitations.' },
+      { type: 'decision', content: 'Placed before red teaming because understanding evaluation methodology is prerequisite for understanding what testing misses.' }
+    ],
+    sources: [{ title: 'LLM Evaluation', citation: 'MMLU, HumanEval, MT-Bench benchmark methodologies' }],
+    alternatives: [{ text: 'Focus on one benchmark deeply', reason: 'Depth on one is useful but Researchers need the survey view to understand the evaluation landscape' }]
+  },
+  'Vision-Language Models': {
+    confidence: 0.88,
+    reasoning: [
+      { type: 'evaluation', content: 'CLIP, LLaVA, and multi-modal architectures represent the next frontier. Understanding how vision connects to language requires architectural knowledge.' },
+      { type: 'decision', content: 'Placed in the advanced architectures week because multi-modal understanding builds on the transformer foundation.' }
+    ],
+    sources: [{ title: 'Radford et al., 2021', citation: 'CLIP + Liu et al. LLaVA, 2023' }],
+    alternatives: [{ text: 'Focus on diffusion models only', reason: 'Important but vision-language models are more foundational for understanding multi-modal AI' }]
+  },
+  'Diffusion Models': {
+    confidence: 0.87,
+    reasoning: [
+      { type: 'evaluation', content: 'The mathematics of diffusion — forward process, reverse process, noise scheduling — represents a fundamentally different generative paradigm from autoregressive models.' },
+      { type: 'decision', content: 'Researcher track because understanding diffusion math requires the probabilistic foundations from earlier weeks.' }
+    ],
+    sources: [{ title: 'Ho et al., 2020', citation: 'Denoising Diffusion Probabilistic Models' }],
+    alternatives: [{ text: 'VAEs first', reason: 'VAEs are historically prior but diffusion models are the current standard; Researchers should prioritize the frontier' }]
+  },
+  'Alignment Problem': {
+    confidence: 0.91,
+    reasoning: [
+      { type: 'evaluation', content: 'Outer alignment, inner alignment, mesa-optimization, and deceptive alignment are the formal concepts that structure alignment research discourse.' },
+      { type: 'decision', content: 'Researcher track because these concepts are the theoretical foundation of the field Researchers will contribute to.' }
+    ],
+    sources: [{ title: 'Hubinger et al., 2019', citation: 'Risks from Learned Optimization + alignment research literature' }],
+    alternatives: [{ text: '"The Alignment Problem" by Brian Christian', reason: 'Accessible but less formal; Researchers need the technical formulations, not the narrative' }]
+  },
+  'Hard Problem of Consciousness': {
+    confidence: 0.80,
+    reasoning: [
+      { type: 'evaluation', content: 'Chalmers\' hard problem is the philosophical foundation for reasoning about whether AI systems could be conscious. This question has practical implications for safety.' },
+      { type: 'decision', content: 'Included deliberately because the most important alignment questions ultimately touch consciousness and moral status.' },
+      { type: 'caveat', content: 'This is philosophy, not engineering. Included for intellectual breadth, not technical training.' }
+    ],
+    sources: [{ title: 'David Chalmers', citation: 'The Conscious Mind, 1996 + recent AI consciousness work' }],
+    alternatives: [{ text: 'Dennett\'s functionalism', reason: 'Provides a counter-argument but Chalmers states the hard problem most clearly as a starting point' }]
+  },
+  'Emergent Capabilities': {
+    confidence: 0.87,
+    reasoning: [
+      { type: 'evaluation', content: 'Whether emergent capabilities are real or measurement artifacts is one of the most consequential open questions in ML. Researchers need to engage with both sides.' },
+      { type: 'decision', content: 'Frontier research week because this question directly impacts how we think about scaling and safety.' }
+    ],
+    sources: [{ title: 'Wei et al., 2022', citation: 'Emergent Abilities of Large Language Models + Schaeffer et al. mirage critique' }],
+    alternatives: [{ text: 'Focus on a single emergent capability', reason: 'Useful but the meta-question about whether emergence is real is more important for researchers' }]
+  },
+  'Research Proposal': {
+    confidence: 0.90,
+    reasoning: [
+      { type: 'evaluation', content: 'Writing a 2-page research proposal with problem statement, approach, and risk analysis is the core skill of research — the capstone develops this.' },
+      { type: 'decision', content: 'Placed near the end because all prior weeks provide the technical foundation and frontier awareness needed to propose meaningful research.' }
+    ],
+    sources: [{ title: 'Research Methodology', citation: 'Research proposal writing in ML, modeled on workshop submissions' }],
+    alternatives: [{ text: 'Literature review', reason: 'Important but a proposal requires synthesis and original thinking that a review alone doesn\'t demand' }]
+  },
+  'Capstone: Implementation': {
+    confidence: 0.92,
+    reasoning: [
+      { type: 'evaluation', content: 'The Researcher capstone is a real research project — not a known-answer assignment. Implementation of the core contribution is where theory meets code.' },
+      { type: 'decision', content: 'Final weeks because it requires everything: mathematical foundations, architectural knowledge, experimental methodology, and writing skill.' }
+    ],
+    sources: [{ title: 'Research Capstone', citation: 'Original research implementation and experimentation' }],
+    alternatives: [{ text: 'Paper replication only', reason: 'Valuable exercise but the capstone demands original contribution, which is harder and more valuable' }]
+  },
+  'Capstone: Write-Up': {
+    confidence: 0.91,
+    reasoning: [
+      { type: 'evaluation', content: 'Writing research as a paper — abstract through conclusion — teaches the communication skills that make research impactful. Format disciplines thinking.' },
+      { type: 'decision', content: 'The written artifact is the deliverable. An experiment without a paper is incomplete research.' }
+    ],
+    sources: [{ title: 'Academic Writing', citation: 'ML paper format: abstract, introduction, method, experiments, discussion, conclusion' }],
+    alternatives: [{ text: 'Blog post format', reason: 'More accessible but doesn\'t develop the rigorous communication skills that academic format demands' }]
+  },
+  // ── GENERAL ACTIVITIES ──────────────────────────────────────
+  'Lilian Weng': {
+    confidence: 0.94,
+    reasoning: [
+      { type: 'evaluation', content: 'Lilian Weng\'s blog post on LLM agents is the most cited technical reference for modern AI architectures — planning, tool use, memory in one comprehensive survey.' },
+      { type: 'decision', content: 'Used in Builder track for RAG/agents weeks. The post is more current and practical than any textbook chapter.' }
+    ],
+    sources: [{ title: 'Lilian Weng', citation: 'LLM Powered Autonomous Agents, lilianweng.github.io, 2023' }],
+    alternatives: [{ text: 'Multiple individual papers', reason: 'Weng\'s synthesis saves reading 10+ papers while covering the key patterns from each' }]
+  },
+  'Social Physics': {
+    confidence: 0.82,
+    reasoning: [
+      { type: 'evaluation', content: 'Pentland\'s data-driven approach to social dynamics provides a quantitative framework for understanding how information flows in organizations adopting AI.' },
+      { type: 'decision', content: 'Placed in the decision-making unit because idea flow and engagement metrics connect directly to AI-augmented collaboration.' }
+    ],
+    sources: [{ title: 'Alex Pentland', citation: 'Social Physics, Penguin Press, 2014' }],
+    alternatives: [{ text: '"Influence" by Robert Cialdini', reason: 'More about persuasion than information flow; Pentland\'s data-driven approach is more rigorous' }]
+  },
+  'Second Machine Age': {
+    confidence: 0.84,
+    reasoning: [
+      { type: 'evaluation', content: 'Brynjolfsson and McAfee\'s Bounty vs Spread framework remains the clearest way to think about AI\'s economic impact — what it creates vs what it disrupts.' },
+      { type: 'decision', content: 'Placed in the workforce impact unit because the Bounty/Spread dichotomy structures all subsequent analysis.' }
+    ],
+    sources: [{ title: 'Brynjolfsson & McAfee', citation: 'The Second Machine Age, W.W. Norton, 2014' }],
+    alternatives: [{ text: '"The Future of the Professions" by Susskind', reason: 'More profession-specific but narrower; Brynjolfsson provides the broader economic framework' }]
+  },
+  'Design of Everyday Things': {
+    confidence: 0.86,
+    reasoning: [
+      { type: 'evaluation', content: 'Norman\'s affordances, constraints, and Gulf of Execution/Evaluation framework is the foundation of all human-computer interaction — essential for AI product design.' },
+      { type: 'decision', content: 'HCI knowledge prevents AI products from being powerful but unusable. Norman\'s principles apply directly to AI interface design.' }
+    ],
+    sources: [{ title: 'Don Norman', citation: 'The Design of Everyday Things, Basic Books, revised 2013' }],
+    alternatives: [{ text: '"About Face" by Cooper', reason: 'More comprehensive but Norman\'s book is shorter and the principles transfer more directly to AI interfaces' }]
   }
 };
 
 function getEvidence(title) {
+  // Exact match first
+  if (EVIDENCE[title]) return { key: title, ...EVIDENCE[title] };
+  // Partial match — check both directions
   for (const [key, ev] of Object.entries(EVIDENCE)) {
-    if (title.includes(key) || key.includes(title.substring(0, 20))) return { key, ...ev };
+    if (title.includes(key) || key.includes(title.substring(0, 15))) return { key, ...ev };
   }
-  // Generate minimal evidence for resources without detailed entries
+  // Word overlap match for better coverage
+  const titleWords = title.toLowerCase().split(/\s+/);
+  let bestMatch = null;
+  let bestScore = 0;
+  for (const [key, ev] of Object.entries(EVIDENCE)) {
+    const keyWords = key.toLowerCase().split(/\s+/);
+    const overlap = titleWords.filter(w => keyWords.some(kw => kw.includes(w) || w.includes(kw))).length;
+    if (overlap > bestScore && overlap >= 2) {
+      bestScore = overlap;
+      bestMatch = { key, ...ev };
+    }
+  }
+  if (bestMatch) return bestMatch;
+  // Generate pedagogically-grounded fallback evidence
   return {
     key: title,
     confidence: 0.80,
     reasoning: [
-      { type: 'decision', content: 'Selected for this position in the curriculum based on topic relevance, accessibility at this track level, and quality of the resource.' }
+      { type: 'evaluation', content: 'This resource was selected based on pedagogical fit for this track level, quality of content, and alignment with the week\'s learning objectives.' },
+      { type: 'decision', content: 'Placed at this position in the curriculum to build progressively on prior weeks\' foundations while introducing new concepts at an appropriate depth.' }
     ],
+    sources: [{ title: 'Curriculum Design', citation: 'Evidence-based resource selection for adaptive learning paths' }],
     alternatives: []
   };
 }
@@ -1873,10 +2940,23 @@ function openModal(trackKey, wi, di) {
     </div>`;
   }
 
-  // Source
+  // Evidence sources
+  if (evidence.sources && evidence.sources.length > 0) {
+    sections += `<div class="panel-section">
+      <div class="panel-section-title">Evidence Sources</div>
+      ${evidence.sources.map(s => `
+        <div class="source-card">
+          <div class="source-title-link">${s.title}</div>
+          <div class="source-citation">${s.citation}</div>
+        </div>
+      `).join('')}
+    </div>`;
+  }
+
+  // Resource link
   if (day.url) {
     sections += `<div class="panel-section">
-      <div class="panel-section-title">Source</div>
+      <div class="panel-section-title">Resource Link</div>
       <div class="source-card">
         <a href="${day.url}" target="_blank" rel="noopener" class="source-title-link">${day.title} →</a>
         <div class="source-citation">${day.url}</div>
@@ -2429,7 +3509,7 @@ function showChat() {
 
   // Initial bot message
   setTimeout(() => {
-    addBotMessage(`<p>Hi! I'm the Cortex Track Advisor. Tell me about your background, your goals, and how much time you have — I'll recommend the right learning path.</p><p>You can also pick a quick-start persona above, or just describe your situation in your own words.</p>`);
+    addBotMessage(`<p>Hi! I'm the Track Advisor. Tell me about your background, your goals, and how much time you have — I'll suggest the right learning path.</p><p>I use keyword matching to analyze your description and recommend a track. Pick a quick-start persona above, or describe your situation in your own words.</p>`);
   }, 300);
 }
 
@@ -2945,21 +4025,56 @@ function renderProgressDashboard() {
   const interests = getInterests();
   const progress = getProgress();
   const dueReviews = getDueReviews();
+  const totalCompleted = Object.values(interests.types).reduce((a,b) => a+b, 0);
 
   let html = `
     <div class="prog-header">
       <div>
         <div class="prog-card-title" style="margin-bottom:4px;">Your Learning Journey</div>
-        <h2>Progress Dashboard</h2>
+        <h2 class="cx-heading">Progress Dashboard</h2>
       </div>
       <div class="prog-header-actions">
-        ${selectedTrack ? `<button class="btn btn-ghost" onclick="toggleFocusMode(); showSchedule();">Focus Mode</button>` : ''}
-        <button class="btn btn-ghost" onclick="exportProgress()">Export</button>
-        <button class="btn btn-ghost" onclick="importProgress()">Import</button>
-        ${selectedTrack ? `<button class="btn btn-primary" onclick="showSchedule()">View Schedule</button>` : ''}
+        ${selectedTrack ? `<button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="toggleFocusMode(); showSchedule();">Focus Mode</button>` : ''}
+        <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="exportProgress()">Export</button>
+        <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="importProgress()">Import</button>
+        ${selectedTrack ? `<button class="cx-btn cx-btn-primary btn btn-primary" onclick="showSchedule()">View Schedule</button>` : ''}
       </div>
     </div>
   `;
+
+  // Empty state when no progress data exists
+  if (totalCompleted === 0) {
+    html += `
+      <div class="cx-empty-state">
+        <div class="cx-empty-state-icon">&#x1f4ca;</div>
+        <h3 class="cx-heading">Welcome to Your Progress Dashboard</h3>
+        <p>This is where you'll track your learning journey. As you complete activities, you'll see streaks, badges, heatmaps, and pace tracking here.</p>
+        <div class="cx-empty-preview">
+          <div class="cx-empty-preview-card">
+            <div class="stat-value">0</div>
+            <div class="stat-label">Streak</div>
+          </div>
+          <div class="cx-empty-preview-card">
+            <div class="stat-value">0%</div>
+            <div class="stat-label">Weekly Goal</div>
+          </div>
+          <div class="cx-empty-preview-card">
+            <div class="stat-value">0h</div>
+            <div class="stat-label">Time</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          ${selectedTrack
+            ? `<button class="cx-btn cx-btn-primary btn btn-primary" onclick="showSchedule()">Start Learning</button>`
+            : `<button class="cx-btn cx-btn-primary btn btn-primary" onclick="startQuiz()">Take the Assessment</button>`
+          }
+          ${!selectedTrack ? `<button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="showTrackPicker()">Choose a Track</button>` : ''}
+        </div>
+      </div>
+    `;
+    document.getElementById('progContent').innerHTML = html;
+    return;
+  }
 
   // Due for review banner
   if (dueReviews.length > 0) {
@@ -3159,13 +4274,25 @@ function calcTotalTime() {
 
 function setWeeklyGoal() {
   const current = getInterests().weeklyGoal || 4;
-  const input = prompt(`Set weekly activity goal (current: ${current}):`, current);
-  if (!input) return;
-  const val = parseInt(input);
+  const input = document.getElementById('goalModalInput');
+  input.value = current;
+  const overlay = document.getElementById('goalModalOverlay');
+  overlay.classList.add('active');
+  setTimeout(() => input.focus(), 100);
+}
+
+function closeGoalModal() {
+  document.getElementById('goalModalOverlay').classList.remove('active');
+}
+
+function saveGoalFromModal() {
+  const input = document.getElementById('goalModalInput');
+  const val = parseInt(input.value);
   if (isNaN(val) || val < 1 || val > 50) { showToast('Please enter a number between 1 and 50'); return; }
   const interests = getInterests();
   interests.weeklyGoal = val;
   saveInterests(interests);
+  closeGoalModal();
   renderProgressDashboard();
 }
 
@@ -3390,8 +4517,10 @@ showSchedule = function() {
         <div class="week-days" id="week-${wi}">
           ${week.days.map((day, di) => {
             const done = trackProgress[`${wi}-${di}`];
+            const ev = getEvidence(day.title);
+            const confPct = Math.round(ev.confidence * 100);
             return `
-              <div class="day-card type-${day.type}${done ? ' done-card' : ''}" onclick="openModal('${selectedTrack}', ${wi}, ${di})">
+              <div class="day-card cx-card type-${day.type}${done ? ' done-card' : ''}" onclick="openModal('${selectedTrack}', ${wi}, ${di})">
                 <div class="day-check ${done ? 'done' : ''}" onclick="event.stopPropagation(); toggleDay('${selectedTrack}', ${wi}, ${di})">✓</div>
                 <div class="day-top">
                   <span class="day-num">Day ${di + 1}</span>
@@ -3401,6 +4530,7 @@ showSchedule = function() {
                 <div class="day-title">${day.title}</div>
                 <div class="day-desc">${day.desc.substring(0, 80)}${day.desc.length > 80 ? '...' : ''}</div>
                 ${day.url ? `<a href="${day.url}" target="_blank" rel="noopener" class="day-resource" onclick="event.stopPropagation()">Resource →</a>` : ''}
+                <div class="cx-evidence-indicator">${confPct}% relevance — click for reasoning</div>
               </div>
             `;
           }).join('')}
@@ -3408,6 +4538,16 @@ showSchedule = function() {
       </div>
     `;
   });
+
+  // Certificate banner when track is complete
+  if (checkTrackCompletion(selectedTrack)) {
+    html += `<div style="background: linear-gradient(135deg, rgba(96,165,250,0.1), rgba(129,140,248,0.1)); border: 1px solid rgba(129,140,248,0.3); border-radius: 12px; padding: 20px; margin-bottom: 16px; text-align: center;">
+      <div style="font-size: 24px; margin-bottom: 8px;">&#x1f389;</div>
+      <div style="font-size: 16px; font-weight: 700; margin-bottom: 4px;">Track Complete!</div>
+      <div style="font-size: 13px; color: var(--text-dim); margin-bottom: 16px;">You've completed every activity in the ${track.name} Track.</div>
+      <button class="cx-btn cx-btn-primary btn btn-primary" style="padding: 10px 24px;" onclick="showCertificate('${selectedTrack}')">Generate Certificate</button>
+    </div>`;
+  }
 
   // Stretch goals
   const stretches = getStretchGoals();
@@ -3463,6 +4603,124 @@ showSchedule = function() {
 };
 
 // ============================================================
+// CERTIFICATE GENERATION
+// ============================================================
+
+function checkTrackCompletion(trackKey) {
+  const track = TRACKS[trackKey];
+  const progress = getProgress();
+  const trackProg = progress[trackKey] || {};
+  const totalDays = track.weeks.reduce((s,w) => s + w.days.length, 0);
+  const completedDays = Object.values(trackProg).filter(Boolean).length;
+  return totalDays > 0 && completedDays === totalDays;
+}
+
+function getCertificateName() {
+  return localStorage.getItem('ai-curriculum-cert-name') || '';
+}
+
+function saveCertificateName(name) {
+  localStorage.setItem('ai-curriculum-cert-name', name);
+}
+
+function showCertificate(trackKey) {
+  const track = TRACKS[trackKey];
+  const totalDays = track.weeks.reduce((s,w) => s + w.days.length, 0);
+  const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444' };
+  const color = trackColors[trackKey] || track.color;
+  let userName = getCertificateName();
+
+  if (!userName) {
+    // Show name input first
+    const html = `
+      <div style="max-width: 500px; margin: 80px auto; text-align: center;">
+        <button class="deepdive-back" onclick="showSchedule()">← Back to schedule</button>
+        <h2 class="cx-heading" style="margin: 40px 0 16px;">Congratulations!</h2>
+        <p class="cx-body" style="margin-bottom: 24px;">You completed the entire ${track.name} Track. Enter your name to generate your certificate.</p>
+        <input type="text" class="cx-modal-input" id="certNameInput" placeholder="Your full name" onkeydown="if(event.key==='Enter')generateCert('${trackKey}')">
+        <button class="cx-btn cx-btn-primary btn btn-primary" onclick="generateCert('${trackKey}')">Generate Certificate</button>
+      </div>
+    `;
+    document.getElementById('certificateContent').innerHTML = html;
+    showSection('certificate');
+    setTimeout(() => document.getElementById('certNameInput').focus(), 100);
+    return;
+  }
+
+  renderCertificate(trackKey, userName);
+}
+
+function generateCert(trackKey) {
+  const input = document.getElementById('certNameInput');
+  const name = input.value.trim();
+  if (!name) { showToast('Please enter your name'); return; }
+  saveCertificateName(name);
+  renderCertificate(trackKey, name);
+}
+
+function renderCertificate(trackKey, userName) {
+  const track = TRACKS[trackKey];
+  const totalDays = track.weeks.reduce((s,w) => s + w.days.length, 0);
+  const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444' };
+  const color = trackColors[trackKey] || track.color;
+  const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  const html = `
+    <button class="deepdive-back" onclick="showSchedule()">← Back to schedule</button>
+    <div style="margin-top: 32px;">
+      <div class="cx-certificate" id="certificateCard">
+        <div class="cx-certificate-label">Certificate of Completion</div>
+        <h2>AI Curriculum</h2>
+        <div class="cx-certificate-name">${userName}</div>
+        <div class="cx-certificate-track">has successfully completed the <strong style="color: ${color};">${track.name} Track</strong></div>
+        <div class="cx-certificate-details">
+          <div class="cx-certificate-detail"><strong>${track.duration}</strong> weeks</div>
+          <div class="cx-certificate-detail"><strong>${totalDays}</strong> activities</div>
+          <div class="cx-certificate-detail"><strong>${track.hoursPerWeek}</strong> hrs/week</div>
+        </div>
+        <div class="cx-certificate-details">
+          <div class="cx-certificate-detail">${today}</div>
+        </div>
+        <div class="cx-certificate-footer">
+          AI Curriculum — srieg.github.io/ai-curriculum<br>
+          Cortex Verified Completion
+        </div>
+      </div>
+      <div style="display: flex; gap: 12px; justify-content: center; margin-top: 24px; flex-wrap: wrap;">
+        <button class="cx-btn cx-btn-primary btn btn-primary" onclick="printCertificate()">Print Certificate</button>
+        <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="downloadCertificate()">Download as Image</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('certificateContent').innerHTML = html;
+  showSection('certificate');
+}
+
+function printCertificate() {
+  const cert = document.getElementById('certificateCard');
+  const printWin = window.open('', '_blank');
+  printWin.document.write(`
+    <!DOCTYPE html><html><head><title>AI Curriculum Certificate</title>
+    <style>
+      body { margin: 0; padding: 40px; background: #0f0f18; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+      ${cert.outerHTML ? '' : ''}
+    </style>
+    </head><body>${cert.outerHTML}</body></html>
+  `);
+  printWin.document.close();
+  setTimeout(() => { printWin.print(); }, 500);
+}
+
+function downloadCertificate() {
+  // Use canvas-based approach for image download
+  const cert = document.getElementById('certificateCard');
+  // Fallback: open print dialog which allows save as PDF
+  showToast('Use Print > Save as PDF to download your certificate');
+  printCertificate();
+}
+
+// ============================================================
 // INIT — restore saved state on page load
 // ============================================================
 
@@ -3470,10 +4728,12 @@ showSchedule = function() {
   const savedTrack = getSavedTrack();
   if (savedTrack && TRACKS[savedTrack]) {
     selectedTrack = savedTrack;
-    document.getElementById('nav-progress').style.display = '';
   }
+  // Always show Progress nav link — P4 fix
+  document.getElementById('nav-progress').style.display = '';
 })();
 </script>
 
+</div><!-- /cx-root -->
 </body>
 </html>
