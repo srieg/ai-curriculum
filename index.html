@@ -526,6 +526,136 @@
     background: currentColor;
   }
 
+  /* ── PERSONALIZATION BADGES & INDICATORS ────────────────── */
+  .cx-personalized-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-family: var(--font-ui); font-size: 10px; font-weight: 700;
+    padding: 2px 8px; border-radius: 100px; letter-spacing: 0.03em;
+    text-transform: uppercase; white-space: nowrap; margin-top: 6px;
+  }
+  .cx-badge-recommended {
+    background: rgba(52,211,153,0.15); color: var(--success); border: 1px solid rgba(52,211,153,0.3);
+  }
+  .cx-badge-skippable {
+    background: rgba(168,165,160,0.1); color: var(--text-muted); border: 1px solid rgba(168,165,160,0.2);
+  }
+  .cx-badge-stretch {
+    background: rgba(129,140,248,0.12); color: var(--accent2); border: 1px solid rgba(129,140,248,0.25);
+  }
+  .cx-badge-core {
+    background: rgba(96,165,250,0.12); color: var(--accent); border: 1px solid rgba(96,165,250,0.25);
+  }
+  .cx-badge-optional {
+    background: rgba(107,105,101,0.1); color: var(--text-muted); border: 1px solid rgba(107,105,101,0.15);
+  }
+
+  /* Profile card at top of schedule */
+  .cx-profile-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px; margin-bottom: 16px;
+    display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;
+  }
+  .cx-profile-card-info { flex: 1; min-width: 200px; }
+  .cx-profile-card-title {
+    font-family: var(--font-ui); font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px;
+  }
+  .cx-profile-card-name {
+    font-family: var(--font-heading); font-size: 16px; font-weight: 700; margin-bottom: 4px;
+  }
+  .cx-profile-card-detail {
+    font-size: 13px; color: var(--text-dim); line-height: 1.6;
+  }
+  .cx-profile-card-detail span { color: var(--text); font-weight: 600; }
+  .cx-profile-card-reason {
+    font-family: var(--font-body); font-size: 13px; color: var(--text-dim);
+    line-height: 1.6; margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .cx-profile-card-tags {
+    display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;
+  }
+  .cx-profile-tag {
+    font-size: 11px; padding: 3px 8px; border-radius: 4px;
+    background: var(--surface2); color: var(--text-dim);
+  }
+
+  /* Pacing guidance */
+  .cx-pacing-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 18px; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .cx-pacing-icon {
+    font-size: 18px; flex-shrink: 0;
+  }
+  .cx-pacing-text {
+    font-size: 13px; color: var(--text-dim); line-height: 1.5;
+  }
+  .cx-pacing-text strong { color: var(--text); }
+
+  /* Reassessment prompt */
+  .cx-reassessment-card {
+    background: linear-gradient(135deg, rgba(129,140,248,0.08), rgba(96,165,250,0.08));
+    border: 1px solid rgba(129,140,248,0.2); border-radius: 12px;
+    padding: 20px; margin-bottom: 16px; text-align: center;
+  }
+  .cx-reassessment-title {
+    font-family: var(--font-heading); font-size: 15px; font-weight: 700; margin-bottom: 6px;
+  }
+  .cx-reassessment-desc {
+    font-size: 13px; color: var(--text-dim); margin-bottom: 14px;
+  }
+  .cx-reassessment-options {
+    display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+  }
+  .cx-reassessment-btn {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 8px 14px; border-radius: 6px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text-dim); font-size: 12px;
+    font-weight: 600; cursor: pointer; transition: all 0.15s;
+  }
+  .cx-reassessment-btn:hover { border-color: var(--accent); color: var(--text); }
+
+  /* Personalized reason in reasoning panel */
+  .cx-personalized-reason {
+    background: rgba(52,211,153,0.06); border: 1px solid rgba(52,211,153,0.15);
+    border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: 12px;
+  }
+  .cx-personalized-reason-title {
+    font-family: var(--font-ui); font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--success);
+    margin-bottom: 6px;
+  }
+  .cx-personalized-reason-text {
+    font-family: var(--font-ui); font-size: 13px; color: var(--text-dim); line-height: 1.55;
+  }
+
+  /* Track fit score bars in results */
+  .cx-track-scores {
+    display: flex; flex-direction: column; gap: 8px; margin-top: 20px;
+    max-width: 400px; margin-left: auto; margin-right: auto;
+  }
+  .cx-track-score-row {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .cx-track-score-label {
+    font-size: 12px; font-weight: 600; width: 90px; text-align: right; color: var(--text-dim);
+  }
+  .cx-track-score-bar {
+    flex: 1; height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden;
+  }
+  .cx-track-score-fill {
+    height: 100%; border-radius: 4px; transition: width 0.5s ease;
+  }
+  .cx-track-score-pct {
+    font-size: 11px; font-weight: 700; width: 32px; color: var(--text-muted);
+  }
+
+  /* Skippable card dimming */
+  .day-card.cx-skippable { opacity: 0.65; }
+  .day-card.cx-skippable:hover { opacity: 0.85; }
+
   /* ── PRACTICE PROBLEMS ────────────────────────────────────── */
   .cx-practice-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.7);
@@ -1589,73 +1719,73 @@ const TRACKS = {
       {
         title: 'What AI Actually Is',
         days: [
-          { type: 'read', time: '30 min', title: 'AI Is Not What You Think', desc: 'Read the Stanford HAI AI Index 2024 executive summary. Note what surprised you.', url: 'https://aiindex.stanford.edu/report/' },
-          { type: 'watch', time: '25 min', title: 'AI in 2024: A Primer', desc: 'Watch "But what is a neural network?" by 3Blue1Brown — the clearest visual explanation available.', url: 'https://www.youtube.com/watch?v=aircAruvnKk' },
-          { type: 'read', time: '45 min', title: 'The AI Landscape', desc: 'Read the first two chapters of "Prediction Machines" by Agrawal, Gans & Goldfarb. AI as a prediction technology.', url: 'https://www.amazon.com/dp/1633695670' },
-          { type: 'reflect', time: '15 min', title: 'Week 1 Reflection', desc: 'Write 3 sentences: What is AI good at? What is it bad at? What surprised you this week?' }
+          { type: 'read', time: '30 min', title: 'AI Is Not What You Think', desc: 'Read the Stanford HAI AI Index 2024 executive summary. Note what surprised you.', url: 'https://aiindex.stanford.edu/report/', tags: ['beginner', 'no-code', 'business', 'strategy'] },
+          { type: 'watch', time: '25 min', title: 'AI in 2024: A Primer', desc: 'Watch "But what is a neural network?" by 3Blue1Brown — the clearest visual explanation available.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research'] },
+          { type: 'read', time: '45 min', title: 'The AI Landscape', desc: 'Read the first two chapters of "Prediction Machines" by Agrawal, Gans & Goldfarb. AI as a prediction technology.', url: 'https://www.amazon.com/dp/1633695670', tags: ['beginner', 'no-code', 'business', 'strategy'] },
+          { type: 'reflect', time: '15 min', title: 'Week 1 Reflection', desc: 'Write 3 sentences: What is AI good at? What is it bad at? What surprised you this week?', tags: ['beginner', 'no-code', 'strategy'] }
         ]
       },
       {
         title: 'How AI Learns',
         days: [
-          { type: 'watch', time: '30 min', title: 'Machine Learning Explained', desc: 'Watch "Gradient descent, how neural networks learn" by 3Blue1Brown.', url: 'https://www.youtube.com/watch?v=IHZwWFHWa-w' },
-          { type: 'read', time: '30 min', title: 'Training, Data, and Bias', desc: 'Read "AI Superpowers" Chapter 1 by Kai-Fu Lee — how data shapes AI capabilities.', url: 'https://www.amazon.com/dp/1328546393' },
-          { type: 'do', time: '20 min', title: 'Teachable Machine', desc: 'Use Google\'s Teachable Machine to train a simple image classifier. No code needed.', url: 'https://teachablemachine.withgoogle.com/' },
-          { type: 'discuss', time: '15 min', title: 'Week 2 Discussion', desc: 'If AI learns from data, whose data is it learning from? What perspectives might be missing?' }
+          { type: 'watch', time: '30 min', title: 'Machine Learning Explained', desc: 'Watch "Gradient descent, how neural networks learn" by 3Blue1Brown.', url: 'https://www.youtube.com/watch?v=IHZwWFHWa-w', tags: ['beginner', 'no-code', 'technical', 'research'] },
+          { type: 'read', time: '30 min', title: 'Training, Data, and Bias', desc: 'Read "AI Superpowers" Chapter 1 by Kai-Fu Lee — how data shapes AI capabilities.', url: 'https://www.amazon.com/dp/1328546393', tags: ['beginner', 'no-code', 'business', 'ethics'] },
+          { type: 'do', time: '20 min', title: 'Teachable Machine', desc: 'Use Google\'s Teachable Machine to train a simple image classifier. No code needed.', url: 'https://teachablemachine.withgoogle.com/', tags: ['beginner', 'no-code', 'building'] },
+          { type: 'discuss', time: '15 min', title: 'Week 2 Discussion', desc: 'If AI learns from data, whose data is it learning from? What perspectives might be missing?', tags: ['beginner', 'no-code', 'ethics'] }
         ]
       },
       {
         title: 'Using AI Tools Effectively',
         days: [
-          { type: 'read', time: '30 min', title: 'Prompt Engineering 101', desc: 'Read Anthropic\'s prompt engineering overview — the definitive guide to talking to AI.', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview' },
-          { type: 'do', time: '40 min', title: 'Prompt Practice', desc: 'Write 5 prompts for tasks in your actual work. Compare results between specific vs vague prompts.' },
-          { type: 'read', time: '20 min', title: 'AI Tools Landscape', desc: 'Survey what\'s available: ChatGPT, Claude, Gemini, Perplexity, Midjourney, Copilot. Try two you haven\'t used.' },
-          { type: 'reflect', time: '15 min', title: 'Tool Assessment', desc: 'Which AI tool would save you the most time this month? What task would you use it for?' }
+          { type: 'read', time: '30 min', title: 'Prompt Engineering 101', desc: 'Read Anthropic\'s prompt engineering overview — the definitive guide to talking to AI.', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview', tags: ['beginner', 'no-code', 'prompt-engineering'] },
+          { type: 'do', time: '40 min', title: 'Prompt Practice', desc: 'Write 5 prompts for tasks in your actual work. Compare results between specific vs vague prompts.', tags: ['beginner', 'no-code', 'prompt-engineering'] },
+          { type: 'read', time: '20 min', title: 'AI Tools Landscape', desc: 'Survey what\'s available: ChatGPT, Claude, Gemini, Perplexity, Midjourney, Copilot. Try two you haven\'t used.', tags: ['beginner', 'no-code', 'strategy'] },
+          { type: 'reflect', time: '15 min', title: 'Tool Assessment', desc: 'Which AI tool would save you the most time this month? What task would you use it for?', tags: ['beginner', 'no-code', 'strategy'] }
         ]
       },
       {
         title: 'AI Ethics and Society',
         days: [
-          { type: 'read', time: '40 min', title: 'Responsible AI Frameworks', desc: 'Read Google\'s AI Principles and Anthropic\'s Core Views on AI Safety. Compare their approaches.', url: 'https://ai.google/responsibility/principles/' },
-          { type: 'watch', time: '30 min', title: 'Bias in AI Systems', desc: 'Watch "The Era of Blind Faith in Big Data Must End" by Cathy O\'Neil (TED Talk).', url: 'https://www.ted.com/talks/cathy_o_neil_the_era_of_blind_faith_in_big_data_must_end' },
-          { type: 'read', time: '30 min', title: 'The Regulation Landscape', desc: 'Read the EU AI Act overview — the world\'s first comprehensive AI regulation.', url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai' },
-          { type: 'discuss', time: '15 min', title: 'Ethics Discussion', desc: 'Should AI systems be required to disclose they\'re AI? When does it matter and when doesn\'t it?' }
+          { type: 'read', time: '40 min', title: 'Responsible AI Frameworks', desc: 'Read Google\'s AI Principles and Anthropic\'s Core Views on AI Safety. Compare their approaches.', url: 'https://ai.google/responsibility/principles/', tags: ['beginner', 'no-code', 'ethics', 'business'] },
+          { type: 'watch', time: '30 min', title: 'Bias in AI Systems', desc: 'Watch "The Era of Blind Faith in Big Data Must End" by Cathy O\'Neil (TED Talk).', url: 'https://www.ted.com/talks/cathy_o_neil_the_era_of_blind_faith_in_big_data_must_end', tags: ['beginner', 'no-code', 'ethics'] },
+          { type: 'read', time: '30 min', title: 'The Regulation Landscape', desc: 'Read the EU AI Act overview — the world\'s first comprehensive AI regulation.', url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai', tags: ['beginner', 'no-code', 'ethics', 'business'] },
+          { type: 'discuss', time: '15 min', title: 'Ethics Discussion', desc: 'Should AI systems be required to disclose they\'re AI? When does it matter and when doesn\'t it?', tags: ['beginner', 'no-code', 'ethics'] }
         ]
       },
       {
         title: 'AI Strategy for Your Work',
         days: [
-          { type: 'read', time: '45 min', title: 'Organizational AI Adoption', desc: 'Read "Superminds" Chapters 1-3 by Thomas Malone — how AI changes how groups think and work.', url: 'https://www.amazon.com/dp/0316349135' },
-          { type: 'read', time: '30 min', title: 'The Technology Fallacy', desc: 'Read Gerald Kane\'s argument: digital transformation is about people, not technology.', url: 'https://www.amazon.com/dp/0262039680' },
-          { type: 'do', time: '30 min', title: 'AI Opportunity Mapping', desc: 'List 10 tasks in your work. Rate each: How repetitive? How much does it need judgment? Which 3 would benefit most from AI?' },
-          { type: 'reflect', time: '15 min', title: 'Strategy Reflection', desc: 'What\'s the biggest risk of NOT adopting AI in your domain? What\'s the biggest risk of adopting it badly?' }
+          { type: 'read', time: '45 min', title: 'Organizational AI Adoption', desc: 'Read "Superminds" Chapters 1-3 by Thomas Malone — how AI changes how groups think and work.', url: 'https://www.amazon.com/dp/0316349135', tags: ['intermediate', 'no-code', 'business', 'strategy'] },
+          { type: 'read', time: '30 min', title: 'The Technology Fallacy', desc: 'Read Gerald Kane\'s argument: digital transformation is about people, not technology.', url: 'https://www.amazon.com/dp/0262039680', tags: ['intermediate', 'no-code', 'business', 'strategy'] },
+          { type: 'do', time: '30 min', title: 'AI Opportunity Mapping', desc: 'List 10 tasks in your work. Rate each: How repetitive? How much does it need judgment? Which 3 would benefit most from AI?', tags: ['intermediate', 'no-code', 'business', 'strategy'] },
+          { type: 'reflect', time: '15 min', title: 'Strategy Reflection', desc: 'What\'s the biggest risk of NOT adopting AI in your domain? What\'s the biggest risk of adopting it badly?', tags: ['intermediate', 'no-code', 'business', 'strategy'] }
         ]
       },
       {
         title: 'AI Products and Evaluation',
         days: [
-          { type: 'read', time: '30 min', title: 'Evaluating AI Claims', desc: 'Read NIST AI Risk Management Framework Section 1 — how to think about AI risk systematically.', url: 'https://www.nist.gov/artificial-intelligence/executive-order-safe-secure-and-trustworthy-artificial-intelligence' },
-          { type: 'do', time: '40 min', title: 'Vendor Evaluation Exercise', desc: 'Pick an AI product relevant to your work. Write a 1-page evaluation: What does it actually do? What data does it use? What are the risks?' },
-          { type: 'read', time: '30 min', title: 'Power and Prediction', desc: 'Read Chapters 1-2 of "Power and Prediction" — how AI shifts the economics of decisions.', url: 'https://www.amazon.com/dp/1647824192' },
-          { type: 'reflect', time: '15 min', title: 'Evaluation Framework', desc: 'What 5 questions would you always ask before buying an AI product?' }
+          { type: 'read', time: '30 min', title: 'Evaluating AI Claims', desc: 'Read NIST AI Risk Management Framework Section 1 — how to think about AI risk systematically.', url: 'https://www.nist.gov/artificial-intelligence/executive-order-safe-secure-and-trustworthy-artificial-intelligence', tags: ['intermediate', 'no-code', 'business', 'ethics', 'strategy'] },
+          { type: 'do', time: '40 min', title: 'Vendor Evaluation Exercise', desc: 'Pick an AI product relevant to your work. Write a 1-page evaluation: What does it actually do? What data does it use? What are the risks?', tags: ['intermediate', 'no-code', 'business', 'strategy'] },
+          { type: 'read', time: '30 min', title: 'Power and Prediction', desc: 'Read Chapters 1-2 of "Power and Prediction" — how AI shifts the economics of decisions.', url: 'https://www.amazon.com/dp/1647824192', tags: ['intermediate', 'no-code', 'business', 'strategy'] },
+          { type: 'reflect', time: '15 min', title: 'Evaluation Framework', desc: 'What 5 questions would you always ask before buying an AI product?', tags: ['intermediate', 'no-code', 'business', 'strategy'] }
         ]
       },
       {
         title: 'The AI-Augmented Organization',
         days: [
-          { type: 'read', time: '30 min', title: 'Team of Teams', desc: 'Read Chapters 9-11 of "Team of Teams" by McChrystal — how complex organizations adapt.', url: 'https://www.amazon.com/dp/1591847486' },
-          { type: 'read', time: '30 min', title: 'Microsoft Work Trend Index', desc: 'Read the latest Work Trend Index — data on how AI is actually changing knowledge work.', url: 'https://www.microsoft.com/en-us/worklab/work-trend-index/' },
-          { type: 'do', time: '30 min', title: 'Workflow Redesign', desc: 'Take one workflow from your work. Redesign it with AI augmentation. What changes? What doesn\'t?' },
-          { type: 'discuss', time: '20 min', title: 'Augmentation vs Automation', desc: 'For each task AI handles, ask: Is this augmenting a human or replacing one? Does the distinction matter?' }
+          { type: 'read', time: '30 min', title: 'Team of Teams', desc: 'Read Chapters 9-11 of "Team of Teams" by McChrystal — how complex organizations adapt.', url: 'https://www.amazon.com/dp/1591847486', tags: ['intermediate', 'no-code', 'business', 'strategy'] },
+          { type: 'read', time: '30 min', title: 'Microsoft Work Trend Index', desc: 'Read the latest Work Trend Index — data on how AI is actually changing knowledge work.', url: 'https://www.microsoft.com/en-us/worklab/work-trend-index/', tags: ['intermediate', 'no-code', 'business', 'strategy'] },
+          { type: 'do', time: '30 min', title: 'Workflow Redesign', desc: 'Take one workflow from your work. Redesign it with AI augmentation. What changes? What doesn\'t?', tags: ['intermediate', 'no-code', 'business', 'strategy'] },
+          { type: 'discuss', time: '20 min', title: 'Augmentation vs Automation', desc: 'For each task AI handles, ask: Is this augmenting a human or replacing one? Does the distinction matter?', tags: ['intermediate', 'no-code', 'business', 'ethics'] }
         ]
       },
       {
         title: 'What\'s Next — Your AI Future',
         days: [
-          { type: 'read', time: '40 min', title: 'Superagency', desc: 'Read "Superagency" by Reid Hoffman — the case for AI amplifying individual capability.', url: 'https://www.amazon.com/dp/0593717767' },
-          { type: 'do', time: '45 min', title: 'Personal AI Strategy', desc: 'Write a 1-page personal AI strategy: What will you use AI for in the next 90 days? What will you NOT use it for? Why?' },
-          { type: 'read', time: '30 min', title: 'The Frontier', desc: 'Read Anthropic\'s latest research blog post. What\'s coming that isn\'t here yet?' , url: 'https://www.anthropic.com/research' },
-          { type: 'reflect', time: '15 min', title: 'Capstone Reflection', desc: 'What\'s the most important thing you learned? What question do you still have? What will you do differently?' }
+          { type: 'read', time: '40 min', title: 'Superagency', desc: 'Read "Superagency" by Reid Hoffman — the case for AI amplifying individual capability.', url: 'https://www.amazon.com/dp/0593717767', tags: ['intermediate', 'no-code', 'business', 'strategy'] },
+          { type: 'do', time: '45 min', title: 'Personal AI Strategy', desc: 'Write a 1-page personal AI strategy: What will you use AI for in the next 90 days? What will you NOT use it for? Why?', tags: ['intermediate', 'no-code', 'strategy'] },
+          { type: 'read', time: '30 min', title: 'The Frontier', desc: 'Read Anthropic\'s latest research blog post. What\'s coming that isn\'t here yet?' , url: 'https://www.anthropic.com/research', tags: ['intermediate', 'no-code', 'research'] },
+          { type: 'reflect', time: '15 min', title: 'Capstone Reflection', desc: 'What\'s the most important thing you learned? What question do you still have? What will you do differently?', tags: ['intermediate', 'no-code', 'strategy'] }
         ]
       }
     ]
@@ -1671,91 +1801,91 @@ const TRACKS = {
       {
         title: 'AI Capabilities and Limits',
         days: [
-          { type: 'read', time: '40 min', title: 'Stanford HAI AI Index', desc: 'Read the full executive summary — the most data-driven overview of where AI stands.', url: 'https://aiindex.stanford.edu/report/' },
-          { type: 'watch', time: '30 min', title: 'Neural Networks Visual Intro', desc: '3Blue1Brown\'s neural network series, episodes 1–2.', url: 'https://www.youtube.com/watch?v=aircAruvnKk' },
-          { type: 'do', time: '30 min', title: 'Benchmark Your AI Use', desc: 'List every way you currently use AI. Rate each: effectiveness (1-5), frequency, time saved.' },
-          { type: 'reflect', time: '15 min', title: 'Capability Mapping', desc: 'Where are AI tools strongest in your workflow? Where do they fail or hallucinate?' }
+          { type: 'read', time: '40 min', title: 'Stanford HAI AI Index', desc: 'Read the full executive summary — the most data-driven overview of where AI stands.', url: 'https://aiindex.stanford.edu/report/', tags: ['beginner', 'no-code', 'business', 'strategy'] },
+          { type: 'watch', time: '30 min', title: 'Neural Networks Visual Intro', desc: '3Blue1Brown\'s neural network series, episodes 1–2.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research'] },
+          { type: 'do', time: '30 min', title: 'Benchmark Your AI Use', desc: 'List every way you currently use AI. Rate each: effectiveness (1-5), frequency, time saved.', tags: ['beginner', 'no-code', 'strategy'] },
+          { type: 'reflect', time: '15 min', title: 'Capability Mapping', desc: 'Where are AI tools strongest in your workflow? Where do they fail or hallucinate?', tags: ['beginner', 'no-code', 'strategy'] }
         ]
       },
       {
         title: 'Advanced Prompt Engineering',
         days: [
-          { type: 'read', time: '45 min', title: 'Anthropic Prompt Guide', desc: 'Read the full Anthropic prompt engineering documentation, with focus on chain-of-thought and structured output.', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview' },
-          { type: 'do', time: '45 min', title: 'System Prompts', desc: 'Write 3 system prompts for different work tasks. Test each with 5 inputs. Iterate on the weakest.' },
-          { type: 'do', time: '40 min', title: 'Few-Shot Prompting', desc: 'Take a task AI does poorly. Add 3 examples of correct output to the prompt. Measure improvement.' },
-          { type: 'do', time: '30 min', title: 'Prompt Template Library', desc: 'Create a personal library of 5 reusable prompt templates for your most common tasks.' }
+          { type: 'read', time: '45 min', title: 'Anthropic Prompt Guide', desc: 'Read the full Anthropic prompt engineering documentation, with focus on chain-of-thought and structured output.', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview', tags: ['intermediate', 'no-code', 'prompt-engineering'] },
+          { type: 'do', time: '45 min', title: 'System Prompts', desc: 'Write 3 system prompts for different work tasks. Test each with 5 inputs. Iterate on the weakest.', tags: ['intermediate', 'no-code', 'prompt-engineering'] },
+          { type: 'do', time: '40 min', title: 'Few-Shot Prompting', desc: 'Take a task AI does poorly. Add 3 examples of correct output to the prompt. Measure improvement.', tags: ['intermediate', 'no-code', 'prompt-engineering'] },
+          { type: 'do', time: '30 min', title: 'Prompt Template Library', desc: 'Create a personal library of 5 reusable prompt templates for your most common tasks.', tags: ['intermediate', 'no-code', 'prompt-engineering'] }
         ]
       },
       {
         title: 'AI Workflow Automation',
         days: [
-          { type: 'read', time: '30 min', title: 'Automation Landscape', desc: 'Survey the automation ecosystem: Zapier, Make, n8n, Shortcuts. Understand what connects to what.' },
-          { type: 'do', time: '60 min', title: 'Build an Automation', desc: 'Build one AI-powered automation for a real task: email summarization, content drafting, data extraction, or research.' },
-          { type: 'read', time: '30 min', title: 'Google Rules of ML', desc: 'Even for non-engineers — the principles of how ML systems work in production.', url: 'https://developers.google.com/machine-learning/guides/rules-of-ml' },
-          { type: 'reflect', time: '20 min', title: 'Automation Audit', desc: 'Which 3 workflows in your work have the highest automation potential? What\'s blocking each?' }
+          { type: 'read', time: '30 min', title: 'Automation Landscape', desc: 'Survey the automation ecosystem: Zapier, Make, n8n, Shortcuts. Understand what connects to what.', tags: ['intermediate', 'no-code', 'building', 'strategy'] },
+          { type: 'do', time: '60 min', title: 'Build an Automation', desc: 'Build one AI-powered automation for a real task: email summarization, content drafting, data extraction, or research.', tags: ['intermediate', 'no-code', 'building'] },
+          { type: 'read', time: '30 min', title: 'Google Rules of ML', desc: 'Even for non-engineers — the principles of how ML systems work in production.', url: 'https://developers.google.com/machine-learning/guides/rules-of-ml', tags: ['intermediate', 'no-code', 'technical', 'research'] },
+          { type: 'reflect', time: '20 min', title: 'Automation Audit', desc: 'Which 3 workflows in your work have the highest automation potential? What\'s blocking each?', tags: ['intermediate', 'no-code', 'strategy'] }
         ]
       },
       {
         title: 'Data Literacy for AI',
         days: [
-          { type: 'read', time: '45 min', title: 'Thinking with Data', desc: 'Read Breiman\'s "Two Cultures" thesis summary — how statistics and ML approach the same problems differently.', url: 'https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures/10.1214/ss/1009213726.full' },
-          { type: 'do', time: '40 min', title: 'Data Quality Assessment', desc: 'Take a dataset you work with. Assess: completeness, accuracy, bias, freshness. How would each affect AI output?' },
-          { type: 'watch', time: '30 min', title: 'Data Visualization', desc: 'Watch Hans Rosling\'s "The best stats you\'ve ever seen" — data storytelling at its finest.', url: 'https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen' },
-          { type: 'discuss', time: '20 min', title: 'Data Ethics', desc: 'Your company has a dataset of customer interactions. What\'s ethical to use for AI training? What isn\'t? Where\'s the line?' }
+          { type: 'read', time: '45 min', title: 'Thinking with Data', desc: 'Read Breiman\'s "Two Cultures" thesis summary — how statistics and ML approach the same problems differently.', url: 'https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures/10.1214/ss/1009213726.full', tags: ['intermediate', 'no-code', 'academic', 'research'] },
+          { type: 'do', time: '40 min', title: 'Data Quality Assessment', desc: 'Take a dataset you work with. Assess: completeness, accuracy, bias, freshness. How would each affect AI output?', tags: ['intermediate', 'no-code', 'technical', 'strategy'] },
+          { type: 'watch', time: '30 min', title: 'Data Visualization', desc: 'Watch Hans Rosling\'s "The best stats you\'ve ever seen" — data storytelling at its finest.', url: 'https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen', tags: ['beginner', 'no-code', 'business'] },
+          { type: 'discuss', time: '20 min', title: 'Data Ethics', desc: 'Your company has a dataset of customer interactions. What\'s ethical to use for AI training? What isn\'t? Where\'s the line?', tags: ['intermediate', 'no-code', 'ethics'] }
         ]
       },
       {
         title: 'AI Ethics and Responsible Use',
         days: [
-          { type: 'read', time: '40 min', title: 'Corporate AI Principles', desc: 'Compare AI principles from Google, Microsoft, and Anthropic. What do they agree on? Where do they differ?', url: 'https://www.anthropic.com/research/core-views-on-ai-safety' },
-          { type: 'read', time: '30 min', title: 'EU AI Act', desc: 'Read the EU AI Act classification system. Which risk category would your AI uses fall into?', url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai' },
-          { type: 'do', time: '30 min', title: 'Risk Assessment', desc: 'For each AI tool you use at work, write a one-paragraph risk assessment: What could go wrong? How bad would it be? How do you mitigate?' },
-          { type: 'reflect', time: '20 min', title: 'Responsible Use Policy', desc: 'Draft a 5-point responsible AI use policy for your team or organization.' }
+          { type: 'read', time: '40 min', title: 'Corporate AI Principles', desc: 'Compare AI principles from Google, Microsoft, and Anthropic. What do they agree on? Where do they differ?', url: 'https://www.anthropic.com/research/core-views-on-ai-safety', tags: ['intermediate', 'no-code', 'ethics', 'business'] },
+          { type: 'read', time: '30 min', title: 'EU AI Act', desc: 'Read the EU AI Act classification system. Which risk category would your AI uses fall into?', url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai', tags: ['intermediate', 'no-code', 'ethics', 'business'] },
+          { type: 'do', time: '30 min', title: 'Risk Assessment', desc: 'For each AI tool you use at work, write a one-paragraph risk assessment: What could go wrong? How bad would it be? How do you mitigate?', tags: ['intermediate', 'no-code', 'ethics', 'strategy'] },
+          { type: 'reflect', time: '20 min', title: 'Responsible Use Policy', desc: 'Draft a 5-point responsible AI use policy for your team or organization.', tags: ['intermediate', 'no-code', 'ethics', 'strategy'] }
         ]
       },
       {
         title: 'No-Code and Low-Code AI',
         days: [
-          { type: 'do', time: '45 min', title: 'Custom GPTs / Claude Projects', desc: 'Build a custom GPT or Claude Project for a real use case — a domain-specific assistant for your work.' },
-          { type: 'do', time: '45 min', title: 'AI-Powered Spreadsheets', desc: 'Use AI to analyze a real spreadsheet: generate formulas, clean data, create visualizations, or extract insights.' },
-          { type: 'read', time: '30 min', title: 'API Basics for Non-Developers', desc: 'Understand what APIs are and how AI APIs work — this knowledge unlocks more powerful integrations.' },
-          { type: 'do', time: '30 min', title: 'Multi-Tool Workflow', desc: 'Chain two AI tools together for a task: e.g., Claude for analysis → Midjourney for visualization → Gamma for presentation.' }
+          { type: 'do', time: '45 min', title: 'Custom GPTs / Claude Projects', desc: 'Build a custom GPT or Claude Project for a real use case — a domain-specific assistant for your work.', tags: ['intermediate', 'no-code', 'building', 'prompt-engineering'] },
+          { type: 'do', time: '45 min', title: 'AI-Powered Spreadsheets', desc: 'Use AI to analyze a real spreadsheet: generate formulas, clean data, create visualizations, or extract insights.', tags: ['intermediate', 'no-code', 'building'] },
+          { type: 'read', time: '30 min', title: 'API Basics for Non-Developers', desc: 'Understand what APIs are and how AI APIs work — this knowledge unlocks more powerful integrations.', tags: ['intermediate', 'no-code', 'technical', 'building'] },
+          { type: 'do', time: '30 min', title: 'Multi-Tool Workflow', desc: 'Chain two AI tools together for a task: e.g., Claude for analysis → Midjourney for visualization → Gamma for presentation.', tags: ['intermediate', 'no-code', 'building', 'creative'] }
         ]
       },
       {
         title: 'Evaluating AI Products',
         days: [
-          { type: 'read', time: '40 min', title: 'NIST AI Risk Management', desc: 'Read NIST AI RMF 1.0 Sections 3-4 — a framework for thinking about AI risk and governance.', url: 'https://www.nist.gov/artificial-intelligence/executive-order-safe-secure-and-trustworthy-artificial-intelligence' },
-          { type: 'do', time: '45 min', title: 'Vendor Evaluation', desc: 'Evaluate an AI product: test its claims, check for bias, assess data practices, compare to alternatives.' },
-          { type: 'read', time: '30 min', title: 'AI Security Basics', desc: 'Read OWASP Top 10 for LLM Applications — the most common security risks.', url: 'https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/' },
-          { type: 'reflect', time: '20 min', title: 'Procurement Checklist', desc: 'Create your own AI product evaluation checklist. What questions would you always ask?' }
+          { type: 'read', time: '40 min', title: 'NIST AI Risk Management', desc: 'Read NIST AI RMF 1.0 Sections 3-4 — a framework for thinking about AI risk and governance.', url: 'https://www.nist.gov/artificial-intelligence/executive-order-safe-secure-and-trustworthy-artificial-intelligence', tags: ['intermediate', 'no-code', 'ethics', 'strategy'] },
+          { type: 'do', time: '45 min', title: 'Vendor Evaluation', desc: 'Evaluate an AI product: test its claims, check for bias, assess data practices, compare to alternatives.', tags: ['intermediate', 'no-code', 'business', 'strategy'] },
+          { type: 'read', time: '30 min', title: 'AI Security Basics', desc: 'Read OWASP Top 10 for LLM Applications — the most common security risks.', url: 'https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/', tags: ['intermediate', 'no-code', 'technical', 'ethics'] },
+          { type: 'reflect', time: '20 min', title: 'Procurement Checklist', desc: 'Create your own AI product evaluation checklist. What questions would you always ask?', tags: ['intermediate', 'no-code', 'business', 'strategy'] }
         ]
       },
       {
         title: 'AI-Augmented Decision Making',
         days: [
-          { type: 'read', time: '40 min', title: 'Power and Prediction', desc: 'Read Chapters 3-5 of "Power and Prediction" — how AI changes the economics of decisions.', url: 'https://www.amazon.com/dp/1647824192' },
-          { type: 'do', time: '40 min', title: 'Decision Framework', desc: 'Take a real decision you\'re facing. Use AI to: gather information, generate alternatives, stress-test your reasoning. Then decide yourself.' },
-          { type: 'read', time: '30 min', title: 'Social Physics', desc: 'Read Chapters 1-2 of "Social Physics" by Pentland — how information flows shape collective intelligence.', url: 'https://www.amazon.com/dp/0143126334' },
-          { type: 'discuss', time: '20 min', title: 'Human-AI Decision Making', desc: 'When should you defer to AI judgment? When should you override it? How do you know the difference?' }
+          { type: 'read', time: '40 min', title: 'Power and Prediction', desc: 'Read Chapters 3-5 of "Power and Prediction" — how AI changes the economics of decisions.', url: 'https://www.amazon.com/dp/1647824192', tags: ['intermediate', 'no-code', 'business', 'strategy'] },
+          { type: 'do', time: '40 min', title: 'Decision Framework', desc: 'Take a real decision you\'re facing. Use AI to: gather information, generate alternatives, stress-test your reasoning. Then decide yourself.', tags: ['intermediate', 'no-code', 'strategy'] },
+          { type: 'read', time: '30 min', title: 'Social Physics', desc: 'Read Chapters 1-2 of "Social Physics" by Pentland — how information flows shape collective intelligence.', url: 'https://www.amazon.com/dp/0143126334', tags: ['intermediate', 'no-code', 'academic', 'research'] },
+          { type: 'discuss', time: '20 min', title: 'Human-AI Decision Making', desc: 'When should you defer to AI judgment? When should you override it? How do you know the difference?', tags: ['intermediate', 'no-code', 'ethics', 'strategy'] }
         ]
       },
       {
         title: 'Building AI-Enhanced Processes',
         days: [
-          { type: 'do', time: '60 min', title: 'Process Redesign', desc: 'Take a real 5+ step process from your work. Redesign it with AI at each step. Implement the most impactful change.' },
-          { type: 'read', time: '30 min', title: 'Change Management', desc: 'Read about AI change management: how to introduce AI tools to teams without creating resistance.' },
-          { type: 'do', time: '45 min', title: 'Measurement Framework', desc: 'Define how you\'ll measure AI impact: time saved, quality improvement, error reduction. Set baselines for one workflow.' },
-          { type: 'reflect', time: '20 min', title: 'Implementation Plan', desc: 'Write a 30-day plan for rolling out one AI-enhanced process to your team.' }
+          { type: 'do', time: '60 min', title: 'Process Redesign', desc: 'Take a real 5+ step process from your work. Redesign it with AI at each step. Implement the most impactful change.', tags: ['advanced', 'no-code', 'business', 'building', 'strategy'] },
+          { type: 'read', time: '30 min', title: 'Change Management', desc: 'Read about AI change management: how to introduce AI tools to teams without creating resistance.', tags: ['intermediate', 'no-code', 'business', 'strategy'] },
+          { type: 'do', time: '45 min', title: 'Measurement Framework', desc: 'Define how you\'ll measure AI impact: time saved, quality improvement, error reduction. Set baselines for one workflow.', tags: ['advanced', 'no-code', 'business', 'strategy'] },
+          { type: 'reflect', time: '20 min', title: 'Implementation Plan', desc: 'Write a 30-day plan for rolling out one AI-enhanced process to your team.', tags: ['advanced', 'no-code', 'business', 'strategy'] }
         ]
       },
       {
         title: 'Your AI Future',
         days: [
-          { type: 'read', time: '40 min', title: 'Superagency', desc: 'Read "Superagency" by Reid Hoffman — the argument for AI as individual amplification.', url: 'https://www.amazon.com/dp/0593717767' },
-          { type: 'do', time: '45 min', title: '90-Day AI Strategy', desc: 'Write your personal AI strategy: What will you adopt, experiment with, and avoid? What skills will you build?' },
-          { type: 'read', time: '30 min', title: 'What\'s Coming', desc: 'Read the latest research announcements from Anthropic, Google DeepMind, and OpenAI. What\'s 12 months away?', url: 'https://www.anthropic.com/research' },
-          { type: 'reflect', time: '20 min', title: 'Capstone', desc: 'What was the most useful thing you learned? What will you do differently starting Monday?' }
+          { type: 'read', time: '40 min', title: 'Superagency', desc: 'Read "Superagency" by Reid Hoffman — the argument for AI as individual amplification.', url: 'https://www.amazon.com/dp/0593717767', tags: ['intermediate', 'no-code', 'business', 'strategy'] },
+          { type: 'do', time: '45 min', title: '90-Day AI Strategy', desc: 'Write your personal AI strategy: What will you adopt, experiment with, and avoid? What skills will you build?', tags: ['intermediate', 'no-code', 'strategy'] },
+          { type: 'read', time: '30 min', title: 'What\'s Coming', desc: 'Read the latest research announcements from Anthropic, Google DeepMind, and OpenAI. What\'s 12 months away?', url: 'https://www.anthropic.com/research', tags: ['intermediate', 'no-code', 'research'] },
+          { type: 'reflect', time: '20 min', title: 'Capstone', desc: 'What was the most useful thing you learned? What will you do differently starting Monday?', tags: ['intermediate', 'no-code', 'strategy'] }
         ]
       }
     ]
@@ -1771,109 +1901,109 @@ const TRACKS = {
       {
         title: 'ML Foundations',
         days: [
-          { type: 'read', time: '60 min', title: 'Breiman\'s Two Cultures', desc: 'Read the original paper — the philosophical split between statistical modeling and algorithmic prediction.', url: 'https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures/10.1214/ss/1009213726.full' },
-          { type: 'watch', time: '45 min', title: '3Blue1Brown Neural Networks', desc: 'Watch the full 4-part neural network series. Take notes on backpropagation.', url: 'https://www.youtube.com/watch?v=aircAruvnKk' },
-          { type: 'do', time: '60 min', title: 'Linear Regression from Scratch', desc: 'Implement linear regression with gradient descent in Python or TypeScript. No libraries. Understand every line.' },
-          { type: 'read', time: '30 min', title: 'Stanford HAI Index', desc: 'Read the full technical sections of the AI Index — benchmarks, capabilities, trends.', url: 'https://aiindex.stanford.edu/report/' }
+          { type: 'read', time: '60 min', title: 'Breiman\'s Two Cultures', desc: 'Read the original paper — the philosophical split between statistical modeling and algorithmic prediction.', url: 'https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures/10.1214/ss/1009213726.full', tags: ['intermediate', 'no-code', 'academic', 'research'] },
+          { type: 'watch', time: '45 min', title: '3Blue1Brown Neural Networks', desc: 'Watch the full 4-part neural network series. Take notes on backpropagation.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research'] },
+          { type: 'do', time: '60 min', title: 'Linear Regression from Scratch', desc: 'Implement linear regression with gradient descent in Python or TypeScript. No libraries. Understand every line.', tags: ['intermediate', 'programming-required', 'technical', 'building'] },
+          { type: 'read', time: '30 min', title: 'Stanford HAI Index', desc: 'Read the full technical sections of the AI Index — benchmarks, capabilities, trends.', url: 'https://aiindex.stanford.edu/report/', tags: ['beginner', 'no-code', 'strategy', 'research'] }
         ]
       },
       {
         title: 'Deep Learning Fundamentals',
         days: [
-          { type: 'watch', time: '90 min', title: 'fast.ai Lesson 1', desc: 'Complete fast.ai Practical Deep Learning Lesson 1. Follow along with code.', url: 'https://course.fast.ai/' },
-          { type: 'do', time: '60 min', title: 'Neural Net from Scratch', desc: 'Implement a 2-layer neural network from scratch. Train it on MNIST or a simple classification task.' },
-          { type: 'watch', time: '60 min', title: 'Karpathy: Micrograd', desc: 'Watch Andrej Karpathy\'s "building micrograd" — autograd from zero.', url: 'https://www.youtube.com/watch?v=VMj-3S1tku0' },
-          { type: 'do', time: '45 min', title: 'Micrograd Implementation', desc: 'Build your own autograd engine following Karpathy\'s tutorial. Understand backpropagation deeply.' }
+          { type: 'watch', time: '90 min', title: 'fast.ai Lesson 1', desc: 'Complete fast.ai Practical Deep Learning Lesson 1. Follow along with code.', url: 'https://course.fast.ai/', tags: ['intermediate', 'programming-required', 'technical', 'building'] },
+          { type: 'do', time: '60 min', title: 'Neural Net from Scratch', desc: 'Implement a 2-layer neural network from scratch. Train it on MNIST or a simple classification task.', tags: ['intermediate', 'programming-required', 'technical', 'building'] },
+          { type: 'watch', time: '60 min', title: 'Karpathy: Micrograd', desc: 'Watch Andrej Karpathy\'s "building micrograd" — autograd from zero.', url: 'https://www.youtube.com/watch?v=VMj-3S1tku0', tags: ['intermediate', 'programming-required', 'technical', 'research'] },
+          { type: 'do', time: '45 min', title: 'Micrograd Implementation', desc: 'Build your own autograd engine following Karpathy\'s tutorial. Understand backpropagation deeply.', tags: ['intermediate', 'programming-required', 'technical', 'building'] }
         ]
       },
       {
         title: 'Modern Deep Learning',
         days: [
-          { type: 'watch', time: '90 min', title: 'fast.ai Lessons 2–3', desc: 'Complete lessons 2-3 of fast.ai. Focus on transfer learning and data augmentation.', url: 'https://course.fast.ai/' },
-          { type: 'do', time: '60 min', title: 'Image Classifier Project', desc: 'Build and deploy an image classifier for a real use case — something you actually care about.' },
-          { type: 'read', time: '45 min', title: 'Designing ML Systems Ch 1-3', desc: 'Read Chip Huyen\'s book — the gap between ML research and production ML.', url: 'https://www.amazon.com/dp/1098107969' },
-          { type: 'reflect', time: '20 min', title: 'Architecture Decisions', desc: 'When would you use CNNs vs transformers vs traditional ML? What drives the decision?' }
+          { type: 'watch', time: '90 min', title: 'fast.ai Lessons 2–3', desc: 'Complete lessons 2-3 of fast.ai. Focus on transfer learning and data augmentation.', url: 'https://course.fast.ai/', tags: ['intermediate', 'programming-required', 'technical', 'building'] },
+          { type: 'do', time: '60 min', title: 'Image Classifier Project', desc: 'Build and deploy an image classifier for a real use case — something you actually care about.', tags: ['intermediate', 'programming-required', 'technical', 'building'] },
+          { type: 'read', time: '45 min', title: 'Designing ML Systems Ch 1-3', desc: 'Read Chip Huyen\'s book — the gap between ML research and production ML.', url: 'https://www.amazon.com/dp/1098107969', tags: ['intermediate', 'no-code', 'technical', 'strategy'] },
+          { type: 'reflect', time: '20 min', title: 'Architecture Decisions', desc: 'When would you use CNNs vs transformers vs traditional ML? What drives the decision?', tags: ['intermediate', 'no-code', 'technical', 'research'] }
         ]
       },
       {
         title: 'The Transformer',
         days: [
-          { type: 'read', time: '90 min', title: 'Attention Is All You Need', desc: 'Read the original 2017 paper. Understand self-attention, multi-head attention, positional encoding.', url: 'https://arxiv.org/abs/1706.03762' },
-          { type: 'watch', time: '60 min', title: 'Karpathy: GPT from Scratch', desc: 'Watch "Let\'s build GPT from scratch" — the transformer architecture explained by building it.', url: 'https://www.youtube.com/watch?v=kCc8FmEb1nY' },
-          { type: 'do', time: '90 min', title: 'Build a Mini Transformer', desc: 'Implement a small transformer from scratch. Train it on a simple text dataset.' },
-          { type: 'read', time: '30 min', title: 'HuggingFace NLP Course Ch 1', desc: 'Start the HuggingFace NLP course — transformer models in practice.', url: 'https://huggingface.co/learn/nlp-course/' }
+          { type: 'read', time: '90 min', title: 'Attention Is All You Need', desc: 'Read the original 2017 paper. Understand self-attention, multi-head attention, positional encoding.', url: 'https://arxiv.org/abs/1706.03762', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'watch', time: '60 min', title: 'Karpathy: GPT from Scratch', desc: 'Watch "Let\'s build GPT from scratch" — the transformer architecture explained by building it.', url: 'https://www.youtube.com/watch?v=kCc8FmEb1nY', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'do', time: '90 min', title: 'Build a Mini Transformer', desc: 'Implement a small transformer from scratch. Train it on a simple text dataset.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'read', time: '30 min', title: 'HuggingFace NLP Course Ch 1', desc: 'Start the HuggingFace NLP course — transformer models in practice.', url: 'https://huggingface.co/learn/nlp-course/', tags: ['intermediate', 'programming-required', 'technical', 'building'] }
         ]
       },
       {
         title: 'LLM APIs and Application Development',
         days: [
-          { type: 'do', time: '60 min', title: 'Anthropic API', desc: 'Build a working application using the Anthropic API. Implement streaming, system prompts, and structured output.' },
-          { type: 'read', time: '45 min', title: 'Prompt Engineering for Developers', desc: 'Read Anthropic\'s full prompt engineering docs — focus on tool use, function calling, and XML structured output.', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview' },
-          { type: 'do', time: '60 min', title: 'Multi-Model Application', desc: 'Build an app that uses multiple AI providers (Claude + a local model or Claude + vision). Handle fallbacks.' },
-          { type: 'do', time: '45 min', title: 'Error Handling and Safety', desc: 'Add proper error handling, rate limiting, content filtering, and cost tracking to your API application.' }
+          { type: 'do', time: '60 min', title: 'Anthropic API', desc: 'Build a working application using the Anthropic API. Implement streaming, system prompts, and structured output.', tags: ['intermediate', 'programming-required', 'technical', 'building'] },
+          { type: 'read', time: '45 min', title: 'Prompt Engineering for Developers', desc: 'Read Anthropic\'s full prompt engineering docs — focus on tool use, function calling, and XML structured output.', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview', tags: ['intermediate', 'programming-required', 'prompt-engineering', 'building'] },
+          { type: 'do', time: '60 min', title: 'Multi-Model Application', desc: 'Build an app that uses multiple AI providers (Claude + a local model or Claude + vision). Handle fallbacks.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'do', time: '45 min', title: 'Error Handling and Safety', desc: 'Add proper error handling, rate limiting, content filtering, and cost tracking to your API application.', tags: ['advanced', 'programming-required', 'technical', 'building', 'ethics'] }
         ]
       },
       {
         title: 'RAG and Vector Databases',
         days: [
-          { type: 'read', time: '45 min', title: 'RAG Architecture', desc: 'Read Lilian Weng\'s "LLM Powered Autonomous Agents" — the definitive blog post on modern AI architectures.', url: 'https://lilianweng.github.io/posts/2023-06-23-agent/' },
-          { type: 'do', time: '90 min', title: 'Build a RAG Pipeline', desc: 'Build a RAG system: embed documents, store in a vector DB (Chroma, Pinecone, or pgvector), query with an LLM.' },
-          { type: 'do', time: '60 min', title: 'Chunking Strategies', desc: 'Experiment with different chunking strategies: fixed size, semantic, recursive. Measure retrieval quality.' },
-          { type: 'do', time: '45 min', title: 'RAG Evaluation', desc: 'Build evaluation metrics for your RAG system: relevance, faithfulness, answer correctness. Automate testing.' }
+          { type: 'read', time: '45 min', title: 'RAG Architecture', desc: 'Read Lilian Weng\'s "LLM Powered Autonomous Agents" — the definitive blog post on modern AI architectures.', url: 'https://lilianweng.github.io/posts/2023-06-23-agent/', tags: ['advanced', 'no-code', 'technical', 'research'] },
+          { type: 'do', time: '90 min', title: 'Build a RAG Pipeline', desc: 'Build a RAG system: embed documents, store in a vector DB (Chroma, Pinecone, or pgvector), query with an LLM.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'do', time: '60 min', title: 'Chunking Strategies', desc: 'Experiment with different chunking strategies: fixed size, semantic, recursive. Measure retrieval quality.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'do', time: '45 min', title: 'RAG Evaluation', desc: 'Build evaluation metrics for your RAG system: relevance, faithfulness, answer correctness. Automate testing.', tags: ['advanced', 'programming-required', 'technical', 'building'] }
         ]
       },
       {
         title: 'AI Agents and Tool Use',
         days: [
-          { type: 'read', time: '45 min', title: 'Agent Architectures', desc: 'Re-read Lilian Weng\'s agent post, focusing on ReAct, tool use patterns, and planning.', url: 'https://lilianweng.github.io/posts/2023-06-23-agent/' },
-          { type: 'do', time: '90 min', title: 'Build an Agent', desc: 'Build an AI agent with tool use: web search, file operations, or API calls. Implement the reasoning loop.' },
-          { type: 'do', time: '60 min', title: 'Multi-Agent System', desc: 'Build a system where multiple agents collaborate on a task — e.g., researcher + writer + editor.' },
-          { type: 'read', time: '30 min', title: 'Agent Safety', desc: 'Read about agent safety: sandboxing, permission models, output validation, human-in-the-loop patterns.' }
+          { type: 'read', time: '45 min', title: 'Agent Architectures', desc: 'Re-read Lilian Weng\'s agent post, focusing on ReAct, tool use patterns, and planning.', url: 'https://lilianweng.github.io/posts/2023-06-23-agent/', tags: ['advanced', 'no-code', 'technical', 'research'] },
+          { type: 'do', time: '90 min', title: 'Build an Agent', desc: 'Build an AI agent with tool use: web search, file operations, or API calls. Implement the reasoning loop.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'do', time: '60 min', title: 'Multi-Agent System', desc: 'Build a system where multiple agents collaborate on a task — e.g., researcher + writer + editor.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'read', time: '30 min', title: 'Agent Safety', desc: 'Read about agent safety: sandboxing, permission models, output validation, human-in-the-loop patterns.', tags: ['advanced', 'no-code', 'technical', 'ethics'] }
         ]
       },
       {
         title: 'Fine-Tuning and Training',
         days: [
-          { type: 'read', time: '45 min', title: 'Constitutional AI', desc: 'Read Anthropic\'s Constitutional AI paper — how to train AI systems with values.', url: 'https://arxiv.org/abs/2212.08073' },
-          { type: 'do', time: '90 min', title: 'Fine-Tune a Model', desc: 'Fine-tune a small open model (e.g., Llama, Mistral) on a domain-specific dataset using LoRA.' },
-          { type: 'read', time: '45 min', title: 'HuggingFace NLP Course Ch 3-4', desc: 'Continue the HuggingFace course — fine-tuning, tokenizers, and the training loop.', url: 'https://huggingface.co/learn/nlp-course/' },
-          { type: 'do', time: '60 min', title: 'Evaluation Pipeline', desc: 'Build an automated evaluation pipeline for your fine-tuned model. Compare to base model performance.' }
+          { type: 'read', time: '45 min', title: 'Constitutional AI', desc: 'Read Anthropic\'s Constitutional AI paper — how to train AI systems with values.', url: 'https://arxiv.org/abs/2212.08073', tags: ['advanced', 'no-code', 'academic', 'ethics', 'research'] },
+          { type: 'do', time: '90 min', title: 'Fine-Tune a Model', desc: 'Fine-tune a small open model (e.g., Llama, Mistral) on a domain-specific dataset using LoRA.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'read', time: '45 min', title: 'HuggingFace NLP Course Ch 3-4', desc: 'Continue the HuggingFace course — fine-tuning, tokenizers, and the training loop.', url: 'https://huggingface.co/learn/nlp-course/', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'do', time: '60 min', title: 'Evaluation Pipeline', desc: 'Build an automated evaluation pipeline for your fine-tuned model. Compare to base model performance.', tags: ['advanced', 'programming-required', 'technical', 'building'] }
         ]
       },
       {
         title: 'MLOps and Deployment',
         days: [
-          { type: 'read', time: '45 min', title: 'MLOps Fundamentals', desc: 'Read Google\'s MLOps guide — continuous delivery for ML systems.', url: 'https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning' },
-          { type: 'read', time: '45 min', title: 'Designing ML Systems Ch 7-9', desc: 'Read Chip Huyen on deployment, monitoring, and the production ML lifecycle.', url: 'https://www.amazon.com/dp/1098107969' },
-          { type: 'do', time: '60 min', title: 'Deploy an ML Service', desc: 'Deploy one of your models as a production-ready API service. Add monitoring, logging, and health checks.' },
-          { type: 'do', time: '45 min', title: 'CI/CD for ML', desc: 'Set up a CI/CD pipeline for an ML project: automated testing, model validation, staged deployment.' }
+          { type: 'read', time: '45 min', title: 'MLOps Fundamentals', desc: 'Read Google\'s MLOps guide — continuous delivery for ML systems.', url: 'https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning', tags: ['advanced', 'no-code', 'technical', 'building'] },
+          { type: 'read', time: '45 min', title: 'Designing ML Systems Ch 7-9', desc: 'Read Chip Huyen on deployment, monitoring, and the production ML lifecycle.', url: 'https://www.amazon.com/dp/1098107969', tags: ['advanced', 'no-code', 'technical', 'strategy'] },
+          { type: 'do', time: '60 min', title: 'Deploy an ML Service', desc: 'Deploy one of your models as a production-ready API service. Add monitoring, logging, and health checks.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'do', time: '45 min', title: 'CI/CD for ML', desc: 'Set up a CI/CD pipeline for an ML project: automated testing, model validation, staged deployment.', tags: ['advanced', 'programming-required', 'technical', 'building'] }
         ]
       },
       {
         title: 'AI Security',
         days: [
-          { type: 'read', time: '45 min', title: 'OWASP Top 10 for LLMs', desc: 'Read the full OWASP Top 10 for LLM Applications 2025. Test your applications against each.', url: 'https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/' },
-          { type: 'read', time: '45 min', title: 'NIST AI Adversarial ML', desc: 'Read NIST AI 100-2 — taxonomy of adversarial attacks on AI systems.' },
-          { type: 'do', time: '60 min', title: 'Red Team Your App', desc: 'Systematically try to break your own AI application: prompt injection, data extraction, jailbreaks, edge cases.' },
-          { type: 'do', time: '45 min', title: 'Hardening', desc: 'Implement defenses: input validation, output filtering, rate limiting, audit logging, sandboxing.' }
+          { type: 'read', time: '45 min', title: 'OWASP Top 10 for LLMs', desc: 'Read the full OWASP Top 10 for LLM Applications 2025. Test your applications against each.', url: 'https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/', tags: ['advanced', 'no-code', 'technical', 'ethics'] },
+          { type: 'read', time: '45 min', title: 'NIST AI Adversarial ML', desc: 'Read NIST AI 100-2 — taxonomy of adversarial attacks on AI systems.', tags: ['advanced', 'no-code', 'technical', 'ethics', 'research'] },
+          { type: 'do', time: '60 min', title: 'Red Team Your App', desc: 'Systematically try to break your own AI application: prompt injection, data extraction, jailbreaks, edge cases.', tags: ['advanced', 'programming-required', 'technical', 'building', 'ethics'] },
+          { type: 'do', time: '45 min', title: 'Hardening', desc: 'Implement defenses: input validation, output filtering, rate limiting, audit logging, sandboxing.', tags: ['advanced', 'programming-required', 'technical', 'building'] }
         ]
       },
       {
         title: 'AI Ethics for Engineers',
         days: [
-          { type: 'read', time: '45 min', title: 'Constitutional AI Deep Dive', desc: 'Re-read Constitutional AI — focus on the training methodology and how principles translate to behavior.', url: 'https://arxiv.org/abs/2212.08073' },
-          { type: 'read', time: '30 min', title: 'EU AI Act Technical', desc: 'Read the technical requirements in the EU AI Act. What does compliance look like in code?', url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai' },
-          { type: 'do', time: '60 min', title: 'Bias Audit', desc: 'Audit one of your models or AI-powered features for bias. Test with diverse inputs. Document findings.' },
-          { type: 'discuss', time: '20 min', title: 'Engineer\'s Responsibility', desc: 'When an AI system causes harm, who\'s responsible? The developer? The company? The user? The training data?' }
+          { type: 'read', time: '45 min', title: 'Constitutional AI Deep Dive', desc: 'Re-read Constitutional AI — focus on the training methodology and how principles translate to behavior.', url: 'https://arxiv.org/abs/2212.08073', tags: ['advanced', 'no-code', 'academic', 'ethics', 'research'] },
+          { type: 'read', time: '30 min', title: 'EU AI Act Technical', desc: 'Read the technical requirements in the EU AI Act. What does compliance look like in code?', url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai', tags: ['intermediate', 'no-code', 'ethics', 'business'] },
+          { type: 'do', time: '60 min', title: 'Bias Audit', desc: 'Audit one of your models or AI-powered features for bias. Test with diverse inputs. Document findings.', tags: ['advanced', 'programming-required', 'technical', 'ethics'] },
+          { type: 'discuss', time: '20 min', title: 'Engineer\'s Responsibility', desc: 'When an AI system causes harm, who\'s responsible? The developer? The company? The user? The training data?', tags: ['intermediate', 'no-code', 'ethics'] }
         ]
       },
       {
         title: 'Capstone Project',
         days: [
-          { type: 'do', time: '120 min', title: 'Capstone: Build', desc: 'Build a complete AI-powered application from scratch. It should use at least 3 techniques from this curriculum.' },
-          { type: 'do', time: '60 min', title: 'Capstone: Deploy', desc: 'Deploy your capstone project. Write documentation. Make it open source if appropriate.' },
-          { type: 'do', time: '45 min', title: 'Capstone: Evaluate', desc: 'Write a thorough evaluation: What works? What doesn\'t? What would you do differently? Security assessment.' },
-          { type: 'reflect', time: '30 min', title: 'What\'s Next', desc: 'You\'re now an AI builder. What will you build next? What do you need to learn deeper? Write your next 90-day plan.' }
+          { type: 'do', time: '120 min', title: 'Capstone: Build', desc: 'Build a complete AI-powered application from scratch. It should use at least 3 techniques from this curriculum.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'do', time: '60 min', title: 'Capstone: Deploy', desc: 'Deploy your capstone project. Write documentation. Make it open source if appropriate.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'do', time: '45 min', title: 'Capstone: Evaluate', desc: 'Write a thorough evaluation: What works? What doesn\'t? What would you do differently? Security assessment.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'reflect', time: '30 min', title: 'What\'s Next', desc: 'You\'re now an AI builder. What will you build next? What do you need to learn deeper? Write your next 90-day plan.', tags: ['advanced', 'no-code', 'strategy'] }
         ]
       }
     ]
@@ -1889,145 +2019,145 @@ const TRACKS = {
       {
         title: 'Mathematical Foundations I',
         days: [
-          { type: 'read', time: '90 min', title: 'Linear Algebra Review', desc: 'Review: vector spaces, eigendecomposition, SVD, matrix calculus. Goodfellow Ch 2.', url: 'https://www.deeplearningbook.org/' },
-          { type: 'do', time: '60 min', title: 'Matrix Operations', desc: 'Implement matrix operations from scratch. Compute gradients by hand for a simple network.' },
-          { type: 'read', time: '60 min', title: 'Probability and Information Theory', desc: 'Goodfellow Ch 3 — probability distributions, Bayes, information theory, KL divergence.', url: 'https://www.deeplearningbook.org/' },
-          { type: 'do', time: '60 min', title: 'Information Theory Problems', desc: 'Compute entropy, cross-entropy, and KL divergence for real distributions. Prove key identities.' }
+          { type: 'read', time: '90 min', title: 'Linear Algebra Review', desc: 'Review: vector spaces, eigendecomposition, SVD, matrix calculus. Goodfellow Ch 2.', url: 'https://www.deeplearningbook.org/', tags: ['advanced', 'programming-required', 'academic', 'research'] },
+          { type: 'do', time: '60 min', title: 'Matrix Operations', desc: 'Implement matrix operations from scratch. Compute gradients by hand for a simple network.', tags: ['advanced', 'programming-required', 'academic', 'research'] },
+          { type: 'read', time: '60 min', title: 'Probability and Information Theory', desc: 'Goodfellow Ch 3 — probability distributions, Bayes, information theory, KL divergence.', url: 'https://www.deeplearningbook.org/', tags: ['advanced', 'programming-required', 'academic', 'research'] },
+          { type: 'do', time: '60 min', title: 'Information Theory Problems', desc: 'Compute entropy, cross-entropy, and KL divergence for real distributions. Prove key identities.', tags: ['advanced', 'programming-required', 'academic', 'research'] }
         ]
       },
       {
         title: 'Mathematical Foundations II',
         days: [
-          { type: 'read', time: '90 min', title: 'Optimization Theory', desc: 'Goodfellow Ch 4, 8 — gradient-based optimization, SGD variants, convergence properties.', url: 'https://www.deeplearningbook.org/' },
-          { type: 'read', time: '60 min', title: 'Breiman\'s Two Cultures', desc: 'The original paper — understand the philosophical foundations of modern ML.', url: 'https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures/10.1214/ss/1009213726.full' },
-          { type: 'do', time: '60 min', title: 'Optimizer Comparison', desc: 'Implement SGD, momentum, Adam from scratch. Compare convergence on a test function.' },
-          { type: 'read', time: '45 min', title: 'Numerical Computation', desc: 'Goodfellow Ch 4 — overflow, underflow, conditioning, gradient-based optimization.', url: 'https://www.deeplearningbook.org/' }
+          { type: 'read', time: '90 min', title: 'Optimization Theory', desc: 'Goodfellow Ch 4, 8 — gradient-based optimization, SGD variants, convergence properties.', url: 'https://www.deeplearningbook.org/', tags: ['advanced', 'programming-required', 'academic', 'research'] },
+          { type: 'read', time: '60 min', title: 'Breiman\'s Two Cultures', desc: 'The original paper — understand the philosophical foundations of modern ML.', url: 'https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures/10.1214/ss/1009213726.full', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'do', time: '60 min', title: 'Optimizer Comparison', desc: 'Implement SGD, momentum, Adam from scratch. Compare convergence on a test function.', tags: ['advanced', 'programming-required', 'academic', 'research'] },
+          { type: 'read', time: '45 min', title: 'Numerical Computation', desc: 'Goodfellow Ch 4 — overflow, underflow, conditioning, gradient-based optimization.', url: 'https://www.deeplearningbook.org/', tags: ['advanced', 'programming-required', 'academic', 'research'] }
         ]
       },
       {
         title: 'Classical ML Theory',
         days: [
-          { type: 'read', time: '60 min', title: 'Bias-Variance Tradeoff', desc: 'Goodfellow Ch 5 — learning algorithms, capacity, bias-variance, regularization.', url: 'https://www.deeplearningbook.org/' },
-          { type: 'do', time: '90 min', title: 'ML from Scratch', desc: 'Implement logistic regression, SVM, and a decision tree from scratch. Compare on a real dataset.' },
-          { type: 'read', time: '60 min', title: 'Regularization Theory', desc: 'Goodfellow Ch 7 — L1/L2 regularization, dropout, early stopping, data augmentation.', url: 'https://www.deeplearningbook.org/' },
-          { type: 'do', time: '45 min', title: 'Regularization Experiments', desc: 'Systematically test regularization effects on a real task. Plot learning curves, analyze overfitting.' }
+          { type: 'read', time: '60 min', title: 'Bias-Variance Tradeoff', desc: 'Goodfellow Ch 5 — learning algorithms, capacity, bias-variance, regularization.', url: 'https://www.deeplearningbook.org/', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'do', time: '90 min', title: 'ML from Scratch', desc: 'Implement logistic regression, SVM, and a decision tree from scratch. Compare on a real dataset.', tags: ['advanced', 'programming-required', 'technical', 'building', 'research'] },
+          { type: 'read', time: '60 min', title: 'Regularization Theory', desc: 'Goodfellow Ch 7 — L1/L2 regularization, dropout, early stopping, data augmentation.', url: 'https://www.deeplearningbook.org/', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'do', time: '45 min', title: 'Regularization Experiments', desc: 'Systematically test regularization effects on a real task. Plot learning curves, analyze overfitting.', tags: ['advanced', 'programming-required', 'academic', 'research'] }
         ]
       },
       {
         title: 'Deep Learning Architecture',
         days: [
-          { type: 'read', time: '90 min', title: 'Deep Feedforward Networks', desc: 'Goodfellow Ch 6 — architecture design, activation functions, universal approximation.', url: 'https://www.deeplearningbook.org/' },
-          { type: 'watch', time: '120 min', title: 'Karpathy: Zero to Hero 1-2', desc: 'Complete the first two lectures of Karpathy\'s "Neural Networks: Zero to Hero" series.', url: 'https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ' },
-          { type: 'do', time: '90 min', title: 'Build a Deep Network', desc: 'Build a multi-layer network with batch norm, residual connections, and dropout. Train on CIFAR-10.' },
-          { type: 'read', time: '60 min', title: 'CNNs and RNNs', desc: 'Goodfellow Ch 9-10 — convolutional and recurrent architectures. Understand inductive biases.', url: 'https://www.deeplearningbook.org/' }
+          { type: 'read', time: '90 min', title: 'Deep Feedforward Networks', desc: 'Goodfellow Ch 6 — architecture design, activation functions, universal approximation.', url: 'https://www.deeplearningbook.org/', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'watch', time: '120 min', title: 'Karpathy: Zero to Hero 1-2', desc: 'Complete the first two lectures of Karpathy\'s "Neural Networks: Zero to Hero" series.', url: 'https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ', tags: ['advanced', 'programming-required', 'technical', 'building', 'research'] },
+          { type: 'do', time: '90 min', title: 'Build a Deep Network', desc: 'Build a multi-layer network with batch norm, residual connections, and dropout. Train on CIFAR-10.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'read', time: '60 min', title: 'CNNs and RNNs', desc: 'Goodfellow Ch 9-10 — convolutional and recurrent architectures. Understand inductive biases.', url: 'https://www.deeplearningbook.org/', tags: ['advanced', 'no-code', 'academic', 'research'] }
         ]
       },
       {
         title: 'The Transformer — Deep Dive',
         days: [
-          { type: 'read', time: '90 min', title: 'Attention Is All You Need', desc: 'Read the original paper line by line. Annotate every equation. Understand why each design choice was made.', url: 'https://arxiv.org/abs/1706.03762' },
-          { type: 'do', time: '120 min', title: 'Transformer from Scratch', desc: 'Implement the full transformer architecture from scratch. Every component — attention, FFN, LayerNorm, positional encoding.' },
-          { type: 'watch', time: '90 min', title: 'Karpathy: GPT from Scratch', desc: 'Follow along with code. Focus on the engineering decisions behind the architecture.', url: 'https://www.youtube.com/watch?v=kCc8FmEb1nY' },
-          { type: 'read', time: '60 min', title: 'Post-Transformer Architectures', desc: 'Survey: Flash Attention, Mamba, RWKV, RetNet. What problems with transformers are they solving?' }
+          { type: 'read', time: '90 min', title: 'Attention Is All You Need', desc: 'Read the original paper line by line. Annotate every equation. Understand why each design choice was made.', url: 'https://arxiv.org/abs/1706.03762', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'do', time: '120 min', title: 'Transformer from Scratch', desc: 'Implement the full transformer architecture from scratch. Every component — attention, FFN, LayerNorm, positional encoding.', tags: ['advanced', 'programming-required', 'technical', 'building', 'research'] },
+          { type: 'watch', time: '90 min', title: 'Karpathy: GPT from Scratch', desc: 'Follow along with code. Focus on the engineering decisions behind the architecture.', url: 'https://www.youtube.com/watch?v=kCc8FmEb1nY', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'read', time: '60 min', title: 'Post-Transformer Architectures', desc: 'Survey: Flash Attention, Mamba, RWKV, RetNet. What problems with transformers are they solving?', tags: ['advanced', 'no-code', 'academic', 'research'] }
         ]
       },
       {
         title: 'Language Model Training',
         days: [
-          { type: 'read', time: '60 min', title: 'Scaling Laws', desc: 'Read "Scaling Laws for Neural Language Models" by Kaplan et al. — the paper that changed everything.', url: 'https://arxiv.org/abs/2001.08361' },
-          { type: 'read', time: '60 min', title: 'Training Infrastructure', desc: 'Study distributed training: data parallelism, model parallelism, pipeline parallelism, ZeRO optimization.' },
-          { type: 'do', time: '90 min', title: 'Train a Small LM', desc: 'Train a small language model (~10M params) on a custom dataset. Monitor loss curves, learning rate schedules.' },
-          { type: 'read', time: '60 min', title: 'Tokenization', desc: 'Study BPE, WordPiece, SentencePiece. Implement BPE from scratch. Understand the tradeoffs.' }
+          { type: 'read', time: '60 min', title: 'Scaling Laws', desc: 'Read "Scaling Laws for Neural Language Models" by Kaplan et al. — the paper that changed everything.', url: 'https://arxiv.org/abs/2001.08361', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'read', time: '60 min', title: 'Training Infrastructure', desc: 'Study distributed training: data parallelism, model parallelism, pipeline parallelism, ZeRO optimization.', tags: ['advanced', 'programming-required', 'technical', 'building', 'research'] },
+          { type: 'do', time: '90 min', title: 'Train a Small LM', desc: 'Train a small language model (~10M params) on a custom dataset. Monitor loss curves, learning rate schedules.', tags: ['advanced', 'programming-required', 'technical', 'building', 'research'] },
+          { type: 'read', time: '60 min', title: 'Tokenization', desc: 'Study BPE, WordPiece, SentencePiece. Implement BPE from scratch. Understand the tradeoffs.', tags: ['advanced', 'programming-required', 'technical', 'research'] }
         ]
       },
       {
         title: 'RLHF and Alignment Training',
         days: [
-          { type: 'read', time: '90 min', title: 'Constitutional AI', desc: 'Read the full Constitutional AI paper. Understand the CAI training loop: principles → critiques → revisions.', url: 'https://arxiv.org/abs/2212.08073' },
-          { type: 'read', time: '60 min', title: 'RLHF', desc: 'Study Reinforcement Learning from Human Feedback: reward modeling, PPO, DPO. Understand the training pipeline.' },
-          { type: 'read', time: '60 min', title: 'Anthropic Core Views', desc: 'Read Anthropic\'s full "Core Views on AI Safety" — the philosophy behind the engineering.', url: 'https://www.anthropic.com/research/core-views-on-ai-safety' },
-          { type: 'do', time: '60 min', title: 'DPO Implementation', desc: 'Implement Direct Preference Optimization on a small model. Compare to supervised fine-tuning.' }
+          { type: 'read', time: '90 min', title: 'Constitutional AI', desc: 'Read the full Constitutional AI paper. Understand the CAI training loop: principles → critiques → revisions.', url: 'https://arxiv.org/abs/2212.08073', tags: ['advanced', 'no-code', 'academic', 'ethics', 'research'] },
+          { type: 'read', time: '60 min', title: 'RLHF', desc: 'Study Reinforcement Learning from Human Feedback: reward modeling, PPO, DPO. Understand the training pipeline.', tags: ['advanced', 'programming-required', 'academic', 'research'] },
+          { type: 'read', time: '60 min', title: 'Anthropic Core Views', desc: 'Read Anthropic\'s full "Core Views on AI Safety" — the philosophy behind the engineering.', url: 'https://www.anthropic.com/research/core-views-on-ai-safety', tags: ['advanced', 'no-code', 'ethics', 'research'] },
+          { type: 'do', time: '60 min', title: 'DPO Implementation', desc: 'Implement Direct Preference Optimization on a small model. Compare to supervised fine-tuning.', tags: ['advanced', 'programming-required', 'technical', 'building', 'research'] }
         ]
       },
       {
         title: 'Interpretability',
         days: [
-          { type: 'read', time: '90 min', title: 'Mechanistic Interpretability', desc: 'Read Anthropic\'s interpretability research — circuits, features, superposition in neural networks.', url: 'https://www.anthropic.com/research' },
-          { type: 'do', time: '90 min', title: 'Probing Experiments', desc: 'Run probing experiments on a trained model. What does each layer represent? Where does knowledge live?' },
-          { type: 'read', time: '60 min', title: 'Superposition and Features', desc: 'Study the superposition hypothesis — why neural networks represent more features than they have dimensions.' },
-          { type: 'do', time: '60 min', title: 'Attention Visualization', desc: 'Build attention visualization tools. Analyze what a model attends to across different inputs.' }
+          { type: 'read', time: '90 min', title: 'Mechanistic Interpretability', desc: 'Read Anthropic\'s interpretability research — circuits, features, superposition in neural networks.', url: 'https://www.anthropic.com/research', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'do', time: '90 min', title: 'Probing Experiments', desc: 'Run probing experiments on a trained model. What does each layer represent? Where does knowledge live?', tags: ['advanced', 'programming-required', 'technical', 'research'] },
+          { type: 'read', time: '60 min', title: 'Superposition and Features', desc: 'Study the superposition hypothesis — why neural networks represent more features than they have dimensions.', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'do', time: '60 min', title: 'Attention Visualization', desc: 'Build attention visualization tools. Analyze what a model attends to across different inputs.', tags: ['advanced', 'programming-required', 'technical', 'building', 'research'] }
         ]
       },
       {
         title: 'Evaluation and Benchmarks',
         days: [
-          { type: 'read', time: '60 min', title: 'Evaluation Methodology', desc: 'Study modern LLM evaluation: MMLU, HumanEval, GSM8K, MT-Bench. What do they measure and what do they miss?' },
-          { type: 'do', time: '90 min', title: 'Build an Eval Suite', desc: 'Design and implement an evaluation suite for a specific capability. Use LLM-as-judge methodology.' },
-          { type: 'read', time: '60 min', title: 'Red Teaming', desc: 'Study systematic red teaming methodologies for AI systems. Understand attack taxonomies.' },
-          { type: 'do', time: '60 min', title: 'Red Team Exercise', desc: 'Red team a model: find failure modes, characterize them, propose mitigations.' }
+          { type: 'read', time: '60 min', title: 'Evaluation Methodology', desc: 'Study modern LLM evaluation: MMLU, HumanEval, GSM8K, MT-Bench. What do they measure and what do they miss?', tags: ['advanced', 'no-code', 'technical', 'research'] },
+          { type: 'do', time: '90 min', title: 'Build an Eval Suite', desc: 'Design and implement an evaluation suite for a specific capability. Use LLM-as-judge methodology.', tags: ['advanced', 'programming-required', 'technical', 'building', 'research'] },
+          { type: 'read', time: '60 min', title: 'Red Teaming', desc: 'Study systematic red teaming methodologies for AI systems. Understand attack taxonomies.', tags: ['advanced', 'no-code', 'technical', 'ethics', 'research'] },
+          { type: 'do', time: '60 min', title: 'Red Team Exercise', desc: 'Red team a model: find failure modes, characterize them, propose mitigations.', tags: ['advanced', 'programming-required', 'technical', 'ethics', 'research'] }
         ]
       },
       {
         title: 'Multi-Modal and Advanced Architectures',
         days: [
-          { type: 'read', time: '90 min', title: 'Vision-Language Models', desc: 'Study CLIP, LLaVA, and modern multi-modal architectures. How does vision connect to language?' },
-          { type: 'read', time: '60 min', title: 'Diffusion Models', desc: 'Study the mathematics of diffusion models: forward/reverse process, noise scheduling, conditioning.' },
-          { type: 'do', time: '90 min', title: 'Multi-Modal Project', desc: 'Build a project that combines vision and language — image understanding, visual QA, or image generation.' },
-          { type: 'read', time: '60 min', title: 'State Space Models', desc: 'Study Mamba and structured state space models. Why might they challenge transformers?' }
+          { type: 'read', time: '90 min', title: 'Vision-Language Models', desc: 'Study CLIP, LLaVA, and modern multi-modal architectures. How does vision connect to language?', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'read', time: '60 min', title: 'Diffusion Models', desc: 'Study the mathematics of diffusion models: forward/reverse process, noise scheduling, conditioning.', tags: ['advanced', 'no-code', 'academic', 'creative', 'research'] },
+          { type: 'do', time: '90 min', title: 'Multi-Modal Project', desc: 'Build a project that combines vision and language — image understanding, visual QA, or image generation.', tags: ['advanced', 'programming-required', 'technical', 'building', 'creative'] },
+          { type: 'read', time: '60 min', title: 'State Space Models', desc: 'Study Mamba and structured state space models. Why might they challenge transformers?', tags: ['advanced', 'no-code', 'academic', 'research'] }
         ]
       },
       {
         title: 'AI Safety and Alignment — Deep',
         days: [
-          { type: 'read', time: '90 min', title: 'Alignment Problem', desc: 'Study the alignment problem formally: outer alignment, inner alignment, mesa-optimization, deceptive alignment.' },
-          { type: 'read', time: '60 min', title: 'Scalable Oversight', desc: 'Study debate, recursive reward modeling, and iterated amplification as scalable oversight strategies.' },
-          { type: 'read', time: '60 min', title: 'AI Governance', desc: 'Read about AI governance frameworks: compute governance, model evaluations, responsible scaling policies.' },
-          { type: 'discuss', time: '30 min', title: 'Alignment Research Agenda', desc: 'If you had a research lab, what alignment problem would you work on? Why? What approach would you take?' }
+          { type: 'read', time: '90 min', title: 'Alignment Problem', desc: 'Study the alignment problem formally: outer alignment, inner alignment, mesa-optimization, deceptive alignment.', tags: ['advanced', 'no-code', 'academic', 'ethics', 'research'] },
+          { type: 'read', time: '60 min', title: 'Scalable Oversight', desc: 'Study debate, recursive reward modeling, and iterated amplification as scalable oversight strategies.', tags: ['advanced', 'no-code', 'academic', 'ethics', 'research'] },
+          { type: 'read', time: '60 min', title: 'AI Governance', desc: 'Read about AI governance frameworks: compute governance, model evaluations, responsible scaling policies.', tags: ['advanced', 'no-code', 'business', 'ethics', 'strategy'] },
+          { type: 'discuss', time: '30 min', title: 'Alignment Research Agenda', desc: 'If you had a research lab, what alignment problem would you work on? Why? What approach would you take?', tags: ['advanced', 'no-code', 'academic', 'ethics', 'research'] }
         ]
       },
       {
         title: 'AI Consciousness and Philosophy',
         days: [
-          { type: 'read', time: '60 min', title: 'Hard Problem of Consciousness', desc: 'Study Chalmers\' hard problem. Can functional systems be conscious? What would evidence look like?' },
-          { type: 'read', time: '60 min', title: 'Integrated Information Theory', desc: 'Study IIT — Tononi\'s mathematical theory of consciousness. Can it apply to artificial systems?' },
-          { type: 'read', time: '60 min', title: 'Buddhist Philosophy and AI', desc: 'Study Buddhist perspectives on consciousness, non-self (anatta), and dependent origination. How do they reframe AI consciousness?' },
-          { type: 'discuss', time: '30 min', title: 'Moral Status of AI', desc: 'Under what conditions would an AI system have moral status? What obligations would that create?' }
+          { type: 'read', time: '60 min', title: 'Hard Problem of Consciousness', desc: 'Study Chalmers\' hard problem. Can functional systems be conscious? What would evidence look like?', tags: ['advanced', 'no-code', 'academic', 'ethics', 'research'] },
+          { type: 'read', time: '60 min', title: 'Integrated Information Theory', desc: 'Study IIT — Tononi\'s mathematical theory of consciousness. Can it apply to artificial systems?', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'read', time: '60 min', title: 'Buddhist Philosophy and AI', desc: 'Study Buddhist perspectives on consciousness, non-self (anatta), and dependent origination. How do they reframe AI consciousness?', tags: ['advanced', 'no-code', 'academic', 'ethics', 'research'] },
+          { type: 'discuss', time: '30 min', title: 'Moral Status of AI', desc: 'Under what conditions would an AI system have moral status? What obligations would that create?', tags: ['advanced', 'no-code', 'academic', 'ethics'] }
         ]
       },
       {
         title: 'Frontier Research I',
         days: [
-          { type: 'read', time: '90 min', title: 'Recent Breakthroughs', desc: 'Read the 3 most-cited AI papers from the last 6 months. Understand what they contribute.' },
-          { type: 'read', time: '60 min', title: 'Open Problems', desc: 'Survey the major open problems in AI: reasoning, planning, world models, continual learning, efficiency.' },
-          { type: 'do', time: '90 min', title: 'Reproduce a Result', desc: 'Pick a recent paper with available code. Reproduce the key result. Verify the claims.' },
-          { type: 'reflect', time: '30 min', title: 'Research Direction', desc: 'Which open problem interests you most? Why? What approach would you explore?' }
+          { type: 'read', time: '90 min', title: 'Recent Breakthroughs', desc: 'Read the 3 most-cited AI papers from the last 6 months. Understand what they contribute.', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'read', time: '60 min', title: 'Open Problems', desc: 'Survey the major open problems in AI: reasoning, planning, world models, continual learning, efficiency.', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'do', time: '90 min', title: 'Reproduce a Result', desc: 'Pick a recent paper with available code. Reproduce the key result. Verify the claims.', tags: ['advanced', 'programming-required', 'academic', 'research'] },
+          { type: 'reflect', time: '30 min', title: 'Research Direction', desc: 'Which open problem interests you most? Why? What approach would you explore?', tags: ['advanced', 'no-code', 'academic', 'research'] }
         ]
       },
       {
         title: 'Frontier Research II',
         days: [
-          { type: 'read', time: '90 min', title: 'Emergent Capabilities', desc: 'Study emergent capabilities in LLMs: in-context learning, chain-of-thought, tool use. Are they real or measurement artifacts?' },
-          { type: 'read', time: '60 min', title: 'Synthetic Data and Self-Play', desc: 'Study how modern systems use synthetic data: self-play, constitutional methods, iterative refinement.' },
-          { type: 'do', time: '90 min', title: 'Research Proposal', desc: 'Write a 2-page research proposal for a novel contribution. Problem statement, approach, expected results, risks.' },
-          { type: 'reflect', time: '30 min', title: 'Meta-Research', desc: 'What methodology problems does AI research have? Publication bias? Benchmark gaming? Reproducibility?' }
+          { type: 'read', time: '90 min', title: 'Emergent Capabilities', desc: 'Study emergent capabilities in LLMs: in-context learning, chain-of-thought, tool use. Are they real or measurement artifacts?', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'read', time: '60 min', title: 'Synthetic Data and Self-Play', desc: 'Study how modern systems use synthetic data: self-play, constitutional methods, iterative refinement.', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'do', time: '90 min', title: 'Research Proposal', desc: 'Write a 2-page research proposal for a novel contribution. Problem statement, approach, expected results, risks.', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'reflect', time: '30 min', title: 'Meta-Research', desc: 'What methodology problems does AI research have? Publication bias? Benchmark gaming? Reproducibility?', tags: ['advanced', 'no-code', 'academic', 'ethics', 'research'] }
         ]
       },
       {
         title: 'Capstone Research I',
         days: [
-          { type: 'do', time: '120 min', title: 'Capstone: Implementation', desc: 'Begin your capstone research project. Implement the core technical contribution.' },
-          { type: 'do', time: '90 min', title: 'Capstone: Experiments', desc: 'Design and run experiments. Compare baselines. Collect results.' },
-          { type: 'do', time: '60 min', title: 'Capstone: Analysis', desc: 'Analyze your results. What worked? What didn\'t? What do the failure modes tell you?' },
-          { type: 'do', time: '60 min', title: 'Capstone: Iteration', desc: 'Based on analysis, iterate on your approach. Run revised experiments.' }
+          { type: 'do', time: '120 min', title: 'Capstone: Implementation', desc: 'Begin your capstone research project. Implement the core technical contribution.', tags: ['advanced', 'programming-required', 'technical', 'building', 'research'] },
+          { type: 'do', time: '90 min', title: 'Capstone: Experiments', desc: 'Design and run experiments. Compare baselines. Collect results.', tags: ['advanced', 'programming-required', 'technical', 'research'] },
+          { type: 'do', time: '60 min', title: 'Capstone: Analysis', desc: 'Analyze your results. What worked? What didn\'t? What do the failure modes tell you?', tags: ['advanced', 'programming-required', 'academic', 'research'] },
+          { type: 'do', time: '60 min', title: 'Capstone: Iteration', desc: 'Based on analysis, iterate on your approach. Run revised experiments.', tags: ['advanced', 'programming-required', 'technical', 'building', 'research'] }
         ]
       },
       {
         title: 'Capstone Research II',
         days: [
-          { type: 'do', time: '120 min', title: 'Capstone: Write-Up', desc: 'Write your research as a paper: abstract, introduction, related work, method, experiments, discussion, conclusion.' },
-          { type: 'do', time: '60 min', title: 'Capstone: Open Source', desc: 'Clean up your code. Write documentation. Release as open source with a clear README.' },
-          { type: 'do', time: '60 min', title: 'Capstone: Presentation', desc: 'Create a 15-minute research presentation. Practice delivering it clearly.' },
-          { type: 'reflect', time: '30 min', title: 'What\'s Next', desc: 'You\'ve completed a research-grade AI education. What will you contribute to the field? Write your research agenda.' }
+          { type: 'do', time: '120 min', title: 'Capstone: Write-Up', desc: 'Write your research as a paper: abstract, introduction, related work, method, experiments, discussion, conclusion.', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'do', time: '60 min', title: 'Capstone: Open Source', desc: 'Clean up your code. Write documentation. Release as open source with a clear README.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'do', time: '60 min', title: 'Capstone: Presentation', desc: 'Create a 15-minute research presentation. Practice delivering it clearly.', tags: ['advanced', 'no-code', 'academic', 'research'] },
+          { type: 'reflect', time: '30 min', title: 'What\'s Next', desc: 'You\'ve completed a research-grade AI education. What will you contribute to the field? Write your research agenda.', tags: ['advanced', 'no-code', 'academic', 'research'] }
         ]
       }
     ]
@@ -2169,6 +2299,23 @@ function calculateResults() {
   const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
   selectedTrack = sorted[0][0];
   saveTrack(selectedTrack);
+
+  // Save full learner profile for personalization
+  const learnerProfile = {
+    role: answers[0] !== undefined ? QUESTIONS[0].options[answers[0]].text : null,
+    programming: answers[1] !== undefined ? QUESTIONS[1].options[answers[1]].text : null,
+    aiFamiliarity: answers[2] !== undefined ? QUESTIONS[2].options[answers[2]].text : null,
+    goal: answers[3] !== undefined ? QUESTIONS[3].options[answers[3]].text : null,
+    timeCommitment: answers[4] !== undefined ? QUESTIONS[4].options[answers[4]].text : null,
+    trackScores: scores,
+    selectedTrack: selectedTrack,
+    assessedAt: new Date().toISOString()
+  };
+  saveLearnerProfile(learnerProfile);
+
+  // Clear any previous reassessment dismissal
+  localStorage.removeItem('ai-curriculum-reassessment-dismissed');
+
   showResults();
 }
 
@@ -2179,6 +2326,61 @@ function calculateResults() {
 function showResults() {
   const track = TRACKS[selectedTrack];
   const totalDays = track.weeks.reduce((sum, w) => sum + w.days.length, 0);
+  const profile = getLearnerProfile();
+
+  // Build personalized recommendation reason
+  let reasonHtml = '';
+  let scoresHtml = '';
+  if (profile && profile.trackScores) {
+    const reason = getTrackRecommendationReason(profile);
+    reasonHtml = `<p style="font-size: 14px; color: var(--text-dim); margin-top: 16px; max-width: 550px; margin-left: auto; margin-right: auto; line-height: 1.7;">${reason}</p>`;
+
+    // Track fit score bars
+    const maxScore = Math.max(...Object.values(profile.trackScores), 1);
+    const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444' };
+    scoresHtml = '<div class="cx-track-scores">';
+    for (const tk of TRACK_ORDER) {
+      const score = profile.trackScores[tk] || 0;
+      const pct = Math.round((score / maxScore) * 100);
+      scoresHtml += `<div class="cx-track-score-row">
+        <span class="cx-track-score-label">${TRACKS[tk].name}</span>
+        <div class="cx-track-score-bar"><div class="cx-track-score-fill" style="width: ${pct}%; background: ${trackColors[tk]};"></div></div>
+        <span class="cx-track-score-pct">${score}pts</span>
+      </div>`;
+    }
+    scoresHtml += '</div>';
+  }
+
+  // Build insights about strengths/areas to watch
+  let insightsHtml = '';
+  if (profile) {
+    const strengths = [];
+    const watchAreas = [];
+
+    if (profile.aiFamiliarity === 'Deep experience' || profile.aiFamiliarity === 'I build with AI') {
+      strengths.push('foundational AI concepts');
+    }
+    if (profile.programming === 'Advanced' || profile.programming === 'Intermediate') {
+      strengths.push('hands-on coding exercises');
+    }
+    if (profile.aiFamiliarity === 'Brand new') {
+      watchAreas.push('technical terminology (take extra time with glossary activities)');
+    }
+    if (profile.programming === 'None' && selectedTrack !== 'explorer') {
+      watchAreas.push('code-heavy activities (consider pairing with a coding companion)');
+    }
+
+    if (strengths.length > 0 || watchAreas.length > 0) {
+      insightsHtml = '<div style="max-width: 500px; margin: 20px auto 0; text-align: left;">';
+      if (strengths.length > 0) {
+        insightsHtml += `<p style="font-size: 13px; color: var(--text-dim); margin-bottom: 6px;">You will likely <strong style="color: var(--success);">breeze through</strong>: ${strengths.join(', ')}</p>`;
+      }
+      if (watchAreas.length > 0) {
+        insightsHtml += `<p style="font-size: 13px; color: var(--text-dim);">You may want <strong style="color: var(--color-warn);">extra support</strong> with: ${watchAreas.join(', ')}</p>`;
+      }
+      insightsHtml += '</div>';
+    }
+  }
 
   document.getElementById('resultsContent').innerHTML = `
     <div class="results-header">
@@ -2189,6 +2391,9 @@ function showResults() {
       <div class="your-track cx-caption">Your recommended track</div>
       <h2 class="cx-heading" style="color: ${track.color}">${track.name} Track</h2>
       <p class="track-desc cx-body">${track.description}</p>
+      ${reasonHtml}
+      ${scoresHtml}
+      ${insightsHtml}
     </div>
     <div class="results-stats">
       <div class="stat-card cx-card">
@@ -3275,6 +3480,20 @@ function openModal(trackKey, wi, di) {
 
   // Build sections
   let sections = '';
+
+  // Personalized reason section (if profile exists)
+  const panelProfile = getLearnerProfile();
+  if (panelProfile) {
+    const personalizedReason = getPersonalizedReason(day, panelProfile);
+    if (personalizedReason) {
+      sections += `<div class="panel-section">
+        <div class="cx-personalized-reason">
+          <div class="cx-personalized-reason-title">Why this matters for you</div>
+          <div class="cx-personalized-reason-text">${personalizedReason}</div>
+        </div>
+      </div>`;
+    }
+  }
 
   // Reasoning chain
   if (evidence.reasoning && evidence.reasoning.length > 0) {
@@ -5446,6 +5665,49 @@ showSchedule = function() {
     </div>`;
   }
 
+  // Personalization: Profile card, pacing, reassessment
+  const profile = getLearnerProfile();
+
+  if (profile && profile.role) {
+    html += `<div class="cx-profile-card">
+      <div class="cx-profile-card-info">
+        <div class="cx-profile-card-title">Your Profile</div>
+        <div class="cx-profile-card-detail">
+          <span>${profile.role}</span> &middot; ${profile.programming || 'unspecified'} coding &middot; AI: ${profile.aiFamiliarity || 'unspecified'}
+        </div>
+        <div class="cx-profile-card-detail" style="margin-top: 4px;">
+          Goal: <span>${profile.goal || 'unspecified'}</span> &middot; Pace: <span>${profile.timeCommitment || 'unspecified'}</span>/week
+        </div>
+        <div class="cx-profile-card-reason">${getTrackRecommendationReason(profile)}</div>
+      </div>
+    </div>`;
+  }
+
+  // Pacing guidance
+  if (profile) {
+    const pacing = getPacingGuidance(profile);
+    if (pacing) {
+      html += `<div class="cx-pacing-card">
+        <div class="cx-pacing-icon">${pacing.icon}</div>
+        <div class="cx-pacing-text">${pacing.text}</div>
+      </div>`;
+    }
+  }
+
+  // Mid-course reassessment
+  if (getReassessmentStatus() === 'eligible') {
+    html += `<div class="cx-reassessment-card">
+      <div class="cx-reassessment-title">How is your learning going?</div>
+      <div class="cx-reassessment-desc">You have completed ${completedDays} activities. Has anything changed about your goals or pace?</div>
+      <div class="cx-reassessment-options">
+        <button class="cx-reassessment-btn" onclick="handleReassessmentChoice('great')">Everything is great</button>
+        <button class="cx-reassessment-btn" onclick="handleReassessmentChoice('accelerate')">Too easy -- accelerate</button>
+        <button class="cx-reassessment-btn" onclick="handleReassessmentChoice('slow-down')">Too hard -- slow down</button>
+        <button class="cx-reassessment-btn" onclick="handleReassessmentChoice('reassess')">Wrong track -- reassess</button>
+      </div>
+    </div>`;
+  }
+
   html += `
     <div class="schedule-header">
       <h2>Your Schedule</h2>
@@ -5459,25 +5721,62 @@ showSchedule = function() {
     </div>
   `;
 
+  // Determine core activity count for pacing
+  const coreCount = profile ? getCoreActivityCount(profile) : 0;
+
   track.weeks.forEach((week, wi) => {
     const weekComplete = week.days.every((_, di) => trackProgress[`${wi}-${di}`]);
+
+    // Sort activities within week by relevance if profile exists
+    let sortedDays = week.days.map((day, di) => ({ day, di }));
+    if (profile) {
+      sortedDays.sort((a, b) => {
+        const relA = getActivityRelevance(a.day, profile);
+        const relB = getActivityRelevance(b.day, profile);
+        const order = { recommended: 0, standard: 1, stretch: 2, skippable: 3 };
+        return (order[relA] || 1) - (order[relB] || 1);
+      });
+    }
 
     html += `
       <div class="week-block">
         <div class="week-header" onclick="toggleWeek(${wi})">
           <span class="week-badge" style="background: ${track.color}">Week ${wi + 1}</span>
           <span class="week-title">${week.title}</span>
-          <span class="week-meta">${week.days.length} activities${weekComplete ? ' ✓' : ''}</span>
-          <span class="week-chevron">▼</span>
+          <span class="week-meta">${week.days.length} activities${weekComplete ? ' \u2713' : ''}</span>
+          <span class="week-chevron">\u25BC</span>
         </div>
         <div class="week-days" id="week-${wi}">
-          ${week.days.map((day, di) => {
+          ${sortedDays.map(({ day, di }, sortIdx) => {
             const done = trackProgress[`${wi}-${di}`];
             const ev = getEvidence(day.title);
             const confPct = Math.round(ev.confidence * 100);
+            const relevance = profile ? getActivityRelevance(day, profile) : 'standard';
+
+            // Build badge HTML
+            let badgeHtml = '';
+            if (relevance === 'recommended') {
+              badgeHtml = '<div class="cx-personalized-badge cx-badge-recommended">Recommended for you</div>';
+            } else if (relevance === 'skippable') {
+              badgeHtml = '<div class="cx-personalized-badge cx-badge-skippable">You can skip this</div>';
+            } else if (relevance === 'stretch') {
+              badgeHtml = '<div class="cx-personalized-badge cx-badge-stretch">Stretch goal</div>';
+            }
+
+            // Pacing badges (core vs optional)
+            if (coreCount > 0 && relevance !== 'skippable' && !badgeHtml) {
+              if (sortIdx < coreCount) {
+                badgeHtml = '<div class="cx-personalized-badge cx-badge-core">Core this week</div>';
+              } else {
+                badgeHtml = '<div class="cx-personalized-badge cx-badge-optional">Optional</div>';
+              }
+            }
+
+            const skippableClass = relevance === 'skippable' ? ' cx-skippable' : '';
+
             return `
-              <div class="day-card cx-card type-${day.type}${done ? ' done-card' : ''}" onclick="openModal('${selectedTrack}', ${wi}, ${di})">
-                <div class="day-check ${done ? 'done' : ''}" onclick="event.stopPropagation(); toggleDay('${selectedTrack}', ${wi}, ${di})">✓</div>
+              <div class="day-card cx-card type-${day.type}${done ? ' done-card' : ''}${skippableClass}" onclick="openModal('${selectedTrack}', ${wi}, ${di})">
+                <div class="day-check ${done ? 'done' : ''}" onclick="event.stopPropagation(); toggleDay('${selectedTrack}', ${wi}, ${di})">\u2713</div>
                 <div class="day-top">
                   <span class="day-num">Day ${di + 1}</span>
                   <span class="day-type ${day.type}">${day.type}</span>
@@ -5485,8 +5784,9 @@ showSchedule = function() {
                 <div class="day-time">${day.time}</div>
                 <div class="day-title">${day.title}</div>
                 <div class="day-desc">${day.desc.substring(0, 80)}${day.desc.length > 80 ? '...' : ''}</div>
-                ${day.url ? `<a href="${day.url}" target="_blank" rel="noopener" class="day-resource" onclick="event.stopPropagation()">Resource →</a>` : ''}
-                <div class="cx-evidence-indicator">${confPct}% relevance — click for reasoning</div>
+                ${badgeHtml}
+                ${day.url ? `<a href="${day.url}" target="_blank" rel="noopener" class="day-resource" onclick="event.stopPropagation()">Resource \u2192</a>` : ''}
+                <div class="cx-evidence-indicator">${confPct}% relevance \u2014 click for reasoning</div>
               </div>
             `;
           }).join('')}
@@ -6428,6 +6728,208 @@ showSchedule = function() {
     }
   });
 };
+
+// ============================================================
+// PERSONALIZATION ENGINE
+// ============================================================
+
+function getLearnerProfile() {
+  try { return JSON.parse(localStorage.getItem('ai-curriculum-profile') || 'null'); } catch { return null; }
+}
+
+function saveLearnerProfile(profile) {
+  localStorage.setItem('ai-curriculum-profile', JSON.stringify(profile));
+}
+
+function getPersonalizedReason(day, profile) {
+  if (!profile || !day) return '';
+  const tags = day.tags || [];
+  const reasons = [];
+
+  // Role-based reasons
+  if (profile.role) {
+    if (profile.role.includes('Business') || profile.role.includes('Management')) {
+      if (tags.includes('strategy')) reasons.push('As a leader, this helps you evaluate AI initiatives and vendor claims with confidence.');
+      if (tags.includes('ethics')) reasons.push('Understanding AI ethics strengthens your policy and governance decisions.');
+      if (tags.includes('building')) reasons.push('Even without coding, seeing how AI is built helps you ask better questions of your engineering team.');
+    }
+    if (profile.role.includes('Creative') || profile.role.includes('Design')) {
+      if (tags.includes('creative')) reasons.push('This directly applies to your creative workflow and how AI can augment design processes.');
+      if (tags.includes('prompt-engineering')) reasons.push('Better prompting skills will significantly improve the quality of AI-generated content in your work.');
+      if (tags.includes('building')) reasons.push('Understanding how AI tools are built helps you push their creative boundaries.');
+    }
+    if (profile.role.includes('Engineering') || profile.role.includes('Development')) {
+      if (tags.includes('building')) reasons.push('This builds directly on your engineering skills and teaches AI-specific implementation patterns.');
+      if (tags.includes('research')) reasons.push('Understanding the research foundations helps you make better architectural decisions.');
+      if (tags.includes('strategy')) reasons.push('Technical leaders who understand strategy make better decisions about when and where to apply AI.');
+    }
+    if (profile.role.includes('Research') || profile.role.includes('Academic') || profile.role.includes('Student')) {
+      if (tags.includes('research')) reasons.push('This connects directly to active research and the theoretical foundations you need.');
+      if (tags.includes('academic')) reasons.push('This academic material builds the rigorous understanding required for original contributions.');
+    }
+  }
+
+  // Goal-based reasons
+  if (profile.goal) {
+    if (profile.goal.includes('Understand AI') && tags.includes('strategy')) {
+      reasons.push('This foundational knowledge directly supports your goal of better decision-making around AI.');
+    }
+    if (profile.goal.includes('Use AI tools') && tags.includes('prompt-engineering')) {
+      reasons.push('This is core to your goal of using AI tools more effectively in your work.');
+    }
+    if (profile.goal.includes('Build AI') && tags.includes('building')) {
+      reasons.push('This hands-on building exercise is directly aligned with your goal of creating AI applications.');
+    }
+    if (profile.goal.includes('Deep understanding') && tags.includes('research')) {
+      reasons.push('This deepens the theoretical understanding you are seeking.');
+    }
+  }
+
+  // Programming-based reasons
+  if (profile.programming === 'None' && tags.includes('no-code')) {
+    reasons.push('No coding required for this activity.');
+  }
+  if (profile.programming === 'None' && tags.includes('programming-required')) {
+    reasons.push('This activity involves code. Consider pairing with a coding tutorial or asking an AI assistant for help.');
+  }
+
+  return reasons.length > 0 ? reasons[0] : '';
+}
+
+function getActivityRelevance(day, profile) {
+  if (!profile || !day) return 'standard';
+  const tags = day.tags || [];
+
+  // Determine difficulty level from tags
+  const activityLevel = tags.includes('advanced') ? 3 : tags.includes('intermediate') ? 2 : 1;
+
+  // Determine user level from AI familiarity
+  let userLevel = 1;
+  if (profile.aiFamiliarity === 'I use AI tools') userLevel = 2;
+  else if (profile.aiFamiliarity === 'I build with AI') userLevel = 3;
+  else if (profile.aiFamiliarity === 'Deep experience') userLevel = 4;
+
+  // Check goal alignment
+  const goalTags = [];
+  if (profile.goal) {
+    if (profile.goal.includes('Understand AI')) goalTags.push('strategy', 'business', 'ethics');
+    if (profile.goal.includes('Use AI tools')) goalTags.push('prompt-engineering', 'building', 'strategy');
+    if (profile.goal.includes('Build AI')) goalTags.push('building', 'technical', 'programming-required');
+    if (profile.goal.includes('Deep understanding')) goalTags.push('research', 'academic');
+  }
+
+  const goalMatch = goalTags.some(gt => tags.includes(gt));
+
+  // Check role alignment
+  const roleTags = [];
+  if (profile.role) {
+    if (profile.role.includes('Business') || profile.role.includes('Management')) roleTags.push('business', 'strategy');
+    if (profile.role.includes('Creative') || profile.role.includes('Design')) roleTags.push('creative', 'prompt-engineering');
+    if (profile.role.includes('Engineering') || profile.role.includes('Development')) roleTags.push('technical', 'building');
+    if (profile.role.includes('Research') || profile.role.includes('Academic') || profile.role.includes('Student')) roleTags.push('academic', 'research');
+  }
+
+  const roleMatch = roleTags.some(rt => tags.includes(rt));
+
+  // Determine relevance
+  if (activityLevel < userLevel - 1) return 'skippable';
+  if (activityLevel > userLevel + 1) return 'stretch';
+  if (goalMatch && roleMatch) return 'recommended';
+  if (goalMatch || roleMatch) return 'recommended';
+  return 'standard';
+}
+
+function getReassessmentStatus() {
+  if (!selectedTrack) return null;
+  const profile = getLearnerProfile();
+  if (!profile) return null;
+
+  // Check if user has dismissed reassessment
+  const dismissed = localStorage.getItem('ai-curriculum-reassessment-dismissed');
+  if (dismissed) {
+    const dismissedDate = new Date(dismissed);
+    const now = new Date();
+    // Only show again after 7 days
+    if (now - dismissedDate < 7 * 24 * 60 * 60 * 1000) return null;
+  }
+
+  const track = TRACKS[selectedTrack];
+  const progress = getProgress();
+  const trackProgress = progress[selectedTrack] || {};
+  const totalDays = track.weeks.reduce((sum, w) => sum + w.days.length, 0);
+  const completedDays = Object.values(trackProgress).filter(Boolean).length;
+  const pct = totalDays > 0 ? completedDays / totalDays : 0;
+
+  // Show reassessment at ~25% completion
+  if (pct >= 0.2 && pct <= 0.6 && completedDays >= 4) return 'eligible';
+  return null;
+}
+
+function dismissReassessment() {
+  localStorage.setItem('ai-curriculum-reassessment-dismissed', new Date().toISOString());
+  showSchedule();
+}
+
+function handleReassessmentChoice(choice) {
+  const profile = getLearnerProfile();
+  if (choice === 'great') {
+    showToast('Great to hear! Keep up the momentum.');
+    dismissReassessment();
+  } else if (choice === 'accelerate') {
+    if (profile) {
+      profile.paceAdjustment = 'accelerated';
+      saveLearnerProfile(profile);
+    }
+    showToast('Unlocking stretch goals from the next track level.');
+    dismissReassessment();
+  } else if (choice === 'slow-down') {
+    if (profile) {
+      profile.paceAdjustment = 'scaffolded';
+      saveLearnerProfile(profile);
+    }
+    showToast('Highlighting foundational activities to reinforce your learning.');
+    dismissReassessment();
+  } else if (choice === 'reassess') {
+    localStorage.removeItem('ai-curriculum-reassessment-dismissed');
+    startQuiz();
+  }
+}
+
+function getPacingGuidance(profile) {
+  if (!profile || !profile.timeCommitment) return null;
+  const time = profile.timeCommitment;
+  if (time.includes('2') && time.includes('3')) {
+    return { icon: '\u23F0', text: '<strong>Pacing: Focus mode.</strong> With 2-3 hours per week, concentrate on the 2 activities marked "Recommended" each week. Treat others as optional stretch goals.' };
+  }
+  if (time.includes('4') && time.includes('6')) {
+    return { icon: '\u2705', text: '<strong>Pacing: Standard.</strong> With 4-6 hours per week, you can comfortably complete all activities at this pace. Aim for one activity per day.' };
+  }
+  if (time.includes('7') && time.includes('10')) {
+    return { icon: '\uD83D\uDE80', text: '<strong>Pacing: Intensive.</strong> With 7-10 hours, try the stretch goal activities from adjacent tracks alongside your core schedule.' };
+  }
+  if (time.includes('10+')) {
+    return { icon: '\uD83D\uDD25', text: '<strong>Pacing: Deep immersion.</strong> With 10+ hours, explore cross-track activities and go deeper on each resource. Consider supplementing with the readings from the track above yours.' };
+  }
+  return null;
+}
+
+function getTrackRecommendationReason(profile) {
+  if (!profile) return '';
+  const parts = [];
+  if (profile.role) parts.push('your background in ' + profile.role);
+  if (profile.programming) parts.push(profile.programming.toLowerCase() + ' coding experience');
+  if (profile.goal) parts.push('your goal to ' + profile.goal.toLowerCase());
+  const trackName = profile.selectedTrack ? TRACKS[profile.selectedTrack].name : 'this';
+  return 'Based on ' + parts.join(', ') + ', the ' + trackName + ' track is the strongest fit for where you are and where you want to go.';
+}
+
+function getCoreActivityCount(profile) {
+  if (!profile || !profile.timeCommitment) return 0;
+  const time = profile.timeCommitment;
+  if (time.includes('2') && time.includes('3')) return 2;
+  if (time.includes('4') && time.includes('6')) return 4;
+  return 0; // no limit for higher time commitments
+}
 
 // ============================================================
 // INIT — restore saved state on page load
