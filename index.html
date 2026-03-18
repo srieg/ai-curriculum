@@ -996,6 +996,201 @@
   .day-card.cx-skippable { opacity: 0.65; }
   .day-card.cx-skippable:hover { opacity: 0.85; }
 
+  /* ── KNOWLEDGE ASSESSMENT ─────────────────────────────────── */
+  .ka-container { max-width: 640px; margin: 0 auto; padding: 48px 24px; }
+
+  .ka-header { text-align: center; margin-bottom: 40px; }
+  .ka-header h2 {
+    font-family: var(--font-heading); font-size: 28px; font-weight: 800;
+    letter-spacing: -0.5px; margin-bottom: 8px;
+  }
+  .ka-header p { font-size: 15px; color: var(--text-dim); max-width: 500px; margin: 0 auto; line-height: 1.7; }
+
+  .ka-progress-bar {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 32px;
+  }
+  .ka-progress-track {
+    flex: 1; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden;
+  }
+  .ka-progress-fill {
+    height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 3px; transition: width 0.4s ease;
+  }
+  .ka-progress-text { font-size: 12px; font-weight: 700; color: var(--text-muted); white-space: nowrap; }
+
+  .ka-score-display {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 24px;
+    font-size: 13px; color: var(--text-dim);
+  }
+  .ka-score-correct { color: var(--success); font-weight: 700; }
+  .ka-score-incorrect { color: var(--accent4); font-weight: 700; }
+
+  .ka-category-label {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--accent2); margin-bottom: 12px;
+    padding: 3px 10px; border-radius: 100px;
+    background: rgba(129,140,248,0.1); border: 1px solid rgba(129,140,248,0.2);
+  }
+
+  .ka-question-text {
+    font-family: var(--font-heading); font-size: 22px; font-weight: 700;
+    letter-spacing: -0.3px; margin-bottom: 8px; line-height: 1.4;
+  }
+  .ka-question-hint {
+    font-size: 13px; color: var(--text-dim); margin-bottom: 20px; line-height: 1.5;
+  }
+
+  .ka-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .ka-option {
+    background: var(--surface); border: 2px solid var(--border);
+    border-radius: 10px; padding: 14px 18px; cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    text-align: left; font-size: 14px; font-weight: 500; line-height: 1.5;
+    position: relative;
+  }
+  .ka-option:hover { border-color: var(--accent); background: rgba(96,165,250,0.05); }
+  .ka-option.ka-selected { border-color: var(--accent); background: rgba(96,165,250,0.1); }
+  .ka-option.ka-correct {
+    border-color: var(--success); background: rgba(52,211,153,0.1);
+    pointer-events: none;
+  }
+  .ka-option.ka-incorrect {
+    border-color: var(--accent4); background: rgba(248,113,113,0.1);
+    pointer-events: none;
+  }
+  .ka-option.ka-disabled { pointer-events: none; opacity: 0.5; }
+  .ka-option .ka-option-indicator {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    font-size: 16px; font-weight: 700;
+  }
+
+  .ka-feedback {
+    padding: 14px 18px; border-radius: 10px; margin-bottom: 20px;
+    font-size: 13px; line-height: 1.6; display: none;
+  }
+  .ka-feedback.ka-feedback-correct {
+    display: block;
+    background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.25); color: var(--text);
+  }
+  .ka-feedback.ka-feedback-incorrect {
+    display: block;
+    background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.25); color: var(--text);
+  }
+  .ka-feedback strong { font-weight: 700; }
+  .ka-feedback .ka-feedback-label {
+    font-weight: 700; text-transform: uppercase; font-size: 11px;
+    letter-spacing: 0.06em; margin-bottom: 4px; display: block;
+  }
+  .ka-feedback-correct .ka-feedback-label { color: var(--success); }
+  .ka-feedback-incorrect .ka-feedback-label { color: var(--accent4); }
+
+  .ka-actions { display: flex; justify-content: space-between; align-items: center; }
+  .ka-skip-link {
+    font-size: 13px; color: var(--text-muted); cursor: pointer;
+    text-decoration: underline; background: none; border: none;
+    transition: color 0.15s;
+  }
+  .ka-skip-link:hover { color: var(--text-dim); }
+
+  /* Knowledge Profile Card */
+  .ka-profile { max-width: 600px; margin: 0 auto; padding: 48px 24px; }
+  .ka-profile-header { text-align: center; margin-bottom: 32px; }
+  .ka-profile-header h2 {
+    font-family: var(--font-heading); font-size: 32px; font-weight: 800;
+    letter-spacing: -0.5px; margin-bottom: 8px;
+  }
+
+  .ka-score-circle {
+    width: 120px; height: 120px; margin: 0 auto 16px;
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .ka-score-circle svg { position: absolute; top: 0; left: 0; transform: rotate(-90deg); }
+  .ka-score-circle .ka-score-value {
+    font-family: var(--font-heading); font-size: 36px; font-weight: 800;
+    color: var(--accent);
+  }
+  .ka-score-circle .ka-score-label {
+    font-size: 12px; color: var(--text-muted); text-transform: uppercase;
+    letter-spacing: 0.08em; position: absolute; bottom: -4px;
+  }
+
+  .ka-level-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 14px; font-weight: 700; padding: 6px 16px;
+    border-radius: 100px; margin-bottom: 16px;
+  }
+  .ka-level-novice { background: rgba(248,113,113,0.12); color: var(--accent4); border: 1px solid rgba(248,113,113,0.25); }
+  .ka-level-familiar { background: rgba(251,191,36,0.12); color: var(--color-warn); border: 1px solid rgba(251,191,36,0.25); }
+  .ka-level-competent { background: rgba(96,165,250,0.12); color: var(--accent); border: 1px solid rgba(96,165,250,0.25); }
+  .ka-level-advanced { background: rgba(52,211,153,0.12); color: var(--success); border: 1px solid rgba(52,211,153,0.25); }
+
+  .ka-categories { margin-bottom: 28px; }
+  .ka-cat-row {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+  }
+  .ka-cat-label {
+    font-size: 12px; font-weight: 600; width: 120px; text-align: right;
+    color: var(--text-dim); flex-shrink: 0;
+  }
+  .ka-cat-bar {
+    flex: 1; height: 10px; background: var(--surface2); border-radius: 5px; overflow: hidden;
+  }
+  .ka-cat-fill {
+    height: 100%; border-radius: 5px; transition: width 0.6s ease;
+  }
+  .ka-cat-score {
+    font-size: 11px; font-weight: 700; width: 36px; color: var(--text-muted);
+  }
+
+  .ka-insights {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px; margin-bottom: 28px; text-align: left;
+  }
+  .ka-insights-title {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 12px;
+  }
+  .ka-insight-item {
+    font-size: 13px; color: var(--text-dim); line-height: 1.6; margin-bottom: 8px;
+    padding-left: 16px; position: relative;
+  }
+  .ka-insight-item::before {
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 6px; height: 6px; border-radius: 50%;
+  }
+  .ka-insight-strong::before { background: var(--success); }
+  .ka-insight-focus::before { background: var(--color-warn); }
+
+  .ka-profile-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* Knowledge calibration badges in schedule */
+  .cx-badge-quickreview {
+    background: rgba(251,191,36,0.12); color: var(--color-warn); border: 1px solid rgba(251,191,36,0.25);
+  }
+  .cx-badge-youknow {
+    background: rgba(168,165,160,0.1); color: var(--text-muted); border: 1px solid rgba(168,165,160,0.2);
+  }
+  .cx-badge-starthere {
+    background: rgba(52,211,153,0.15); color: var(--success); border: 1px solid rgba(52,211,153,0.3);
+  }
+  .cx-badge-jumpto {
+    background: rgba(96,165,250,0.12); color: var(--accent); border: 1px solid rgba(96,165,250,0.25);
+  }
+
+  /* Light theme overrides for knowledge assessment */
+  [data-theme="light"] .ka-option:hover { background: rgba(59,130,246,0.04); }
+  [data-theme="light"] .ka-option.ka-selected { background: rgba(59,130,246,0.08); }
+  [data-theme="light"] .ka-option.ka-correct { background: rgba(16,185,129,0.08); }
+  [data-theme="light"] .ka-option.ka-incorrect { background: rgba(239,68,68,0.08); }
+  [data-theme="light"] .ka-feedback.ka-feedback-correct {
+    background: rgba(16,185,129,0.06); border-color: rgba(16,185,129,0.2);
+  }
+  [data-theme="light"] .ka-feedback.ka-feedback-incorrect {
+    background: rgba(239,68,68,0.06); border-color: rgba(239,68,68,0.2);
+  }
+  [data-theme="light"] .ka-insights { background: var(--surface2); }
+
   /* ── PRACTICE PROBLEMS ────────────────────────────────────── */
   .cx-practice-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.7);
@@ -1864,6 +2059,16 @@
   <div class="results" id="resultsContent"></div>
 </div>
 
+<!-- KNOWLEDGE ASSESSMENT -->
+<div id="knowledgeAssessment" class="section">
+  <div class="ka-container" id="kaContent"></div>
+</div>
+
+<!-- KNOWLEDGE RESULTS -->
+<div id="knowledgeResults" class="section">
+  <div class="ka-profile" id="kaResultsContent"></div>
+</div>
+
 <!-- SCHEDULE -->
 <div id="schedule" class="section">
   <div class="container" id="scheduleContent"></div>
@@ -2063,8 +2268,8 @@ const TRACKS = {
       {
         title: 'What AI Actually Is',
         days: [
-          { type: 'read', time: '30 min', title: 'AI Is Not What You Think', desc: 'Read the Stanford HAI AI Index 2024 executive summary. Note what surprised you.', url: 'https://aiindex.stanford.edu/report/', tags: ['beginner', 'no-code', 'business', 'strategy'] },
-          { type: 'watch', time: '25 min', title: 'AI in 2024: A Primer', desc: 'Watch "But what is a neural network?" by 3Blue1Brown — the clearest visual explanation available.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research'] },
+          { type: 'read', time: '30 min', title: 'AI Is Not What You Think', desc: 'Read the Stanford HAI AI Index executive summary (latest edition). Note what surprised you.', url: 'https://aiindex.stanford.edu/report/', tags: ['beginner', 'no-code', 'business', 'strategy'] },
+          { type: 'watch', time: '25 min', title: 'Neural Networks: A Visual Primer', desc: 'Watch "But what is a neural network?" by 3Blue1Brown — the clearest visual explanation available.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research'] },
           { type: 'read', time: '45 min', title: 'The AI Landscape', desc: 'Read the first two chapters of "Prediction Machines" by Agrawal, Gans & Goldfarb. AI as a prediction technology.', url: 'https://www.amazon.com/dp/1633695670', tags: ['beginner', 'no-code', 'business', 'strategy'] },
           { type: 'reflect', time: '15 min', title: 'Week 1 Reflection', desc: 'Write 3 sentences: What is AI good at? What is it bad at? What surprised you this week?', tags: ['beginner', 'no-code', 'strategy'] }
         ]
@@ -2753,8 +2958,16 @@ function showResults() {
         <div class="stat-label">Activities</div>
       </div>
     </div>
+    <div style="background: linear-gradient(135deg, rgba(129,140,248,0.08), rgba(96,165,250,0.08)); border: 1px solid rgba(129,140,248,0.2); border-radius: 12px; padding: 24px; margin-bottom: 20px; text-align: center;">
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent2); margin-bottom: 8px;">Calibrate Your Curriculum</div>
+      <p style="font-size: 14px; color: var(--text-dim); margin-bottom: 16px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.7;">Take a short knowledge assessment to fine-tune your learning path. We will test actual knowledge across AI fundamentals, programming, tools, and ethics to place you precisely.</p>
+      <button class="cx-btn cx-btn-primary btn btn-primary" onclick="startKnowledgeAssessment()">Validate Your Knowledge</button>
+      <div style="margin-top: 10px;">
+        <button class="ka-skip-link" onclick="showSchedule()">Skip -- use my self-assessment</button>
+      </div>
+    </div>
     <div class="results-actions">
-      <button class="cx-btn cx-btn-primary btn btn-primary" onclick="showSchedule()">View Your Schedule</button>
+      <button class="cx-btn cx-btn-secondary btn btn-secondary" onclick="showSchedule()">View Your Schedule</button>
       <button class="cx-btn cx-btn-secondary btn btn-secondary" onclick="showDeepDive('${selectedTrack}','results')">Deep Dive Guide</button>
       <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="startQuiz()">Retake Quiz</button>
     </div>
@@ -2980,10 +3193,10 @@ const EVIDENCE = {
       { type: 'evaluation', content: 'The HAI executive summary is the most data-dense, hype-free introduction to what AI actually does today. Ideal week-1 reality check.' },
       { type: 'decision', content: 'Placed first in Explorer because it calibrates expectations before deeper reading begins.' }
     ],
-    sources: [{ title: 'Stanford HAI', citation: 'AI Index Report 2024 Executive Summary' }],
+    sources: [{ title: 'Stanford HAI', citation: 'AI Index Report, latest edition' }],
     alternatives: [{ text: 'MIT Technology Review Annual Report', reason: 'More narrative, less quantitative; HAI is better for forming an evidence-based starting point' }]
   },
-  'AI in 2024': {
+  'Neural Networks: A Visual Primer': {
     confidence: 0.97,
     reasoning: [
       { type: 'evaluation', content: '3Blue1Brown\'s first neural network video is the gold standard for visual AI education. No prerequisites required.' },
@@ -3940,7 +4153,7 @@ const DEEP_DIVES = {
     ],
     readingOrder: [
       { title: 'Prediction Machines (Agrawal, Gans & Goldfarb)', rationale: 'The conceptual frame comes first. Once you understand AI as prediction technology, everything else clicks.' },
-      { title: 'Stanford HAI AI Index 2024', rationale: 'The data-driven reality check. Read after Prediction Machines to ground the theory in current capabilities.' },
+      { title: 'Stanford HAI AI Index (latest)', rationale: 'The data-driven reality check. Read after Prediction Machines to ground the theory in current capabilities.' },
       { title: '3Blue1Brown Neural Network Series', rationale: 'The one technical resource. Watch this before the ethics section so you understand what you\'re evaluating.' },
       { title: 'Anthropic Prompt Engineering Docs', rationale: 'Practical skill-building in week 3. Read this before the automation and tools weeks.' },
       { title: 'Google AI Principles + EU AI Act Overview', rationale: 'Ethics before strategy. You need the framework before you can make good organizational decisions.' },
@@ -3992,7 +4205,7 @@ const DEEP_DIVES = {
       { title: 'Human-AI Decision Making', desc: 'When to trust AI output and when to override it. How to use AI to sharpen your own judgment, not replace it.' }
     ],
     readingOrder: [
-      { title: 'Stanford HAI AI Index 2024', rationale: 'Calibrate your mental model of current capabilities before sharpening your skills against them.' },
+      { title: 'Stanford HAI AI Index (latest)', rationale: 'Calibrate your mental model of current capabilities before sharpening your skills against them.' },
       { title: 'Anthropic Prompt Engineering Docs (full)', rationale: 'The technical foundation for the first three weeks of hands-on practice. Read this as a reference manual, not a narrative.' },
       { title: 'Google\'s Rules of ML', rationale: 'Even as a non-engineer, this gives you the right mental model for how AI systems behave in production. Read before the automation unit.' },
       { title: 'Breiman\'s Two Cultures', rationale: 'The philosophical context for data literacy week. Why ML thinks differently from traditional statistics.' },
@@ -5537,6 +5750,7 @@ function renderProgressDashboard() {
         <h2 class="cx-heading">Progress Dashboard</h2>
       </div>
       <div class="prog-header-actions">
+        ${selectedTrack ? `<button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="startKnowledgeAssessment()">Retake Knowledge Assessment</button>` : ''}
         ${selectedTrack ? `<button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="toggleFocusMode(); showSchedule();">Focus Mode</button>` : ''}
         <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="exportProgress()">Export</button>
         <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="importProgress()">Import</button>
@@ -6027,6 +6241,30 @@ showSchedule = function() {
     </div>`;
   }
 
+  // Knowledge assessment profile card
+  const kaProfileForSchedule = getKnowledgeProfile();
+  if (kaProfileForSchedule) {
+    const kaLevelLabels = { novice: 'Novice', familiar: 'Familiar', competent: 'Competent', advanced: 'Advanced' };
+    const kaLevelColors = { novice: 'var(--accent4)', familiar: 'var(--color-warn)', competent: 'var(--accent)', advanced: 'var(--success)' };
+    const kaCatNames = { aiFundamentals: 'AI', programming: 'Code', aiTools: 'Tools', ethics: 'Ethics', advanced: 'Adv' };
+    let kaMiniBarHtml = '';
+    for (const [cat, score] of Object.entries(kaProfileForSchedule.categories)) {
+      if (score === null) continue;
+      kaMiniBarHtml += `<span style="font-size: 11px; color: var(--text-muted);">${kaCatNames[cat] || cat}: <strong style="color: var(--text-dim);">${score}%</strong></span>`;
+    }
+    const jumpWeek = kaProfileForSchedule.level === 'advanced' ? Math.min(4, track.weeks.length - 1) : kaProfileForSchedule.level === 'competent' ? Math.min(2, track.weeks.length - 1) : 0;
+    html += `<div class="cx-pacing-card" style="border-left: 3px solid ${kaLevelColors[kaProfileForSchedule.level]};">
+      <div style="flex: 1;">
+        <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 4px;">Knowledge Assessment</div>
+        <div style="font-size: 13px; color: var(--text-dim);">
+          Level: <strong style="color: ${kaLevelColors[kaProfileForSchedule.level]};">${kaLevelLabels[kaProfileForSchedule.level]}</strong> (${kaProfileForSchedule.overall}%)
+          <span style="margin-left: 8px;">${kaMiniBarHtml}</span>
+        </div>
+        ${jumpWeek > 0 ? `<div style="margin-top: 8px;"><button class="btn btn-ghost btn-small" onclick="document.getElementById('week-${jumpWeek}').scrollIntoView({behavior:'smooth',block:'center'});" style="font-size: 11px;">Jump to Week ${jumpWeek + 1}</button> <button class="btn btn-ghost btn-small" onclick="startKnowledgeAssessment()" style="font-size: 11px;">Retake</button></div>` : `<div style="margin-top: 8px;"><button class="btn btn-ghost btn-small" onclick="startKnowledgeAssessment()" style="font-size: 11px;">Retake Assessment</button></div>`}
+      </div>
+    </div>`;
+  }
+
   // Pacing guidance
   if (profile) {
     const pacing = getPacingGuidance(profile);
@@ -6041,12 +6279,13 @@ showSchedule = function() {
   // Mid-course reassessment
   if (getReassessmentStatus() === 'eligible') {
     html += `<div class="cx-reassessment-card">
-      <div class="cx-reassessment-title">How is your learning going?</div>
+      <div class="cx-reassessment-title">Your knowledge has grown! How is your learning going?</div>
       <div class="cx-reassessment-desc">You have completed ${completedDays} activities. Has anything changed about your goals or pace?</div>
       <div class="cx-reassessment-options">
         <button class="cx-reassessment-btn" onclick="handleReassessmentChoice('great')">Everything is great</button>
         <button class="cx-reassessment-btn" onclick="handleReassessmentChoice('accelerate')">Too easy -- accelerate</button>
         <button class="cx-reassessment-btn" onclick="handleReassessmentChoice('slow-down')">Too hard -- slow down</button>
+        <button class="cx-reassessment-btn" onclick="handleReassessmentChoice('knowledge-reassess')">Retake knowledge test</button>
         <button class="cx-reassessment-btn" onclick="handleReassessmentChoice('reassess')">Wrong track -- reassess</button>
       </div>
     </div>`;
@@ -6099,12 +6338,22 @@ showSchedule = function() {
 
             // Build badge HTML
             let badgeHtml = '';
-            if (relevance === 'recommended') {
-              badgeHtml = '<div class="cx-personalized-badge cx-badge-recommended">Recommended for you</div>';
-            } else if (relevance === 'skippable') {
-              badgeHtml = '<div class="cx-personalized-badge cx-badge-skippable">You can skip this</div>';
-            } else if (relevance === 'stretch') {
-              badgeHtml = '<div class="cx-personalized-badge cx-badge-stretch">Stretch goal</div>';
+            const kaProfile = getKnowledgeProfile();
+
+            // Knowledge-calibrated badges take priority when assessment is available
+            if (kaProfile && !done) {
+              const kaBadge = getKnowledgeBadge(day, wi, kaProfile);
+              if (kaBadge) badgeHtml = kaBadge;
+            }
+
+            if (!badgeHtml) {
+              if (relevance === 'recommended') {
+                badgeHtml = '<div class="cx-personalized-badge cx-badge-recommended">Recommended for you</div>';
+              } else if (relevance === 'skippable') {
+                badgeHtml = '<div class="cx-personalized-badge cx-badge-skippable">You can skip this</div>';
+              } else if (relevance === 'stretch') {
+                badgeHtml = '<div class="cx-personalized-badge cx-badge-stretch">Stretch goal</div>';
+              }
             }
 
             // Pacing badges (core vs optional)
@@ -7074,6 +7323,679 @@ showSchedule = function() {
 };
 
 // ============================================================
+// KNOWLEDGE ASSESSMENT — validates actual knowledge
+// ============================================================
+
+const KA_QUESTIONS = {
+  aiFundamentals: [
+    {
+      id: 'ai-f1', difficulty: 1, category: 'aiFundamentals',
+      question: 'What is the primary purpose of a loss function in machine learning?',
+      hint: 'Think about how a model knows whether its predictions are getting better or worse.',
+      options: [
+        'To measure how wrong the model\'s predictions are',
+        'To increase the size of the training dataset',
+        'To select which features to use as inputs',
+        'To speed up the training process'
+      ],
+      correct: 0,
+      explanation: 'A loss function (also called cost function) quantifies how far off a model\'s predictions are from the actual values. The training process tries to minimize this loss.'
+    },
+    {
+      id: 'ai-f2', difficulty: 1, category: 'aiFundamentals',
+      question: 'Which of these is NOT a type of machine learning?',
+      hint: 'Three of these are real ML paradigms. One is a general computing term.',
+      options: [
+        'Supervised learning',
+        'Unsupervised learning',
+        'Deterministic learning',
+        'Reinforcement learning'
+      ],
+      correct: 2,
+      explanation: 'Supervised, unsupervised, and reinforcement learning are the three main ML paradigms. "Deterministic learning" is not a recognized ML type -- deterministic algorithms produce the same output for the same input, which is the opposite of how ML models learn from data.'
+    },
+    {
+      id: 'ai-f3', difficulty: 2, category: 'aiFundamentals',
+      question: 'What does "overfitting" mean in machine learning?',
+      hint: 'It is a common problem that affects how well a model generalizes.',
+      options: [
+        'The model is too simple to capture patterns in the data',
+        'The model memorizes training data but fails on new data',
+        'The model takes too long to finish training',
+        'The model uses too many computing resources'
+      ],
+      correct: 1,
+      explanation: 'Overfitting occurs when a model learns the training data too well -- including noise and outliers -- and performs poorly on unseen data. It is like memorizing answers instead of understanding concepts.'
+    }
+  ],
+  programming: [
+    {
+      id: 'prog-1', difficulty: 1, category: 'programming',
+      question: 'What does this Python code output: print([x**2 for x in range(4)])?',
+      hint: 'range(4) produces 0, 1, 2, 3. The ** operator means "raised to the power of".',
+      options: [
+        '[1, 4, 9, 16]',
+        '[0, 1, 4, 9]',
+        '[0, 2, 4, 6]',
+        '[1, 2, 3, 4]'
+      ],
+      correct: 1,
+      explanation: 'range(4) generates [0, 1, 2, 3]. Squaring each: 0^2=0, 1^2=1, 2^2=4, 3^2=9. The result is [0, 1, 4, 9].'
+    },
+    {
+      id: 'prog-2', difficulty: 1, category: 'programming',
+      question: 'What is an API?',
+      hint: 'It is how different software systems talk to each other.',
+      options: [
+        'A type of programming language used for AI',
+        'A set of rules that lets different software communicate',
+        'An algorithm that processes images',
+        'A database used to store AI training data'
+      ],
+      correct: 1,
+      explanation: 'API stands for Application Programming Interface. It defines the rules and protocols for how different software components or services communicate with each other -- like a waiter taking orders between you and the kitchen.'
+    },
+    {
+      id: 'prog-3', difficulty: 2, category: 'programming',
+      question: 'Which of these is a valid JSON object?',
+      hint: 'JSON uses double quotes for strings and specific syntax for key-value pairs.',
+      options: [
+        '{name: "Alice", age: 30}',
+        '{"name": "Alice", "age": 30}',
+        "{'name': 'Alice', 'age': 30}",
+        '["name", "Alice", "age", 30]'
+      ],
+      correct: 1,
+      explanation: 'Valid JSON requires double quotes around both keys and string values. Single quotes and unquoted keys are not valid JSON, though some languages allow them in other contexts.'
+    }
+  ],
+  aiTools: [
+    {
+      id: 'tools-1', difficulty: 1, category: 'aiTools',
+      question: 'Which prompting technique gives the model examples before asking a question?',
+      hint: 'The name describes how many examples you provide.',
+      options: [
+        'Chain-of-thought prompting',
+        'Few-shot prompting',
+        'Zero-shot prompting',
+        'System prompting'
+      ],
+      correct: 1,
+      explanation: 'Few-shot prompting provides the model with a few examples of the desired input-output format before asking the actual question. This helps the model understand the pattern you want.'
+    },
+    {
+      id: 'tools-2', difficulty: 2, category: 'aiTools',
+      question: 'What is "temperature" in the context of language models?',
+      hint: 'It controls a specific characteristic of the model\'s output.',
+      options: [
+        'How fast the model processes your request',
+        'The amount of training data used',
+        'A parameter that controls randomness in output',
+        'The computational cost of running the model'
+      ],
+      correct: 2,
+      explanation: 'Temperature controls randomness in the model\'s output. Lower temperature (e.g., 0.0) makes output more deterministic and focused, while higher temperature (e.g., 1.0) makes it more creative and varied.'
+    },
+    {
+      id: 'tools-3', difficulty: 2, category: 'aiTools',
+      question: 'What is RAG (Retrieval-Augmented Generation)?',
+      hint: 'It combines two capabilities to improve AI output.',
+      options: [
+        'A technique to make models run faster on GPUs',
+        'A method that retrieves relevant documents to include as context for the model',
+        'A way to train models using reinforcement learning',
+        'A compression algorithm for reducing model size'
+      ],
+      correct: 1,
+      explanation: 'RAG combines information retrieval with text generation. It first searches a knowledge base for relevant documents, then provides them as context to the language model, helping it give more accurate and up-to-date answers.'
+    }
+  ],
+  ethics: [
+    {
+      id: 'eth-1', difficulty: 1, category: 'ethics',
+      question: 'What is "algorithmic bias"?',
+      hint: 'It relates to how AI systems can produce unfair outcomes.',
+      options: [
+        'When an algorithm runs slower on certain hardware',
+        'When AI systems produce systematically unfair outcomes for certain groups',
+        'When programmers intentionally make an algorithm favor certain results',
+        'When an AI model is trained on too much data'
+      ],
+      correct: 1,
+      explanation: 'Algorithmic bias occurs when an AI system produces systematically unfair outcomes that disproportionately affect certain groups. This often stems from biased training data or flawed design assumptions, not intentional malice.'
+    },
+    {
+      id: 'eth-2', difficulty: 2, category: 'ethics',
+      question: 'What does the EU AI Act primarily regulate?',
+      hint: 'It is the world\'s first comprehensive AI law, enacted by the European Union.',
+      options: [
+        'Which companies are allowed to build AI',
+        'The risk levels of AI systems and requirements based on risk',
+        'The maximum size of AI models',
+        'Whether AI can be used in entertainment'
+      ],
+      correct: 1,
+      explanation: 'The EU AI Act classifies AI systems by risk level (unacceptable, high, limited, minimal) and sets requirements proportional to risk. High-risk systems like those used in hiring or healthcare face strict transparency, testing, and oversight requirements.'
+    },
+    {
+      id: 'eth-3', difficulty: 1, category: 'ethics',
+      question: 'What is the primary risk of using AI-generated content without review?',
+      hint: 'AI models can be confidently wrong.',
+      options: [
+        'The content will always be too short',
+        'The content may contain fabricated facts presented as true (hallucination)',
+        'The content will be flagged by search engines',
+        'The content cannot be edited after generation'
+      ],
+      correct: 1,
+      explanation: 'AI hallucination -- generating false information presented confidently as fact -- is the primary risk. Models can fabricate citations, statistics, events, and technical details that sound plausible but are completely made up.'
+    }
+  ],
+  advanced: [
+    {
+      id: 'adv-1', difficulty: 3, category: 'advanced',
+      question: 'What is the difference between fine-tuning and prompt engineering?',
+      hint: 'One changes the model itself, the other changes how you talk to it.',
+      options: [
+        'Fine-tuning is cheaper; prompt engineering is more expensive',
+        'Fine-tuning updates model weights with new data; prompt engineering crafts better inputs without changing the model',
+        'Prompt engineering is more accurate; fine-tuning is just for speed',
+        'There is no difference; they are two names for the same process'
+      ],
+      correct: 1,
+      explanation: 'Fine-tuning actually modifies the model\'s parameters by training on additional data, permanently changing its behavior. Prompt engineering crafts the input text to guide the model\'s existing capabilities -- no model changes needed.'
+    },
+    {
+      id: 'adv-2', difficulty: 3, category: 'advanced',
+      question: 'What does the "attention mechanism" refer to in transformer models?',
+      hint: 'It is the key innovation from the "Attention Is All You Need" paper.',
+      options: [
+        'A filter that removes irrelevant training data',
+        'A mechanism that lets the model weigh the importance of different parts of the input relative to each other',
+        'A process that determines how much memory the model uses',
+        'A technique that monitors model performance during training'
+      ],
+      correct: 1,
+      explanation: 'Self-attention lets each token in the input attend to every other token, computing importance weights. This allows the model to capture long-range dependencies -- understanding how distant words relate to each other -- which was the breakthrough of the transformer architecture.'
+    },
+    {
+      id: 'adv-3', difficulty: 3, category: 'advanced',
+      question: 'What is RLHF and why is it used?',
+      hint: 'It is a training technique that involves human evaluators.',
+      options: [
+        'Recursive Learning from Historical Feedback -- training on past outputs',
+        'Reinforcement Learning from Human Feedback -- aligning model outputs with human preferences',
+        'Rapid Learning with High Fidelity -- speeding up training',
+        'Reduced Latency for Hosted Functions -- optimizing inference speed'
+      ],
+      correct: 1,
+      explanation: 'RLHF (Reinforcement Learning from Human Feedback) trains models to align with human preferences. Human evaluators rank model outputs, creating a reward model that then guides the main model toward responses humans find helpful, honest, and harmless.'
+    }
+  ]
+};
+
+// Knowledge assessment state
+let kaState = null;
+
+function getKnowledgeProfile() {
+  try { return JSON.parse(localStorage.getItem('ai-curriculum-knowledge') || 'null'); } catch { return null; }
+}
+
+function saveKnowledgeProfile(profile) {
+  localStorage.setItem('ai-curriculum-knowledge', JSON.stringify(profile));
+}
+
+function getKnowledgeBadge(day, weekIdx, kaProfile) {
+  if (!kaProfile || !day) return '';
+  const tags = day.tags || [];
+  const level = kaProfile.level;
+
+  // Novice: basics are "Start here", nothing skippable
+  if (level === 'novice') {
+    if (tags.includes('beginner') && weekIdx <= 1) {
+      return '<div class="cx-personalized-badge cx-badge-starthere">Start here</div>';
+    }
+    return '';
+  }
+
+  // Familiar: intro activities marked "Quick review"
+  if (level === 'familiar') {
+    if (tags.includes('beginner') && weekIdx <= 1) {
+      return '<div class="cx-personalized-badge cx-badge-quickreview">Quick review</div>';
+    }
+    return '';
+  }
+
+  // Competent: early weeks compressed, "You likely know this"
+  if (level === 'competent') {
+    if (tags.includes('beginner') && weekIdx <= 1) {
+      return '<div class="cx-personalized-badge cx-badge-youknow">You likely know this</div>';
+    }
+    if (tags.includes('intermediate') && weekIdx >= 2) {
+      return '<div class="cx-personalized-badge cx-badge-recommended">Focus here</div>';
+    }
+    return '';
+  }
+
+  // Advanced: first half condensed, "Jump to week X" shortcuts
+  if (level === 'advanced') {
+    if (weekIdx <= 2 && tags.includes('beginner')) {
+      return '<div class="cx-personalized-badge cx-badge-youknow">You likely know this</div>';
+    }
+    if (weekIdx <= 2 && tags.includes('intermediate')) {
+      return '<div class="cx-personalized-badge cx-badge-quickreview">Quick review</div>';
+    }
+    if (tags.includes('advanced') || weekIdx >= 4) {
+      return '<div class="cx-personalized-badge cx-badge-recommended">Focus here</div>';
+    }
+    return '';
+  }
+
+  return '';
+}
+
+function startKnowledgeAssessment() {
+  // Build adaptive question sequence
+  const sequence = buildAdaptiveSequence();
+  kaState = {
+    questions: sequence,
+    currentIdx: 0,
+    answers: [],
+    scores: { aiFundamentals: { correct: 0, total: 0 }, programming: { correct: 0, total: 0 }, aiTools: { correct: 0, total: 0 }, ethics: { correct: 0, total: 0 }, advanced: { correct: 0, total: 0 } },
+    answered: false,
+    startTime: Date.now()
+  };
+  renderKAQuestion();
+  showSection('knowledgeAssessment');
+}
+
+function buildAdaptiveSequence() {
+  // Start with one question from each core category (difficulty 1)
+  const coreCategories = ['aiFundamentals', 'programming', 'aiTools', 'ethics'];
+  const sequence = [];
+  const used = new Set();
+
+  // Phase 1: One easy question from each core category (4 questions)
+  for (const cat of coreCategories) {
+    const easy = KA_QUESTIONS[cat].filter(q => q.difficulty <= 1);
+    if (easy.length > 0) {
+      const q = easy[0];
+      sequence.push(q);
+      used.add(q.id);
+    }
+  }
+
+  // Phase 2: One medium question from each core category (4 questions)
+  for (const cat of coreCategories) {
+    const medium = KA_QUESTIONS[cat].filter(q => q.difficulty >= 2 && !used.has(q.id));
+    if (medium.length > 0) {
+      const q = medium[0];
+      sequence.push(q);
+      used.add(q.id);
+    }
+  }
+
+  // Phase 3: Remaining core questions not yet used (fills up to ~12)
+  for (const cat of coreCategories) {
+    for (const q of KA_QUESTIONS[cat]) {
+      if (!used.has(q.id)) {
+        sequence.push(q);
+        used.add(q.id);
+      }
+    }
+  }
+
+  // Phase 4: Advanced questions (added conditionally during adaptive flow)
+  // These are stored but will only be shown if the user is doing well
+  // We add them to the sequence but will skip them adaptively
+  for (const q of KA_QUESTIONS.advanced) {
+    sequence.push(q);
+    used.add(q.id);
+  }
+
+  return sequence;
+}
+
+function getAdaptiveQuestionCount() {
+  if (!kaState) return 15;
+  const totalCorrect = Object.values(kaState.scores).reduce((s, c) => s + c.correct, 0);
+  const totalAnswered = Object.values(kaState.scores).reduce((s, c) => s + c.total, 0);
+
+  if (totalAnswered < 4) return kaState.questions.length; // Too early to judge
+
+  const accuracy = totalCorrect / totalAnswered;
+
+  // If clearly novice after 6 questions, stop at 8
+  if (totalAnswered >= 6 && accuracy < 0.25) return 8;
+  // If clearly advanced after 8 questions, can skip remaining basics
+  if (totalAnswered >= 8 && accuracy > 0.85) return Math.min(totalAnswered + 3, 15);
+  // Default: go through the set
+  return kaState.questions.length;
+}
+
+function shouldShowQuestion(q) {
+  if (!kaState) return true;
+  const totalCorrect = Object.values(kaState.scores).reduce((s, c) => s + c.correct, 0);
+  const totalAnswered = Object.values(kaState.scores).reduce((s, c) => s + c.total, 0);
+
+  // Advanced questions: only show if doing well (>60% accuracy on 6+ questions)
+  if (q.category === 'advanced') {
+    if (totalAnswered < 6) return false;
+    const accuracy = totalCorrect / totalAnswered;
+    return accuracy >= 0.6;
+  }
+
+  // Check adaptive early stop
+  const maxQ = getAdaptiveQuestionCount();
+  if (totalAnswered >= maxQ) return false;
+
+  return true;
+}
+
+function renderKAQuestion() {
+  if (!kaState) return;
+
+  // Find next valid question
+  while (kaState.currentIdx < kaState.questions.length && !shouldShowQuestion(kaState.questions[kaState.currentIdx])) {
+    kaState.currentIdx++;
+  }
+
+  // Check if assessment is complete
+  if (kaState.currentIdx >= kaState.questions.length) {
+    finishKnowledgeAssessment();
+    return;
+  }
+
+  // Also check adaptive stop
+  const totalAnswered = Object.values(kaState.scores).reduce((s, c) => s + c.total, 0);
+  const maxQ = getAdaptiveQuestionCount();
+  if (totalAnswered >= maxQ && kaState.currentIdx >= kaState.questions.length - KA_QUESTIONS.advanced.length) {
+    finishKnowledgeAssessment();
+    return;
+  }
+
+  const q = kaState.questions[kaState.currentIdx];
+  const totalCorrect = Object.values(kaState.scores).reduce((s, c) => s + c.correct, 0);
+  const totalIncorrect = totalAnswered - totalCorrect;
+
+  // Count displayable questions
+  const displayableCount = Math.min(getAdaptiveQuestionCount(), kaState.questions.length);
+  const progressPct = Math.round((totalAnswered / displayableCount) * 100);
+
+  const categoryNames = {
+    aiFundamentals: 'AI Fundamentals',
+    programming: 'Programming & Technical',
+    aiTools: 'AI Tools & Prompting',
+    ethics: 'AI Ethics & Strategy',
+    advanced: 'Advanced Concepts'
+  };
+
+  kaState.answered = false;
+
+  let html = `
+    <div class="ka-progress-bar">
+      <div class="ka-progress-track">
+        <div class="ka-progress-fill" style="width: ${progressPct}%"></div>
+      </div>
+      <div class="ka-progress-text">Question ${totalAnswered + 1}</div>
+    </div>
+
+    <div class="ka-score-display">
+      <span class="ka-score-correct">${totalCorrect} correct</span>
+      <span style="color: var(--text-muted);">/</span>
+      <span class="ka-score-incorrect">${totalIncorrect} incorrect</span>
+    </div>
+
+    <div class="ka-category-label">${categoryNames[q.category] || q.category}</div>
+    <div class="ka-question-text">${q.question}</div>
+    <div class="ka-question-hint">${q.hint}</div>
+
+    <div class="ka-options" id="kaOptions">
+      ${q.options.map((opt, i) => `
+        <div class="ka-option" onclick="selectKAOption(${i})" data-idx="${i}">
+          ${opt}
+          <span class="ka-option-indicator"></span>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="ka-feedback" id="kaFeedback"></div>
+
+    <div class="ka-actions">
+      <button class="ka-skip-link" onclick="skipKnowledgeAssessment()">Skip the rest</button>
+      <button class="cx-btn cx-btn-primary btn btn-primary" id="kaNextBtn" onclick="nextKAQuestion()" style="display: none;">Next Question</button>
+    </div>
+  `;
+
+  document.getElementById('kaContent').innerHTML = html;
+}
+
+function selectKAOption(idx) {
+  if (!kaState || kaState.answered) return;
+  kaState.answered = true;
+
+  const q = kaState.questions[kaState.currentIdx];
+  const isCorrect = idx === q.correct;
+
+  // Update scores
+  kaState.scores[q.category].total++;
+  if (isCorrect) kaState.scores[q.category].correct++;
+
+  kaState.answers.push({
+    questionId: q.id,
+    category: q.category,
+    selectedIdx: idx,
+    correct: isCorrect,
+    difficulty: q.difficulty
+  });
+
+  // Highlight options
+  const options = document.querySelectorAll('.ka-option');
+  options.forEach((opt, i) => {
+    if (i === q.correct) {
+      opt.classList.add('ka-correct');
+      opt.querySelector('.ka-option-indicator').textContent = '\u2713';
+    } else if (i === idx && !isCorrect) {
+      opt.classList.add('ka-incorrect');
+      opt.querySelector('.ka-option-indicator').textContent = '\u2717';
+    } else {
+      opt.classList.add('ka-disabled');
+    }
+  });
+
+  // Show feedback
+  const feedback = document.getElementById('kaFeedback');
+  feedback.className = `ka-feedback ${isCorrect ? 'ka-feedback-correct' : 'ka-feedback-incorrect'}`;
+  feedback.innerHTML = `
+    <span class="ka-feedback-label">${isCorrect ? 'Correct' : 'Incorrect'}</span>
+    ${q.explanation}
+  `;
+
+  // Show next button
+  document.getElementById('kaNextBtn').style.display = '';
+}
+
+function nextKAQuestion() {
+  if (!kaState) return;
+  kaState.currentIdx++;
+  renderKAQuestion();
+}
+
+function skipKnowledgeAssessment() {
+  // If some questions were answered, save what we have
+  const totalAnswered = Object.values(kaState.scores).reduce((s, c) => s + c.total, 0);
+  if (totalAnswered >= 3) {
+    finishKnowledgeAssessment();
+  } else {
+    showSchedule();
+  }
+}
+
+function finishKnowledgeAssessment() {
+  const scores = kaState.scores;
+
+  // Compute category percentages
+  const catScores = {};
+  let totalCorrect = 0;
+  let totalQuestions = 0;
+
+  for (const [cat, data] of Object.entries(scores)) {
+    if (data.total > 0) {
+      catScores[cat] = Math.round((data.correct / data.total) * 100);
+      totalCorrect += data.correct;
+      totalQuestions += data.total;
+    } else {
+      catScores[cat] = null;
+    }
+  }
+
+  const overall = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
+
+  // Determine level
+  let level = 'novice';
+  if (overall > 75) level = 'advanced';
+  else if (overall > 50) level = 'competent';
+  else if (overall > 25) level = 'familiar';
+
+  const knowledgeProfile = {
+    overall: overall,
+    categories: {
+      aiFundamentals: catScores.aiFundamentals,
+      programming: catScores.programming,
+      aiTools: catScores.aiTools,
+      ethics: catScores.ethics,
+      advanced: catScores.advanced
+    },
+    level: level,
+    totalCorrect: totalCorrect,
+    totalQuestions: totalQuestions,
+    answers: kaState.answers,
+    assessedAt: new Date().toISOString()
+  };
+
+  saveKnowledgeProfile(knowledgeProfile);
+
+  // Also store on the learner profile for cross-reference
+  const learnerProfile = getLearnerProfile();
+  if (learnerProfile) {
+    learnerProfile.knowledgeLevel = level;
+    learnerProfile.knowledgeScore = overall;
+    saveLearnerProfile(learnerProfile);
+  }
+
+  showKnowledgeResults(knowledgeProfile);
+}
+
+function showKnowledgeResults(profile) {
+  const circumference = 2 * Math.PI * 52;
+  const dashOffset = circumference * (1 - profile.overall / 100);
+
+  const levelLabels = { novice: 'Novice', familiar: 'Familiar', competent: 'Competent', advanced: 'Advanced' };
+  const levelColors = { novice: 'var(--accent4)', familiar: 'var(--color-warn)', competent: 'var(--accent)', advanced: 'var(--success)' };
+  const levelFills = { novice: '#f87171', familiar: '#fbbf24', competent: '#60a5fa', advanced: '#34d399' };
+
+  const categoryNames = {
+    aiFundamentals: 'AI Fundamentals',
+    programming: 'Programming',
+    aiTools: 'AI Tools',
+    ethics: 'Ethics & Strategy',
+    advanced: 'Advanced'
+  };
+
+  const catColors = {
+    aiFundamentals: '#3B82F6',
+    programming: '#10B981',
+    aiTools: '#8B5CF6',
+    ethics: '#F59E0B',
+    advanced: '#EC4899'
+  };
+
+  // Build category bars
+  let catsHtml = '';
+  for (const [cat, score] of Object.entries(profile.categories)) {
+    if (score === null) continue;
+    catsHtml += `
+      <div class="ka-cat-row">
+        <span class="ka-cat-label">${categoryNames[cat] || cat}</span>
+        <div class="ka-cat-bar">
+          <div class="ka-cat-fill" style="width: ${score}%; background: ${catColors[cat] || 'var(--accent)'};"></div>
+        </div>
+        <span class="ka-cat-score">${score}%</span>
+      </div>
+    `;
+  }
+
+  // Build insights
+  const strengths = [];
+  const focuses = [];
+  for (const [cat, score] of Object.entries(profile.categories)) {
+    if (score === null) continue;
+    if (score >= 67) strengths.push(categoryNames[cat]);
+    else if (score <= 33) focuses.push(categoryNames[cat]);
+  }
+
+  let insightsHtml = '';
+  if (strengths.length > 0 || focuses.length > 0) {
+    insightsHtml = '<div class="ka-insights"><div class="ka-insights-title">Your Knowledge Profile</div>';
+    for (const s of strengths) {
+      insightsHtml += `<div class="ka-insight-item ka-insight-strong"><strong style="color: var(--success);">Strong in:</strong> ${s}</div>`;
+    }
+    for (const f of focuses) {
+      insightsHtml += `<div class="ka-insight-item ka-insight-focus"><strong style="color: var(--color-warn);">Focus area:</strong> ${f}</div>`;
+    }
+    insightsHtml += '</div>';
+  }
+
+  // Calibration message based on level
+  const calibrationMessages = {
+    novice: 'Your curriculum will start with thorough foundations. Every concept will be introduced carefully with no assumptions about prior knowledge.',
+    familiar: 'Your curriculum will include quick reviews for basics you partially know and deeper dives where you need more practice.',
+    competent: 'Your curriculum will compress introductory material and emphasize the intermediate and advanced concepts where you will learn the most.',
+    advanced: 'Your curriculum will fast-track through foundations and focus on the advanced, cutting-edge material that matches your existing knowledge.'
+  };
+
+  const html = `
+    <div class="ka-profile-header">
+      <div class="cortex-badge" style="margin: 0 auto 12px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        Knowledge Assessment
+      </div>
+
+      <div class="ka-score-circle">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="52" fill="none" stroke="var(--surface2)" stroke-width="8"/>
+          <circle cx="60" cy="60" r="52" fill="none" stroke="${levelFills[profile.level]}" stroke-width="8"
+            stroke-dasharray="${circumference}" stroke-dashoffset="${dashOffset}"
+            stroke-linecap="round"/>
+        </svg>
+        <span class="ka-score-value" style="color: ${levelColors[profile.level]};">${profile.overall}</span>
+      </div>
+
+      <div class="ka-level-badge ka-level-${profile.level}">${levelLabels[profile.level]}</div>
+
+      <p style="font-size: 14px; color: var(--text-dim); max-width: 480px; margin: 0 auto 8px; line-height: 1.7;">
+        ${profile.totalCorrect} of ${profile.totalQuestions} questions correct
+      </p>
+      <p style="font-size: 14px; color: var(--text-dim); max-width: 480px; margin: 0 auto; line-height: 1.7;">
+        ${calibrationMessages[profile.level]}
+      </p>
+    </div>
+
+    <div class="ka-categories">${catsHtml}</div>
+
+    ${insightsHtml}
+
+    <div class="ka-profile-actions">
+      <button class="cx-btn cx-btn-primary btn btn-primary" onclick="showSchedule()">View Your Calibrated Schedule</button>
+      <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="startKnowledgeAssessment()">Retake Assessment</button>
+    </div>
+  `;
+
+  document.getElementById('kaResultsContent').innerHTML = html;
+  showSection('knowledgeResults');
+}
+
+// ============================================================
 // PERSONALIZATION ENGINE
 // ============================================================
 
@@ -7137,6 +8059,23 @@ function getPersonalizedReason(day, profile) {
     reasons.push('This activity involves code. Consider pairing with a coding tutorial or asking an AI assistant for help.');
   }
 
+  // Knowledge assessment-based reasons
+  const kp = getKnowledgeProfile();
+  if (kp) {
+    if (kp.categories.aiFundamentals !== null && kp.categories.aiFundamentals >= 80 && tags.includes('beginner') && (tags.includes('technical') || tags.includes('research'))) {
+      reasons.push('Your knowledge assessment shows strong AI fundamentals -- this will be a quick review for you.');
+    }
+    if (kp.categories.programming !== null && kp.categories.programming <= 33 && tags.includes('programming-required')) {
+      reasons.push('Your knowledge assessment identified programming as a growth area -- take extra time with this activity.');
+    }
+    if (kp.categories.aiTools !== null && kp.categories.aiTools >= 80 && tags.includes('prompt-engineering')) {
+      reasons.push('You demonstrated strong AI tool knowledge -- focus on the advanced techniques in this activity.');
+    }
+    if (kp.categories.ethics !== null && kp.categories.ethics <= 33 && tags.includes('ethics')) {
+      reasons.push('Your assessment highlighted ethics as a focus area -- this activity will help build that foundation.');
+    }
+  }
+
   return reasons.length > 0 ? reasons[0] : '';
 }
 
@@ -7147,11 +8086,20 @@ function getActivityRelevance(day, profile) {
   // Determine difficulty level from tags
   const activityLevel = tags.includes('advanced') ? 3 : tags.includes('intermediate') ? 2 : 1;
 
-  // Determine user level from AI familiarity
+  // Determine user level from AI familiarity (questionnaire)
   let userLevel = 1;
   if (profile.aiFamiliarity === 'I use AI tools') userLevel = 2;
   else if (profile.aiFamiliarity === 'I build with AI') userLevel = 3;
   else if (profile.aiFamiliarity === 'Deep experience') userLevel = 4;
+
+  // Override user level with knowledge assessment if available
+  const kp = getKnowledgeProfile();
+  if (kp) {
+    if (kp.level === 'novice') userLevel = Math.max(userLevel, 1);
+    else if (kp.level === 'familiar') userLevel = Math.max(userLevel, 2);
+    else if (kp.level === 'competent') userLevel = Math.max(userLevel, 3);
+    else if (kp.level === 'advanced') userLevel = Math.max(userLevel, 4);
+  }
 
   // Check goal alignment
   const goalTags = [];
@@ -7236,6 +8184,9 @@ function handleReassessmentChoice(choice) {
   } else if (choice === 'reassess') {
     localStorage.removeItem('ai-curriculum-reassessment-dismissed');
     startQuiz();
+  } else if (choice === 'knowledge-reassess') {
+    localStorage.removeItem('ai-curriculum-reassessment-dismissed');
+    startKnowledgeAssessment();
   }
 }
 
