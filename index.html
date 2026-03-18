@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+// Prevent flash of wrong theme — runs before any CSS paints
+(function(){var s=localStorage.getItem('ai-curriculum-theme');var p=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.setAttribute('data-theme',s||p);})();
+</script>
 <title>AI Curriculum — Personalized Learning Path</title>
 <meta name="description" content="A free, personalized AI curriculum that adapts to your experience level. From understanding AI concepts to building AI systems.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,6 +60,342 @@
 
     /* Cortex transition tokens */
     --cx-transition: 200ms ease;
+  }
+
+  /* ── THEME TRANSITION ──────────────────────────────────── */
+  .theme-transition,
+  .theme-transition *,
+  .theme-transition *::before,
+  .theme-transition *::after {
+    transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, box-shadow 200ms ease !important;
+  }
+
+  /* ── LIGHT THEME ─────────────────────────────────────── */
+  [data-theme="light"] {
+    --bg: #f8f9fa;
+    --surface: #ffffff;
+    --surface2: #f0f1f3;
+    --text: #1a1a2e;
+    --text-dim: #4a4a5a;
+    --text-muted: #8a8a9a;
+    --accent: #3b82f6;
+    --accent2: #6366f1;
+    --accent3: #ea580c;
+    --accent4: #ef4444;
+    --accent5: #10b981;
+    --success: #10b981;
+    --border: #e2e4e8;
+    --border-light: #ecedf0;
+
+    /* Cortex tokens - light variants */
+    --color-claim: #3b82f6;
+    --color-claim-bg: #eff6ff;
+    --color-verified: #059669;
+    --color-verified-bg: #ecfdf5;
+    --color-warn: #d97706;
+    --color-warn-bg: #fffbeb;
+    --cx-confidence-high: #059669;
+    --cx-confidence-mid: #d97706;
+    --cx-confidence-low: #ef4444;
+    --cx-evidence-bg: rgba(59,130,246,0.04);
+    --cx-provenance-border: rgba(59,130,246,0.15);
+
+    --shadow-panel: 0 4px 24px rgba(0,0,0,0.08);
+  }
+
+  /* Light theme: nav gets a solid light bg */
+  [data-theme="light"] .cx-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(248,249,250,0.9) 100%);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  /* Light theme: source-card uses light bg instead of dark hardcoded rgba */
+  [data-theme="light"] .source-card {
+    background: var(--surface2);
+  }
+
+  /* Light theme: alternative-card uses light bg */
+  [data-theme="light"] .alternative-card {
+    background: var(--surface2);
+  }
+
+  /* Light theme: certificate override (hardcoded dark gradient) */
+  [data-theme="light"] .cx-certificate {
+    background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 50%, #c7d2fe 100%);
+    border-color: var(--accent2);
+  }
+  [data-theme="light"] .cx-certificate::before {
+    border-color: rgba(99,102,241,0.25);
+  }
+  [data-theme="light"] .cx-certificate-footer {
+    border-top-color: rgba(0,0,0,0.08);
+  }
+
+  /* Light theme: button hover shadow lighter */
+  [data-theme="light"] .cx-btn:hover,
+  [data-theme="light"] .btn:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+
+  /* Light theme: day-card hover shadow lighter */
+  [data-theme="light"] .day-card:hover,
+  [data-theme="light"] .cx-card:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  }
+
+  /* Light theme: modal shadows lighter */
+  [data-theme="light"] .modal {
+    box-shadow: 0 24px 48px rgba(0,0,0,0.15);
+  }
+  [data-theme="light"] .cx-practice-modal {
+    box-shadow: 0 24px 48px rgba(0,0,0,0.15);
+  }
+  [data-theme="light"] .cx-modal {
+    box-shadow: 0 24px 48px rgba(0,0,0,0.15);
+  }
+  [data-theme="light"] .api-key-modal {
+    box-shadow: 0 24px 48px rgba(0,0,0,0.15);
+  }
+
+  /* Light theme: overlay backgrounds */
+  [data-theme="light"] .modal-overlay {
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(4px);
+  }
+  [data-theme="light"] .cx-practice-overlay {
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(4px);
+  }
+  [data-theme="light"] .cx-modal-overlay {
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(4px);
+  }
+  [data-theme="light"] .api-key-modal-overlay {
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(4px);
+  }
+  [data-theme="light"] .panel-overlay {
+    background: rgba(0,0,0,0.15);
+  }
+
+  /* Light theme: toast */
+  [data-theme="light"] .toast {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+
+  /* Light theme: chat window */
+  [data-theme="light"] .chat-window {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+  }
+
+  /* Light theme: chat bubbles */
+  [data-theme="light"] .chat-bubble.bot {
+    background: var(--surface2);
+    color: var(--text);
+  }
+
+  /* Light theme: engagement score card */
+  [data-theme="light"] .engagement-score-card {
+    background: linear-gradient(135deg, rgba(59,130,246,0.06), rgba(99,102,241,0.06));
+    border-color: rgba(59,130,246,0.15);
+  }
+
+  /* Light theme: reassessment card */
+  [data-theme="light"] .cx-reassessment-card {
+    background: linear-gradient(135deg, rgba(99,102,241,0.06), rgba(59,130,246,0.06));
+    border-color: rgba(99,102,241,0.15);
+  }
+
+  /* Light theme: rec-next-card */
+  [data-theme="light"] .rec-next-card {
+    background: linear-gradient(135deg, rgba(59,130,246,0.05), rgba(99,102,241,0.05));
+    border-color: rgba(59,130,246,0.15);
+  }
+
+  /* Light theme: review banner */
+  [data-theme="light"] .review-banner {
+    background: rgba(99,102,241,0.06);
+    border-color: rgba(99,102,241,0.2);
+  }
+  [data-theme="light"] .review-item {
+    border-bottom-color: rgba(0,0,0,0.05);
+  }
+
+  /* Light theme: badges with semi-transparent backgrounds */
+  [data-theme="light"] .cx-badge-recommended {
+    background: rgba(16,185,129,0.1);
+    border-color: rgba(16,185,129,0.25);
+  }
+  [data-theme="light"] .cx-badge-stretch {
+    background: rgba(99,102,241,0.08);
+    border-color: rgba(99,102,241,0.2);
+  }
+  [data-theme="light"] .cx-badge-core {
+    background: rgba(59,130,246,0.08);
+    border-color: rgba(59,130,246,0.2);
+  }
+
+  /* Light theme: personalized reason */
+  [data-theme="light"] .cx-personalized-reason {
+    background: rgba(16,185,129,0.04);
+    border-color: rgba(16,185,129,0.12);
+  }
+
+  /* Light theme: lock banner */
+  [data-theme="light"] .cx-lock-banner {
+    background: rgba(239,68,68,0.05);
+    border-color: rgba(239,68,68,0.15);
+  }
+
+  /* Light theme: focus bar */
+  [data-theme="light"] .focus-bar {
+    background: rgba(59,130,246,0.06);
+    border-color: rgba(59,130,246,0.15);
+  }
+
+  /* Light theme: practice option states */
+  [data-theme="light"] .cx-practice-option:hover {
+    background: rgba(59,130,246,0.04);
+  }
+  [data-theme="light"] .cx-practice-option.selected {
+    background: rgba(59,130,246,0.08);
+  }
+  [data-theme="light"] .cx-practice-option.correct {
+    background: rgba(16,185,129,0.08);
+  }
+  [data-theme="light"] .cx-practice-option.incorrect {
+    background: rgba(239,68,68,0.08);
+  }
+
+  /* Light theme: quiz option states */
+  [data-theme="light"] .quiz-option:hover,
+  [data-theme="light"] .cx-option:hover {
+    background: rgba(59,130,246,0.04);
+  }
+  [data-theme="light"] .quiz-option.selected,
+  [data-theme="light"] .cx-option.selected {
+    background: rgba(59,130,246,0.08);
+  }
+
+  /* Light theme: practice true/false buttons */
+  [data-theme="light"] .cx-practice-tf-btn:hover {
+    border-color: var(--accent);
+  }
+  [data-theme="light"] .cx-practice-tf-btn.selected {
+    background: rgba(59,130,246,0.08);
+  }
+  [data-theme="light"] .cx-practice-tf-btn.correct {
+    background: rgba(16,185,129,0.08);
+  }
+  [data-theme="light"] .cx-practice-tf-btn.incorrect {
+    background: rgba(239,68,68,0.08);
+  }
+
+  /* Light theme: practice feedback */
+  [data-theme="light"] .cx-practice-feedback.correct {
+    background: rgba(16,185,129,0.08);
+    border-color: rgba(16,185,129,0.25);
+  }
+  [data-theme="light"] .cx-practice-feedback.incorrect {
+    background: rgba(239,68,68,0.08);
+    border-color: rgba(239,68,68,0.25);
+  }
+
+  /* Light theme: mastery scores */
+  [data-theme="light"] .cx-mastery-score.mastery-red {
+    background: rgba(239,68,68,0.1);
+  }
+  [data-theme="light"] .cx-mastery-score.mastery-yellow {
+    background: rgba(217,119,6,0.1);
+  }
+  [data-theme="light"] .cx-mastery-score.mastery-green {
+    background: rgba(16,185,129,0.1);
+  }
+
+  /* Light theme: pace badges */
+  [data-theme="light"] .pace-on {
+    background: rgba(16,185,129,0.1);
+  }
+  [data-theme="light"] .pace-ahead {
+    background: rgba(59,130,246,0.1);
+  }
+  [data-theme="light"] .pace-behind {
+    background: rgba(239,68,68,0.1);
+  }
+
+  /* Light theme: heatmap */
+  [data-theme="light"] .heatmap-cell.h1 { background: rgba(59,130,246,0.15); }
+  [data-theme="light"] .heatmap-cell.h2 { background: rgba(59,130,246,0.3); }
+  [data-theme="light"] .heatmap-cell.h3 { background: rgba(59,130,246,0.5); }
+  [data-theme="light"] .heatmap-cell.h4 { background: var(--accent); }
+
+  /* Light theme: chat quality indicators */
+  [data-theme="light"] .chat-quality-indicator.good {
+    background: rgba(16,185,129,0.08);
+  }
+  [data-theme="light"] .chat-quality-indicator.neutral {
+    background: rgba(217,119,6,0.08);
+  }
+  [data-theme="light"] .chat-quality-indicator.seeking {
+    background: rgba(239,68,68,0.08);
+  }
+
+  /* Light theme: chat API status */
+  [data-theme="light"] .chat-api-status.connected {
+    background: rgba(16,185,129,0.1);
+  }
+  [data-theme="light"] .chat-api-status.offline {
+    background: rgba(138,138,154,0.1);
+  }
+
+  /* Light theme: cx-practice-btn */
+  [data-theme="light"] .cx-practice-btn {
+    background: rgba(99,102,241,0.06);
+  }
+  [data-theme="light"] .cx-practice-btn:hover {
+    background: rgba(99,102,241,0.12);
+  }
+
+  /* Light theme: cortex badge */
+  [data-theme="light"] .cortex-badge {
+    background: rgba(99,102,241,0.08);
+  }
+
+  /* Light theme: badge card earned state */
+  [data-theme="light"] .badge-card.earned {
+    border-color: rgba(59,130,246,0.3);
+    background: rgba(59,130,246,0.04);
+  }
+
+  /* Light theme: SVG chart text */
+  [data-theme="light"] .analytics-chart-container svg text,
+  [data-theme="light"] .mastery-curve-container svg text {
+    fill: var(--text-muted);
+  }
+
+  /* Light theme: stretch goals border */
+  [data-theme="light"] .stretch-goals {
+    border-color: var(--border);
+  }
+
+  /* Light theme: theme toggle button */
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s, border-color 0.15s;
+    font-size: 16px;
+    line-height: 1;
+  }
+  .theme-toggle:hover {
+    color: var(--accent);
+    border-color: var(--accent);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1469,6 +1809,10 @@
     <a href="#" class="cx-nav-item" onclick="showProgressDashboard(); return false;" id="nav-progress">Progress</a>
     <a href="https://github.com/samriegel/ai-curriculum" class="cx-nav-item" target="_blank" rel="noopener">GitHub</a>
     <a href="https://www.linkedin.com/in/sam-riegel/" class="cx-nav-item" target="_blank" rel="noopener">Author</a>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle light/dark mode" aria-label="Toggle light/dark mode">
+      <svg id="themeIconMoon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg id="themeIconSun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
   </div>
 </nav>
 
@@ -4309,7 +4653,7 @@ function formatChatMarkdown(text) {
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.+?)\*/g, '<em>$1</em>')
-    .replace(/`(.+?)`/g, '<code style="background:rgba(255,255,255,0.1);padding:1px 4px;border-radius:3px;font-size:12px;">$1</code>')
+    .replace(/`(.+?)`/g, '<code style="background:var(--surface2);padding:1px 4px;border-radius:3px;font-size:12px;">$1</code>')
     .replace(/\n\n/g, '</p><p>')
     .replace(/\n/g, '<br>')
     .replace(/^/, '<p>').replace(/$/, '</p>');
@@ -6932,6 +7276,45 @@ function getCoreActivityCount(profile) {
 }
 
 // ============================================================
+// THEME TOGGLE — light/dark mode
+// ============================================================
+
+function updateThemeIcon(theme) {
+  const moonIcon = document.getElementById('themeIconMoon');
+  const sunIcon = document.getElementById('themeIconSun');
+  if (!moonIcon || !sunIcon) return;
+  if (theme === 'light') {
+    moonIcon.style.display = 'none';
+    sunIcon.style.display = '';
+  } else {
+    moonIcon.style.display = '';
+    sunIcon.style.display = 'none';
+  }
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  html.classList.add('theme-transition');
+  const current = html.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('ai-curriculum-theme', next);
+  updateThemeIcon(next);
+  setTimeout(function() { html.classList.remove('theme-transition'); }, 250);
+}
+
+function initTheme() {
+  const saved = localStorage.getItem('ai-curriculum-theme');
+  const preferred = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  const theme = saved || preferred;
+  document.documentElement.setAttribute('data-theme', theme);
+  updateThemeIcon(theme);
+}
+
+// Initialize theme immediately (before DOMContentLoaded for flash prevention)
+initTheme();
+
+// ============================================================
 // INIT — restore saved state on page load
 // ============================================================
 
@@ -6944,6 +7327,8 @@ function getCoreActivityCount(profile) {
   document.getElementById('nav-progress').style.display = '';
   // Initialize chat API status display
   updateChatApiStatus();
+  // Ensure theme icon is correct after DOM is ready
+  initTheme();
 })();
 </script>
 
