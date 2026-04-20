@@ -35,7 +35,62 @@ A free, adaptive AI curriculum that meets you where you are. Take a 5-question a
 
 Open `index.html` in a browser. That's it.
 
-Or visit the hosted version: [samriegel.github.io/ai-curriculum](https://samriegel.github.io/ai-curriculum)
+Or visit the hosted version: [srieg.github.io/ai-curriculum](https://srieg.github.io/ai-curriculum)
+
+## Fork & Customize
+
+This curriculum is a single HTML file with zero external dependencies. Fork it, swap in your content, and have a live site in about 20 minutes.
+
+### 5-minute quickstart
+
+1. Click **Fork** on this repo (top-right on GitHub).
+2. In your fork, go to **Settings → Pages**. Set Source to _Deploy from a branch_, branch `main`, folder `/ (root)`. Click Save.
+3. Edit `index.html` in the GitHub web editor or clone locally.
+4. Your site is live at `https://{your-handle}.github.io/ai-curriculum/` within 60 seconds of your first push.
+
+### What to edit
+
+All the content you'll want to change lives in the JavaScript data block (~lines 2200–2720):
+
+| What to edit | Where (approx. line) | Notes |
+|---|---|---|
+| Assessment questions | `const QUESTIONS` ~2220 | 5 objects with `options[]` and per-track scoring weights |
+| Track definitions (name, color, duration) | `const TRACKS` ~2280 | Keys: `explorer`, `practitioner`, `builder`, `researcher` |
+| Per-day resources | `TRACKS[*].weeks[*].days[*]` | `{type, time, title, desc, url, tags[]}` |
+| Track metadata (philosophy, reading order) | `const DEEP_DIVES` ~4160 | Used for context panels, not the day schedule |
+| Track display order | `const TRACK_ORDER` ~2730 | Simple array of track keys |
+| localStorage namespace | 16 keys prefixed `ai-curriculum-*` | **Must rename in forks** — see below |
+
+### ⚠ Don't break progress tracking — rename the localStorage namespace
+
+**Before publishing your fork:** change the localStorage namespace from `ai-curriculum-` to your own prefix (e.g., `my-ai-path-`). If you don't, and a learner visits both the original site and your fork in the same browser, their progress data will collide.
+
+Find-and-replace all 16 keys:
+
+```
+ai-curriculum-theme
+ai-curriculum-track
+ai-curriculum-progress
+ai-curriculum-profile
+ai-curriculum-knowledge
+ai-curriculum-knowledge-state
+ai-curriculum-interests
+ai-curriculum-reviews
+ai-curriculum-difficulties
+ai-curriculum-engagement
+ai-curriculum-chat-quality
+ai-curriculum-api-key
+ai-curriculum-problems
+ai-curriculum-mastery-skips
+ai-curriculum-cert-name
+ai-curriculum-reassessment-dismissed
+```
+
+A single find-and-replace of `ai-curriculum-` → `your-prefix-` across the file handles all 16 in one shot.
+
+### Attribution
+
+Attribution is not required under the MIT license, but a link back to the original is appreciated. The community benefit compounds when forks are discoverable.
 
 ## License
 

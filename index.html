@@ -521,6 +521,30 @@
   }
   .quiz-nav { display: flex; justify-content: space-between; align-items: center; }
 
+  /* -- FORK & CUSTOMIZE -- */
+  .cx-fork-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; margin-bottom: 12px; overflow: hidden;
+  }
+  .cx-fork-summary {
+    padding: 16px 20px; font-size: 15px; font-weight: 600;
+    cursor: pointer; list-style: none; display: flex; align-items: center;
+    justify-content: space-between;
+  }
+  .cx-fork-summary::-webkit-details-marker { display: none; }
+  .cx-fork-summary::after {
+    content: '+'; font-size: 18px; color: var(--text-muted); font-weight: 400;
+  }
+  details[open] .cx-fork-summary::after { content: '−'; }
+  .cx-fork-body {
+    padding: 0 20px 20px; font-size: 14px; color: var(--text-dim); line-height: 1.7;
+  }
+  .cx-fork-body ul, .cx-fork-body ol { padding-left: 20px; margin: 8px 0; }
+  .cx-fork-body li { margin-bottom: 6px; }
+  .cx-fork-body code { background: var(--surface2); padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+  .cx-fork-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+  .cx-fork-table th, .cx-fork-table td { padding: 8px 10px; border: 1px solid var(--border); text-align: left; }
+  .cx-fork-table th { background: var(--surface2); font-weight: 600; }
   /* -- RESULTS -- */
   .results { max-width: 700px; margin: 0 auto; padding: 48px 24px; }
   .results-header { text-align: center; margin-bottom: 40px; }
@@ -2007,12 +2031,13 @@
 <body>
 <div data-cortex="true" id="cx-root">
 
-<nav class="cx-nav nav">
+<nav class="cx-nav nav" aria-label="Primary">
   <a href="#" class="cx-nav-brand nav-brand" onclick="showSection('landing'); return false;">AI Curriculum</a>
   <div class="cx-nav-links nav-links">
     <a href="#" class="cx-nav-item" onclick="showSection('landing'); return false;">Home</a>
     <a href="#" class="cx-nav-item" onclick="showProgressDashboard(); return false;" id="nav-progress">Progress</a>
     <a href="https://github.com/srieg/ai-curriculum" class="cx-nav-item" target="_blank" rel="noopener">GitHub</a>
+    <a href="#customize" class="cx-nav-item" onclick="showSection('customize'); return false;">Fork</a>
     <a href="https://www.linkedin.com/in/sam-riegel/" class="cx-nav-item" target="_blank" rel="noopener">Author</a>
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle light/dark mode" aria-label="Toggle light/dark mode">
       <svg id="themeIconMoon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -2023,6 +2048,7 @@
 
 <div class="toast-container" id="toastContainer"></div>
 
+<main id="cx-main">
 <!-- LANDING -->
 <div id="landing" class="section active">
   <div class="landing">
@@ -8425,6 +8451,97 @@ initTheme();
   initTheme();
 })();
 </script>
+
+<!-- FORK & CUSTOMIZE -->
+<div id="customize" class="section">
+  <div style="max-width: 760px; margin: 0 auto; padding: 48px 24px;">
+    <button class="deepdive-back" onclick="showSection('landing')">← Back to home</button>
+    <div class="cortex-badge" style="margin: 0 auto 16px; display: inline-flex;">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3v12"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+      Fork &amp; Customize
+    </div>
+    <h2 class="cx-heading" style="font-size:28px; font-weight:800; margin-bottom:12px;">Make it yours</h2>
+    <p class="cx-body" style="color:var(--text-dim); max-width:580px; margin-bottom:32px;">This curriculum is a single HTML file with zero external dependencies. Fork it on GitHub, swap in your own content, and have a live site in about 20 minutes. No build step, no framework, no account required.</p>
+
+    <details class="cx-fork-card" open>
+      <summary class="cx-fork-summary">Why fork this?</summary>
+      <div class="cx-fork-body">
+        <p>The curriculum is designed for a general AI learner, but your audience might be different — a specific industry, team skill level, or model provider. Forking lets you:</p>
+        <ul>
+          <li>Replace any track's resources with your own curated links</li>
+          <li>Rename tracks to fit your domain (e.g., "Clinical AI" instead of "Researcher")</li>
+          <li>Add or remove assessment questions to reflect your learners' backgrounds</li>
+          <li>Point the AI advisor at a different model via your own API key field</li>
+          <li>White-label the whole thing under your team or organization's name</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="cx-fork-card">
+      <summary class="cx-fork-summary">5-minute quickstart</summary>
+      <div class="cx-fork-body">
+        <ol>
+          <li>Go to <a href="https://github.com/srieg/ai-curriculum" target="_blank" rel="noopener" style="color:var(--accent);">github.com/srieg/ai-curriculum</a> and click <strong>Fork</strong> (top-right).</li>
+          <li>In your new fork, go to <strong>Settings → Pages</strong>. Set Source to <em>Deploy from a branch</em>, branch <code>main</code>, folder <code>/ (root)</code>. Click Save.</li>
+          <li>Edit <code>index.html</code> directly in GitHub's web editor, or clone locally and push.</li>
+          <li>Your site will be live at <code>https://{your-handle}.github.io/ai-curriculum/</code> within 60 seconds of your first push.</li>
+        </ol>
+        <p style="font-size:13px; color:var(--text-muted);">That's it. The whole curriculum is self-contained in one file. No npm, no build step, no deployment pipeline.</p>
+      </div>
+    </details>
+
+    <details class="cx-fork-card">
+      <summary class="cx-fork-summary">What to edit — annotated anchors</summary>
+      <div class="cx-fork-body">
+        <p>All the content you'll want to change lives in the JavaScript data block, roughly lines 2200–2720 of <code>index.html</code>.</p>
+        <table class="cx-fork-table">
+          <thead><tr><th>What to edit</th><th>Where (approx. line)</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Assessment questions</td><td><code>const QUESTIONS</code> ~2220</td><td>5 objects; each has <code>options[]</code> with per-track scoring weights</td></tr>
+            <tr><td>Track definitions (name, color, duration)</td><td><code>const TRACKS</code> ~2280</td><td>Keys: <code>explorer</code>, <code>practitioner</code>, <code>builder</code>, <code>researcher</code></td></tr>
+            <tr><td>Per-day resources</td><td><code>TRACKS[*].weeks[*].days[*]</code></td><td><code>{type, time, title, desc, url, tags[]}</code></td></tr>
+            <tr><td>Track metadata (philosophy, reading order)</td><td><code>const DEEP_DIVES</code> ~4160</td><td>Used for context panels, not the day schedule</td></tr>
+            <tr><td>Track display order</td><td><code>const TRACK_ORDER</code> ~2730</td><td>Simple array of track keys</td></tr>
+            <tr><td>localStorage namespace</td><td>16 keys prefixed <code>ai-curriculum-*</code></td><td><strong>Must rename in forks</strong> — see warning below</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details class="cx-fork-card">
+      <summary class="cx-fork-summary">⚠ Don't break progress tracking — rename the localStorage namespace</summary>
+      <div class="cx-fork-body">
+        <div style="background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+          <p style="font-weight:600; margin-bottom:8px; color: #EF4444;">Before publishing your fork</p>
+          <p style="font-size:13px; line-height:1.7;">Change the localStorage namespace from <code>ai-curriculum-</code> to your own prefix (e.g., <code>my-ai-path-</code>). If you don't, and a learner visits both the original site and your fork in the same browser, their progress data will collide.</p>
+          <p style="font-size:13px; margin-top:10px;">Find-and-replace all 16 keys:</p>
+          <code style="display:block; font-size:12px; line-height:1.8; color:var(--text-dim); margin-top:6px;">ai-curriculum-theme, ai-curriculum-track, ai-curriculum-progress, ai-curriculum-profile, ai-curriculum-knowledge, ai-curriculum-knowledge-state, ai-curriculum-interests, ai-curriculum-reviews, ai-curriculum-difficulties, ai-curriculum-engagement, ai-curriculum-chat-quality, ai-curriculum-api-key, ai-curriculum-problems, ai-curriculum-mastery-skips, ai-curriculum-cert-name, ai-curriculum-reassessment-dismissed</code>
+        </div>
+        <p style="font-size:13px; color:var(--text-muted);">A single find-and-replace of <code>ai-curriculum-</code> → <code>your-prefix-</code> across the file handles all 16 in one shot.</p>
+      </div>
+    </details>
+
+    <details class="cx-fork-card">
+      <summary class="cx-fork-summary">Optional: bring your own model</summary>
+      <div class="cx-fork-body">
+        <p>The curriculum includes a track advisor that runs on keyword matching by default (no API key needed). If you want to power it with a real language model:</p>
+        <ol>
+          <li>Click the <strong>key icon</strong> in the advisor panel and paste your <a href="https://console.anthropic.com/" target="_blank" rel="noopener" style="color:var(--accent);">Anthropic API key</a>.</li>
+          <li>Your key is stored locally in <code>ai-curriculum-api-key</code> (base64-obfuscated) — it never leaves your browser.</li>
+          <li>In your fork, update the system prompt in the <code>callClaude()</code> function (~line 4700) to reflect your curriculum's focus.</li>
+        </ol>
+        <p style="font-size:13px; color:var(--text-muted);">The keyword-matching fallback always works without any key, so this step is truly optional.</p>
+      </div>
+    </details>
+
+    <div style="margin-top: 32px; text-align:center; padding: 24px; background: var(--surface); border-radius: 12px; border: 1px solid var(--border);">
+      <p style="font-size: 14px; color: var(--text-dim); margin-bottom: 16px;">Ready to build your own AI curriculum?</p>
+      <a href="https://github.com/srieg/ai-curriculum/fork" target="_blank" rel="noopener" class="cx-btn cx-btn-primary btn btn-primary" style="text-decoration:none; display:inline-block;">Fork on GitHub</a>
+    </div>
+  </div>
+</div>
+
+</main>
 
 <!-- PRACTICE PROBLEMS MODAL -->
 <div class="cx-practice-overlay" id="practiceOverlay" onclick="if(event.target===this)closePractice()">
