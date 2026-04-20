@@ -509,7 +509,17 @@
   .quiz-option.selected { border-color: var(--accent); background: rgba(14, 165, 233, 0.1); }
   .quiz-option .option-title { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
   .quiz-option .option-desc { font-size: 13px; color: var(--text-dim); }
-  .quiz-nav { display: flex; justify-content: space-between; }
+  .quiz-option .cx-check {
+    display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border);
+    border-radius: 4px; margin-right: 10px; vertical-align: middle; flex-shrink: 0;
+    transition: background 0.15s, border-color 0.15s; position: relative; top: -1px;
+  }
+  .quiz-option.selected .cx-check {
+    background: var(--accent); border-color: var(--accent);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23fff' stroke-width='2'%3E%3Cpolyline points='2,6 5,9 10,3'/%3E%3C/svg%3E");
+    background-size: 11px; background-position: center; background-repeat: no-repeat;
+  }
+  .quiz-nav { display: flex; justify-content: space-between; align-items: center; }
 
   /* -- RESULTS -- */
   .results { max-width: 700px; margin: 0 auto; padding: 48px 24px; }
@@ -2198,6 +2208,19 @@
 // DATA
 // ============================================================
 
+// Questions that accept multiple selections (averaged for scoring fairness)
+const MULTI_SELECT_QUESTION_IDS = new Set(['role', 'ai_familiarity', 'goal']);
+
+// Blend notes shared between quiz results and chat-advisor paths
+const BLEND_NOTES = {
+  'explorer-practitioner': 'Your answers span conceptual grounding and real workflow skills. Start with Explorer, then move to Practitioner — they\'re designed to stack.',
+  'practitioner-builder': 'You\'re between power-user and builder. Try the Practitioner track first; if you want to go deeper into code, transition to Builder around week 4–5.',
+  'builder-researcher': 'Strong technical background with research interest. Builder gives you the practical foundation; Researcher builds the theoretical depth above it.',
+  'builder-practitioner': 'Your technical background puts you at Builder, but your goals might be better served by Practitioner\'s workflow focus. Consider your day-to-day goals.',
+  'explorer-researcher': 'Wide gap between these two. Consider starting with Explorer to build vocabulary, then reassess after 4 weeks whether you want to jump to Researcher.',
+  'practitioner-researcher': 'You show both applied and theoretical leanings. Practitioner is the faster path to immediate productivity; Researcher goes deeper into how models work.',
+};
+
 const QUESTIONS = [
   {
     id: 'role',
@@ -2796,6 +2819,7 @@ function startQuiz() {
 
 function renderQuestion() {
   const q = QUESTIONS[currentQuestion];
+  const isMulti = MULTI_SELECT_QUESTION_IDS.has(q.id);
   const progress = QUESTIONS.map((_, i) => {
     if (i < currentQuestion) return 'done';
     if (i === currentQuestion) return 'current';
@@ -2806,13 +2830,17 @@ function renderQuestion() {
     `<div class="step ${cls}"></div>`
   ).join('');
 
+  const currentAnswers = answers[currentQuestion] || [];
+  const hasSelection = currentAnswers.length >= 1;
+
   let html = `
     <div class="quiz-step-label cx-caption">Question ${currentQuestion + 1} of ${QUESTIONS.length}</div>
     <h2 class="quiz-question cx-heading">${q.question}</h2>
-    <p class="quiz-hint cx-body">${q.hint}</p>
+    <p class="quiz-hint cx-body">${q.hint}${isMulti ? ' <span style="color:var(--accent);font-weight:600;">(select all that apply)</span>' : ''}</p>
     <div class="quiz-options">
       ${q.options.map((opt, i) => `
-        <div class="quiz-option cx-option" onclick="selectOption(${i})" data-idx="${i}">
+        <div class="quiz-option cx-option" onclick="${isMulti ? 'toggleOption' : 'selectOption'}(${i})" data-idx="${i}">
+          ${isMulti ? '<span class="cx-check" aria-hidden="true"></span>' : ''}
           <div class="option-title">${opt.text}</div>
           <div class="option-desc">${opt.desc}</div>
         </div>
@@ -2820,19 +2848,27 @@ function renderQuestion() {
     </div>
     <div class="quiz-nav">
       ${currentQuestion > 0 ? '<button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="prevQuestion()">Back</button>' : '<div></div>'}
-      <div></div>
+      ${isMulti ? `<button class="cx-btn cx-btn-primary btn btn-primary" id="quizNextBtn" onclick="nextQuestion()" ${hasSelection ? '' : 'disabled'} style="opacity:${hasSelection ? '1' : '0.4'}">Next &rarr;</button>` : '<div></div>'}
     </div>
   `;
 
   document.getElementById('quizContent').innerHTML = html;
 
-  if (answers[currentQuestion] !== undefined) {
-    document.querySelectorAll('.quiz-option')[answers[currentQuestion]].classList.add('selected');
+  // Restore selected state for multi-select
+  if (isMulti && currentAnswers.length > 0) {
+    const options = document.querySelectorAll('.quiz-option');
+    currentAnswers.forEach(idx => {
+      if (options[idx]) options[idx].classList.add('selected');
+    });
+  } else if (!isMulti && currentAnswers.length > 0) {
+    const options = document.querySelectorAll('.quiz-option');
+    if (options[currentAnswers[0]]) options[currentAnswers[0]].classList.add('selected');
   }
 }
 
 function selectOption(idx) {
-  answers[currentQuestion] = idx;
+  // Single-select: store as array, auto-advance
+  answers[currentQuestion] = [idx];
   document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
   document.querySelectorAll('.quiz-option')[idx].classList.add('selected');
 
@@ -2846,6 +2882,40 @@ function selectOption(idx) {
   }, 250);
 }
 
+function toggleOption(idx) {
+  // Multi-select: toggle idx in/out, no auto-advance
+  if (!answers[currentQuestion]) answers[currentQuestion] = [];
+  const arr = answers[currentQuestion];
+  const pos = arr.indexOf(idx);
+  if (pos === -1) {
+    arr.push(idx);
+  } else {
+    arr.splice(pos, 1);
+  }
+  // Update UI
+  const options = document.querySelectorAll('.quiz-option');
+  options.forEach((el, i) => {
+    el.classList.toggle('selected', arr.includes(i));
+  });
+  // Enable/disable next button
+  const btn = document.getElementById('quizNextBtn');
+  if (btn) {
+    const hasSelection = arr.length >= 1;
+    btn.disabled = !hasSelection;
+    btn.style.opacity = hasSelection ? '1' : '0.4';
+  }
+}
+
+function nextQuestion() {
+  // For multi-select: advance to next or calculate
+  if (currentQuestion < QUESTIONS.length - 1) {
+    currentQuestion++;
+    renderQuestion();
+  } else {
+    calculateResults();
+  }
+}
+
 function prevQuestion() {
   if (currentQuestion > 0) {
     currentQuestion--;
@@ -2857,27 +2927,52 @@ function calculateResults() {
   const scores = { explorer: 0, practitioner: 0, builder: 0, researcher: 0 };
 
   QUESTIONS.forEach((q, i) => {
-    if (answers[i] !== undefined) {
-      const opt = q.options[answers[i]];
-      for (const [track, score] of Object.entries(opt.scores)) {
-        scores[track] += score;
-      }
-    }
+    const picks = answers[i]; // always number[] now
+    if (!picks || picks.length === 0) return;
+    const isMulti = MULTI_SELECT_QUESTION_IDS.has(q.id);
+    // Sum scores across selected options
+    const agg = { explorer: 0, practitioner: 0, builder: 0, researcher: 0 };
+    picks.forEach(pickIdx => {
+      const opt = q.options[pickIdx];
+      if (!opt) return;
+      for (const [t, s] of Object.entries(opt.scores)) agg[t] += s;
+    });
+    // Average for multi-select so breadth doesn't tilt placement
+    const divisor = isMulti ? picks.length : 1;
+    for (const t of Object.keys(scores)) scores[t] += agg[t] / divisor;
   });
 
   const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
   selectedTrack = sorted[0][0];
+  const topScore = sorted[0][1];
+  const secondScore = sorted[1][1];
+  // Blend: top-2 within 15% of #1's score
+  const blendWith = (topScore > 0 && (topScore - secondScore) / topScore < 0.15) ? sorted[1][0] : null;
+
   saveTrack(selectedTrack);
 
+  // Helper: join multi-select text values with middle dot
+  function pickText(qIdx) {
+    const picks = answers[qIdx];
+    if (!picks || picks.length === 0) return null;
+    return picks.map(i => QUESTIONS[qIdx].options[i] ? QUESTIONS[qIdx].options[i].text : '').filter(Boolean).join(' \u00b7 ');
+  }
+
   // Save full learner profile for personalization
+  // Store both display text and indices for back-compat and downstream scoring
   const learnerProfile = {
-    role: answers[0] !== undefined ? QUESTIONS[0].options[answers[0]].text : null,
-    programming: answers[1] !== undefined ? QUESTIONS[1].options[answers[1]].text : null,
-    aiFamiliarity: answers[2] !== undefined ? QUESTIONS[2].options[answers[2]].text : null,
-    goal: answers[3] !== undefined ? QUESTIONS[3].options[answers[3]].text : null,
-    timeCommitment: answers[4] !== undefined ? QUESTIONS[4].options[answers[4]].text : null,
+    role: pickText(0),
+    roleIndices: answers[0] || [],
+    programming: pickText(1),
+    programmingIndices: answers[1] || [],
+    aiFamiliarity: pickText(2),
+    aiFamiliarityIndices: answers[2] || [],
+    goal: pickText(3),
+    goalIndices: answers[3] || [],
+    timeCommitment: pickText(4),
     trackScores: scores,
     selectedTrack: selectedTrack,
+    blendWith: blendWith,
     assessedAt: new Date().toISOString()
   };
   saveLearnerProfile(learnerProfile);
@@ -2921,21 +3016,24 @@ function showResults() {
   }
 
   // Build insights about strengths/areas to watch
+  // aiFamiliarity and goal are now joined strings (e.g. "I build with AI · Deep experience") — use .includes()
   let insightsHtml = '';
   if (profile) {
     const strengths = [];
     const watchAreas = [];
+    const aiFam = profile.aiFamiliarity || '';
+    const prog = profile.programming || '';
 
-    if (profile.aiFamiliarity === 'Deep experience' || profile.aiFamiliarity === 'I build with AI') {
+    if (aiFam.includes('Deep experience') || aiFam.includes('I build with AI')) {
       strengths.push('foundational AI concepts');
     }
-    if (profile.programming === 'Advanced' || profile.programming === 'Intermediate') {
+    if (prog.includes('Advanced') || prog.includes('Intermediate')) {
       strengths.push('hands-on coding exercises');
     }
-    if (profile.aiFamiliarity === 'Brand new') {
+    if (aiFam === 'Brand new') {
       watchAreas.push('technical terminology (take extra time with glossary activities)');
     }
-    if (profile.programming === 'None' && selectedTrack !== 'explorer') {
+    if (prog === 'None' && selectedTrack !== 'explorer') {
       watchAreas.push('code-heavy activities (consider pairing with a coding companion)');
     }
 
@@ -2949,6 +3047,24 @@ function showResults() {
       }
       insightsHtml += '</div>';
     }
+  }
+
+  // Build blend banner if top-2 tracks are within 15% of each other
+  let blendHtml = '';
+  const blendWith = profile && profile.blendWith;
+  if (blendWith && TRACKS[blendWith]) {
+    const blendTrack = TRACKS[blendWith];
+    const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444' };
+    const blendColor = trackColors[blendWith];
+    const blendKey = [selectedTrack, blendWith].sort().join('-');
+    const blendNote = BLEND_NOTES[blendKey] || `Your answers also show strong alignment with the ${blendTrack.name} track.`;
+    blendHtml = `
+    <div style="background: linear-gradient(135deg, rgba(${blendColor.slice(1).match(/.{2}/g).map(h=>parseInt(h,16)).join(',')},0.08), rgba(${blendColor.slice(1).match(/.{2}/g).map(h=>parseInt(h,16)).join(',')},0.04)); border: 1px solid ${blendColor}33; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center;">
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: ${blendColor}; margin-bottom: 6px;">Blend Match Detected</div>
+      <div style="font-size: 15px; font-weight: 700; color: ${blendColor}; margin-bottom: 8px;">${blendTrack.name} Track is also a strong fit</div>
+      <p style="font-size: 13px; color: var(--text-dim); margin-bottom: 14px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.6;">${blendNote}</p>
+      <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="startWithTrack('${blendWith}')">Switch to ${blendTrack.name} instead</button>
+    </div>`;
   }
 
   document.getElementById('resultsContent').innerHTML = `
@@ -2978,6 +3094,7 @@ function showResults() {
         <div class="stat-label">Activities</div>
       </div>
     </div>
+    ${blendHtml}
     <div style="background: linear-gradient(135deg, rgba(129,140,248,0.08), rgba(96,165,250,0.08)); border: 1px solid rgba(129,140,248,0.2); border-radius: 12px; padding: 24px; margin-bottom: 20px; text-align: center;">
       <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent2); margin-bottom: 8px;">Calibrate Your Curriculum</div>
       <p style="font-size: 14px; color: var(--text-dim); margin-bottom: 16px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.7;">Take a short knowledge assessment to fine-tune your learning path. We will test actual knowledge across AI fundamentals, programming, tools, and ethics to place you precisely.</p>
@@ -4586,13 +4703,7 @@ function buildRecommendation(text) {
 
   const blendTrack = isBlend ? ranked[1] : null;
 
-  const notes = {
-    'explorer-practitioner': 'Your description suggests you want conceptual grounding plus real workflow skills. Start with Explorer, then move to Practitioner — they\'re designed to stack.',
-    'practitioner-builder': 'You\'re between power-user and builder. Try the Practitioner track first; if you want to go deeper into code, transition to Builder around week 4-5.',
-    'builder-researcher': 'Strong technical background with research interest. Builder gives you the practical foundation; Researcher builds the theoretical depth above it.',
-    'builder-practitioner': 'Your technical background puts you at Builder, but your goals might be better served by Practitioner\'s workflow focus. Consider your day-to-day goals.',
-    'explorer-researcher': 'Wide gap between these two. Consider starting with Explorer to build vocabulary, then reassess after 4 weeks whether you want to jump to Researcher.',
-  };
+  const notes = BLEND_NOTES; // shared with quiz results path
 
   const blendKey = blendTrack ? [ranked[0], ranked[1]].sort().join('-') : null;
   const note = isBlend && blendKey && notes[blendKey]
@@ -8020,7 +8131,17 @@ function showKnowledgeResults(profile) {
 // ============================================================
 
 function getLearnerProfile() {
-  try { return JSON.parse(localStorage.getItem('ai-curriculum-profile') || 'null'); } catch { return null; }
+  try {
+    const p = JSON.parse(localStorage.getItem('ai-curriculum-profile') || 'null');
+    if (!p) return null;
+    // Back-compat: old profiles stored single strings; ensure *Indices arrays exist
+    if (!p.roleIndices) p.roleIndices = [];
+    if (!p.aiFamiliarityIndices) p.aiFamiliarityIndices = [];
+    if (!p.goalIndices) p.goalIndices = [];
+    if (!p.programmingIndices) p.programmingIndices = [];
+    if (!p.timeCommitmentIndices) p.timeCommitmentIndices = [];
+    return p;
+  } catch { return null; }
 }
 
 function saveLearnerProfile(profile) {
@@ -8107,10 +8228,12 @@ function getActivityRelevance(day, profile) {
   const activityLevel = tags.includes('advanced') ? 3 : tags.includes('intermediate') ? 2 : 1;
 
   // Determine user level from AI familiarity (questionnaire)
+  // aiFamiliarity may be a joined multi-select string — use includes()
+  const aiFam = (profile.aiFamiliarity || '');
   let userLevel = 1;
-  if (profile.aiFamiliarity === 'I use AI tools') userLevel = 2;
-  else if (profile.aiFamiliarity === 'I build with AI') userLevel = 3;
-  else if (profile.aiFamiliarity === 'Deep experience') userLevel = 4;
+  if (aiFam.includes('Deep experience')) userLevel = 4;
+  else if (aiFam.includes('I build with AI')) userLevel = 3;
+  else if (aiFam.includes('I use AI tools')) userLevel = 2;
 
   // Override user level with knowledge assessment if available
   const kp = getKnowledgeProfile();
