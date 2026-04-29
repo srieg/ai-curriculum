@@ -2338,6 +2338,7 @@ const TRACKS = {
           { type: 'read', time: '30 min', title: 'Prompt Engineering 101', desc: 'Read Anthropic\'s prompt engineering overview — the definitive guide to talking to AI.', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview', tags: ['beginner', 'no-code', 'prompt-engineering'] },
           { type: 'do', time: '40 min', title: 'Prompt Practice', desc: 'Write 5 prompts for tasks in your actual work. Compare results between specific vs vague prompts.', tags: ['beginner', 'no-code', 'prompt-engineering'] },
           { type: 'read', time: '20 min', title: 'AI Tools Landscape', desc: 'Survey what\'s available: ChatGPT, Claude, Gemini, Perplexity, Midjourney, Copilot. Try two you haven\'t used.', tags: ['beginner', 'no-code', 'strategy'] },
+          { type: 'do', time: '90 min', title: 'AI Fluency (Anthropic Academy)', desc: 'Take Anthropic Academy\'s "AI Fluency: Framework & Foundations" — free course on working effectively with AI. Free Skilljar account required.', url: 'https://anthropic.skilljar.com/', tags: ['beginner', 'no-code', 'fluency'] },
           { type: 'reflect', time: '15 min', title: 'Tool Assessment', desc: 'Which AI tool would save you the most time this month? What task would you use it for?', tags: ['beginner', 'no-code', 'strategy'] }
         ]
       },
@@ -2412,6 +2413,7 @@ const TRACKS = {
         title: 'Advanced Prompt Engineering',
         days: [
           { type: 'read', time: '45 min', title: 'Anthropic Prompt Guide', desc: 'Read the full Anthropic prompt engineering documentation, with focus on chain-of-thought and structured output.', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview', tags: ['intermediate', 'no-code', 'prompt-engineering'] },
+          { type: 'do', time: '4 hr', title: 'Anthropic Interactive Prompt Tutorial', desc: 'Work through Anthropic\'s 9-chapter Jupyter tutorial — Basic Structure, Clarity, Roles, Data Separation, Formatting, Precognition, Examples, Avoiding Hallucinations, Complex Prompts. The hands-on companion to the docs.', url: 'https://github.com/anthropics/prompt-eng-interactive-tutorial', tags: ['intermediate', 'hands-on', 'prompt-engineering'] },
           { type: 'do', time: '45 min', title: 'System Prompts', desc: 'Write 3 system prompts for different work tasks. Test each with 5 inputs. Iterate on the weakest.', tags: ['intermediate', 'no-code', 'prompt-engineering'] },
           { type: 'do', time: '40 min', title: 'Few-Shot Prompting', desc: 'Take a task AI does poorly. Add 3 examples of correct output to the prompt. Measure improvement.', tags: ['intermediate', 'no-code', 'prompt-engineering'] },
           { type: 'do', time: '30 min', title: 'Prompt Template Library', desc: 'Create a personal library of 5 reusable prompt templates for your most common tasks.', tags: ['intermediate', 'no-code', 'prompt-engineering'] }
@@ -2540,6 +2542,7 @@ const TRACKS = {
         title: 'LLM APIs and Application Development',
         days: [
           { type: 'do', time: '60 min', title: 'Anthropic API', desc: 'Build a working application using the Anthropic API. Implement streaming, system prompts, and structured output.', tags: ['intermediate', 'programming-required', 'technical', 'building'] },
+          { type: 'do', time: '90 min', title: 'Claude Cookbooks', desc: 'Work through 2-3 recipes from the official Claude Cookbooks — pick from tool use, RAG, vision, sub-agents, evals, or prompt caching. Copy-paste-ready Jupyter notebooks.', url: 'https://github.com/anthropics/claude-cookbooks', tags: ['intermediate', 'programming-required', 'building'] },
           { type: 'read', time: '45 min', title: 'Prompt Engineering for Developers', desc: 'Read Anthropic\'s full prompt engineering docs — focus on tool use, function calling, and XML structured output.', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview', tags: ['intermediate', 'programming-required', 'prompt-engineering', 'building'] },
           { type: 'do', time: '60 min', title: 'Multi-Model Application', desc: 'Build an app that uses multiple AI providers (Claude + a local model or Claude + vision). Handle fallbacks.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
           { type: 'do', time: '45 min', title: 'Error Handling and Safety', desc: 'Add proper error handling, rate limiting, content filtering, and cost tracking to your API application.', tags: ['advanced', 'programming-required', 'technical', 'building', 'ethics'] }
@@ -2558,6 +2561,7 @@ const TRACKS = {
         title: 'AI Agents and Tool Use',
         days: [
           { type: 'read', time: '45 min', title: 'Agent Architectures', desc: 'Re-read Lilian Weng\'s agent post, focusing on ReAct, tool use patterns, and planning.', url: 'https://lilianweng.github.io/posts/2023-06-23-agent/', tags: ['advanced', 'no-code', 'technical', 'research'] },
+          { type: 'do', time: '60 min', title: 'Intro to Model Context Protocol', desc: 'Anthropic Academy course — MCP is the open standard for connecting agents to tools, data, and apps. Foundation for any modern agent build.', url: 'https://anthropic.skilljar.com/', tags: ['advanced', 'programming-required', 'technical', 'building'] },
           { type: 'do', time: '90 min', title: 'Build an Agent', desc: 'Build an AI agent with tool use: web search, file operations, or API calls. Implement the reasoning loop.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
           { type: 'do', time: '60 min', title: 'Multi-Agent System', desc: 'Build a system where multiple agents collaborate on a task — e.g., researcher + writer + editor.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
           { type: 'read', time: '30 min', title: 'Agent Safety', desc: 'Read about agent safety: sandboxing, permission models, output validation, human-in-the-loop patterns.', tags: ['advanced', 'no-code', 'technical', 'ethics'] }
@@ -3837,6 +3841,42 @@ const EVIDENCE = {
     ],
     sources: [{ title: 'Anthropic', citation: 'Claude API Documentation, docs.anthropic.com' }],
     alternatives: [{ text: 'OpenAI API', reason: 'Also excellent but Anthropic\'s documentation and developer experience are currently best-in-class' }]
+  },
+  'AI Fluency (Anthropic Academy)': {
+    confidence: 0.88,
+    reasoning: [
+      { type: 'evaluation', content: 'Anthropic Academy\'s "AI Fluency: Framework & Foundations" is a structured course designed by the team that builds Claude. Free, paced, and audience-appropriate for non-technical learners.' },
+      { type: 'decision', content: 'Placed in Explorer track Week 3 (Using AI Tools Effectively) to give a foundational mental model before learners loose-survey individual tools.' }
+    ],
+    sources: [{ title: 'Anthropic Academy', citation: 'AI Fluency: Framework & Foundations, anthropic.skilljar.com' }],
+    alternatives: [{ text: 'DeepLearning.AI short courses', reason: 'High quality but technically oriented; AI Fluency targets non-engineers more directly' }]
+  },
+  'Anthropic Interactive Prompt Tutorial': {
+    confidence: 0.94,
+    reasoning: [
+      { type: 'evaluation', content: 'The 9-chapter interactive tutorial in Jupyter is the highest-density hands-on prompt engineering training available — 35k+ stars on GitHub validates community adoption.' },
+      { type: 'decision', content: 'Paired with the Anthropic Prompt Guide reading: docs build the model, the tutorial drills it. Practitioners need both intake and exercise.' }
+    ],
+    sources: [{ title: 'Anthropic', citation: 'Interactive Prompt Engineering Tutorial, github.com/anthropics/prompt-eng-interactive-tutorial' }],
+    alternatives: [{ text: 'Learn Prompting (learnprompting.org)', reason: 'Broader coverage but less Claude-specific; this tutorial trains on the model practitioners will actually use' }]
+  },
+  'Claude Cookbooks': {
+    confidence: 0.92,
+    reasoning: [
+      { type: 'evaluation', content: 'The official Claude Cookbooks repo (claude-cookbooks, formerly anthropic-cookbook) is the canonical pattern library — 41k+ stars, Jupyter-native, recipes for tool use, RAG, vision, sub-agents, evals, prompt caching.' },
+      { type: 'decision', content: 'Placed after the Anthropic API exercise so learners have foundational API muscle memory before consuming production patterns.' }
+    ],
+    sources: [{ title: 'Anthropic', citation: 'Claude Cookbooks, github.com/anthropics/claude-cookbooks' }],
+    alternatives: [{ text: 'OpenAI Cookbook', reason: 'Excellent and broader; Claude Cookbooks covers Anthropic-specific features (prompt caching, computer use) the OpenAI version cannot' }]
+  },
+  'Intro to Model Context Protocol': {
+    confidence: 0.90,
+    reasoning: [
+      { type: 'evaluation', content: 'MCP is the emerging open standard for agent-tool communication, originated by Anthropic and now adopted across the ecosystem. Understanding MCP is foundational for any agent architecture decision.' },
+      { type: 'decision', content: 'Inserted before "Build an Agent" so learners have the protocol context before implementing custom tool integrations from scratch.' }
+    ],
+    sources: [{ title: 'Anthropic Academy', citation: 'Introduction to Model Context Protocol, anthropic.skilljar.com' }],
+    alternatives: [{ text: 'OpenAI function calling docs', reason: 'Valid pattern but proprietary; MCP is open-standard and increasingly cross-vendor' }]
   },
   'Build a RAG Pipeline': {
     confidence: 0.92,
