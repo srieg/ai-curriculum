@@ -6642,9 +6642,12 @@ showSchedule = function() {
     // v3: split sorted days into visible (non-mechanics or hide-off) and collapsed-optional (mechanics + hide-on)
     const _v3Visible = _v3HideMechanics ? sortedDays.filter(({ day }) => !_v3IsMechanics(day)) : sortedDays;
     const _v3Hidden  = _v3HideMechanics ? sortedDays.filter(({ day }) =>  _v3IsMechanics(day)) : [];
-    const _v3Meta = _v3Hidden.length > 0
-      ? `${_v3Visible.length} activities <span style="color:var(--text-dim);font-weight:normal;">+ ${_v3Hidden.length} optional</span>${weekComplete ? ' \u2713' : ''}`
-      : `${week.days.length} activities${weekComplete ? ' \u2713' : ''}`;
+    const _v3AllOptional = _v3Hidden.length > 0 && _v3Visible.length === 0;
+    const _v3Meta = _v3AllOptional
+      ? `<span style="color:var(--text-dim);font-weight:normal;font-style:italic;">All optional (${_v3Hidden.length} items) \u2014 based on your "Not really" answer on mechanics</span>${weekComplete ? ' \u2713' : ''}`
+      : _v3Hidden.length > 0
+        ? `${_v3Visible.length} activities <span style="color:var(--text-dim);font-weight:normal;">+ ${_v3Hidden.length} optional</span>${weekComplete ? ' \u2713' : ''}`
+        : `${week.days.length} activities${weekComplete ? ' \u2713' : ''}`;
 
     html += `
       <div class="week-block">
@@ -8569,8 +8572,21 @@ function getTrackRecommendationReason(profile) {
   if (!profile) return '';
   const parts = [];
   if (profile.role) parts.push('your background in ' + profile.role);
-  if (profile.programming) parts.push(profile.programming.toLowerCase() + ' coding experience');
-  if (profile.goal) parts.push('your goal to ' + profile.goal.toLowerCase());
+  if (profile.programming) {
+    // Map the answer text to grammatical English for the prose ("None" → "no coding experience", "A little" → "some coding experience", etc.)
+    const progMap = {
+      'None': 'no coding experience',
+      'A little': 'some coding experience',
+      'Intermediate': 'intermediate coding experience',
+      'Advanced': 'advanced coding experience',
+    };
+    parts.push(progMap[profile.programming] || (profile.programming.toLowerCase() + ' coding experience'));
+  }
+  if (profile.goal) {
+    // Preserve "AI" capitalization in the goal sentence (force-lowercasing produced "make smart ai decisions")
+    const goalText = profile.goal.charAt(0).toLowerCase() + profile.goal.slice(1).replace(/\bAi\b/g, 'AI');
+    parts.push('your goal to ' + goalText);
+  }
   const trackName = profile.selectedTrack ? TRACKS[profile.selectedTrack].name : 'this';
   return 'Based on ' + parts.join(', ') + ', the ' + trackName + ' track is the strongest fit for where you are and where you want to go.';
 }
