@@ -1,0 +1,70 @@
+name: Quiz feedback
+description: Tell us what felt off about a quiz question — or what worked
+title: "[Quiz feedback] "
+labels: ["quiz-feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for sharing — every bit of feedback helps tune the quiz. The fields below are pre-filled from your quiz session; edit anything that's wrong and tell us what would make it better.
+
+  - type: dropdown
+    id: question
+    attributes:
+      label: Which question?
+      description: Pre-filled from the question you were on
+      options:
+        - "Q1 — Role"
+        - "Q2 — Programming experience"
+        - "Q3 — AI familiarity"
+        - "Q4 — Primary goal"
+        - "Q5 — Mechanics interest"
+        - "Q6 — Time commitment"
+        - "Results page / track recommendation"
+        - "Other / quiz-wide"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: verdict
+    attributes:
+      label: What's the verdict?
+      options:
+        - "Worked well"
+        - "Didn't feel right / felt off"
+        - "Have a suggestion"
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: What would make this better?
+      description: The most useful thing — tell us what bothered you, what was confusing, or what you'd change. Don't worry about length.
+      placeholder: "e.g., 'The Decide option felt like it was only for big-company procurement; I'm a teacher and it didn't fit me.'"
+    validations:
+      required: false
+
+  - type: input
+    id: your_pick
+    attributes:
+      label: Which option(s) did you pick on that question?
+      description: Pre-filled from your selection — edit if wrong
+    validations:
+      required: false
+
+  - type: input
+    id: your_track
+    attributes:
+      label: Which track did the quiz recommend you?
+      description: Explorer, Practitioner, Builder, or Researcher (if known)
+    validations:
+      required: false
+
+  - type: textarea
+    id: anything_else
+    attributes:
+      label: Anything else?
+      description: Optional — broader context, who you are, what you're using the curriculum for. Helps us see your perspective.
+    validations:
+      required: false

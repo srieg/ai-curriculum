@@ -2058,7 +2058,7 @@
     </div>
     <h1>Your AI Learning Path</h1>
     <p class="subtitle">
-      A free, personalized AI curriculum. Take a 5-question assessment and get a study schedule built for your experience level — from first encounter to frontier research. Every resource recommendation includes transparent reasoning you can inspect.
+      A free, personalized AI curriculum. Take a 6-question assessment and get a study schedule built for your experience level — from first encounter to frontier research. Every resource recommendation includes transparent reasoning you can inspect.
     </p>
     <div class="features">
       <div class="feature-card cx-card">
@@ -2235,7 +2235,8 @@
 // ============================================================
 
 // Questions that accept multiple selections (averaged for scoring fairness)
-const MULTI_SELECT_QUESTION_IDS = new Set(['role', 'ai_familiarity', 'goal']);
+// v3: goal moved to single-select — primary goal is most intentional signal, multi-select defeats its purpose
+const MULTI_SELECT_QUESTION_IDS = new Set(['role', 'ai_familiarity']);
 
 // Blend notes shared between quiz results and chat-advisor paths
 const BLEND_NOTES = {
@@ -2247,6 +2248,13 @@ const BLEND_NOTES = {
   'practitioner-researcher': 'You show both applied and theoretical leanings. Practitioner is the faster path to immediate productivity; Researcher goes deeper into how models work.',
 };
 
+// v3 QUIZ — see QUIZ_V2.md for design rationale, simulate-personas.ts for validation (21/21)
+// Changes from previous version:
+//   - Q3 rewritten: measures USE frequency only (no mechanics conflation)
+//   - Q4 rewritten: orthogonal use/decide/build/science with reworded "Decide" for non-enterprise contexts
+//   - Q5 NEW: mechanics-interest content modifier (scores all zero — gates content, doesn't pick track)
+//   - Q6 (time): pace only — scores all zero so it doesn't push to Researcher
+//   - Goal weights bumped 3/1 → 4/2; gate + tiebreak + no-code-builder fallback applied in calculateResults
 const QUESTIONS = [
   {
     id: 'role',
@@ -2273,35 +2281,47 @@ const QUESTIONS = [
   },
   {
     id: 'ai_familiarity',
-    question: 'What\'s your experience with AI so far?',
-    hint: 'This determines where your curriculum starts.',
+    question: 'How often and broadly do you use AI tools today?',
+    hint: 'Frequency of use only — your interest in how it works is a separate question later.',
     options: [
-      { text: 'Brand new', desc: 'I\'ve heard about AI but haven\'t really used it', scores: { explorer: 3, practitioner: 1, builder: 0, researcher: 0 } },
-      { text: 'I use AI tools', desc: 'I use ChatGPT, Claude, Copilot, or similar regularly', scores: { explorer: 1, practitioner: 3, builder: 1, researcher: 0 } },
-      { text: 'I build with AI', desc: 'I\'ve used AI APIs, built prompts, or integrated AI into products', scores: { explorer: 0, practitioner: 1, builder: 3, researcher: 1 } },
-      { text: 'Deep experience', desc: 'I\'ve trained models, done fine-tuning, or read ML papers', scores: { explorer: 0, practitioner: 0, builder: 1, researcher: 3 } }
+      { text: 'Brand new', desc: 'I\'ve heard about AI but rarely use it', scores: { explorer: 3, practitioner: 1, builder: 0, researcher: 0 } },
+      { text: 'Occasional', desc: 'I open ChatGPT or Claude when I remember to', scores: { explorer: 2, practitioner: 2, builder: 0, researcher: 0 } },
+      { text: 'Regular', desc: 'I use AI daily across several tasks', scores: { explorer: 1, practitioner: 3, builder: 1, researcher: 0 } },
+      { text: 'Power user', desc: 'AI is core to my workflow — I\'ve built custom GPTs, Projects, or automations', scores: { explorer: 0, practitioner: 3, builder: 2, researcher: 0 } },
+      { text: 'Builder', desc: 'I\'ve shipped code that calls AI APIs', scores: { explorer: 0, practitioner: 1, builder: 3, researcher: 1 } }
     ]
   },
   {
     id: 'goal',
     question: 'What\'s your primary learning goal?',
-    hint: 'This shapes which topics get more depth in your schedule.',
+    hint: 'Pick the one that fits best — this is the strongest signal for which track you land on.',
     options: [
-      { text: 'Understand AI to make better decisions', desc: 'I want to know what AI can and can\'t do for my work', scores: { explorer: 3, practitioner: 2, builder: 0, researcher: 0 } },
-      { text: 'Use AI tools more effectively', desc: 'I want to get significantly better at prompt engineering and AI workflows', scores: { explorer: 1, practitioner: 3, builder: 1, researcher: 0 } },
-      { text: 'Build AI-powered applications', desc: 'I want to create software that uses AI under the hood', scores: { explorer: 0, practitioner: 0, builder: 3, researcher: 1 } },
-      { text: 'Deep understanding of AI systems', desc: 'I want to understand how AI works at a fundamental level', scores: { explorer: 0, practitioner: 0, builder: 1, researcher: 3 } }
+      { text: 'Use AI more effectively', desc: 'Get better at prompts, workflows, daily tooling in my current work', scores: { explorer: 2, practitioner: 4, builder: 0, researcher: 0 } },
+      { text: 'Make smart AI decisions', desc: 'Decide what to use, govern adoption, evaluate claims and tools — works for personal, classroom, clinical, organizational, or vendor decisions', scores: { explorer: 4, practitioner: 2, builder: 0, researcher: 0 } },
+      { text: 'Build AI-powered products or features', desc: 'Apps, integrations, agents — code that uses AI under the hood', scores: { explorer: 0, practitioner: 0, builder: 4, researcher: 2 } },
+      { text: 'Understand the science', desc: 'How transformers work, read papers, mathematical foundations, research', scores: { explorer: 0, practitioner: 0, builder: 2, researcher: 4 } }
+    ]
+  },
+  {
+    id: 'mechanics',
+    question: 'How much do you care about <em>how</em> AI works under the hood?',
+    hint: 'This doesn\'t change which track you land on — it changes how much "how it works" content shows up inside your track.',
+    options: [
+      { text: 'Not really', desc: 'I want to use it well, not understand the math', scores: { explorer: 0, practitioner: 0, builder: 0, researcher: 0 } },
+      { text: 'Some curiosity', desc: 'A visual intro is nice, but I don\'t want to dwell there', scores: { explorer: 0, practitioner: 0, builder: 0, researcher: 0 } },
+      { text: 'Pretty interested', desc: 'I want a working mental model of neural nets, training, attention', scores: { explorer: 0, practitioner: 0, builder: 0, researcher: 0 } },
+      { text: 'Very interested', desc: 'I want to read papers and build mental models from first principles', scores: { explorer: 0, practitioner: 0, builder: 0, researcher: 0 } }
     ]
   },
   {
     id: 'time',
     question: 'How much time can you commit per week?',
-    hint: 'We\'ll adjust the pace of your schedule to fit your life.',
+    hint: 'Affects pace only — your role and goals decide your track, not your calendar.',
     options: [
-      { text: '2–3 hours', desc: 'A few sessions per week', scores: { explorer: 3, practitioner: 1, builder: 0, researcher: 0 } },
-      { text: '4–6 hours', desc: 'About an hour most days', scores: { explorer: 1, practitioner: 3, builder: 1, researcher: 0 } },
-      { text: '7–10 hours', desc: 'A serious commitment — 1–2 hours daily', scores: { explorer: 0, practitioner: 1, builder: 3, researcher: 1 } },
-      { text: '10+ hours', desc: 'This is a primary focus for me right now', scores: { explorer: 0, practitioner: 0, builder: 1, researcher: 3 } }
+      { text: '2–3 hours', desc: 'A few sessions per week', scores: { explorer: 0, practitioner: 0, builder: 0, researcher: 0 } },
+      { text: '4–6 hours', desc: 'About an hour most days', scores: { explorer: 0, practitioner: 0, builder: 0, researcher: 0 } },
+      { text: '7–10 hours', desc: 'A serious commitment — 1–2 hours daily', scores: { explorer: 0, practitioner: 0, builder: 0, researcher: 0 } },
+      { text: '10+ hours', desc: 'This is a primary focus for me right now', scores: { explorer: 0, practitioner: 0, builder: 0, researcher: 0 } }
     ]
   }
 ];
@@ -2318,7 +2338,7 @@ const TRACKS = {
         title: 'What AI Actually Is',
         days: [
           { type: 'read', time: '30 min', title: 'AI Is Not What You Think', desc: 'Read the Stanford HAI AI Index executive summary (latest edition). Note what surprised you.', url: 'https://aiindex.stanford.edu/report/', tags: ['beginner', 'no-code', 'business', 'strategy'] },
-          { type: 'watch', time: '25 min', title: 'Neural Networks: A Visual Primer', desc: 'Watch "But what is a neural network?" by 3Blue1Brown — the clearest visual explanation available.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research'] },
+          { type: 'watch', time: '25 min', title: 'Neural Networks: A Visual Primer', desc: 'Watch "But what is a neural network?" by 3Blue1Brown — the clearest visual explanation available.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research', 'mechanics'] },
           { type: 'read', time: '45 min', title: 'The AI Landscape', desc: 'Read the first two chapters of "Prediction Machines" by Agrawal, Gans & Goldfarb. AI as a prediction technology.', url: 'https://www.amazon.com/dp/1633695670', tags: ['beginner', 'no-code', 'business', 'strategy'] },
           { type: 'reflect', time: '15 min', title: 'Week 1 Reflection', desc: 'Write 3 sentences: What is AI good at? What is it bad at? What surprised you this week?', tags: ['beginner', 'no-code', 'strategy'] }
         ]
@@ -2326,7 +2346,7 @@ const TRACKS = {
       {
         title: 'How AI Learns',
         days: [
-          { type: 'watch', time: '30 min', title: 'Machine Learning Explained', desc: 'Watch "Gradient descent, how neural networks learn" by 3Blue1Brown.', url: 'https://www.youtube.com/watch?v=IHZwWFHWa-w', tags: ['beginner', 'no-code', 'technical', 'research'] },
+          { type: 'watch', time: '30 min', title: 'Machine Learning Explained', desc: 'Watch "Gradient descent, how neural networks learn" by 3Blue1Brown.', url: 'https://www.youtube.com/watch?v=IHZwWFHWa-w', tags: ['beginner', 'no-code', 'technical', 'research', 'mechanics'] },
           { type: 'read', time: '30 min', title: 'Training, Data, and Bias', desc: 'Read "AI Superpowers" Chapter 1 by Kai-Fu Lee — how data shapes AI capabilities.', url: 'https://www.amazon.com/dp/1328546393', tags: ['beginner', 'no-code', 'business', 'ethics'] },
           { type: 'do', time: '20 min', title: 'Teachable Machine', desc: 'Use Google\'s Teachable Machine to train a simple image classifier. No code needed.', url: 'https://teachablemachine.withgoogle.com/', tags: ['beginner', 'no-code', 'building'] },
           { type: 'discuss', time: '15 min', title: 'Week 2 Discussion', desc: 'If AI learns from data, whose data is it learning from? What perspectives might be missing?', tags: ['beginner', 'no-code', 'ethics'] }
@@ -2404,7 +2424,7 @@ const TRACKS = {
         title: 'AI Capabilities and Limits',
         days: [
           { type: 'read', time: '40 min', title: 'Stanford HAI AI Index', desc: 'Read the full executive summary — the most data-driven overview of where AI stands.', url: 'https://aiindex.stanford.edu/report/', tags: ['beginner', 'no-code', 'business', 'strategy'] },
-          { type: 'watch', time: '30 min', title: 'Neural Networks Visual Intro', desc: '3Blue1Brown\'s neural network series, episodes 1–2.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research'] },
+          { type: 'watch', time: '30 min', title: 'Neural Networks Visual Intro', desc: '3Blue1Brown\'s neural network series, episodes 1–2.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research', 'mechanics'] },
           { type: 'do', time: '30 min', title: 'Benchmark Your AI Use', desc: 'List every way you currently use AI. Rate each: effectiveness (1-5), frequency, time saved.', tags: ['beginner', 'no-code', 'strategy'] },
           { type: 'reflect', time: '15 min', title: 'Capability Mapping', desc: 'Where are AI tools strongest in your workflow? Where do they fail or hallucinate?', tags: ['beginner', 'no-code', 'strategy'] }
         ]
@@ -2431,7 +2451,7 @@ const TRACKS = {
       {
         title: 'Data Literacy for AI',
         days: [
-          { type: 'read', time: '45 min', title: 'Thinking with Data', desc: 'Read Breiman\'s "Two Cultures" thesis summary — how statistics and ML approach the same problems differently.', url: 'https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures/10.1214/ss/1009213726.full', tags: ['intermediate', 'no-code', 'academic', 'research'] },
+          { type: 'read', time: '45 min', title: 'Thinking with Data', desc: 'Read Breiman\'s "Two Cultures" thesis summary — how statistics and ML approach the same problems differently.', url: 'https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures/10.1214/ss/1009213726.full', tags: ['intermediate', 'no-code', 'academic', 'research', 'mechanics'] },
           { type: 'do', time: '40 min', title: 'Data Quality Assessment', desc: 'Take a dataset you work with. Assess: completeness, accuracy, bias, freshness. How would each affect AI output?', tags: ['intermediate', 'no-code', 'technical', 'strategy'] },
           { type: 'watch', time: '30 min', title: 'Data Visualization', desc: 'Watch Hans Rosling\'s "The best stats you\'ve ever seen" — data storytelling at its finest.', url: 'https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen', tags: ['beginner', 'no-code', 'business'] },
           { type: 'discuss', time: '20 min', title: 'Data Ethics', desc: 'Your company has a dataset of customer interactions. What\'s ethical to use for AI training? What isn\'t? Where\'s the line?', tags: ['intermediate', 'no-code', 'ethics'] }
@@ -2501,29 +2521,32 @@ const TRACKS = {
     duration: 12,
     hoursPerWeek: '6–10',
     description: 'For developers who want to build AI-powered applications. Code-heavy, project-driven, with real engineering depth.',
+    // v3: ship-first ordering. LLM APIs / RAG / Agents (orig 4,5,6) come first; ML/DL/Transformer mechanics weeks (orig 0,1,3,2) move to weeks 4-7.
+    // Original week data is unchanged below — `weekOrder` only changes display sequence. `wi` indices used by progress tracking stay original.
+    weekOrder: [4, 5, 6, 0, 1, 3, 2, 7, 8, 9, 10, 11],
     weeks: [
       {
         title: 'ML Foundations',
         days: [
-          { type: 'read', time: '60 min', title: 'Breiman\'s Two Cultures', desc: 'Read the original paper — the philosophical split between statistical modeling and algorithmic prediction.', url: 'https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures/10.1214/ss/1009213726.full', tags: ['intermediate', 'no-code', 'academic', 'research'] },
-          { type: 'watch', time: '45 min', title: '3Blue1Brown Neural Networks', desc: 'Watch the full 4-part neural network series. Take notes on backpropagation.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research'] },
-          { type: 'do', time: '60 min', title: 'Linear Regression from Scratch', desc: 'Implement linear regression with gradient descent in Python or TypeScript. No libraries. Understand every line.', tags: ['intermediate', 'programming-required', 'technical', 'building'] },
+          { type: 'read', time: '60 min', title: 'Breiman\'s Two Cultures', desc: 'Read the original paper — the philosophical split between statistical modeling and algorithmic prediction.', url: 'https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures/10.1214/ss/1009213726.full', tags: ['intermediate', 'no-code', 'academic', 'research', 'mechanics'] },
+          { type: 'watch', time: '45 min', title: '3Blue1Brown Neural Networks', desc: 'Watch the full 4-part neural network series. Take notes on backpropagation.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research', 'mechanics'] },
+          { type: 'do', time: '60 min', title: 'Linear Regression from Scratch', desc: 'Implement linear regression with gradient descent in Python or TypeScript. No libraries. Understand every line.', tags: ['intermediate', 'programming-required', 'technical', 'building', 'mechanics'] },
           { type: 'read', time: '30 min', title: 'Stanford HAI Index', desc: 'Read the full technical sections of the AI Index — benchmarks, capabilities, trends.', url: 'https://aiindex.stanford.edu/report/', tags: ['beginner', 'no-code', 'strategy', 'research'] }
         ]
       },
       {
         title: 'Deep Learning Fundamentals',
         days: [
-          { type: 'watch', time: '90 min', title: 'fast.ai Lesson 1', desc: 'Complete fast.ai Practical Deep Learning Lesson 1. Follow along with code.', url: 'https://course.fast.ai/', tags: ['intermediate', 'programming-required', 'technical', 'building'] },
-          { type: 'do', time: '60 min', title: 'Neural Net from Scratch', desc: 'Implement a 2-layer neural network from scratch. Train it on MNIST or a simple classification task.', tags: ['intermediate', 'programming-required', 'technical', 'building'] },
-          { type: 'watch', time: '60 min', title: 'Karpathy: Micrograd', desc: 'Watch Andrej Karpathy\'s "building micrograd" — autograd from zero.', url: 'https://www.youtube.com/watch?v=VMj-3S1tku0', tags: ['intermediate', 'programming-required', 'technical', 'research'] },
-          { type: 'do', time: '45 min', title: 'Micrograd Implementation', desc: 'Build your own autograd engine following Karpathy\'s tutorial. Understand backpropagation deeply.', tags: ['intermediate', 'programming-required', 'technical', 'building'] }
+          { type: 'watch', time: '90 min', title: 'fast.ai Lesson 1', desc: 'Complete fast.ai Practical Deep Learning Lesson 1. Follow along with code.', url: 'https://course.fast.ai/', tags: ['intermediate', 'programming-required', 'technical', 'building', 'mechanics'] },
+          { type: 'do', time: '60 min', title: 'Neural Net from Scratch', desc: 'Implement a 2-layer neural network from scratch. Train it on MNIST or a simple classification task.', tags: ['intermediate', 'programming-required', 'technical', 'building', 'mechanics'] },
+          { type: 'watch', time: '60 min', title: 'Karpathy: Micrograd', desc: 'Watch Andrej Karpathy\'s "building micrograd" — autograd from zero.', url: 'https://www.youtube.com/watch?v=VMj-3S1tku0', tags: ['intermediate', 'programming-required', 'technical', 'research', 'mechanics'] },
+          { type: 'do', time: '45 min', title: 'Micrograd Implementation', desc: 'Build your own autograd engine following Karpathy\'s tutorial. Understand backpropagation deeply.', tags: ['intermediate', 'programming-required', 'technical', 'building', 'mechanics'] }
         ]
       },
       {
         title: 'Modern Deep Learning',
         days: [
-          { type: 'watch', time: '90 min', title: 'fast.ai Lessons 2–3', desc: 'Complete lessons 2-3 of fast.ai. Focus on transfer learning and data augmentation.', url: 'https://course.fast.ai/', tags: ['intermediate', 'programming-required', 'technical', 'building'] },
+          { type: 'watch', time: '90 min', title: 'fast.ai Lessons 2–3', desc: 'Complete lessons 2-3 of fast.ai. Focus on transfer learning and data augmentation.', url: 'https://course.fast.ai/', tags: ['intermediate', 'programming-required', 'technical', 'building', 'mechanics'] },
           { type: 'do', time: '60 min', title: 'Image Classifier Project', desc: 'Build and deploy an image classifier for a real use case — something you actually care about.', tags: ['intermediate', 'programming-required', 'technical', 'building'] },
           { type: 'read', time: '45 min', title: 'Designing ML Systems Ch 1-3', desc: 'Read Chip Huyen\'s book — the gap between ML research and production ML.', url: 'https://www.amazon.com/dp/1098107969', tags: ['intermediate', 'no-code', 'technical', 'strategy'] },
           { type: 'reflect', time: '20 min', title: 'Architecture Decisions', desc: 'When would you use CNNs vs transformers vs traditional ML? What drives the decision?', tags: ['intermediate', 'no-code', 'technical', 'research'] }
@@ -2532,9 +2555,9 @@ const TRACKS = {
       {
         title: 'The Transformer',
         days: [
-          { type: 'read', time: '90 min', title: 'Attention Is All You Need', desc: 'Read the original 2017 paper. Understand self-attention, multi-head attention, positional encoding.', url: 'https://arxiv.org/abs/1706.03762', tags: ['advanced', 'no-code', 'academic', 'research'] },
-          { type: 'watch', time: '60 min', title: 'Karpathy: GPT from Scratch', desc: 'Watch "Let\'s build GPT from scratch" — the transformer architecture explained by building it.', url: 'https://www.youtube.com/watch?v=kCc8FmEb1nY', tags: ['advanced', 'programming-required', 'technical', 'building'] },
-          { type: 'do', time: '90 min', title: 'Build a Mini Transformer', desc: 'Implement a small transformer from scratch. Train it on a simple text dataset.', tags: ['advanced', 'programming-required', 'technical', 'building'] },
+          { type: 'read', time: '90 min', title: 'Attention Is All You Need', desc: 'Read the original 2017 paper. Understand self-attention, multi-head attention, positional encoding.', url: 'https://arxiv.org/abs/1706.03762', tags: ['advanced', 'no-code', 'academic', 'research', 'mechanics'] },
+          { type: 'watch', time: '60 min', title: 'Karpathy: GPT from Scratch', desc: 'Watch "Let\'s build GPT from scratch" — the transformer architecture explained by building it.', url: 'https://www.youtube.com/watch?v=kCc8FmEb1nY', tags: ['advanced', 'programming-required', 'technical', 'building', 'mechanics'] },
+          { type: 'do', time: '90 min', title: 'Build a Mini Transformer', desc: 'Implement a small transformer from scratch. Train it on a simple text dataset.', tags: ['advanced', 'programming-required', 'technical', 'building', 'mechanics'] },
           { type: 'read', time: '30 min', title: 'HuggingFace NLP Course Ch 1', desc: 'Start the HuggingFace NLP course — transformer models in practice.', url: 'https://huggingface.co/learn/nlp-course/', tags: ['intermediate', 'programming-required', 'technical', 'building'] }
         ]
       },
@@ -2880,6 +2903,12 @@ function renderQuestion() {
       ${currentQuestion > 0 ? '<button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="prevQuestion()">Back</button>' : '<div></div>'}
       ${isMulti ? `<button class="cx-btn cx-btn-primary btn btn-primary" id="quizNextBtn" onclick="nextQuestion()" ${hasSelection ? '' : 'disabled'} style="opacity:${hasSelection ? '1' : '0.4'}">Next &rarr;</button>` : '<div></div>'}
     </div>
+    <div class="quiz-feedback-bar" style="margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--border, #e5e7eb); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--text-dim, #6b7280);">
+      <span style="opacity: 0.85;">How's this question?</span>
+      <button onclick="reportQuizQuestion('up')" type="button" title="This question worked well" aria-label="This question worked well" style="cursor: pointer; background: transparent; border: 1px solid var(--border, #d1d5db); border-radius: 6px; padding: 4px 10px; font-size: 14px;">👍</button>
+      <button onclick="reportQuizQuestion('down')" type="button" title="This question felt off" aria-label="This question felt off" style="cursor: pointer; background: transparent; border: 1px solid var(--border, #d1d5db); border-radius: 6px; padding: 4px 10px; font-size: 14px;">👎</button>
+      <button onclick="reportQuizQuestion('comment')" type="button" title="Suggest an improvement" style="cursor: pointer; background: transparent; border: 1px solid var(--border, #d1d5db); border-radius: 6px; padding: 4px 10px; font-size: 13px;">💬 Suggest improvement</button>
+    </div>
   `;
 
   document.getElementById('quizContent').innerHTML = html;
@@ -2910,6 +2939,33 @@ function selectOption(idx) {
       calculateResults();
     }
   }, 250);
+}
+
+// v3 — open a pre-filled GitHub Issue Form for the current question
+const QUIZ_FEEDBACK_REPO = 'srieg/ai-curriculum';
+const QUIZ_LABEL_BY_ID = {
+  role: 'Q1 — Role',
+  programming: 'Q2 — Programming experience',
+  ai_familiarity: 'Q3 — AI familiarity',
+  goal: 'Q4 — Primary goal',
+  mechanics: 'Q5 — Mechanics interest',
+  time: 'Q6 — Time commitment',
+};
+function reportQuizQuestion(verdict) {
+  const q = QUESTIONS[currentQuestion];
+  const questionLabel = QUIZ_LABEL_BY_ID[q.id] || `Q${currentQuestion + 1}`;
+  const verdictLabel = verdict === 'up' ? 'Worked well' : verdict === 'down' ? "Didn't feel right / felt off" : 'Have a suggestion';
+  const picks = (answers[currentQuestion] || [])
+    .map(i => q.options[i] && q.options[i].text)
+    .filter(Boolean)
+    .join(' / ');
+  const url = new URL(`https://github.com/${QUIZ_FEEDBACK_REPO}/issues/new`);
+  url.searchParams.set('template', 'quiz-feedback.yml');
+  url.searchParams.set('title', `[Quiz feedback] ${questionLabel}`);
+  url.searchParams.set('question', questionLabel);
+  url.searchParams.set('verdict', verdictLabel);
+  if (picks) url.searchParams.set('your_pick', picks);
+  window.open(url.toString(), '_blank', 'noopener,noreferrer');
 }
 
 function toggleOption(idx) {
@@ -2972,12 +3028,43 @@ function calculateResults() {
     for (const t of Object.keys(scores)) scores[t] += agg[t] / divisor;
   });
 
+  // \u2500\u2500\u2500 v3 post-processing \u2014 see QUIZ_V2.md + simulate-personas.ts (21/21 validated) \u2500\u2500\u2500\u2500
+  // Question indices: 0=role, 1=programming, 2=ai_familiarity, 3=goal, 4=mechanics, 5=time
+  // Goal option indices: 0=use_effectively, 1=decide, 2=build_products, 3=understand_science
+  const progIdx = (answers[1] && answers[1][0]); // none=0, little=1, intermediate=2, advanced=3
+  const goalIdx = (answers[3] && answers[3][0]); // single-select after v3
+  const progIsLow = progIdx === 0 || progIdx === 1;
+  const goalIsScience = goalIdx === 3;
+  const goalIsBuild = goalIdx === 2;
+
+  // v3 Fix 3 \u2014 Gate: programming<intermediate caps Builder; Researcher gated unless goal=understand_science
+  if (progIsLow) {
+    scores.builder = 0;
+    if (!goalIsScience) scores.researcher = 0;
+  }
+
+  // v3 Fix 4 \u2014 No-code-builder fallback: someone wanting to build but can't code \u2192 Practitioner (no-code AI building)
+  if (goalIsBuild && progIsLow) {
+    scores.practitioner += 5;
+  }
+
+  // v3 Fix 2 \u2014 Tiebreak: when top two tracks tied, the goal-target wins
+  const GOAL_PRIMARY = ['practitioner', 'explorer', 'builder', 'researcher']; // indexed by goal option
   const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-  selectedTrack = sorted[0][0];
-  const topScore = sorted[0][1];
+  let topTrack;
+  if (sorted.length >= 2 && sorted[0][1] === sorted[1][1] && goalIdx !== undefined) {
+    const goalTarget = GOAL_PRIMARY[goalIdx];
+    const tied = sorted.filter(s => s[1] === sorted[0][1]).map(s => s[0]);
+    topTrack = tied.includes(goalTarget) ? goalTarget : sorted[0][0];
+  } else {
+    topTrack = sorted[0][0];
+  }
+  selectedTrack = topTrack;
+  const topScore = scores[topTrack];
   const secondScore = sorted[1][1];
-  // Blend: top-2 within 15% of #1's score
-  const blendWith = (topScore > 0 && (topScore - secondScore) / topScore < 0.15) ? sorted[1][0] : null;
+  // Blend: top-2 within 15% of #1's score (preserved from prior behavior)
+  const blendCandidate = sorted.find(s => s[0] !== topTrack);
+  const blendWith = (topScore > 0 && blendCandidate && (topScore - blendCandidate[1]) / topScore < 0.15) ? blendCandidate[0] : null;
 
   saveTrack(selectedTrack);
 
@@ -2989,7 +3076,7 @@ function calculateResults() {
   }
 
   // Save full learner profile for personalization
-  // Store both display text and indices for back-compat and downstream scoring
+  // v3: added mechanicsInterest (Q4 \u2192 Q5 index shift); timeCommitment moved from answers[4] \u2192 answers[5]
   const learnerProfile = {
     role: pickText(0),
     roleIndices: answers[0] || [],
@@ -2999,7 +3086,9 @@ function calculateResults() {
     aiFamiliarityIndices: answers[2] || [],
     goal: pickText(3),
     goalIndices: answers[3] || [],
-    timeCommitment: pickText(4),
+    mechanicsInterest: pickText(4),
+    mechanicsInterestIndex: (answers[4] && answers[4][0]) !== undefined ? answers[4][0] : null, // 0=not_really, 1=some, 2=pretty, 3=very
+    timeCommitment: pickText(5),
     trackScores: scores,
     selectedTrack: selectedTrack,
     blendWith: blendWith,
@@ -3213,34 +3302,56 @@ function showSchedule() {
     </div>
   `;
 
+  // v3 — split each week's days into visible vs collapsed-mechanics based on Q5 answer.
+  // If learner picked "Not really" on mechanics, hide items tagged 'mechanics' behind an optional disclosure.
+  const _v3Profile = getLearnerProfile();
+  const _hideMechanics = _v3Profile && _v3Profile.mechanicsInterestIndex === 0;
+  const isMechanics = d => Array.isArray(d.tags) && d.tags.includes('mechanics');
+  const renderDayCard = (day, wi, di, extraClass = '') => {
+    const done = trackProgress[`${wi}-${di}`];
+    return `
+      <div class="day-card type-${day.type} ${extraClass}" onclick="openModal('${selectedTrack}', ${wi}, ${di})">
+        <div class="day-check ${done ? 'done' : ''}" onclick="event.stopPropagation(); toggleDay('${selectedTrack}', ${wi}, ${di})">✓</div>
+        <div class="day-top">
+          <span class="day-num">Day ${di + 1}</span>
+          <span class="day-type ${day.type}">${day.type}</span>
+        </div>
+        <div class="day-time">${day.time}</div>
+        <div class="day-title">${day.title}</div>
+        <div class="day-desc">${day.desc.substring(0, 80)}${day.desc.length > 80 ? '...' : ''}</div>
+        ${day.url ? `<a href="${day.url}" target="_blank" rel="noopener" class="day-resource" onclick="event.stopPropagation()">Resource →</a>` : ''}
+      </div>
+    `;
+  };
+
   track.weeks.forEach((week, wi) => {
     const weekComplete = week.days.every((_, di) => trackProgress[`${wi}-${di}`]);
+    // Preserve original day indices so click handlers stay correct
+    const daysWithIdx = week.days.map((day, di) => ({ day, di }));
+    const visible = _hideMechanics ? daysWithIdx.filter(({ day }) => !isMechanics(day)) : daysWithIdx;
+    const hidden  = _hideMechanics ? daysWithIdx.filter(({ day }) =>  isMechanics(day)) : [];
+    const meta = hidden.length > 0
+      ? `${visible.length} activities <span style="color:var(--text-dim);font-weight:normal;">+ ${hidden.length} optional</span>${weekComplete ? ' ✓' : ''}`
+      : `${week.days.length} activities${weekComplete ? ' ✓' : ''}`;
 
     html += `
       <div class="week-block">
         <div class="week-header" onclick="toggleWeek(${wi})">
           <span class="week-badge" style="background: ${track.color}">Week ${wi + 1}</span>
           <span class="week-title">${week.title}</span>
-          <span class="week-meta">${week.days.length} activities${weekComplete ? ' ✓' : ''}</span>
+          <span class="week-meta">${meta}</span>
           <span class="week-chevron">▼</span>
         </div>
         <div class="week-days" id="week-${wi}">
-          ${week.days.map((day, di) => {
-            const done = trackProgress[`${wi}-${di}`];
-            return `
-              <div class="day-card type-${day.type}" onclick="openModal('${selectedTrack}', ${wi}, ${di})">
-                <div class="day-check ${done ? 'done' : ''}" onclick="event.stopPropagation(); toggleDay('${selectedTrack}', ${wi}, ${di})">✓</div>
-                <div class="day-top">
-                  <span class="day-num">Day ${di + 1}</span>
-                  <span class="day-type ${day.type}">${day.type}</span>
-                </div>
-                <div class="day-time">${day.time}</div>
-                <div class="day-title">${day.title}</div>
-                <div class="day-desc">${day.desc.substring(0, 80)}${day.desc.length > 80 ? '...' : ''}</div>
-                ${day.url ? `<a href="${day.url}" target="_blank" rel="noopener" class="day-resource" onclick="event.stopPropagation()">Resource →</a>` : ''}
+          ${visible.map(({ day, di }) => renderDayCard(day, wi, di)).join('')}
+          ${hidden.length > 0 ? `
+            <details class="mechanics-optional-block" style="grid-column: 1 / -1; margin-top: 8px; padding: 12px; border: 1px dashed var(--border, #d1d5db); border-radius: 8px; background: rgba(99, 102, 241, 0.03);">
+              <summary style="cursor: pointer; font-size: 14px; color: var(--text-dim); font-weight: 500;">+ Optional: How AI works content (${hidden.length} item${hidden.length === 1 ? '' : 's'}) — you said you'd rather skip the mechanics, but click here if curious</summary>
+              <div class="week-days" style="margin-top: 12px;">
+                ${hidden.map(({ day, di }) => renderDayCard(day, wi, di, 'day-mechanics-optional')).join('')}
               </div>
-            `;
-          }).join('')}
+            </details>
+          ` : ''}
         </div>
       </div>
     `;
@@ -6504,7 +6615,17 @@ showSchedule = function() {
   // Determine core activity count for pacing
   const coreCount = profile ? getCoreActivityCount(profile) : 0;
 
-  track.weeks.forEach((week, wi) => {
+  // v3 mechanics filter \u2014 if learner picked "Not really" on Q5, hide mechanics-tagged items behind a collapsible "+ Optional" disclosure.
+  const _v3HideMechanics = profile && profile.mechanicsInterestIndex === 0;
+  const _v3IsMechanics = d => Array.isArray(d.tags) && d.tags.includes('mechanics');
+
+  // v3 week ordering \u2014 if track defines weekOrder, iterate in that sequence (display only; wi indices preserved for progress/state).
+  const _v3WeekIndices = Array.isArray(track.weekOrder) && track.weekOrder.length === track.weeks.length
+    ? track.weekOrder
+    : track.weeks.map((_, i) => i);
+
+  _v3WeekIndices.forEach((wi, _displayIdx) => {
+    const week = track.weeks[wi];
     const weekComplete = week.days.every((_, di) => trackProgress[`${wi}-${di}`]);
 
     // Sort activities within week by relevance if profile exists
@@ -6518,16 +6639,23 @@ showSchedule = function() {
       });
     }
 
+    // v3: split sorted days into visible (non-mechanics or hide-off) and collapsed-optional (mechanics + hide-on)
+    const _v3Visible = _v3HideMechanics ? sortedDays.filter(({ day }) => !_v3IsMechanics(day)) : sortedDays;
+    const _v3Hidden  = _v3HideMechanics ? sortedDays.filter(({ day }) =>  _v3IsMechanics(day)) : [];
+    const _v3Meta = _v3Hidden.length > 0
+      ? `${_v3Visible.length} activities <span style="color:var(--text-dim);font-weight:normal;">+ ${_v3Hidden.length} optional</span>${weekComplete ? ' \u2713' : ''}`
+      : `${week.days.length} activities${weekComplete ? ' \u2713' : ''}`;
+
     html += `
       <div class="week-block">
         <div class="week-header" onclick="toggleWeek(${wi})">
-          <span class="week-badge" style="background: ${track.color}">Week ${wi + 1}</span>
+          <span class="week-badge" style="background: ${track.color}">Week ${_displayIdx + 1}</span>
           <span class="week-title">${week.title}</span>
-          <span class="week-meta">${week.days.length} activities${weekComplete ? ' \u2713' : ''}</span>
+          <span class="week-meta">${_v3Meta}</span>
           <span class="week-chevron">\u25BC</span>
         </div>
         <div class="week-days" id="week-${wi}">
-          ${sortedDays.map(({ day, di }, sortIdx) => {
+          ${_v3Visible.map(({ day, di }, sortIdx) => {
             const done = trackProgress[`${wi}-${di}`];
             const ev = getEvidence(day.title);
             const confPct = Math.round(ev.confidence * 100);
@@ -6580,6 +6708,26 @@ showSchedule = function() {
               </div>
             `;
           }).join('')}
+          ${_v3Hidden.length > 0 ? `
+            <details class="mechanics-optional-block" style="grid-column: 1 / -1; margin-top: 12px; padding: 14px; border: 1px dashed var(--border, #d1d5db); border-radius: 8px; background: rgba(99, 102, 241, 0.04);">
+              <summary style="cursor: pointer; font-size: 14px; color: var(--text-dim); font-weight: 500; user-select: none;">+ Optional: How AI works content (${_v3Hidden.length} item${_v3Hidden.length === 1 ? '' : 's'}) \u2014 you said you'd rather skip the mechanics, but click to expand if curious</summary>
+              <div class="week-days" style="margin-top: 14px;">
+                ${_v3Hidden.map(({ day, di }) => `
+                  <div class="day-card cx-card type-${day.type} day-mechanics-optional" onclick="openModal('${selectedTrack}', ${wi}, ${di})">
+                    <div class="day-check ${trackProgress[`${wi}-${di}`] ? 'done' : ''}" onclick="event.stopPropagation(); toggleDay('${selectedTrack}', ${wi}, ${di})">\u2713</div>
+                    <div class="day-top">
+                      <span class="day-num">Day ${di + 1}</span>
+                      <span class="day-type ${day.type}">${day.type}</span>
+                    </div>
+                    <div class="day-time">${day.time}</div>
+                    <div class="day-title">${day.title}</div>
+                    <div class="day-desc">${day.desc.substring(0, 80)}${day.desc.length > 80 ? '...' : ''}</div>
+                    ${day.url ? `<a href="${day.url}" target="_blank" rel="noopener" class="day-resource" onclick="event.stopPropagation()">Resource \u2192</a>` : ''}
+                  </div>
+                `).join('')}
+              </div>
+            </details>
+          ` : ''}
         </div>
       </div>
     `;
