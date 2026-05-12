@@ -2813,10 +2813,89 @@ const TRACKS = {
         ]
       }
     ]
+  },
+
+  privacy: {
+    name: 'Your AI Data Footprint',
+    color: '#10B981',
+    duration: 6,
+    hoursPerWeek: '2–3',
+    description: 'Understand how your data flows through AI tools — what gets stored, what trains the model, what stays local, and how to choose a mode that fits your work. Sidecar track — recommended alongside any primary track, not in place of one.',
+    optInRecommendation: true,
+    weeks: [
+      {
+        title: 'Cloud Chat — ChatGPT, Claude, Gemini in the Browser',
+        days: [
+          { type: 'read', time: '30 min', title: 'Three vendors\' consumer-mode disclosures back-to-back', desc: 'Read Anthropic\'s Privacy Policy + Consumer Terms (Claude.ai), OpenAI\'s Privacy Policy, and Google\'s Privacy Policy. Build the mental model: who stores what, for how long, and what defaults to "improve the model." This is the single most useful 30 minutes you can spend on AI privacy.', url: 'https://www.anthropic.com/legal/privacy', tags: ['beginner', 'no-code', 'business', 'ethics'], mvw: true },
+          { type: 'read', time: '15 min', title: 'OpenAI — Data Controls FAQ', desc: 'Specifically the "improve the model for everyone" toggle and chat-history retention. The opt-out exists; most users don\'t know where it lives.', url: 'https://help.openai.com/en/articles/7730893-data-controls-faq', tags: ['beginner', 'no-code', 'business', 'ethics'] },
+          { type: 'read', time: '15 min', title: 'Gemini — apps activity controls', desc: 'How Google handles Gemini conversation data, including the "Gemini Apps Activity" toggle that controls retention and human review.', url: 'https://support.google.com/gemini/answer/13594961', tags: ['beginner', 'no-code', 'business', 'ethics'] },
+          { type: 'watch', time: '15 min', title: '3Blue1Brown — neural networks (with a privacy lens)', desc: 'Re-watch the 3B1B intro with one specific question: which step is "training" (your data could shape future weights) vs "inference" (your data is just a request the model answers)? The privacy debate is almost entirely about the training step.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical'] },
+          { type: 'do', time: '30 min', title: 'Audit your own account', desc: 'Pick the consumer chat product you use most (ChatGPT / Claude.ai / Gemini). Navigate Settings → Data Controls. Find the "improve the model" toggle; decide what to set it to. Check chat history retention. Note: business/enterprise plans generally default to NO training; consumer plans vary.', tags: ['beginner', 'no-code', 'building'] },
+          { type: 'reflect', time: '15 min', title: 'Your last 10 prompts', desc: 'Look at your last 10 chat prompts in your most-used consumer AI. Which contained information you wouldn\'t want indexed into a future model? Categorize: PII, work-sensitive, client data, draft IP.', tags: ['beginner', 'no-code', 'ethics'] }
+        ]
+      },
+      {
+        title: 'API Mode — Where "Training on Your Data" Stops',
+        days: [
+          { type: 'read', time: '20 min', title: 'Anthropic Commercial Terms — the training disclosure', desc: 'Read Anthropic\'s Commercial Terms of Service. Find the explicit clause that says API inputs/outputs are not used for training under business agreements. Most major-cloud and direct-API vendors have an equivalent clause; this is the canonical example to start from.', url: 'https://www.anthropic.com/legal/commercial-terms', tags: ['intermediate', 'no-code', 'business', 'ethics'], mvw: true },
+          { type: 'read', time: '15 min', title: 'Azure OpenAI data privacy', desc: 'Microsoft\'s legal page on Azure OpenAI: what stays in your tenant, what crosses to OpenAI, what abuse monitoring stores and for how long.', url: 'https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy', tags: ['intermediate', 'no-code', 'business'] },
+          { type: 'read', time: '15 min', title: 'AWS Bedrock — security & compliance', desc: 'Bedrock\'s data-flow story: prompts stay in your AWS account; vendor model providers do not see your data. Read the security/compliance posture page.', url: 'https://aws.amazon.com/bedrock/security-compliance/', tags: ['intermediate', 'no-code', 'business'] },
+          { type: 'read', time: '15 min', title: 'Google Vertex AI — generative-AI data governance', desc: 'Vertex AI\'s data-governance docs — Google\'s equivalent statement on what their gen-AI APIs do and do not do with your inputs.', url: 'https://cloud.google.com/vertex-ai/generative-ai/docs/data-governance', tags: ['intermediate', 'no-code', 'business'] },
+          { type: 'do', time: '30 min', title: 'Build a vendor-mode checklist', desc: 'Build your own 1-page "Is this vendor/mode safe for our data?" checklist. Cover: training opt-out, retention period, who has audit/review access, abuse-monitoring exception, data residency, jurisdiction. Use the four vendor docs above as raw material.', tags: ['intermediate', 'no-code', 'business', 'building'] },
+          { type: 'reflect', time: '15 min', title: 'Why API mode is different from chat mode', desc: 'Why does the same vendor train on your consumer chats but contract not to train on your API data? The short answer: consumers don\'t pay enough to make their conversation worth more than the training data; business customers pay enough that training on their data would lose the contract.', tags: ['intermediate', 'no-code', 'business'] }
+        ]
+      },
+      {
+        title: 'Desktop & IDE Tools — Claude Code, Cursor, Copilot, Computer Use',
+        days: [
+          { type: 'read', time: '20 min', title: 'Claude Code — security model', desc: 'How Claude Code handles permissions, what it reads, what it sends. Real-world relevance: this is the dominant pattern for AI-assisted dev tools, and the model generalizes to Cursor / Aider / Continue / etc.', url: 'https://docs.anthropic.com/en/docs/claude-code/security', tags: ['intermediate', 'no-code', 'technical', 'building'], mvw: true },
+          { type: 'read', time: '15 min', title: 'Claude Code — data usage', desc: 'Specifically: what data does Claude Code transmit and store? When does it persist context vs. discard? What\'s the difference between session-scoped and project-scoped data?', url: 'https://docs.anthropic.com/en/docs/claude-code/data-usage', tags: ['intermediate', 'no-code', 'technical'] },
+          { type: 'read', time: '15 min', title: 'Claude Code — IAM / permissions model', desc: 'Permissions: which files/directories Claude Code is allowed to read or edit, how to scope access, and the per-tool permission-prompt flow.', url: 'https://docs.anthropic.com/en/docs/claude-code/iam', tags: ['intermediate', 'no-code', 'technical'] },
+          { type: 'read', time: '15 min', title: 'Cursor — privacy posture', desc: 'How Cursor handles your code: what it sends to its model backend, what Privacy Mode actually changes, and the difference between routed vs. local inference.', url: 'https://www.cursor.com/privacy', tags: ['intermediate', 'no-code', 'technical'] },
+          { type: 'read', time: '15 min', title: 'GitHub Copilot — individual vs. business policies', desc: 'GitHub\'s docs on Copilot policies. Notice the gap between Copilot Individual (telemetry on by default, training varies) and Copilot Business (telemetry off, training opt-out by default).', url: 'https://docs.github.com/en/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/managing-copilot-policies-as-an-individual-subscriber', tags: ['intermediate', 'no-code', 'technical'] },
+          { type: 'read', time: '15 min', title: 'Anthropic Computer Use — agent w/ screen + click access', desc: 'When an AI takes screenshots of your desktop and clicks for you, the data flows compound. Read the Computer Use docs to understand exactly what the model sees and what runs on your machine.', url: 'https://docs.anthropic.com/en/docs/agents-and-tools/computer-use', tags: ['intermediate', 'no-code', 'technical'] },
+          { type: 'do', time: '30 min', title: 'Telemetry audit on the tool you use', desc: 'For the desktop/IDE AI tool you use most: find every telemetry / data-sharing toggle. Snapshot the configured state. If you can, observe what it actually sends in a 5-minute session via Little Snitch / Proxyman / browser devtools.', tags: ['intermediate', 'programming-required', 'technical', 'building'] }
+        ]
+      },
+      {
+        title: 'Fully Local — Ollama, LM Studio, llama.cpp, On-Device Models',
+        days: [
+          { type: 'read', time: '15 min', title: 'Ollama — getting started', desc: 'Read Ollama\'s docs. Local-first LLM runtime. Privacy property: zero data leaves the machine. Tradeoff: smaller models, slower inference, no frontier capabilities.', url: 'https://ollama.com/', tags: ['intermediate', 'programming-required', 'technical', 'building'], mvw: true },
+          { type: 'read', time: '15 min', title: 'LM Studio — local model browser + chat UI', desc: 'LM Studio bundles a model browser, chat UI, and OpenAI-compatible API server in one. The fastest way to evaluate a dozen open models without command-line work.', url: 'https://lmstudio.ai/', tags: ['intermediate', 'no-code', 'technical', 'building'] },
+          { type: 'read', time: '15 min', title: 'llama.cpp — the engine underneath', desc: 'The C++ inference engine most local-LLM tools wrap. Worth reading the README: it shows what "running a model locally" actually means.', url: 'https://github.com/ggerganov/llama.cpp', tags: ['advanced', 'programming-required', 'technical'] },
+          { type: 'read', time: '15 min', title: 'Open WebUI — local ChatGPT-style frontend', desc: 'A self-hosted web UI for Ollama and other local LLM runtimes. Approximates the Claude.ai/ChatGPT experience entirely on-device.', url: 'https://github.com/open-webui/open-webui', tags: ['intermediate', 'no-code', 'technical', 'building'] },
+          { type: 'do', time: '60 min', title: 'Install and run a 7B model on your laptop', desc: 'Install Ollama (or LM Studio). Pull a 3B–8B model — Llama 3.2-3B, Mistral 7B, Qwen 2.5-7B, or similar. Run it on your laptop. Time the first inference; time a longer one. Note RAM/GPU usage.', tags: ['intermediate', 'programming-required', 'technical', 'building'] },
+          { type: 'do', time: '30 min', title: 'Same-task A/B vs. Claude.ai', desc: 'Take one real task you would normally give Claude.ai or ChatGPT. Run it against your local model first, then against the cloud model. Compare: quality, speed, what features the local model can\'t do (long context, vision, tool use).', tags: ['intermediate', 'no-code', 'building'] },
+          { type: 'reflect', time: '20 min', title: 'Local-good-enough audit', desc: 'For which of your AI use cases is the local model good enough? Which truly need the frontier cloud model? Write a simple routing rule: e.g. "drafting prose → local; coding agent → cloud."', tags: ['intermediate', 'no-code', 'strategy'] }
+        ]
+      },
+      {
+        title: 'Agents and Their Footprint — Tool Use Multiplies Data Boundaries',
+        days: [
+          { type: 'read', time: '20 min', title: 'MCP — Model Context Protocol (introduction)', desc: 'MCP is the open standard for connecting LLMs to tools and data sources. Read the introduction with one specific question: where does the trust boundary sit between the host application, the model, and each MCP server?', url: 'https://modelcontextprotocol.io/introduction', tags: ['intermediate', 'no-code', 'technical', 'building'], mvw: true },
+          { type: 'read', time: '15 min', title: 'MCP — architecture (deep dive)', desc: 'The architecture doc. Pay attention to how server capabilities are declared, scoped, and confirmed at runtime, and how the protocol handles the user\'s consent to each tool.', url: 'https://modelcontextprotocol.io/docs/concepts/architecture', tags: ['intermediate', 'no-code', 'technical'] },
+          { type: 'read', time: '20 min', title: 'Simon Willison — prompt-injection (canonical series)', desc: 'The most thorough public writing on prompt injection. Read at least one introductory post and one recent case study. Category-defining failure mode for agents with tools.', url: 'https://simonwillison.net/series/prompt-injection/', tags: ['intermediate', 'no-code', 'technical', 'ethics'] },
+          { type: 'read', time: '20 min', title: 'The Worst That Can Happen (Willison)', desc: 'Cautionary 2023 piece on what a successful prompt injection enables when the model has tool access. Still load-bearing in 2026 — the threat model has scaled with model capabilities.', url: 'https://simonwillison.net/2023/Apr/14/worst-that-can-happen/', tags: ['intermediate', 'no-code', 'technical', 'ethics'] },
+          { type: 'do', time: '45 min', title: 'Map data boundaries in an agent flow', desc: 'Pick an agent flow you use or are building. Sketch the data boundaries: (1) user → host app; (2) host app → model API; (3) model → each tool call; (4) tool result → model context. For each boundary, note what crosses and the trust assumption it requires.', tags: ['intermediate', 'no-code', 'technical', 'building'] },
+          { type: 'reflect', time: '20 min', title: 'Is an "agent with tools" categorically different from a "chatbot with prompt"?', desc: 'Argue both sides. Where does your conclusion shape what you let agents do vs. what you keep as a human-loop step?', tags: ['intermediate', 'no-code', 'ethics', 'strategy'] }
+        ]
+      },
+      {
+        title: 'Synthesizing — Your Personal AI Privacy Policy',
+        days: [
+          { type: 'read', time: '30 min', title: 'Mozilla Foundation — trustworthy AI whitepaper', desc: 'Mozilla\'s framework for what trustworthy AI requires from the user, the vendor, and the policy environment. Good source language for your own personal policy.', url: 'https://foundation.mozilla.org/en/insights/trustworthy-ai-whitepaper/', tags: ['intermediate', 'no-code', 'business', 'ethics'] },
+          { type: 'read', time: '20 min', title: 'DAIR Institute — independent AI ethics research', desc: 'DAIR\'s public-interest research on AI ethics and harm. Recommended for "what the critical-research community is currently flagging."', url: 'https://www.dair-institute.org/', tags: ['intermediate', 'no-code', 'business', 'ethics'] },
+          { type: 'read', time: '15 min', title: 'EFF — AI issues hub', desc: 'EFF\'s ongoing index of AI civil-liberties concerns. Quick scan for what they\'re currently raising — useful counterweight to vendor-side framing.', url: 'https://www.eff.org/issues/ai', tags: ['beginner', 'no-code', 'ethics'] },
+          { type: 'do', time: '60 min', title: 'Write your personal AI policy (1 page)', desc: 'Write one page. Cover: (1) what you will never put in a consumer cloud chat (PII, client data, draft IP, etc.); (2) what is OK in business-mode API; (3) what is local-only; (4) your team\'s red lines if you manage one. Concrete, not aspirational.', tags: ['intermediate', 'no-code', 'building', 'strategy'], mvw: true },
+          { type: 'do', time: '30 min', title: 'Build your routing matrix', desc: 'Make a 2-D table. Rows = the kinds of tasks you do. Columns = vendor/mode (ChatGPT Plus, Claude.ai, Anthropic API via [vendor], local Ollama, etc). Each cell = "yes / no / case-by-case + which check." This is the operational artifact your policy actually produces.', tags: ['intermediate', 'no-code', 'building', 'strategy'] },
+          { type: 'reflect', time: '20 min', title: 'Where will your policy break first?', desc: 'Honest prediction: which rule will you bend in the first 30 days, and why? What\'s a softer version of that rule that you actually will hold? Update the policy accordingly.', tags: ['intermediate', 'no-code', 'strategy'] }
+        ]
+      }
+    ]
   }
 };
 
-const TRACK_ORDER = ['explorer', 'practitioner', 'builder', 'researcher'];
+const TRACK_ORDER = ['explorer', 'practitioner', 'builder', 'researcher', 'privacy'];
 
 // ============================================================
 // STATE
@@ -3142,7 +3221,7 @@ function showResults() {
 
     // Track fit score bars
     const maxScore = Math.max(...Object.values(profile.trackScores), 1);
-    const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444' };
+    const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444', privacy: '#10B981' };
     scoresHtml = '<div class="cx-track-scores">';
     for (const tk of TRACK_ORDER) {
       const score = profile.trackScores[tk] || 0;
@@ -3195,7 +3274,7 @@ function showResults() {
   const blendWith = profile && profile.blendWith;
   if (blendWith && TRACKS[blendWith]) {
     const blendTrack = TRACKS[blendWith];
-    const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444' };
+    const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444', privacy: '#10B981' };
     const blendColor = trackColors[blendWith];
     const blendKey = [selectedTrack, blendWith].sort().join('-');
     const blendNote = BLEND_NOTES[blendKey] || `Your answers also show strong alignment with the ${blendTrack.name} track.`;
@@ -3236,6 +3315,14 @@ function showResults() {
       </div>
     </div>
     ${blendHtml}
+    ${selectedTrack !== 'privacy' ? `
+    <div style="background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(16,185,129,0.04)); border: 1px solid rgba(16,185,129,0.25); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center;">
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #10B981; margin-bottom: 6px;">Recommended Alongside</div>
+      <div style="font-size: 15px; font-weight: 700; color: #10B981; margin-bottom: 8px;">Your AI Data Footprint · 6 weeks · 2–3 hrs/wk</div>
+      <p style="font-size: 13px; color: var(--text-dim); margin-bottom: 14px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.6;">A sidecar track on how your data flows through AI tools — what gets stored, what trains the model, what stays local. Recommended for everyone, regardless of your primary track.</p>
+      <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="startWithTrack('privacy')">Explore the Privacy Track</button>
+    </div>
+    ` : ''}
     <div style="background: linear-gradient(135deg, rgba(129,140,248,0.08), rgba(96,165,250,0.08)); border: 1px solid rgba(129,140,248,0.2); border-radius: 12px; padding: 24px; margin-bottom: 20px; text-align: center;">
       <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent2); margin-bottom: 8px;">Calibrate Your Curriculum</div>
       <p style="font-size: 14px; color: var(--text-dim); margin-bottom: 16px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.7;">Take a short knowledge assessment to fine-tune your learning path. We will test actual knowledge across AI fundamentals, programming, tools, and ethics to place you precisely.</p>
@@ -4692,7 +4779,7 @@ const DEEP_DIVES = {
 function showDeepDive(trackKey, fromContext) {
   const track = TRACKS[trackKey];
   const dd = DEEP_DIVES[trackKey];
-  const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444' };
+  const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444', privacy: '#10B981' };
   const color = trackColors[trackKey] || track.color;
 
   const conceptsHtml = dd.concepts.map(c => `
@@ -4920,7 +5007,7 @@ function buildRecommendation(text) {
 function buildResponseHTML(rec, userText) {
   const primary = TRACKS[rec.primary];
   const blend = rec.blend ? TRACKS[rec.blend] : null;
-  const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444' };
+  const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444', privacy: '#10B981' };
   const color = trackColors[rec.primary];
 
   let html = `<p>${rec.note}</p>`;
@@ -6473,7 +6560,7 @@ function toggleDay(track, wi, di) {
   if (nowCompleted) {
     const rec = getRecommendedNext();
     if (rec) {
-      const trackColors3 = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444' };
+      const trackColors3 = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444', privacy: '#10B981' };
       showToast(`Next: <strong>${rec.day.title}</strong> (${rec.day.type}, ${rec.day.time})`, 5000);
     }
   }
@@ -6783,7 +6870,7 @@ showSchedule = function() {
   // Stretch goals
   const stretches = getStretchGoals();
   if (stretches.length > 0) {
-    const trackColors4 = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444' };
+    const trackColors4 = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444', privacy: '#10B981' };
     html += `<div class="stretch-goals">
       <div class="stretch-goals-title">Stretch Goals — Cross-track activities matching your interests</div>
       ${stretches.map(s => `
@@ -6857,7 +6944,7 @@ function saveCertificateName(name) {
 function showCertificate(trackKey) {
   const track = TRACKS[trackKey];
   const totalDays = track.weeks.reduce((s,w) => s + w.days.length, 0);
-  const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444' };
+  const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444', privacy: '#10B981' };
   const color = trackColors[trackKey] || track.color;
   let userName = getCertificateName();
 
@@ -6892,7 +6979,7 @@ function generateCert(trackKey) {
 function renderCertificate(trackKey, userName) {
   const track = TRACKS[trackKey];
   const totalDays = track.weeks.reduce((s,w) => s + w.days.length, 0);
-  const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444' };
+  const trackColors = { explorer: '#0EA5E9', practitioner: '#8B5CF6', builder: '#F97316', researcher: '#EF4444', privacy: '#10B981' };
   const color = trackColors[trackKey] || track.color;
   const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
