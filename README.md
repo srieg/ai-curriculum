@@ -25,7 +25,7 @@ Most AI courses skip it: **Your AI Data Footprint** — what gets stored, what t
 - **No account needed** — works entirely client-side; nothing leaves your machine unless you explicitly submit the optional outcomes form
 - **Single HTML file** — zero dependencies, works offline
 
-Practicing what the privacy track teaches, the site discloses its own data flow: it has exactly one optional external endpoint — a 6-week outcomes check-in form you may choose to submit — and nothing is sent anywhere unless you click through to it.
+Practicing what the privacy track teaches, the site discloses its own data flow: it has exactly one optional external endpoint — an outcomes form (a 6-week check-in and/or a learning-community interest check) you may choose to submit — and nothing is sent anywhere unless you fill it in and submit it. The community option is an interest check, not a signup for something that exists.
 
 ## Resources Include
 

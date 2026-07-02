@@ -2943,74 +2943,93 @@ let selectedTrack = null;
 // ai-curriculum-reassessment-dismissed, ai-curriculum-outcomes-optin-dismissed.
 // ────────────────────────────────────────────────────────────────────
 
-// ── Optional outcomes opt-in (privacy-honest) ───────────────────────────────
-// The site itself sends NOTHING. This card only (a) offers a link to an external
-// form the learner may choose to submit, and (b) copies a minimal anonymized
-// stats blob to the learner's OWN clipboard. Dismissal is remembered locally.
-const OUTCOMES_FORM_URL = 'https://REPLACE-ME.example/outcomes-form'; // TODO(Deliverable B): point at the deployed curriculum-outcomes Worker /api/optin form. PLACEHOLDER only.
+// ── Optional outcomes / learning-community interest capture (privacy-honest) ─
+// The site sends NOTHING on its own. This card is an OPTIONAL form: the learner
+// checks at least one purpose and enters an email, and only a submit then shares
+// that email — for exactly what they checked — with the outcomes endpoint. The
+// community option is an INTEREST CHECK, not a signup for anything that exists.
+// Dismissal (and a successful submit) are remembered locally.
+const OUTCOMES_FORM_URL = 'https://REPLACE-ME.example/api/optin'; // TODO(Deliverable B): point at the deployed curriculum-outcomes Worker POST /api/optin. PLACEHOLDER only.
 const OUTCOMES_DISMISS_KEY = 'ai-curriculum-outcomes-optin-dismissed';
+const OUTCOMES_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function outcomesOptInDismissed() {
   try { return !!localStorage.getItem(OUTCOMES_DISMISS_KEY); } catch (e) { return false; }
 }
-
-// Minimal, anonymized stats — {track, weeksCompleted, problemsAttempted} ONLY.
-// Deliberately excludes api-key, cert-name, and any free-text / PII.
-function getAnonymizedStats() {
-  let track = null;
-  try { track = selectedTrack || (getLearnerProfile() && getLearnerProfile().selectedTrack) || null; } catch (e) {}
-  let weeksCompleted = 0;
-  try {
-    const prog = (getProgress()[track]) || {};
-    const t = track && TRACKS[track];
-    if (t) weeksCompleted = t.weeks.filter((w, wi) => w.days.length > 0 && w.days.every((_, di) => prog[`${wi}-${di}`])).length;
-  } catch (e) {}
-  let problemsAttempted = 0;
-  try { problemsAttempted = getProblemResults().filter(r => r && r.trackId === track).length; } catch (e) {}
-  return { track: track, weeksCompleted: weeksCompleted, problemsAttempted: problemsAttempted };
+function markOutcomesDismissed() {
+  try { localStorage.setItem(OUTCOMES_DISMISS_KEY, '1'); } catch (e) {}
 }
-
-function _outcomesFallbackCopy(text) {
-  try {
-    const ta = document.createElement('textarea');
-    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-    document.body.appendChild(ta); ta.focus(); ta.select();
-    document.execCommand('copy'); document.body.removeChild(ta);
-  } catch (e) {}
-}
-
-function copyAnonymizedStats() {
-  const json = JSON.stringify(getAnonymizedStats());
-  const notify = () => { try { showToast('Copied to your clipboard (you choose where it goes): ' + json, 4500); } catch (e) {} };
-  try {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(json).then(notify).catch(() => { _outcomesFallbackCopy(json); notify(); });
-      return;
-    }
-  } catch (e) {}
-  _outcomesFallbackCopy(json); notify();
-}
-
-function openOutcomesForm() { window.open(OUTCOMES_FORM_URL, '_blank', 'noopener'); }
 
 function dismissOutcomesCard() {
-  try { localStorage.setItem(OUTCOMES_DISMISS_KEY, '1'); } catch (e) {}
+  markOutcomesDismissed();
   const el = document.getElementById('outcomesOptInCard');
   if (el) el.remove();
 }
 
-// Card HTML for the quiz-results and certificate views. Returns '' once dismissed.
-function outcomesOptInCardHtml() {
+function _outcomesThanks(card, community) {
+  markOutcomesDismissed();
+  card.innerHTML = `<div style="font-weight:600; font-size:15px; margin-bottom:6px;">Thanks — noted.</div>
+    <p style="font-size:13px; color:var(--text-dim); line-height:1.6; margin:0;">${community
+      ? 'If enough people raise their hands, Sam will consider building the community. This was an interest check, not a launch — there is nothing to sign into yet.'
+      : 'You will get the 3-question check-in in about 6 weeks. That is the only thing this sends.'}</p>`;
+}
+
+// Submit: require at least one checkbox + a valid email, then POST the email and
+// the checked purposes to the outcomes endpoint. milestone = 'quiz' | 'certificate'.
+function submitOutcomesOptIn(milestone) {
+  const card = document.getElementById('outcomesOptInCard');
+  if (!card) return;
+  const emailEl = card.querySelector('.cx-outcomes-email');
+  const email = ((emailEl && emailEl.value) || '').trim();
+  const checkin = !!(card.querySelector('.cx-outcomes-checkin') || {}).checked;
+  const community = !!(card.querySelector('.cx-outcomes-community') || {}).checked;
+  const errEl = card.querySelector('.cx-outcomes-error');
+  const setErr = (m) => { if (errEl) errEl.textContent = m; };
+
+  if (!checkin && !community) { setErr('Check at least one box so there is something to send.'); return; }
+  if (!OUTCOMES_EMAIL_RE.test(email)) { setErr('Enter a valid email so we can send exactly what you checked.'); return; }
+  setErr('');
+
+  let track = null;
+  try { track = (getLearnerProfile() && getLearnerProfile().selectedTrack) || selectedTrack || null; } catch (e) {}
+  // Send ONLY what the fine-print promises: the email and exactly the purposes checked
+  // (plus track/milestone context for routing). No progress stats, no other PII.
+  const payload = { email, track, milestone: milestone === 'certificate' ? 'certificate' : 'quiz',
+    checkin, community, consent: true };
+
+  const btn = card.querySelector('.cx-outcomes-submit');
+  if (btn) btn.disabled = true;
+  fetch(OUTCOMES_FORM_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    .then((r) => {
+      if (r && (r.ok || r.status === 204)) { _outcomesThanks(card, community); }
+      else { setErr('Could not submit right now — please try again in a bit.'); if (btn) btn.disabled = false; }
+    })
+    .catch(() => { setErr('Could not reach the form (the endpoint may not be configured yet).'); if (btn) btn.disabled = false; });
+}
+
+// Interest-check form for the quiz-results and certificate views. Returns '' once
+// dismissed or already submitted. `milestone` tags where the opt-in came from.
+function outcomesOptInCardHtml(milestone) {
   if (outcomesOptInDismissed()) return '';
+  const m = milestone === 'certificate' ? 'certificate' : 'quiz';
   return `
     <div id="outcomesOptInCard" class="cx-outcomes-card" style="position:relative; max-width:640px; margin:24px auto; padding:20px 22px; border:1px solid var(--border,#2a2a3a); border-radius:12px; background:rgba(99,102,241,0.05); text-align:left;">
-      <button aria-label="Dismiss" onclick="dismissOutcomesCard()" style="position:absolute; top:8px; right:12px; background:none; border:none; color:var(--text-dim); font-size:20px; line-height:1; cursor:pointer;">&times;</button>
-      <div style="font-weight:600; font-size:16px; margin-bottom:8px;">Want a 3-question check-in in 6 weeks to tell me if this worked?</div>
-      <p style="font-size:13px; color:var(--text-dim); line-height:1.6; margin:0 0 14px;">No account, no email capture, no tracking pixel on this page. <strong>This site sends nothing. This optional external form is you choosing to.</strong> Prefer to keep it in your own hands? Copy a minimal, anonymized stats blob and paste it wherever you like.</p>
+      <button type="button" aria-label="Dismiss" onclick="dismissOutcomesCard()" style="position:absolute; top:8px; right:12px; background:none; border:none; color:var(--text-dim); font-size:20px; line-height:1; cursor:pointer;">&times;</button>
+      <div style="font-weight:600; font-size:16px; margin-bottom:10px;">Stay in the loop?</div>
+      <label style="display:flex; gap:8px; align-items:flex-start; font-size:14px; margin-bottom:8px; cursor:pointer;">
+        <input type="checkbox" class="cx-outcomes-checkin" style="margin-top:3px;">
+        <span>Send me the 3-question check-in in 6 weeks</span>
+      </label>
+      <label style="display:flex; gap:8px; align-items:flex-start; font-size:14px; margin-bottom:12px; cursor:pointer;">
+        <input type="checkbox" class="cx-outcomes-community" style="margin-top:3px;">
+        <span>I'm interested in a learning community &mdash; study partners, discussion, maybe live sessions</span>
+      </label>
+      <input type="email" class="cx-outcomes-email" placeholder="you@example.com" autocomplete="email" style="width:100%; box-sizing:border-box; padding:9px 11px; margin-bottom:6px; border:1px solid var(--border,#2a2a3a); border-radius:8px; background:var(--surface,#12121a); color:inherit; font-size:14px;">
+      <div class="cx-outcomes-error" role="alert" style="min-height:16px; font-size:12px; color:var(--color-warn,#f59e0b); margin-bottom:8px;"></div>
+      <p style="font-size:12px; color:var(--text-dim); line-height:1.6; margin:0 0 14px;">This site sends nothing on its own. Submitting this optional form shares your email for exactly what you checked. On the community: if enough people raise their hands, Sam will consider building one &mdash; this is an interest check, not a launch.</p>
       <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <button class="cx-btn cx-btn-primary btn btn-primary" onclick="openOutcomesForm()">Remind me in 6 weeks &rarr;</button>
-        <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="copyAnonymizedStats()">Copy my anonymized stats</button>
-        <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="dismissOutcomesCard()">No thanks</button>
+        <button type="button" class="cx-outcomes-submit cx-btn cx-btn-primary btn btn-primary" onclick="submitOutcomesOptIn('${m}')">Submit</button>
+        <button type="button" class="cx-btn cx-btn-ghost btn btn-ghost" onclick="dismissOutcomesCard()">No thanks</button>
       </div>
     </div>
   `;
@@ -3456,7 +3475,7 @@ function showResults() {
     <div style="margin-top: 24px; text-align: center;">
       <p style="font-size: 13px; color: var(--text-muted);">Not the right fit? <a href="#" onclick="showTrackPicker(); return false;" style="color: var(--accent);">Choose a different track</a> · <a href="#" onclick="showChat(); return false;" style="color: var(--accent);">Describe your situation</a></p>
     </div>
-    ${outcomesOptInCardHtml()}
+    ${outcomesOptInCardHtml('quiz')}
   `;
 
   showSection('results');
@@ -7129,7 +7148,7 @@ function renderCertificate(trackKey, userName) {
         <button class="cx-btn cx-btn-primary btn btn-primary" onclick="printCertificate()">Print Certificate</button>
         <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="downloadCertificate()">Download as Image</button>
       </div>
-      ${outcomesOptInCardHtml()}
+      ${outcomesOptInCardHtml('certificate')}
     </div>
   `;
 
