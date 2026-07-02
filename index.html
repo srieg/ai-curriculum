@@ -3207,6 +3207,11 @@ function calculateResults() {
 // RESULTS
 // ============================================================
 
+// Shared render helper (consolidated from two duplicate inline lambdas in
+// showResults and showSchedule): a day-item is "mechanics" content when it
+// carries the 'mechanics' tag. Used by the Q5 mechanics-interest render gate.
+function dayIsMechanics(d) { return Array.isArray(d.tags) && d.tags.includes('mechanics'); }
+
 function showResults() {
   const track = TRACKS[selectedTrack];
   const totalDays = track.weeks.reduce((sum, w) => sum + w.days.length, 0);
@@ -3415,7 +3420,6 @@ function showSchedule() {
   // If learner picked "Not really" on mechanics, hide items tagged 'mechanics' behind an optional disclosure.
   const _v3Profile = getLearnerProfile();
   const _hideMechanics = _v3Profile && _v3Profile.mechanicsInterestIndex === 0;
-  const isMechanics = d => Array.isArray(d.tags) && d.tags.includes('mechanics');
   const renderDayCard = (day, wi, di, extraClass = '') => {
     const done = trackProgress[`${wi}-${di}`];
     return `
@@ -3437,8 +3441,8 @@ function showSchedule() {
     const weekComplete = week.days.every((_, di) => trackProgress[`${wi}-${di}`]);
     // Preserve original day indices so click handlers stay correct
     const daysWithIdx = week.days.map((day, di) => ({ day, di }));
-    const visible = _hideMechanics ? daysWithIdx.filter(({ day }) => !isMechanics(day)) : daysWithIdx;
-    const hidden  = _hideMechanics ? daysWithIdx.filter(({ day }) =>  isMechanics(day)) : [];
+    const visible = _hideMechanics ? daysWithIdx.filter(({ day }) => !dayIsMechanics(day)) : daysWithIdx;
+    const hidden  = _hideMechanics ? daysWithIdx.filter(({ day }) =>  dayIsMechanics(day)) : [];
     const meta = hidden.length > 0
       ? `${visible.length} activities <span style="color:var(--text-dim);font-weight:normal;">+ ${hidden.length} optional</span>${weekComplete ? ' ✓' : ''}`
       : `${week.days.length} activities${weekComplete ? ' ✓' : ''}`;
@@ -6726,7 +6730,6 @@ showSchedule = function() {
 
   // v3 mechanics filter \u2014 if learner picked "Not really" on Q5, hide mechanics-tagged items behind a collapsible "+ Optional" disclosure.
   const _v3HideMechanics = profile && profile.mechanicsInterestIndex === 0;
-  const _v3IsMechanics = d => Array.isArray(d.tags) && d.tags.includes('mechanics');
 
   // v3 week ordering \u2014 if track defines weekOrder, iterate in that sequence (display only; wi indices preserved for progress/state).
   const _v3WeekIndices = Array.isArray(track.weekOrder) && track.weekOrder.length === track.weeks.length
@@ -6749,8 +6752,8 @@ showSchedule = function() {
     }
 
     // v3: split sorted days into visible (non-mechanics or hide-off) and collapsed-optional (mechanics + hide-on)
-    const _v3Visible = _v3HideMechanics ? sortedDays.filter(({ day }) => !_v3IsMechanics(day)) : sortedDays;
-    const _v3Hidden  = _v3HideMechanics ? sortedDays.filter(({ day }) =>  _v3IsMechanics(day)) : [];
+    const _v3Visible = _v3HideMechanics ? sortedDays.filter(({ day }) => !dayIsMechanics(day)) : sortedDays;
+    const _v3Hidden  = _v3HideMechanics ? sortedDays.filter(({ day }) =>  dayIsMechanics(day)) : [];
     const _v3AllOptional = _v3Hidden.length > 0 && _v3Visible.length === 0;
     const _v3Meta = _v3AllOptional
       ? `<span style="color:var(--text-dim);font-weight:normal;font-style:italic;">All optional (${_v3Hidden.length} items) \u2014 based on your "Not really" answer on mechanics</span>${weekComplete ? ' \u2713' : ''}`
