@@ -3343,9 +3343,42 @@ function weekHiddenByMechanics(week, hideMechanics) {
   return !!hideMechanics && !!week && week.conditional === 'mechanics';
 }
 
+// ── Per-learner effective totals + display-order gate helpers ───────────────
+// Progress keys stay PHYSICAL (${wi}-${di}). These exclude weeks hidden by the
+// current Q5 answer so completion/% are reachable and the mastery gate follows
+// the DISPLAYED (weekOrder) sequence rather than physical week indices.
+function currentHideMechanics() {
+  const p = getLearnerProfile();
+  return !!(p && p.mechanicsInterestIndex === 0);
+}
+function effectiveTotalDays(track, hide) {
+  if (hide === undefined) hide = currentHideMechanics();
+  return track.weeks.reduce((sum, w) => sum + (weekHiddenByMechanics(w, hide) ? 0 : w.days.length), 0);
+}
+function effectiveCompletedDays(track, trackProg, hide) {
+  if (hide === undefined) hide = currentHideMechanics();
+  let n = 0;
+  track.weeks.forEach((w, wi) => {
+    if (weekHiddenByMechanics(w, hide)) return;
+    for (let di = 0; di < w.days.length; di++) if (trackProg[`${wi}-${di}`]) n++;
+  });
+  return n;
+}
+// Physical week indices in DISPLAY order, minus weeks hidden for the current learner.
+function renderedWeekOrder(track, hide) {
+  if (hide === undefined) hide = currentHideMechanics();
+  return getWeekDisplayOrder(track).filter(wi => !weekHiddenByMechanics(track.weeks[wi], hide));
+}
+// A week's practice gate is "cleared" if it was skipped, has no problems, or is mastered.
+function weekMasteryCleared(trackId, wi) {
+  if (getMasterySkips().includes(`${trackId}-${wi}`)) return true;
+  if (!PROBLEMS[trackId] || !PROBLEMS[trackId][wi]) return true;
+  return isWeekMasteryMet(trackId, wi);
+}
+
 function showResults() {
   const track = TRACKS[selectedTrack];
-  const totalDays = track.weeks.reduce((sum, w) => sum + w.days.length, 0);
+  const totalDays = effectiveTotalDays(track); // personalized "Activities" count for this learner
   const profile = getLearnerProfile();
 
   // Build personalized recommendation reason
@@ -3512,12 +3545,16 @@ function pickTrack(key) {
 // SCHEDULE
 // ============================================================
 
+// DEAD CODE — shadowed by the live `showSchedule = function()` assignment further
+// below (search for that string; ~line 6810) plus its decorator (~line 7900). This
+// declaration never runs; it is kept in sync with the live renderer for reference
+// only. Future editors: change the live assignment, not this function.
 function showSchedule() {
   const track = TRACKS[selectedTrack];
   const progress = getProgress();
   const trackProgress = progress[selectedTrack] || {};
-  const totalDays = track.weeks.reduce((sum, w) => sum + w.days.length, 0);
-  const completedDays = Object.values(trackProgress).filter(Boolean).length;
+  const totalDays = effectiveTotalDays(track);
+  const completedDays = effectiveCompletedDays(track, trackProgress);
   const pct = totalDays > 0 ? Math.round((completedDays / totalDays) * 100) : 0;
 
   let html = `
@@ -3571,9 +3608,11 @@ function showSchedule() {
 
   // v3 — honor display order (weekOrder) and hide conditional mechanics weeks entirely when Q5 = "Not really".
   const _displayOrder = getWeekDisplayOrder(track);
+  let _renderedNum = 0; // consecutive number of RENDERED weeks (skipped conditional weeks leave no gap)
   _displayOrder.forEach((wi, _displayIdx) => {
     const week = track.weeks[wi];
     if (weekHiddenByMechanics(week, _hideMechanics)) return;
+    _renderedNum++;
     const weekComplete = week.days.every((_, di) => trackProgress[`${wi}-${di}`]);
     // Preserve original day indices so click handlers stay correct
     const daysWithIdx = week.days.map((day, di) => ({ day, di }));
@@ -3586,7 +3625,7 @@ function showSchedule() {
     html += `
       <div class="week-block">
         <div class="week-header" onclick="toggleWeek(${wi})">
-          <span class="week-badge" style="background: ${track.color}">Week ${_displayIdx + 1}</span>
+          <span class="week-badge" style="background: ${track.color}">Week ${_renderedNum}</span>
           <span class="week-title">${week.title}</span>
           <span class="week-meta">${meta}</span>
           <span class="week-chevron">▼</span>
@@ -5985,8 +6024,8 @@ function checkBadges(interests, trackKey, wi, di, hour) {
   if (week0Complete) earned.add('week-one');
 
   // Halfway
-  const totalDays = track.weeks.reduce((s,w)=>s+w.days.length,0);
-  const completedDays = Object.values(trackProg).filter(Boolean).length;
+  const totalDays = effectiveTotalDays(track);
+  const completedDays = effectiveCompletedDays(track, trackProg);
   if (totalDays > 0 && completedDays / totalDays >= 0.5) earned.add('halfway');
 
   // Deep Diver — any read activity completed
@@ -6516,8 +6555,8 @@ function calcPace() {
   const track = TRACKS[selectedTrack];
   const progress = getProgress();
   const trackProg = progress[selectedTrack] || {};
-  const totalDays2 = track.weeks.reduce((s,w)=>s+w.days.length,0);
-  const completed2 = Object.values(trackProg).filter(Boolean).length;
+  const totalDays2 = effectiveTotalDays(track);
+  const completed2 = effectiveCompletedDays(track, trackProg);
   if (completed2 === 0) return { status: 'on-track', detail: 'Start your first activity to track your pace.' };
 
   const interests = getInterests();
@@ -6718,8 +6757,8 @@ showSchedule = function() {
   const track = TRACKS[selectedTrack];
   const progress = getProgress();
   const trackProgress = progress[selectedTrack] || {};
-  const totalDays = track.weeks.reduce((sum, w) => sum + w.days.length, 0);
-  const completedDays = Object.values(trackProgress).filter(Boolean).length;
+  const totalDays = effectiveTotalDays(track);
+  const completedDays = effectiveCompletedDays(track, trackProgress);
   const pct = totalDays > 0 ? Math.round((completedDays / totalDays) * 100) : 0;
 
   let html = `
@@ -6870,11 +6909,13 @@ showSchedule = function() {
   // v3 week ordering \u2014 honor weekOrder via shared helper (display only; wi indices preserved for progress/state).
   const _v3WeekIndices = getWeekDisplayOrder(track);
 
+  let _v3RenderedNum = 0; // consecutive number of RENDERED weeks (skipped conditional weeks leave no gap)
   _v3WeekIndices.forEach((wi, _displayIdx) => {
     const week = track.weeks[wi];
     // Conditional mechanics weeks ("How AI Actually Works", the Practitioner add-on) render
     // only when Q5 >= "Some curiosity" \u2014 hidden entirely for learners who picked "Not really".
     if (weekHiddenByMechanics(week, _v3HideMechanics)) return;
+    _v3RenderedNum++;
     const weekComplete = week.days.every((_, di) => trackProgress[`${wi}-${di}`]);
 
     // Sort activities within week by relevance if profile exists
@@ -6901,7 +6942,7 @@ showSchedule = function() {
     html += `
       <div class="week-block">
         <div class="week-header" onclick="toggleWeek(${wi})">
-          <span class="week-badge" style="background: ${track.color}">Week ${_displayIdx + 1}</span>
+          <span class="week-badge" style="background: ${track.color}">Week ${_v3RenderedNum}</span>
           <span class="week-title">${week.title}</span>
           <span class="week-meta">${_v3Meta}</span>
           <span class="week-chevron">\u25BC</span>
@@ -7066,11 +7107,13 @@ showSchedule = function() {
 
 function checkTrackCompletion(trackKey) {
   const track = TRACKS[trackKey];
-  const progress = getProgress();
-  const trackProg = progress[trackKey] || {};
-  const totalDays = track.weeks.reduce((s,w) => s + w.days.length, 0);
-  const completedDays = Object.values(trackProg).filter(Boolean).length;
-  return totalDays > 0 && completedDays === totalDays;
+  const trackProg = getProgress()[trackKey] || {};
+  const hide = currentHideMechanics();
+  // Count only what this learner can actually reach: exclude days in conditional
+  // mechanics weeks hidden by their Q5 answer (progress keys stay physical).
+  const totalDays = effectiveTotalDays(track, hide);
+  const completedDays = effectiveCompletedDays(track, trackProg, hide);
+  return totalDays > 0 && completedDays >= totalDays;
 }
 
 function getCertificateName() {
@@ -7730,11 +7773,13 @@ function saveMasterySkip(trackId, weekNum) {
 }
 
 function isWeekUnlocked(trackId, weekNum) {
-  if (weekNum === 0) return true;
-  const prev = weekNum - 1;
-  if (getMasterySkips().includes(`${trackId}-${prev}`)) return true;
-  if (!PROBLEMS[trackId] || !PROBLEMS[trackId][prev]) return true;
-  return isWeekMasteryMet(trackId, prev);
+  // Gate on the DISPLAY-preceding rendered week, not physical weekNum-1: weekOrder and
+  // hidden conditional weeks mean the visually-previous week isn't physical weekNum-1.
+  const track = TRACKS[trackId];
+  const rendered = renderedWeekOrder(track);
+  const k = rendered.indexOf(weekNum);
+  if (k <= 0) return true; // first rendered week (or a hidden week) is always unlocked
+  return weekMasteryCleared(trackId, rendered[k - 1]);
 }
 
 function openPractice(trackId, weekNum) {
@@ -7894,6 +7939,7 @@ showSchedule = function() {
   _origShowSchedule();
   if (!selectedTrack) return;
   const track = TRACKS[selectedTrack];
+  const _renderedDeco = renderedWeekOrder(track); // display order minus hidden weeks — mastery gate follows this
   track.weeks.forEach((week, wi) => {
     // Locate the block by its physical week id (the renderer sets id="week-${wi}" on .week-days) rather
     // than by positional index — positional indexing misattaches practice/lock UI under weekOrder and
@@ -7924,11 +7970,14 @@ showSchedule = function() {
       const weekMeta = weekHeader.querySelector('.week-meta');
       if (weekMeta) weekMeta.parentNode.insertBefore(masteryEl, weekMeta);
     }
-    if (wi > 0 && !isWeekUnlocked(selectedTrack, wi)) {
+    const _dk = _renderedDeco.indexOf(wi);
+    if (_dk > 0 && !weekMasteryCleared(selectedTrack, _renderedDeco[_dk - 1])) {
+      const _gatePhys = _renderedDeco[_dk - 1];  // physical index of the DISPLAY-preceding week
+      const _gateDisplayNum = _dk;               // its displayed number (rendered position _dk-1 → "Week _dk")
       weekBlock.classList.add('cx-locked');
       const lockBanner = document.createElement('div');
       lockBanner.className = 'cx-lock-banner';
-      lockBanner.innerHTML = `<span class="cx-lock-icon">&#x1f512;</span><span class="cx-lock-text">Complete Week ${wi} practice with 60%+ to unlock</span><button class="cx-skip-gate-btn" onclick="event.stopPropagation();skipMasteryGate('${selectedTrack}',${wi-1})">Skip Gate</button>`;
+      lockBanner.innerHTML = `<span class="cx-lock-icon">&#x1f512;</span><span class="cx-lock-text">Complete Week ${_gateDisplayNum} practice with 60%+ to unlock</span><button class="cx-skip-gate-btn" onclick="event.stopPropagation();skipMasteryGate('${selectedTrack}',${_gatePhys})">Skip Gate</button>`;
       const weekDays = weekBlock.querySelector('.week-days');
       if (weekDays) { weekBlock.insertBefore(lockBanner, weekDays); weekDays.classList.add('hidden'); }
       weekHeader.classList.add('collapsed');
@@ -8774,8 +8823,8 @@ function getReassessmentStatus() {
   const track = TRACKS[selectedTrack];
   const progress = getProgress();
   const trackProgress = progress[selectedTrack] || {};
-  const totalDays = track.weeks.reduce((sum, w) => sum + w.days.length, 0);
-  const completedDays = Object.values(trackProgress).filter(Boolean).length;
+  const totalDays = effectiveTotalDays(track);
+  const completedDays = effectiveCompletedDays(track, trackProgress);
   const pct = totalDays > 0 ? completedDays / totalDays : 0;
 
   // Show reassessment at ~25% completion
