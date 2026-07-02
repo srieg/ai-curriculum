@@ -2338,23 +2338,33 @@ const TRACKS = {
     duration: 8,
     hoursPerWeek: '2–3',
     description: 'For people who want to understand AI — what it can do, what it can\'t, and how to think about it clearly. No coding required.',
+    // v3 reorder: lead with USE. Display sequence is What AI Can Do For You → tools → strategy → ethics →
+    // products → org, then the mechanics primer consolidated into a conditional Week 7 ("How AI Actually
+    // Works", physical index 1) that only renders when Q5 >= "Some curiosity", then What's Next.
+    // `weekOrder` changes display only; physical weeks[] indices are preserved for progress tracking.
+    weekOrder: [0, 2, 4, 3, 5, 6, 1, 7],
     weeks: [
       {
-        title: 'What AI Actually Is',
+        title: 'What AI Can Do For You',
         days: [
           { type: 'read', time: '30 min', title: 'AI Is Not What You Think', desc: 'Read the Stanford HAI AI Index executive summary (latest edition). Note what surprised you.', url: 'https://aiindex.stanford.edu/report/', tags: ['beginner', 'no-code', 'business', 'strategy'] },
-          { type: 'watch', time: '25 min', title: 'Neural Networks: A Visual Primer', desc: 'Watch "But what is a neural network?" by 3Blue1Brown — the clearest visual explanation available.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research', 'mechanics'] },
+          { type: 'read', time: '20 min', title: 'AI Tools Landscape', desc: 'Survey what\'s available: ChatGPT, Claude, Gemini, Perplexity, Midjourney, Copilot. Try two you haven\'t used.', tags: ['beginner', 'no-code', 'strategy'] },
           { type: 'read', time: '45 min', title: 'The AI Landscape', desc: 'Read the first two chapters of "Prediction Machines" by Agrawal, Gans & Goldfarb. AI as a prediction technology.', url: 'https://www.amazon.com/dp/1633695670', borrow: 'https://openlibrary.org/search?q=prediction+machines+agrawal', summary: 'AI is fundamentally a "prediction technology" that makes prediction cheap. When prediction gets cheap, demand for judgment, data, and complements rises. Strategic implication: rethink which decisions in your org are now prediction problems that can be automated, and which require human judgment more than ever.', tags: ['beginner', 'no-code', 'business', 'strategy'], mvw: true },
           { type: 'reflect', time: '15 min', title: 'Week 1 Reflection', desc: 'Write 3 sentences: What is AI good at? What is it bad at? What surprised you this week?', tags: ['beginner', 'no-code', 'strategy'] }
         ]
       },
       {
-        title: 'How AI Learns',
+        // v3 conditional mechanics week — consolidates the "how it works" primer content pulled out of
+        // Weeks 1-2. Renders at display position 7 (see weekOrder) and ONLY when Q5 >= "Some curiosity"
+        // (mechanicsInterestIndex !== 0). All day-items carry the 'mechanics' tag.
+        title: 'How AI Actually Works',
+        conditional: 'mechanics',
         days: [
+          { type: 'watch', time: '25 min', title: 'Neural Networks: A Visual Primer', desc: 'Watch "But what is a neural network?" by 3Blue1Brown — the clearest visual explanation available.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research', 'mechanics'] },
           { type: 'watch', time: '30 min', title: 'Machine Learning Explained', desc: 'Watch "Gradient descent, how neural networks learn" by 3Blue1Brown.', url: 'https://www.youtube.com/watch?v=IHZwWFHWa-w', tags: ['beginner', 'no-code', 'technical', 'research', 'mechanics'] },
-          { type: 'read', time: '30 min', title: 'Training, Data, and Bias', desc: 'Read "AI Superpowers" Chapter 1 by Kai-Fu Lee — how data shapes AI capabilities.', url: 'https://www.amazon.com/dp/1328546393', borrow: 'https://openlibrary.org/search?q=ai+superpowers+kai-fu+lee', summary: 'China\'s AI advantage = scale of labeled data + tolerance for fast iteration in messy real-world deployment. Four waves of AI (internet, business, perception, autonomous) reshape global economic and political power. Bias and ethics arguments tied to whose data trains the system.', tags: ['beginner', 'no-code', 'business', 'ethics'] },
-          { type: 'do', time: '20 min', title: 'Teachable Machine', desc: 'Use Google\'s Teachable Machine to train a simple image classifier. No code needed.', url: 'https://teachablemachine.withgoogle.com/', tags: ['beginner', 'no-code', 'building'] },
-          { type: 'discuss', time: '15 min', title: 'Week 2 Discussion', desc: 'If AI learns from data, whose data is it learning from? What perspectives might be missing?', tags: ['beginner', 'no-code', 'ethics'] }
+          { type: 'read', time: '30 min', title: 'Training, Data, and Bias', desc: 'Read "AI Superpowers" Chapter 1 by Kai-Fu Lee — how data shapes AI capabilities.', url: 'https://www.amazon.com/dp/1328546393', borrow: 'https://openlibrary.org/search?q=ai+superpowers+kai-fu+lee', summary: 'China\'s AI advantage = scale of labeled data + tolerance for fast iteration in messy real-world deployment. Four waves of AI (internet, business, perception, autonomous) reshape global economic and political power. Bias and ethics arguments tied to whose data trains the system.', tags: ['beginner', 'no-code', 'business', 'ethics', 'mechanics'] },
+          { type: 'do', time: '20 min', title: 'Teachable Machine', desc: 'Use Google\'s Teachable Machine to train a simple image classifier. No code needed.', url: 'https://teachablemachine.withgoogle.com/', tags: ['beginner', 'no-code', 'building', 'mechanics'] },
+          { type: 'discuss', time: '15 min', title: 'Week 2 Discussion', desc: 'If AI learns from data, whose data is it learning from? What perspectives might be missing?', tags: ['beginner', 'no-code', 'ethics', 'mechanics'] }
         ]
       },
       {
@@ -2362,13 +2372,12 @@ const TRACKS = {
         days: [
           { type: 'read', time: '30 min', title: 'Prompt Engineering 101', desc: 'Read Anthropic\'s prompt engineering overview — the definitive guide to talking to AI.', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview', tags: ['beginner', 'no-code', 'prompt-engineering'] },
           { type: 'do', time: '40 min', title: 'Prompt Practice', desc: 'Write 5 prompts for tasks in your actual work. Compare results between specific vs vague prompts.', tags: ['beginner', 'no-code', 'prompt-engineering'] },
-          { type: 'read', time: '20 min', title: 'AI Tools Landscape', desc: 'Survey what\'s available: ChatGPT, Claude, Gemini, Perplexity, Midjourney, Copilot. Try two you haven\'t used.', tags: ['beginner', 'no-code', 'strategy'] },
           { type: 'do', time: '90 min', title: 'AI Fluency (Anthropic Academy)', desc: 'Take Anthropic Academy\'s "AI Fluency: Framework & Foundations" — free course on working effectively with AI. Free Skilljar account required.', url: 'https://anthropic.skilljar.com/', tags: ['beginner', 'no-code', 'fluency'] },
           { type: 'reflect', time: '15 min', title: 'Tool Assessment', desc: 'Which AI tool would save you the most time this month? What task would you use it for?', tags: ['beginner', 'no-code', 'strategy'] }
         ]
       },
       {
-        title: 'AI Ethics and Society',
+        title: 'AI Ethics and Responsible Use',
         days: [
           { type: 'read', time: '40 min', title: 'Responsible AI Frameworks', desc: 'Read Google\'s AI Principles and Anthropic\'s Core Views on AI Safety. Compare their approaches.', url: 'https://ai.google/responsibility/principles/', tags: ['beginner', 'no-code', 'ethics', 'business'] },
           { type: 'watch', time: '30 min', title: 'Bias in AI Systems', desc: 'Watch "The Era of Blind Faith in Big Data Must End" by Cathy O\'Neil (TED Talk).', url: 'https://www.ted.com/talks/cathy_o_neil_the_era_of_blind_faith_in_big_data_must_end', tags: ['beginner', 'no-code', 'ethics'] },
@@ -2424,12 +2433,17 @@ const TRACKS = {
     duration: 10,
     hoursPerWeek: '4–6',
     description: 'For power users who want to go beyond casual use — advanced prompting, AI workflows, and integrating AI into real work.',
+    // v3 reorder: lead with what Practitioners come for (Advanced Prompt Engineering, Workflow Automation),
+    // then capability mapping (3B1B removed → optional add-on), then no-code / ethics / data-literacy
+    // (Breiman removed → it lives in Researcher + Builder), then eval / decision / process / capstone.
+    // The optional mechanics add-on (physical index 10) displays between Weeks 3 and 4 only when
+    // Q5 >= "Some curiosity". `weekOrder` changes display only; physical weeks[] indices are preserved.
+    weekOrder: [1, 2, 0, 10, 5, 4, 3, 6, 7, 8, 9],
     weeks: [
       {
         title: 'AI Capabilities and Limits',
         days: [
           { type: 'read', time: '40 min', title: 'Stanford HAI AI Index', desc: 'Read the full executive summary — the most data-driven overview of where AI stands.', url: 'https://aiindex.stanford.edu/report/', tags: ['beginner', 'no-code', 'business', 'strategy'] },
-          { type: 'watch', time: '30 min', title: 'Neural Networks Visual Intro', desc: '3Blue1Brown\'s neural network series, episodes 1–2.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research', 'mechanics'] },
           { type: 'do', time: '30 min', title: 'Benchmark Your AI Use', desc: 'List every way you currently use AI. Rate each: effectiveness (1-5), frequency, time saved.', tags: ['beginner', 'no-code', 'strategy'] },
           { type: 'reflect', time: '15 min', title: 'Capability Mapping', desc: 'Where are AI tools strongest in your workflow? Where do they fail or hallucinate?', tags: ['beginner', 'no-code', 'strategy'] }
         ]
@@ -2456,7 +2470,6 @@ const TRACKS = {
       {
         title: 'Data Literacy for AI',
         days: [
-          { type: 'read', time: '45 min', title: 'Thinking with Data', desc: 'Read Breiman\'s "Two Cultures" thesis summary — how statistics and ML approach the same problems differently.', url: 'https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures/10.1214/ss/1009213726.full', tags: ['intermediate', 'no-code', 'academic', 'research', 'mechanics'] },
           { type: 'do', time: '40 min', title: 'Data Quality Assessment', desc: 'Take a dataset you work with. Assess: completeness, accuracy, bias, freshness. How would each affect AI output?', tags: ['intermediate', 'no-code', 'technical', 'strategy'] },
           { type: 'watch', time: '30 min', title: 'Data Visualization', desc: 'Watch Hans Rosling\'s "The best stats you\'ve ever seen" — data storytelling at its finest.', url: 'https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen', tags: ['beginner', 'no-code', 'business'] },
           { type: 'discuss', time: '20 min', title: 'Data Ethics', desc: 'Your company has a dataset of customer interactions. What\'s ethical to use for AI training? What isn\'t? Where\'s the line?', tags: ['intermediate', 'no-code', 'ethics'] }
@@ -2517,6 +2530,16 @@ const TRACKS = {
           { type: 'read', time: '40 min', title: 'Superagency', desc: 'Read "Superagency" by Reid Hoffman — the argument for AI as individual amplification. (If you don\'t want to buy: 📚 Borrow via library; or 💡 Core argument: AI is most powerful as a tool that amplifies individual agency rather than replacing human judgment — read his essays on inflection.com for the same arc free.)', url: 'https://www.amazon.com/dp/0593717767', borrow: 'https://openlibrary.org/search?q=superagency+reid+hoffman', summary: 'AI is most powerful as a tool that amplifies individual agency rather than replacing human judgment. Counter to "AI takes jobs" framing — argues AI gives non-experts access to expert-level capability.', tags: ['intermediate', 'no-code', 'business', 'strategy'] },
           { type: 'do', time: '60 min', title: 'Capstone: Write up + share', desc: 'Write a 1-page case study against the rubric above: the workflow, the before/after numbers, the prompt library, where it breaks. Share with at least one colleague or post publicly. This is your portable artifact.', tags: ['intermediate', 'no-code', 'building'] },
           { type: 'reflect', time: '30 min', title: 'Capstone: 90-Day Plan', desc: 'Which 2-3 workflows do you transform next? What capabilities do you wish you had — is that a Builder track? A specific tool? A team you need to convince? Write a 90-day plan.', tags: ['intermediate', 'no-code', 'strategy'] }
+        ]
+      },
+      {
+        // v3 optional mechanics add-on (physical index 10). Skippable side-track shown between display
+        // Weeks 3 and 4 (see weekOrder) ONLY when Q5 >= "Some curiosity". All day-items tagged 'mechanics'.
+        title: 'Optional Add-On: How AI Works (skippable)',
+        conditional: 'mechanics',
+        days: [
+          { type: 'watch', time: '30 min', title: 'Neural Networks: Visual Intro (ep 1)', desc: 'Watch 3Blue1Brown\'s "But what is a neural network?" — episode 1. A working visual mental model of what is happening under the hood, in about 20 minutes.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['intermediate', 'no-code', 'technical', 'research', 'mechanics'] },
+          { type: 'read', time: '30 min', title: 'How Transformers Work, Conceptually', desc: 'Read Jay Alammar\'s "The Illustrated Transformer" — the canonical plain-language walkthrough of attention and how modern LLMs process text. No math required to follow the intuition.', url: 'https://jalammar.github.io/illustrated-transformer/', tags: ['intermediate', 'no-code', 'technical', 'research', 'mechanics'] }
         ]
       }
     ]
@@ -3212,6 +3235,22 @@ function calculateResults() {
 // carries the 'mechanics' tag. Used by the Q5 mechanics-interest render gate.
 function dayIsMechanics(d) { return Array.isArray(d.tags) && d.tags.includes('mechanics'); }
 
+// Shared render helper: display order for a track's weeks. Honors an explicit
+// `weekOrder` permutation (display-only; physical indices preserved for progress)
+// when present and length-matched, else natural array order. Used by both render paths.
+function getWeekDisplayOrder(track) {
+  return (Array.isArray(track.weekOrder) && track.weekOrder.length === track.weeks.length)
+    ? track.weekOrder
+    : track.weeks.map((_, i) => i);
+}
+
+// Shared render helper: a conditional mechanics week ("How AI Actually Works",
+// the Practitioner add-on) renders ONLY when Q5 >= "Some curiosity". When the
+// learner picked "Not really" (hideMechanics), the whole week is hidden.
+function weekHiddenByMechanics(week, hideMechanics) {
+  return !!hideMechanics && !!week && week.conditional === 'mechanics';
+}
+
 function showResults() {
   const track = TRACKS[selectedTrack];
   const totalDays = track.weeks.reduce((sum, w) => sum + w.days.length, 0);
@@ -3437,7 +3476,11 @@ function showSchedule() {
     `;
   };
 
-  track.weeks.forEach((week, wi) => {
+  // v3 — honor display order (weekOrder) and hide conditional mechanics weeks entirely when Q5 = "Not really".
+  const _displayOrder = getWeekDisplayOrder(track);
+  _displayOrder.forEach((wi, _displayIdx) => {
+    const week = track.weeks[wi];
+    if (weekHiddenByMechanics(week, _hideMechanics)) return;
     const weekComplete = week.days.every((_, di) => trackProgress[`${wi}-${di}`]);
     // Preserve original day indices so click handlers stay correct
     const daysWithIdx = week.days.map((day, di) => ({ day, di }));
@@ -3450,7 +3493,7 @@ function showSchedule() {
     html += `
       <div class="week-block">
         <div class="week-header" onclick="toggleWeek(${wi})">
-          <span class="week-badge" style="background: ${track.color}">Week ${wi + 1}</span>
+          <span class="week-badge" style="background: ${track.color}">Week ${_displayIdx + 1}</span>
           <span class="week-title">${week.title}</span>
           <span class="week-meta">${meta}</span>
           <span class="week-chevron">▼</span>
@@ -6731,13 +6774,14 @@ showSchedule = function() {
   // v3 mechanics filter \u2014 if learner picked "Not really" on Q5, hide mechanics-tagged items behind a collapsible "+ Optional" disclosure.
   const _v3HideMechanics = profile && profile.mechanicsInterestIndex === 0;
 
-  // v3 week ordering \u2014 if track defines weekOrder, iterate in that sequence (display only; wi indices preserved for progress/state).
-  const _v3WeekIndices = Array.isArray(track.weekOrder) && track.weekOrder.length === track.weeks.length
-    ? track.weekOrder
-    : track.weeks.map((_, i) => i);
+  // v3 week ordering \u2014 honor weekOrder via shared helper (display only; wi indices preserved for progress/state).
+  const _v3WeekIndices = getWeekDisplayOrder(track);
 
   _v3WeekIndices.forEach((wi, _displayIdx) => {
     const week = track.weeks[wi];
+    // Conditional mechanics weeks ("How AI Actually Works", the Practitioner add-on) render
+    // only when Q5 >= "Some curiosity" \u2014 hidden entirely for learners who picked "Not really".
+    if (weekHiddenByMechanics(week, _v3HideMechanics)) return;
     const weekComplete = week.days.every((_, di) => trackProgress[`${wi}-${di}`]);
 
     // Sort activities within week by relevance if profile exists
@@ -7757,7 +7801,11 @@ showSchedule = function() {
   if (!selectedTrack) return;
   const track = TRACKS[selectedTrack];
   track.weeks.forEach((week, wi) => {
-    const weekBlock = document.querySelectorAll('.week-block')[wi];
+    // Locate the block by its physical week id (the renderer sets id="week-${wi}" on .week-days) rather
+    // than by positional index — positional indexing misattaches practice/lock UI under weekOrder and
+    // when a conditional mechanics week is hidden. getElementById returns null for a hidden week → skip.
+    const _daysEl = document.getElementById('week-' + wi);
+    const weekBlock = _daysEl ? _daysEl.closest('.week-block') : null;
     if (!weekBlock) return;
     const weekHeader = weekBlock.querySelector('.week-header');
     if (!weekHeader) return;
