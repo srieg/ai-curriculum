@@ -22,8 +22,10 @@ Most AI courses skip it: **Your AI Data Footprint** — what gets stored, what t
 - **Validated routing** — quiz routing validated against 21 simulated personas (`simulate-personas.ts`)
 - **Real resources** — every link points to a real paper, course, book, or tool
 - **Progress tracking** — check off completed activities (saved in your browser)
-- **No account needed** — works entirely client-side, no data leaves your machine
+- **No account needed** — works entirely client-side; nothing leaves your machine unless you explicitly submit the optional outcomes form
 - **Single HTML file** — zero dependencies, works offline
+
+Practicing what the privacy track teaches, the site discloses its own data flow: it has exactly one optional external endpoint — a 6-week outcomes check-in form you may choose to submit — and nothing is sent anywhere unless you click through to it.
 
 ## Resources Include
 
@@ -65,13 +67,13 @@ All the content you'll want to change lives in the JavaScript data block (~lines
 | Per-day resources | `TRACKS[*].weeks[*].days[*]` | `{type, time, title, desc, url, tags[]}` |
 | Track metadata (philosophy, reading order) | `const DEEP_DIVES` ~4160 | Used for context panels, not the day schedule |
 | Track display order | `const TRACK_ORDER` ~2730 | Simple array of track keys |
-| localStorage namespace | 16 keys prefixed `ai-curriculum-*` | **Must rename in forks** — see below |
+| localStorage namespace | 17 keys prefixed `ai-curriculum-*` | **Must rename in forks** — see below |
 
 ### ⚠ Don't break progress tracking — rename the localStorage namespace
 
 **Before publishing your fork:** change the localStorage namespace from `ai-curriculum-` to your own prefix (e.g., `my-ai-path-`). If you don't, and a learner visits both the original site and your fork in the same browser, their progress data will collide.
 
-Find-and-replace all 16 keys:
+Find-and-replace all 17 keys:
 
 ```
 ai-curriculum-theme
@@ -90,9 +92,10 @@ ai-curriculum-problems
 ai-curriculum-mastery-skips
 ai-curriculum-cert-name
 ai-curriculum-reassessment-dismissed
+ai-curriculum-outcomes-optin-dismissed
 ```
 
-A single find-and-replace of `ai-curriculum-` → `your-prefix-` across the file handles all 16 in one shot.
+A single find-and-replace of `ai-curriculum-` → `your-prefix-` across the file handles all 17 in one shot.
 
 ### Attribution
 
