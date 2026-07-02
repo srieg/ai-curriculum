@@ -2933,15 +2933,88 @@ let selectedTrack = null;
 // Forkers: rename this prefix to your own (e.g. `my-path-*`) BEFORE
 // publishing, otherwise learners who visit both sites in the same
 // browser will have their progress collide with the upstream.
-// Keys used (16): ai-curriculum-theme, ai-curriculum-track,
+// Keys used (17): ai-curriculum-theme, ai-curriculum-track,
 // ai-curriculum-progress, ai-curriculum-profile, ai-curriculum-knowledge,
 // ai-curriculum-knowledge-state, ai-curriculum-interests,
 // ai-curriculum-reviews, ai-curriculum-difficulties,
 // ai-curriculum-engagement, ai-curriculum-chat-quality,
 // ai-curriculum-api-key, ai-curriculum-problems,
 // ai-curriculum-mastery-skips, ai-curriculum-cert-name,
-// ai-curriculum-reassessment-dismissed.
+// ai-curriculum-reassessment-dismissed, ai-curriculum-outcomes-optin-dismissed.
 // ────────────────────────────────────────────────────────────────────
+
+// ── Optional outcomes opt-in (privacy-honest) ───────────────────────────────
+// The site itself sends NOTHING. This card only (a) offers a link to an external
+// form the learner may choose to submit, and (b) copies a minimal anonymized
+// stats blob to the learner's OWN clipboard. Dismissal is remembered locally.
+const OUTCOMES_FORM_URL = 'https://REPLACE-ME.example/outcomes-form'; // TODO(Deliverable B): point at the deployed curriculum-outcomes Worker /api/optin form. PLACEHOLDER only.
+const OUTCOMES_DISMISS_KEY = 'ai-curriculum-outcomes-optin-dismissed';
+
+function outcomesOptInDismissed() {
+  try { return !!localStorage.getItem(OUTCOMES_DISMISS_KEY); } catch (e) { return false; }
+}
+
+// Minimal, anonymized stats — {track, weeksCompleted, problemsAttempted} ONLY.
+// Deliberately excludes api-key, cert-name, and any free-text / PII.
+function getAnonymizedStats() {
+  let track = null;
+  try { track = selectedTrack || (getLearnerProfile() && getLearnerProfile().selectedTrack) || null; } catch (e) {}
+  let weeksCompleted = 0;
+  try {
+    const prog = (getProgress()[track]) || {};
+    const t = track && TRACKS[track];
+    if (t) weeksCompleted = t.weeks.filter((w, wi) => w.days.length > 0 && w.days.every((_, di) => prog[`${wi}-${di}`])).length;
+  } catch (e) {}
+  let problemsAttempted = 0;
+  try { problemsAttempted = getProblemResults().filter(r => r && r.trackId === track).length; } catch (e) {}
+  return { track: track, weeksCompleted: weeksCompleted, problemsAttempted: problemsAttempted };
+}
+
+function _outcomesFallbackCopy(text) {
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+  } catch (e) {}
+}
+
+function copyAnonymizedStats() {
+  const json = JSON.stringify(getAnonymizedStats());
+  const notify = () => { try { showToast('Copied to your clipboard (you choose where it goes): ' + json, 4500); } catch (e) {} };
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(json).then(notify).catch(() => { _outcomesFallbackCopy(json); notify(); });
+      return;
+    }
+  } catch (e) {}
+  _outcomesFallbackCopy(json); notify();
+}
+
+function openOutcomesForm() { window.open(OUTCOMES_FORM_URL, '_blank', 'noopener'); }
+
+function dismissOutcomesCard() {
+  try { localStorage.setItem(OUTCOMES_DISMISS_KEY, '1'); } catch (e) {}
+  const el = document.getElementById('outcomesOptInCard');
+  if (el) el.remove();
+}
+
+// Card HTML for the quiz-results and certificate views. Returns '' once dismissed.
+function outcomesOptInCardHtml() {
+  if (outcomesOptInDismissed()) return '';
+  return `
+    <div id="outcomesOptInCard" class="cx-outcomes-card" style="position:relative; max-width:640px; margin:24px auto; padding:20px 22px; border:1px solid var(--border,#2a2a3a); border-radius:12px; background:rgba(99,102,241,0.05); text-align:left;">
+      <button aria-label="Dismiss" onclick="dismissOutcomesCard()" style="position:absolute; top:8px; right:12px; background:none; border:none; color:var(--text-dim); font-size:20px; line-height:1; cursor:pointer;">&times;</button>
+      <div style="font-weight:600; font-size:16px; margin-bottom:8px;">Want a 3-question check-in in 6 weeks to tell me if this worked?</div>
+      <p style="font-size:13px; color:var(--text-dim); line-height:1.6; margin:0 0 14px;">No account, no email capture, no tracking pixel on this page. <strong>This site sends nothing. This optional external form is you choosing to.</strong> Prefer to keep it in your own hands? Copy a minimal, anonymized stats blob and paste it wherever you like.</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="cx-btn cx-btn-primary btn btn-primary" onclick="openOutcomesForm()">Remind me in 6 weeks &rarr;</button>
+        <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="copyAnonymizedStats()">Copy my anonymized stats</button>
+        <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="dismissOutcomesCard()">No thanks</button>
+      </div>
+    </div>
+  `;
+}
 
 function getProgress() {
   try { return JSON.parse(localStorage.getItem('ai-curriculum-progress') || '{}'); } catch { return {}; }
@@ -3383,6 +3456,7 @@ function showResults() {
     <div style="margin-top: 24px; text-align: center;">
       <p style="font-size: 13px; color: var(--text-muted);">Not the right fit? <a href="#" onclick="showTrackPicker(); return false;" style="color: var(--accent);">Choose a different track</a> · <a href="#" onclick="showChat(); return false;" style="color: var(--accent);">Describe your situation</a></p>
     </div>
+    ${outcomesOptInCardHtml()}
   `;
 
   showSection('results');
@@ -7055,6 +7129,7 @@ function renderCertificate(trackKey, userName) {
         <button class="cx-btn cx-btn-primary btn btn-primary" onclick="printCertificate()">Print Certificate</button>
         <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="downloadCertificate()">Download as Image</button>
       </div>
+      ${outcomesOptInCardHtml()}
     </div>
   `;
 
@@ -8878,7 +8953,7 @@ initTheme();
             <tr><td>Per-day resources</td><td><code>TRACKS[*].weeks[*].days[*]</code></td><td><code>{type, time, title, desc, url, tags[]}</code></td></tr>
             <tr><td>Track metadata (philosophy, reading order)</td><td><code>const DEEP_DIVES</code> ~4160</td><td>Used for context panels, not the day schedule</td></tr>
             <tr><td>Track display order</td><td><code>const TRACK_ORDER</code> ~2730</td><td>Simple array of track keys</td></tr>
-            <tr><td>localStorage namespace</td><td>16 keys prefixed <code>ai-curriculum-*</code></td><td><strong>Must rename in forks</strong> — see warning below</td></tr>
+            <tr><td>localStorage namespace</td><td>17 keys prefixed <code>ai-curriculum-*</code></td><td><strong>Must rename in forks</strong> — see warning below</td></tr>
           </tbody>
         </table>
       </div>
@@ -8890,10 +8965,10 @@ initTheme();
         <div style="background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 16px; margin-bottom: 16px;">
           <p style="font-weight:600; margin-bottom:8px; color: #EF4444;">Before publishing your fork</p>
           <p style="font-size:13px; line-height:1.7;">Change the localStorage namespace from <code>ai-curriculum-</code> to your own prefix (e.g., <code>my-ai-path-</code>). If you don't, and a learner visits both the original site and your fork in the same browser, their progress data will collide.</p>
-          <p style="font-size:13px; margin-top:10px;">Find-and-replace all 16 keys:</p>
-          <code style="display:block; font-size:12px; line-height:1.8; color:var(--text-dim); margin-top:6px;">ai-curriculum-theme, ai-curriculum-track, ai-curriculum-progress, ai-curriculum-profile, ai-curriculum-knowledge, ai-curriculum-knowledge-state, ai-curriculum-interests, ai-curriculum-reviews, ai-curriculum-difficulties, ai-curriculum-engagement, ai-curriculum-chat-quality, ai-curriculum-api-key, ai-curriculum-problems, ai-curriculum-mastery-skips, ai-curriculum-cert-name, ai-curriculum-reassessment-dismissed</code>
+          <p style="font-size:13px; margin-top:10px;">Find-and-replace all 17 keys:</p>
+          <code style="display:block; font-size:12px; line-height:1.8; color:var(--text-dim); margin-top:6px;">ai-curriculum-theme, ai-curriculum-track, ai-curriculum-progress, ai-curriculum-profile, ai-curriculum-knowledge, ai-curriculum-knowledge-state, ai-curriculum-interests, ai-curriculum-reviews, ai-curriculum-difficulties, ai-curriculum-engagement, ai-curriculum-chat-quality, ai-curriculum-api-key, ai-curriculum-problems, ai-curriculum-mastery-skips, ai-curriculum-cert-name, ai-curriculum-reassessment-dismissed, ai-curriculum-outcomes-optin-dismissed</code>
         </div>
-        <p style="font-size:13px; color:var(--text-muted);">A single find-and-replace of <code>ai-curriculum-</code> → <code>your-prefix-</code> across the file handles all 16 in one shot.</p>
+        <p style="font-size:13px; color:var(--text-muted);">A single find-and-replace of <code>ai-curriculum-</code> → <code>your-prefix-</code> across the file handles all 17 in one shot.</p>
       </div>
     </details>
 
