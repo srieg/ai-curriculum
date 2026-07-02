@@ -1,8 +1,12 @@
 # AI Curriculum — Personalized Learning Path
 
-A free, adaptive AI curriculum that meets you where you are. Take a 5-question assessment and get a study schedule tailored to your experience level — from first encounter to frontier research.
+A free, adaptive AI curriculum that meets you where you are. Take a 6-question assessment and get a study schedule tailored to your experience level — from first encounter to frontier research.
 
-## Four Tracks
+### The track almost nobody else teaches
+
+Most AI courses skip it: **Your AI Data Footprint** — what gets stored, what trains the model, and what stays local. It's a privacy sidecar you can run next to any primary track, built from the real data-use disclosures of the tools you already use (Anthropic, OpenAI, Google, Microsoft, and more). Six weeks, 2–3 hrs/week.
+
+## Five Tracks
 
 | Track | Duration | Hours/Week | For |
 |-------|----------|------------|-----|
@@ -10,10 +14,12 @@ A free, adaptive AI curriculum that meets you where you are. Take a 5-question a
 | **Practitioner** | 10 weeks | 4–6 | Power users who want to use AI tools effectively |
 | **Builder** | 12 weeks | 6–10 | Developers who want to build AI applications |
 | **Researcher** | 16 weeks | 10+ | Advanced learners pursuing deep understanding |
+| **Your AI Data Footprint** _(privacy sidecar)_ | 6 weeks | 2–3 | Recommended alongside any primary track — what gets stored, what trains the model, what stays local |
 
 ## Features
 
-- **Adaptive quiz** — 5 questions determine your recommended track
+- **Adaptive quiz** — 6 questions determine your recommended track
+- **Validated routing** — quiz routing validated against 21 simulated personas (`simulate-personas.ts`)
 - **Real resources** — every link points to a real paper, course, book, or tool
 - **Progress tracking** — check off completed activities (saved in your browser)
 - **No account needed** — works entirely client-side, no data leaves your machine
@@ -54,8 +60,8 @@ All the content you'll want to change lives in the JavaScript data block (~lines
 
 | What to edit | Where (approx. line) | Notes |
 |---|---|---|
-| Assessment questions | `const QUESTIONS` ~2220 | 5 objects with `options[]` and per-track scoring weights |
-| Track definitions (name, color, duration) | `const TRACKS` ~2280 | Keys: `explorer`, `practitioner`, `builder`, `researcher` |
+| Assessment questions | `const QUESTIONS` ~2260 | 6 objects with `options[]` and per-track scoring weights |
+| Track definitions (name, color, duration) | `const TRACKS` ~2335 | Keys: `explorer`, `practitioner`, `builder`, `researcher`, `privacy` |
 | Per-day resources | `TRACKS[*].weeks[*].days[*]` | `{type, time, title, desc, url, tags[]}` |
 | Track metadata (philosophy, reading order) | `const DEEP_DIVES` ~4160 | Used for context panels, not the day schedule |
 | Track display order | `const TRACK_ORDER` ~2730 | Simple array of track keys |
