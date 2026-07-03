@@ -2949,7 +2949,7 @@ let selectedTrack = null;
 // that email — for exactly what they checked — with the outcomes endpoint. The
 // community option is an INTEREST CHECK, not a signup for anything that exists.
 // Dismissal (and a successful submit) are remembered locally.
-const OUTCOMES_FORM_URL = 'https://REPLACE-ME.example/api/optin'; // TODO(Deliverable B): point at the deployed curriculum-outcomes Worker POST /api/optin. PLACEHOLDER only.
+const OUTCOMES_FORM_URL = 'https://curriculum-outcomes.samuelriegel.workers.dev/api/optin'; // deployed curriculum-outcomes Worker (D1-backed; receives only what the two checkboxes consent to)
 const OUTCOMES_DISMISS_KEY = 'ai-curriculum-outcomes-optin-dismissed';
 const OUTCOMES_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
