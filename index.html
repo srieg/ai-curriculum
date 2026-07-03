@@ -2338,23 +2338,33 @@ const TRACKS = {
     duration: 8,
     hoursPerWeek: '2–3',
     description: 'For people who want to understand AI — what it can do, what it can\'t, and how to think about it clearly. No coding required.',
+    // v3 reorder: lead with USE. Display sequence is What AI Can Do For You → tools → strategy → ethics →
+    // products → org, then the mechanics primer consolidated into a conditional Week 7 ("How AI Actually
+    // Works", physical index 1) that only renders when Q5 >= "Some curiosity", then What's Next.
+    // `weekOrder` changes display only; physical weeks[] indices are preserved for progress tracking.
+    weekOrder: [0, 2, 4, 3, 5, 6, 1, 7],
     weeks: [
       {
-        title: 'What AI Actually Is',
+        title: 'What AI Can Do For You',
         days: [
           { type: 'read', time: '30 min', title: 'AI Is Not What You Think', desc: 'Read the Stanford HAI AI Index executive summary (latest edition). Note what surprised you.', url: 'https://aiindex.stanford.edu/report/', tags: ['beginner', 'no-code', 'business', 'strategy'] },
-          { type: 'watch', time: '25 min', title: 'Neural Networks: A Visual Primer', desc: 'Watch "But what is a neural network?" by 3Blue1Brown — the clearest visual explanation available.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research', 'mechanics'] },
+          { type: 'read', time: '20 min', title: 'AI Tools Landscape', desc: 'Survey what\'s available: ChatGPT, Claude, Gemini, Perplexity, Midjourney, Copilot. Try two you haven\'t used.', tags: ['beginner', 'no-code', 'strategy'] },
           { type: 'read', time: '45 min', title: 'The AI Landscape', desc: 'Read the first two chapters of "Prediction Machines" by Agrawal, Gans & Goldfarb. AI as a prediction technology.', url: 'https://www.amazon.com/dp/1633695670', borrow: 'https://openlibrary.org/search?q=prediction+machines+agrawal', summary: 'AI is fundamentally a "prediction technology" that makes prediction cheap. When prediction gets cheap, demand for judgment, data, and complements rises. Strategic implication: rethink which decisions in your org are now prediction problems that can be automated, and which require human judgment more than ever.', tags: ['beginner', 'no-code', 'business', 'strategy'], mvw: true },
           { type: 'reflect', time: '15 min', title: 'Week 1 Reflection', desc: 'Write 3 sentences: What is AI good at? What is it bad at? What surprised you this week?', tags: ['beginner', 'no-code', 'strategy'] }
         ]
       },
       {
-        title: 'How AI Learns',
+        // v3 conditional mechanics week — consolidates the "how it works" primer content pulled out of
+        // Weeks 1-2. Renders at display position 7 (see weekOrder) and ONLY when Q5 >= "Some curiosity"
+        // (mechanicsInterestIndex !== 0). All day-items carry the 'mechanics' tag.
+        title: 'How AI Actually Works',
+        conditional: 'mechanics',
         days: [
+          { type: 'watch', time: '25 min', title: 'Neural Networks: A Visual Primer', desc: 'Watch "But what is a neural network?" by 3Blue1Brown — the clearest visual explanation available.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research', 'mechanics'] },
           { type: 'watch', time: '30 min', title: 'Machine Learning Explained', desc: 'Watch "Gradient descent, how neural networks learn" by 3Blue1Brown.', url: 'https://www.youtube.com/watch?v=IHZwWFHWa-w', tags: ['beginner', 'no-code', 'technical', 'research', 'mechanics'] },
-          { type: 'read', time: '30 min', title: 'Training, Data, and Bias', desc: 'Read "AI Superpowers" Chapter 1 by Kai-Fu Lee — how data shapes AI capabilities.', url: 'https://www.amazon.com/dp/1328546393', borrow: 'https://openlibrary.org/search?q=ai+superpowers+kai-fu+lee', summary: 'China\'s AI advantage = scale of labeled data + tolerance for fast iteration in messy real-world deployment. Four waves of AI (internet, business, perception, autonomous) reshape global economic and political power. Bias and ethics arguments tied to whose data trains the system.', tags: ['beginner', 'no-code', 'business', 'ethics'] },
-          { type: 'do', time: '20 min', title: 'Teachable Machine', desc: 'Use Google\'s Teachable Machine to train a simple image classifier. No code needed.', url: 'https://teachablemachine.withgoogle.com/', tags: ['beginner', 'no-code', 'building'] },
-          { type: 'discuss', time: '15 min', title: 'Week 2 Discussion', desc: 'If AI learns from data, whose data is it learning from? What perspectives might be missing?', tags: ['beginner', 'no-code', 'ethics'] }
+          { type: 'read', time: '30 min', title: 'Training, Data, and Bias', desc: 'Read "AI Superpowers" Chapter 1 by Kai-Fu Lee — how data shapes AI capabilities.', url: 'https://www.amazon.com/dp/1328546393', borrow: 'https://openlibrary.org/search?q=ai+superpowers+kai-fu+lee', summary: 'China\'s AI advantage = scale of labeled data + tolerance for fast iteration in messy real-world deployment. Four waves of AI (internet, business, perception, autonomous) reshape global economic and political power. Bias and ethics arguments tied to whose data trains the system.', tags: ['beginner', 'no-code', 'business', 'ethics', 'mechanics'] },
+          { type: 'do', time: '20 min', title: 'Teachable Machine', desc: 'Use Google\'s Teachable Machine to train a simple image classifier. No code needed.', url: 'https://teachablemachine.withgoogle.com/', tags: ['beginner', 'no-code', 'building', 'mechanics'] },
+          { type: 'discuss', time: '15 min', title: 'Week 2 Discussion', desc: 'If AI learns from data, whose data is it learning from? What perspectives might be missing?', tags: ['beginner', 'no-code', 'ethics', 'mechanics'] }
         ]
       },
       {
@@ -2362,13 +2372,12 @@ const TRACKS = {
         days: [
           { type: 'read', time: '30 min', title: 'Prompt Engineering 101', desc: 'Read Anthropic\'s prompt engineering overview — the definitive guide to talking to AI.', url: 'https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview', tags: ['beginner', 'no-code', 'prompt-engineering'] },
           { type: 'do', time: '40 min', title: 'Prompt Practice', desc: 'Write 5 prompts for tasks in your actual work. Compare results between specific vs vague prompts.', tags: ['beginner', 'no-code', 'prompt-engineering'] },
-          { type: 'read', time: '20 min', title: 'AI Tools Landscape', desc: 'Survey what\'s available: ChatGPT, Claude, Gemini, Perplexity, Midjourney, Copilot. Try two you haven\'t used.', tags: ['beginner', 'no-code', 'strategy'] },
           { type: 'do', time: '90 min', title: 'AI Fluency (Anthropic Academy)', desc: 'Take Anthropic Academy\'s "AI Fluency: Framework & Foundations" — free course on working effectively with AI. Free Skilljar account required.', url: 'https://anthropic.skilljar.com/', tags: ['beginner', 'no-code', 'fluency'] },
           { type: 'reflect', time: '15 min', title: 'Tool Assessment', desc: 'Which AI tool would save you the most time this month? What task would you use it for?', tags: ['beginner', 'no-code', 'strategy'] }
         ]
       },
       {
-        title: 'AI Ethics and Society',
+        title: 'AI Ethics and Responsible Use',
         days: [
           { type: 'read', time: '40 min', title: 'Responsible AI Frameworks', desc: 'Read Google\'s AI Principles and Anthropic\'s Core Views on AI Safety. Compare their approaches.', url: 'https://ai.google/responsibility/principles/', tags: ['beginner', 'no-code', 'ethics', 'business'] },
           { type: 'watch', time: '30 min', title: 'Bias in AI Systems', desc: 'Watch "The Era of Blind Faith in Big Data Must End" by Cathy O\'Neil (TED Talk).', url: 'https://www.ted.com/talks/cathy_o_neil_the_era_of_blind_faith_in_big_data_must_end', tags: ['beginner', 'no-code', 'ethics'] },
@@ -2424,12 +2433,17 @@ const TRACKS = {
     duration: 10,
     hoursPerWeek: '4–6',
     description: 'For power users who want to go beyond casual use — advanced prompting, AI workflows, and integrating AI into real work.',
+    // v3 reorder: lead with what Practitioners come for (Advanced Prompt Engineering, Workflow Automation),
+    // then capability mapping (3B1B removed → optional add-on), then no-code / ethics / data-literacy
+    // (Breiman removed → it lives in Researcher + Builder), then eval / decision / process / capstone.
+    // The optional mechanics add-on (physical index 10) displays between Weeks 3 and 4 only when
+    // Q5 >= "Some curiosity". `weekOrder` changes display only; physical weeks[] indices are preserved.
+    weekOrder: [1, 2, 0, 10, 5, 4, 3, 6, 7, 8, 9],
     weeks: [
       {
         title: 'AI Capabilities and Limits',
         days: [
           { type: 'read', time: '40 min', title: 'Stanford HAI AI Index', desc: 'Read the full executive summary — the most data-driven overview of where AI stands.', url: 'https://aiindex.stanford.edu/report/', tags: ['beginner', 'no-code', 'business', 'strategy'] },
-          { type: 'watch', time: '30 min', title: 'Neural Networks Visual Intro', desc: '3Blue1Brown\'s neural network series, episodes 1–2.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['beginner', 'no-code', 'technical', 'research', 'mechanics'] },
           { type: 'do', time: '30 min', title: 'Benchmark Your AI Use', desc: 'List every way you currently use AI. Rate each: effectiveness (1-5), frequency, time saved.', tags: ['beginner', 'no-code', 'strategy'] },
           { type: 'reflect', time: '15 min', title: 'Capability Mapping', desc: 'Where are AI tools strongest in your workflow? Where do they fail or hallucinate?', tags: ['beginner', 'no-code', 'strategy'] }
         ]
@@ -2456,7 +2470,6 @@ const TRACKS = {
       {
         title: 'Data Literacy for AI',
         days: [
-          { type: 'read', time: '45 min', title: 'Thinking with Data', desc: 'Read Breiman\'s "Two Cultures" thesis summary — how statistics and ML approach the same problems differently.', url: 'https://projecteuclid.org/journals/statistical-science/volume-16/issue-3/Statistical-Modeling--The-Two-Cultures/10.1214/ss/1009213726.full', tags: ['intermediate', 'no-code', 'academic', 'research', 'mechanics'] },
           { type: 'do', time: '40 min', title: 'Data Quality Assessment', desc: 'Take a dataset you work with. Assess: completeness, accuracy, bias, freshness. How would each affect AI output?', tags: ['intermediate', 'no-code', 'technical', 'strategy'] },
           { type: 'watch', time: '30 min', title: 'Data Visualization', desc: 'Watch Hans Rosling\'s "The best stats you\'ve ever seen" — data storytelling at its finest.', url: 'https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen', tags: ['beginner', 'no-code', 'business'] },
           { type: 'discuss', time: '20 min', title: 'Data Ethics', desc: 'Your company has a dataset of customer interactions. What\'s ethical to use for AI training? What isn\'t? Where\'s the line?', tags: ['intermediate', 'no-code', 'ethics'] }
@@ -2517,6 +2530,16 @@ const TRACKS = {
           { type: 'read', time: '40 min', title: 'Superagency', desc: 'Read "Superagency" by Reid Hoffman — the argument for AI as individual amplification. (If you don\'t want to buy: 📚 Borrow via library; or 💡 Core argument: AI is most powerful as a tool that amplifies individual agency rather than replacing human judgment — read his essays on inflection.com for the same arc free.)', url: 'https://www.amazon.com/dp/0593717767', borrow: 'https://openlibrary.org/search?q=superagency+reid+hoffman', summary: 'AI is most powerful as a tool that amplifies individual agency rather than replacing human judgment. Counter to "AI takes jobs" framing — argues AI gives non-experts access to expert-level capability.', tags: ['intermediate', 'no-code', 'business', 'strategy'] },
           { type: 'do', time: '60 min', title: 'Capstone: Write up + share', desc: 'Write a 1-page case study against the rubric above: the workflow, the before/after numbers, the prompt library, where it breaks. Share with at least one colleague or post publicly. This is your portable artifact.', tags: ['intermediate', 'no-code', 'building'] },
           { type: 'reflect', time: '30 min', title: 'Capstone: 90-Day Plan', desc: 'Which 2-3 workflows do you transform next? What capabilities do you wish you had — is that a Builder track? A specific tool? A team you need to convince? Write a 90-day plan.', tags: ['intermediate', 'no-code', 'strategy'] }
+        ]
+      },
+      {
+        // v3 optional mechanics add-on (physical index 10). Skippable side-track shown between display
+        // Weeks 3 and 4 (see weekOrder) ONLY when Q5 >= "Some curiosity". All day-items tagged 'mechanics'.
+        title: 'Optional Add-On: How AI Works (skippable)',
+        conditional: 'mechanics',
+        days: [
+          { type: 'watch', time: '30 min', title: 'Neural Networks: Visual Intro (ep 1)', desc: 'Watch 3Blue1Brown\'s "But what is a neural network?" — episode 1. A working visual mental model of what is happening under the hood, in about 20 minutes.', url: 'https://www.youtube.com/watch?v=aircAruvnKk', tags: ['intermediate', 'no-code', 'technical', 'research', 'mechanics'] },
+          { type: 'read', time: '30 min', title: 'How Transformers Work, Conceptually', desc: 'Read Jay Alammar\'s "The Illustrated Transformer" — the canonical plain-language walkthrough of attention and how modern LLMs process text. No math required to follow the intuition.', url: 'https://jalammar.github.io/illustrated-transformer/', tags: ['intermediate', 'no-code', 'technical', 'research', 'mechanics'] }
         ]
       }
     ]
@@ -2910,15 +2933,107 @@ let selectedTrack = null;
 // Forkers: rename this prefix to your own (e.g. `my-path-*`) BEFORE
 // publishing, otherwise learners who visit both sites in the same
 // browser will have their progress collide with the upstream.
-// Keys used (16): ai-curriculum-theme, ai-curriculum-track,
+// Keys used (17): ai-curriculum-theme, ai-curriculum-track,
 // ai-curriculum-progress, ai-curriculum-profile, ai-curriculum-knowledge,
 // ai-curriculum-knowledge-state, ai-curriculum-interests,
 // ai-curriculum-reviews, ai-curriculum-difficulties,
 // ai-curriculum-engagement, ai-curriculum-chat-quality,
 // ai-curriculum-api-key, ai-curriculum-problems,
 // ai-curriculum-mastery-skips, ai-curriculum-cert-name,
-// ai-curriculum-reassessment-dismissed.
+// ai-curriculum-reassessment-dismissed, ai-curriculum-outcomes-optin-dismissed.
 // ────────────────────────────────────────────────────────────────────
+
+// ── Optional outcomes / learning-community interest capture (privacy-honest) ─
+// The site sends NOTHING on its own. This card is an OPTIONAL form: the learner
+// checks at least one purpose and enters an email, and only a submit then shares
+// that email — for exactly what they checked — with the outcomes endpoint. The
+// community option is an INTEREST CHECK, not a signup for anything that exists.
+// Dismissal (and a successful submit) are remembered locally.
+const OUTCOMES_FORM_URL = 'https://REPLACE-ME.example/api/optin'; // TODO(Deliverable B): point at the deployed curriculum-outcomes Worker POST /api/optin. PLACEHOLDER only.
+const OUTCOMES_DISMISS_KEY = 'ai-curriculum-outcomes-optin-dismissed';
+const OUTCOMES_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function outcomesOptInDismissed() {
+  try { return !!localStorage.getItem(OUTCOMES_DISMISS_KEY); } catch (e) { return false; }
+}
+function markOutcomesDismissed() {
+  try { localStorage.setItem(OUTCOMES_DISMISS_KEY, '1'); } catch (e) {}
+}
+
+function dismissOutcomesCard() {
+  markOutcomesDismissed();
+  const el = document.getElementById('outcomesOptInCard');
+  if (el) el.remove();
+}
+
+function _outcomesThanks(card, community) {
+  markOutcomesDismissed();
+  card.innerHTML = `<div style="font-weight:600; font-size:15px; margin-bottom:6px;">Thanks — noted.</div>
+    <p style="font-size:13px; color:var(--text-dim); line-height:1.6; margin:0;">${community
+      ? 'If enough people raise their hands, Sam will consider building the community. This was an interest check, not a launch — there is nothing to sign into yet.'
+      : 'You will get the 3-question check-in in about 6 weeks. That is the only thing this sends.'}</p>`;
+}
+
+// Submit: require at least one checkbox + a valid email, then POST the email and
+// the checked purposes to the outcomes endpoint. milestone = 'quiz' | 'certificate'.
+function submitOutcomesOptIn(milestone) {
+  const card = document.getElementById('outcomesOptInCard');
+  if (!card) return;
+  const emailEl = card.querySelector('.cx-outcomes-email');
+  const email = ((emailEl && emailEl.value) || '').trim();
+  const checkin = !!(card.querySelector('.cx-outcomes-checkin') || {}).checked;
+  const community = !!(card.querySelector('.cx-outcomes-community') || {}).checked;
+  const errEl = card.querySelector('.cx-outcomes-error');
+  const setErr = (m) => { if (errEl) errEl.textContent = m; };
+
+  if (!checkin && !community) { setErr('Check at least one box so there is something to send.'); return; }
+  if (!OUTCOMES_EMAIL_RE.test(email)) { setErr('Enter a valid email so we can send exactly what you checked.'); return; }
+  setErr('');
+
+  let track = null;
+  try { track = (getLearnerProfile() && getLearnerProfile().selectedTrack) || selectedTrack || null; } catch (e) {}
+  // Send ONLY what the fine-print promises: the email and exactly the purposes checked
+  // (plus track/milestone context for routing). No progress stats, no other PII.
+  const payload = { email, track, milestone: milestone === 'certificate' ? 'certificate' : 'quiz',
+    checkin, community, consent: true };
+
+  const btn = card.querySelector('.cx-outcomes-submit');
+  if (btn) btn.disabled = true;
+  fetch(OUTCOMES_FORM_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    .then((r) => {
+      if (r && (r.ok || r.status === 204)) { _outcomesThanks(card, community); }
+      else { setErr('Could not submit right now — please try again in a bit.'); if (btn) btn.disabled = false; }
+    })
+    .catch(() => { setErr('Could not reach the form (the endpoint may not be configured yet).'); if (btn) btn.disabled = false; });
+}
+
+// Interest-check form for the quiz-results and certificate views. Returns '' once
+// dismissed or already submitted. `milestone` tags where the opt-in came from.
+function outcomesOptInCardHtml(milestone) {
+  if (outcomesOptInDismissed()) return '';
+  const m = milestone === 'certificate' ? 'certificate' : 'quiz';
+  return `
+    <div id="outcomesOptInCard" class="cx-outcomes-card" style="position:relative; max-width:640px; margin:24px auto; padding:20px 22px; border:1px solid var(--border,#2a2a3a); border-radius:12px; background:rgba(99,102,241,0.05); text-align:left;">
+      <button type="button" aria-label="Dismiss" onclick="dismissOutcomesCard()" style="position:absolute; top:8px; right:12px; background:none; border:none; color:var(--text-dim); font-size:20px; line-height:1; cursor:pointer;">&times;</button>
+      <div style="font-weight:600; font-size:16px; margin-bottom:10px;">Stay in the loop?</div>
+      <label style="display:flex; gap:8px; align-items:flex-start; font-size:14px; margin-bottom:8px; cursor:pointer;">
+        <input type="checkbox" class="cx-outcomes-checkin" style="margin-top:3px;">
+        <span>Send me the 3-question check-in in 6 weeks</span>
+      </label>
+      <label style="display:flex; gap:8px; align-items:flex-start; font-size:14px; margin-bottom:12px; cursor:pointer;">
+        <input type="checkbox" class="cx-outcomes-community" style="margin-top:3px;">
+        <span>I'm interested in a learning community &mdash; study partners, discussion, maybe live sessions</span>
+      </label>
+      <input type="email" class="cx-outcomes-email" placeholder="you@example.com" autocomplete="email" style="width:100%; box-sizing:border-box; padding:9px 11px; margin-bottom:6px; border:1px solid var(--border,#2a2a3a); border-radius:8px; background:var(--surface,#12121a); color:inherit; font-size:14px;">
+      <div class="cx-outcomes-error" role="alert" style="min-height:16px; font-size:12px; color:var(--color-warn,#f59e0b); margin-bottom:8px;"></div>
+      <p style="font-size:12px; color:var(--text-dim); line-height:1.6; margin:0 0 14px;">This site sends nothing on its own. Submitting this optional form shares your email for exactly what you checked. On the community: if enough people raise their hands, Sam will consider building one &mdash; this is an interest check, not a launch.</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button type="button" class="cx-outcomes-submit cx-btn cx-btn-primary btn btn-primary" onclick="submitOutcomesOptIn('${m}')">Submit</button>
+        <button type="button" class="cx-btn cx-btn-ghost btn btn-ghost" onclick="dismissOutcomesCard()">No thanks</button>
+      </div>
+    </div>
+  `;
+}
 
 function getProgress() {
   try { return JSON.parse(localStorage.getItem('ai-curriculum-progress') || '{}'); } catch { return {}; }
@@ -3207,9 +3322,63 @@ function calculateResults() {
 // RESULTS
 // ============================================================
 
+// Shared render helper (consolidated from two duplicate inline lambdas in
+// showResults and showSchedule): a day-item is "mechanics" content when it
+// carries the 'mechanics' tag. Used by the Q5 mechanics-interest render gate.
+function dayIsMechanics(d) { return Array.isArray(d.tags) && d.tags.includes('mechanics'); }
+
+// Shared render helper: display order for a track's weeks. Honors an explicit
+// `weekOrder` permutation (display-only; physical indices preserved for progress)
+// when present and length-matched, else natural array order. Used by both render paths.
+function getWeekDisplayOrder(track) {
+  return (Array.isArray(track.weekOrder) && track.weekOrder.length === track.weeks.length)
+    ? track.weekOrder
+    : track.weeks.map((_, i) => i);
+}
+
+// Shared render helper: a conditional mechanics week ("How AI Actually Works",
+// the Practitioner add-on) renders ONLY when Q5 >= "Some curiosity". When the
+// learner picked "Not really" (hideMechanics), the whole week is hidden.
+function weekHiddenByMechanics(week, hideMechanics) {
+  return !!hideMechanics && !!week && week.conditional === 'mechanics';
+}
+
+// ── Per-learner effective totals + display-order gate helpers ───────────────
+// Progress keys stay PHYSICAL (${wi}-${di}). These exclude weeks hidden by the
+// current Q5 answer so completion/% are reachable and the mastery gate follows
+// the DISPLAYED (weekOrder) sequence rather than physical week indices.
+function currentHideMechanics() {
+  const p = getLearnerProfile();
+  return !!(p && p.mechanicsInterestIndex === 0);
+}
+function effectiveTotalDays(track, hide) {
+  if (hide === undefined) hide = currentHideMechanics();
+  return track.weeks.reduce((sum, w) => sum + (weekHiddenByMechanics(w, hide) ? 0 : w.days.length), 0);
+}
+function effectiveCompletedDays(track, trackProg, hide) {
+  if (hide === undefined) hide = currentHideMechanics();
+  let n = 0;
+  track.weeks.forEach((w, wi) => {
+    if (weekHiddenByMechanics(w, hide)) return;
+    for (let di = 0; di < w.days.length; di++) if (trackProg[`${wi}-${di}`]) n++;
+  });
+  return n;
+}
+// Physical week indices in DISPLAY order, minus weeks hidden for the current learner.
+function renderedWeekOrder(track, hide) {
+  if (hide === undefined) hide = currentHideMechanics();
+  return getWeekDisplayOrder(track).filter(wi => !weekHiddenByMechanics(track.weeks[wi], hide));
+}
+// A week's practice gate is "cleared" if it was skipped, has no problems, or is mastered.
+function weekMasteryCleared(trackId, wi) {
+  if (getMasterySkips().includes(`${trackId}-${wi}`)) return true;
+  if (!PROBLEMS[trackId] || !PROBLEMS[trackId][wi]) return true;
+  return isWeekMasteryMet(trackId, wi);
+}
+
 function showResults() {
   const track = TRACKS[selectedTrack];
-  const totalDays = track.weeks.reduce((sum, w) => sum + w.days.length, 0);
+  const totalDays = effectiveTotalDays(track); // personalized "Activities" count for this learner
   const profile = getLearnerProfile();
 
   // Build personalized recommendation reason
@@ -3339,6 +3508,7 @@ function showResults() {
     <div style="margin-top: 24px; text-align: center;">
       <p style="font-size: 13px; color: var(--text-muted);">Not the right fit? <a href="#" onclick="showTrackPicker(); return false;" style="color: var(--accent);">Choose a different track</a> · <a href="#" onclick="showChat(); return false;" style="color: var(--accent);">Describe your situation</a></p>
     </div>
+    ${outcomesOptInCardHtml('quiz')}
   `;
 
   showSection('results');
@@ -3375,12 +3545,16 @@ function pickTrack(key) {
 // SCHEDULE
 // ============================================================
 
+// DEAD CODE — shadowed by the live `showSchedule = function()` assignment further
+// below (search for that string; ~line 6810) plus its decorator (~line 7900). This
+// declaration never runs; it is kept in sync with the live renderer for reference
+// only. Future editors: change the live assignment, not this function.
 function showSchedule() {
   const track = TRACKS[selectedTrack];
   const progress = getProgress();
   const trackProgress = progress[selectedTrack] || {};
-  const totalDays = track.weeks.reduce((sum, w) => sum + w.days.length, 0);
-  const completedDays = Object.values(trackProgress).filter(Boolean).length;
+  const totalDays = effectiveTotalDays(track);
+  const completedDays = effectiveCompletedDays(track, trackProgress);
   const pct = totalDays > 0 ? Math.round((completedDays / totalDays) * 100) : 0;
 
   let html = `
@@ -3415,7 +3589,6 @@ function showSchedule() {
   // If learner picked "Not really" on mechanics, hide items tagged 'mechanics' behind an optional disclosure.
   const _v3Profile = getLearnerProfile();
   const _hideMechanics = _v3Profile && _v3Profile.mechanicsInterestIndex === 0;
-  const isMechanics = d => Array.isArray(d.tags) && d.tags.includes('mechanics');
   const renderDayCard = (day, wi, di, extraClass = '') => {
     const done = trackProgress[`${wi}-${di}`];
     return `
@@ -3433,12 +3606,18 @@ function showSchedule() {
     `;
   };
 
-  track.weeks.forEach((week, wi) => {
+  // v3 — honor display order (weekOrder) and hide conditional mechanics weeks entirely when Q5 = "Not really".
+  const _displayOrder = getWeekDisplayOrder(track);
+  let _renderedNum = 0; // consecutive number of RENDERED weeks (skipped conditional weeks leave no gap)
+  _displayOrder.forEach((wi, _displayIdx) => {
+    const week = track.weeks[wi];
+    if (weekHiddenByMechanics(week, _hideMechanics)) return;
+    _renderedNum++;
     const weekComplete = week.days.every((_, di) => trackProgress[`${wi}-${di}`]);
     // Preserve original day indices so click handlers stay correct
     const daysWithIdx = week.days.map((day, di) => ({ day, di }));
-    const visible = _hideMechanics ? daysWithIdx.filter(({ day }) => !isMechanics(day)) : daysWithIdx;
-    const hidden  = _hideMechanics ? daysWithIdx.filter(({ day }) =>  isMechanics(day)) : [];
+    const visible = _hideMechanics ? daysWithIdx.filter(({ day }) => !dayIsMechanics(day)) : daysWithIdx;
+    const hidden  = _hideMechanics ? daysWithIdx.filter(({ day }) =>  dayIsMechanics(day)) : [];
     const meta = hidden.length > 0
       ? `${visible.length} activities <span style="color:var(--text-dim);font-weight:normal;">+ ${hidden.length} optional</span>${weekComplete ? ' ✓' : ''}`
       : `${week.days.length} activities${weekComplete ? ' ✓' : ''}`;
@@ -3446,7 +3625,7 @@ function showSchedule() {
     html += `
       <div class="week-block">
         <div class="week-header" onclick="toggleWeek(${wi})">
-          <span class="week-badge" style="background: ${track.color}">Week ${wi + 1}</span>
+          <span class="week-badge" style="background: ${track.color}">Week ${_renderedNum}</span>
           <span class="week-title">${week.title}</span>
           <span class="week-meta">${meta}</span>
           <span class="week-chevron">▼</span>
@@ -5845,8 +6024,8 @@ function checkBadges(interests, trackKey, wi, di, hour) {
   if (week0Complete) earned.add('week-one');
 
   // Halfway
-  const totalDays = track.weeks.reduce((s,w)=>s+w.days.length,0);
-  const completedDays = Object.values(trackProg).filter(Boolean).length;
+  const totalDays = effectiveTotalDays(track);
+  const completedDays = effectiveCompletedDays(track, trackProg);
   if (totalDays > 0 && completedDays / totalDays >= 0.5) earned.add('halfway');
 
   // Deep Diver — any read activity completed
@@ -6376,8 +6555,8 @@ function calcPace() {
   const track = TRACKS[selectedTrack];
   const progress = getProgress();
   const trackProg = progress[selectedTrack] || {};
-  const totalDays2 = track.weeks.reduce((s,w)=>s+w.days.length,0);
-  const completed2 = Object.values(trackProg).filter(Boolean).length;
+  const totalDays2 = effectiveTotalDays(track);
+  const completed2 = effectiveCompletedDays(track, trackProg);
   if (completed2 === 0) return { status: 'on-track', detail: 'Start your first activity to track your pace.' };
 
   const interests = getInterests();
@@ -6578,8 +6757,8 @@ showSchedule = function() {
   const track = TRACKS[selectedTrack];
   const progress = getProgress();
   const trackProgress = progress[selectedTrack] || {};
-  const totalDays = track.weeks.reduce((sum, w) => sum + w.days.length, 0);
-  const completedDays = Object.values(trackProgress).filter(Boolean).length;
+  const totalDays = effectiveTotalDays(track);
+  const completedDays = effectiveCompletedDays(track, trackProgress);
   const pct = totalDays > 0 ? Math.round((completedDays / totalDays) * 100) : 0;
 
   let html = `
@@ -6726,15 +6905,17 @@ showSchedule = function() {
 
   // v3 mechanics filter \u2014 if learner picked "Not really" on Q5, hide mechanics-tagged items behind a collapsible "+ Optional" disclosure.
   const _v3HideMechanics = profile && profile.mechanicsInterestIndex === 0;
-  const _v3IsMechanics = d => Array.isArray(d.tags) && d.tags.includes('mechanics');
 
-  // v3 week ordering \u2014 if track defines weekOrder, iterate in that sequence (display only; wi indices preserved for progress/state).
-  const _v3WeekIndices = Array.isArray(track.weekOrder) && track.weekOrder.length === track.weeks.length
-    ? track.weekOrder
-    : track.weeks.map((_, i) => i);
+  // v3 week ordering \u2014 honor weekOrder via shared helper (display only; wi indices preserved for progress/state).
+  const _v3WeekIndices = getWeekDisplayOrder(track);
 
+  let _v3RenderedNum = 0; // consecutive number of RENDERED weeks (skipped conditional weeks leave no gap)
   _v3WeekIndices.forEach((wi, _displayIdx) => {
     const week = track.weeks[wi];
+    // Conditional mechanics weeks ("How AI Actually Works", the Practitioner add-on) render
+    // only when Q5 >= "Some curiosity" \u2014 hidden entirely for learners who picked "Not really".
+    if (weekHiddenByMechanics(week, _v3HideMechanics)) return;
+    _v3RenderedNum++;
     const weekComplete = week.days.every((_, di) => trackProgress[`${wi}-${di}`]);
 
     // Sort activities within week by relevance if profile exists
@@ -6749,8 +6930,8 @@ showSchedule = function() {
     }
 
     // v3: split sorted days into visible (non-mechanics or hide-off) and collapsed-optional (mechanics + hide-on)
-    const _v3Visible = _v3HideMechanics ? sortedDays.filter(({ day }) => !_v3IsMechanics(day)) : sortedDays;
-    const _v3Hidden  = _v3HideMechanics ? sortedDays.filter(({ day }) =>  _v3IsMechanics(day)) : [];
+    const _v3Visible = _v3HideMechanics ? sortedDays.filter(({ day }) => !dayIsMechanics(day)) : sortedDays;
+    const _v3Hidden  = _v3HideMechanics ? sortedDays.filter(({ day }) =>  dayIsMechanics(day)) : [];
     const _v3AllOptional = _v3Hidden.length > 0 && _v3Visible.length === 0;
     const _v3Meta = _v3AllOptional
       ? `<span style="color:var(--text-dim);font-weight:normal;font-style:italic;">All optional (${_v3Hidden.length} items) \u2014 based on your "Not really" answer on mechanics</span>${weekComplete ? ' \u2713' : ''}`
@@ -6761,7 +6942,7 @@ showSchedule = function() {
     html += `
       <div class="week-block">
         <div class="week-header" onclick="toggleWeek(${wi})">
-          <span class="week-badge" style="background: ${track.color}">Week ${_displayIdx + 1}</span>
+          <span class="week-badge" style="background: ${track.color}">Week ${_v3RenderedNum}</span>
           <span class="week-title">${week.title}</span>
           <span class="week-meta">${_v3Meta}</span>
           <span class="week-chevron">\u25BC</span>
@@ -6926,11 +7107,13 @@ showSchedule = function() {
 
 function checkTrackCompletion(trackKey) {
   const track = TRACKS[trackKey];
-  const progress = getProgress();
-  const trackProg = progress[trackKey] || {};
-  const totalDays = track.weeks.reduce((s,w) => s + w.days.length, 0);
-  const completedDays = Object.values(trackProg).filter(Boolean).length;
-  return totalDays > 0 && completedDays === totalDays;
+  const trackProg = getProgress()[trackKey] || {};
+  const hide = currentHideMechanics();
+  // Count only what this learner can actually reach: exclude days in conditional
+  // mechanics weeks hidden by their Q5 answer (progress keys stay physical).
+  const totalDays = effectiveTotalDays(track, hide);
+  const completedDays = effectiveCompletedDays(track, trackProg, hide);
+  return totalDays > 0 && completedDays >= totalDays;
 }
 
 function getCertificateName() {
@@ -7008,6 +7191,7 @@ function renderCertificate(trackKey, userName) {
         <button class="cx-btn cx-btn-primary btn btn-primary" onclick="printCertificate()">Print Certificate</button>
         <button class="cx-btn cx-btn-ghost btn btn-ghost" onclick="downloadCertificate()">Download as Image</button>
       </div>
+      ${outcomesOptInCardHtml('certificate')}
     </div>
   `;
 
@@ -7589,11 +7773,13 @@ function saveMasterySkip(trackId, weekNum) {
 }
 
 function isWeekUnlocked(trackId, weekNum) {
-  if (weekNum === 0) return true;
-  const prev = weekNum - 1;
-  if (getMasterySkips().includes(`${trackId}-${prev}`)) return true;
-  if (!PROBLEMS[trackId] || !PROBLEMS[trackId][prev]) return true;
-  return isWeekMasteryMet(trackId, prev);
+  // Gate on the DISPLAY-preceding rendered week, not physical weekNum-1: weekOrder and
+  // hidden conditional weeks mean the visually-previous week isn't physical weekNum-1.
+  const track = TRACKS[trackId];
+  const rendered = renderedWeekOrder(track);
+  const k = rendered.indexOf(weekNum);
+  if (k <= 0) return true; // first rendered week (or a hidden week) is always unlocked
+  return weekMasteryCleared(trackId, rendered[k - 1]);
 }
 
 function openPractice(trackId, weekNum) {
@@ -7753,8 +7939,13 @@ showSchedule = function() {
   _origShowSchedule();
   if (!selectedTrack) return;
   const track = TRACKS[selectedTrack];
+  const _renderedDeco = renderedWeekOrder(track); // display order minus hidden weeks — mastery gate follows this
   track.weeks.forEach((week, wi) => {
-    const weekBlock = document.querySelectorAll('.week-block')[wi];
+    // Locate the block by its physical week id (the renderer sets id="week-${wi}" on .week-days) rather
+    // than by positional index — positional indexing misattaches practice/lock UI under weekOrder and
+    // when a conditional mechanics week is hidden. getElementById returns null for a hidden week → skip.
+    const _daysEl = document.getElementById('week-' + wi);
+    const weekBlock = _daysEl ? _daysEl.closest('.week-block') : null;
     if (!weekBlock) return;
     const weekHeader = weekBlock.querySelector('.week-header');
     if (!weekHeader) return;
@@ -7779,11 +7970,14 @@ showSchedule = function() {
       const weekMeta = weekHeader.querySelector('.week-meta');
       if (weekMeta) weekMeta.parentNode.insertBefore(masteryEl, weekMeta);
     }
-    if (wi > 0 && !isWeekUnlocked(selectedTrack, wi)) {
+    const _dk = _renderedDeco.indexOf(wi);
+    if (_dk > 0 && !weekMasteryCleared(selectedTrack, _renderedDeco[_dk - 1])) {
+      const _gatePhys = _renderedDeco[_dk - 1];  // physical index of the DISPLAY-preceding week
+      const _gateDisplayNum = _dk;               // its displayed number (rendered position _dk-1 → "Week _dk")
       weekBlock.classList.add('cx-locked');
       const lockBanner = document.createElement('div');
       lockBanner.className = 'cx-lock-banner';
-      lockBanner.innerHTML = `<span class="cx-lock-icon">&#x1f512;</span><span class="cx-lock-text">Complete Week ${wi} practice with 60%+ to unlock</span><button class="cx-skip-gate-btn" onclick="event.stopPropagation();skipMasteryGate('${selectedTrack}',${wi-1})">Skip Gate</button>`;
+      lockBanner.innerHTML = `<span class="cx-lock-icon">&#x1f512;</span><span class="cx-lock-text">Complete Week ${_gateDisplayNum} practice with 60%+ to unlock</span><button class="cx-skip-gate-btn" onclick="event.stopPropagation();skipMasteryGate('${selectedTrack}',${_gatePhys})">Skip Gate</button>`;
       const weekDays = weekBlock.querySelector('.week-days');
       if (weekDays) { weekBlock.insertBefore(lockBanner, weekDays); weekDays.classList.add('hidden'); }
       weekHeader.classList.add('collapsed');
@@ -8629,8 +8823,8 @@ function getReassessmentStatus() {
   const track = TRACKS[selectedTrack];
   const progress = getProgress();
   const trackProgress = progress[selectedTrack] || {};
-  const totalDays = track.weeks.reduce((sum, w) => sum + w.days.length, 0);
-  const completedDays = Object.values(trackProgress).filter(Boolean).length;
+  const totalDays = effectiveTotalDays(track);
+  const completedDays = effectiveCompletedDays(track, trackProgress);
   const pct = totalDays > 0 ? completedDays / totalDays : 0;
 
   // Show reassessment at ~25% completion
@@ -8822,12 +9016,12 @@ initTheme();
         <table class="cx-fork-table">
           <thead><tr><th>What to edit</th><th>Where (approx. line)</th><th>Notes</th></tr></thead>
           <tbody>
-            <tr><td>Assessment questions</td><td><code>const QUESTIONS</code> ~2220</td><td>5 objects; each has <code>options[]</code> with per-track scoring weights</td></tr>
-            <tr><td>Track definitions (name, color, duration)</td><td><code>const TRACKS</code> ~2280</td><td>Keys: <code>explorer</code>, <code>practitioner</code>, <code>builder</code>, <code>researcher</code></td></tr>
+            <tr><td>Assessment questions</td><td><code>const QUESTIONS</code> ~2260</td><td>6 objects; each has <code>options[]</code> with per-track scoring weights</td></tr>
+            <tr><td>Track definitions (name, color, duration)</td><td><code>const TRACKS</code> ~2335</td><td>Keys: <code>explorer</code>, <code>practitioner</code>, <code>builder</code>, <code>researcher</code>, <code>privacy</code></td></tr>
             <tr><td>Per-day resources</td><td><code>TRACKS[*].weeks[*].days[*]</code></td><td><code>{type, time, title, desc, url, tags[]}</code></td></tr>
             <tr><td>Track metadata (philosophy, reading order)</td><td><code>const DEEP_DIVES</code> ~4160</td><td>Used for context panels, not the day schedule</td></tr>
             <tr><td>Track display order</td><td><code>const TRACK_ORDER</code> ~2730</td><td>Simple array of track keys</td></tr>
-            <tr><td>localStorage namespace</td><td>16 keys prefixed <code>ai-curriculum-*</code></td><td><strong>Must rename in forks</strong> — see warning below</td></tr>
+            <tr><td>localStorage namespace</td><td>17 keys prefixed <code>ai-curriculum-*</code></td><td><strong>Must rename in forks</strong> — see warning below</td></tr>
           </tbody>
         </table>
       </div>
@@ -8839,10 +9033,10 @@ initTheme();
         <div style="background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 16px; margin-bottom: 16px;">
           <p style="font-weight:600; margin-bottom:8px; color: #EF4444;">Before publishing your fork</p>
           <p style="font-size:13px; line-height:1.7;">Change the localStorage namespace from <code>ai-curriculum-</code> to your own prefix (e.g., <code>my-ai-path-</code>). If you don't, and a learner visits both the original site and your fork in the same browser, their progress data will collide.</p>
-          <p style="font-size:13px; margin-top:10px;">Find-and-replace all 16 keys:</p>
-          <code style="display:block; font-size:12px; line-height:1.8; color:var(--text-dim); margin-top:6px;">ai-curriculum-theme, ai-curriculum-track, ai-curriculum-progress, ai-curriculum-profile, ai-curriculum-knowledge, ai-curriculum-knowledge-state, ai-curriculum-interests, ai-curriculum-reviews, ai-curriculum-difficulties, ai-curriculum-engagement, ai-curriculum-chat-quality, ai-curriculum-api-key, ai-curriculum-problems, ai-curriculum-mastery-skips, ai-curriculum-cert-name, ai-curriculum-reassessment-dismissed</code>
+          <p style="font-size:13px; margin-top:10px;">Find-and-replace all 17 keys:</p>
+          <code style="display:block; font-size:12px; line-height:1.8; color:var(--text-dim); margin-top:6px;">ai-curriculum-theme, ai-curriculum-track, ai-curriculum-progress, ai-curriculum-profile, ai-curriculum-knowledge, ai-curriculum-knowledge-state, ai-curriculum-interests, ai-curriculum-reviews, ai-curriculum-difficulties, ai-curriculum-engagement, ai-curriculum-chat-quality, ai-curriculum-api-key, ai-curriculum-problems, ai-curriculum-mastery-skips, ai-curriculum-cert-name, ai-curriculum-reassessment-dismissed, ai-curriculum-outcomes-optin-dismissed</code>
         </div>
-        <p style="font-size:13px; color:var(--text-muted);">A single find-and-replace of <code>ai-curriculum-</code> → <code>your-prefix-</code> across the file handles all 16 in one shot.</p>
+        <p style="font-size:13px; color:var(--text-muted);">A single find-and-replace of <code>ai-curriculum-</code> → <code>your-prefix-</code> across the file handles all 17 in one shot.</p>
       </div>
     </details>
 

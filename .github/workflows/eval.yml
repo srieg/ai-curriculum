@@ -1,0 +1,67 @@
+name: eval
+
+# Two jobs:
+#   test  — scoring gates, run on every push and pull_request.
+#   links — resource link-rot report, weekly cron ONLY, report-only (never fails the build).
+#
+# NOTE: rec #6 (resource currency-stamp reporting — flagging aged/stale resources) is NOT
+# implemented yet. When it lands, add a job (or extend `links`) to report currency. Intentionally
+# omitted here so this workflow only asserts what actually exists today.
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 9 * * 1' # Mondays 09:00 UTC — link-rot report only
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    # Scoring gates — skip on the weekly cron (that run is for the links report only).
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: Inline scoring smoke test (nonzero exit fails the build)
+        run: bun test-inline-scoring.ts
+      - name: Persona routing gate (simulate-personas.ts always exits 0 — the grep IS the gate)
+        run: |
+          bun simulate-personas.ts | tee sim-out.txt
+          grep -q 'NEW track-correct: \*\*21/21\*\*' sim-out.txt
+
+  links:
+    # Resource link-rot report — weekly cron only, report-only. Link rot never fails the build.
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check every resource URL in index.html (report-only)
+        run: |
+          # Extract every `url: '...'` value (curriculum resource links) from index.html.
+          grep -oE "url: '[^']+'" index.html | sed "s/^url: '//; s/'$//" | sort -u > urls.txt
+          echo "Found $(wc -l < urls.txt | tr -d ' ') unique resource URLs"
+          : > link-failures.txt
+          while IFS= read -r u; do
+            [ -z "$u" ] && continue
+            code=$(curl -s -o /dev/null -w '%{http_code}' -L --max-time 10 --retry 2 -X GET "$u" || echo "000")
+            # Treat 403 / 405 / 429 as reachable (bot-blocking, method quirks, rate limits).
+            case "$code" in
+              2*|3*|403|405|429) ;;
+              *) echo "$code  $u" >> link-failures.txt ;;
+            esac
+          done < urls.txt
+          if [ -s link-failures.txt ]; then
+            echo "::warning::$(wc -l < link-failures.txt | tr -d ' ') resource URL(s) may be unreachable — see the link-failures artifact"
+            cat link-failures.txt
+          else
+            echo "All resource URLs reachable" | tee link-failures.txt
+          fi
+      - name: Upload link-rot summary (report-only artifact)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: link-failures
+          path: link-failures.txt
